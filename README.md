@@ -21,9 +21,9 @@ It also dumps the firmware in ARM assembly with objdump to the folder objdump.
 # TODO INCLUDE DEBUGGING SETUP PHOTO HERE, COULD BE USEFUL
 
 ### Useful links and docs
-https://www.bitcraze.io/documentation/repository/crazyflie-firmware/master/development/openocd_gdb_debugging/
-https://openocd.org/pages/documentation.html
+- https://www.bitcraze.io/documentation/repository/crazyflie-firmware/master/development/openocd_gdb_debugging/
+- https://openocd.org/pages/documentation.html
 
 ## Extra modules and config for Crazyflie 2.1
-Added firmware configuration XML in TODO
-Added module blah blah TODO
+- Added firmware configuration XML in TODO
+- Added module blah blah TODO
