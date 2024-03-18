@@ -8,7 +8,7 @@ DEBUGGER = gdb-multiarch
 OBJDUMP = arm-linux-gnueabi-objdump
 OUTPUT_DUMP = ./objdump/firmware.dump
 #ELF_PATH = ./test_led.elf
-ELF_PATH = ./var/aircraft/CRAZYFLIE/test_led/obj/test_led.elf
+ELF_PATH = ./var/aircrafts/CRAZYFLIE/test_led/obj/test_led.elf
 
 # To change OpenOCD launch parameters, change this file
 OPENOCD_FLAGS = -f ./stm32f4-openocd.cfg

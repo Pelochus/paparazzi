@@ -1,3 +1,6 @@
+# This fork only: ignore Crazyflie firmware dump
+/objdump
+
 # ignore html dir for github pages
 /doc/generated
 /doc/manual/generated
