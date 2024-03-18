@@ -1,0 +1,35 @@
+.PHONY: all debug clean
+
+# Requires konsole and other dependencies installed unless modified
+TERM = konsole
+SHELL = bash
+
+DEBUGGER = gdb-multiarch
+OBJDUMP = arm-linux-gnueabi-objdump
+OUTPUT_DUMP = ./objdump/firmware.dump
+#ELF_PATH = ./test_led.elf
+ELF_PATH = ./var/aircraft/CRAZYFLIE/obj/test_led.elf
+
+# To change OpenOCD launch parameters, change this file
+OPENOCD_FLAGS = -f ./stm32f4-openocd.cfg
+
+# Targets
+debug: telnet
+	$(TERM) -e $(DEBUGGER) $(ELF_PATH)
+
+telnet: openocd
+	$(TERM) -e telnet localhost 4444
+
+openocd: dump
+	openocd $(OPENOCD_FLAGS)
+
+dump: | dir
+	$(OBJDUMP) -D $(ELF_PATH) > $(OUTPUT_DUMP)
+
+# || true forces continuation of makefile if the directory already exists
+dir:
+	mkdir $(dir $(OUTPUT_DUMP)) || true
+
+# Clean output files
+clean:
+	rm -rf $(dir $(OUTPUT_DUMP))
