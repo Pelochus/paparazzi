@@ -7,15 +7,19 @@ SHELL = bash
 DEBUGGER = gdb-multiarch
 OBJDUMP = arm-linux-gnueabi-objdump
 OUTPUT_DUMP = ./objdump/firmware.dump
-#ELF_PATH = ./test_led.elf
-ELF_PATH = ./var/aircrafts/CRAZYFLIE/test_led/obj/test_led.elf
+
+# ?= means default value, can be changed from command line
+# Example: make -f Makefile.debug ELF_NAME=ap
+ELF_NAME ?= test_led
+ELF_PATH = ./var/aircrafts/CRAZYFLIE/$(ELF_NAME)/obj/$(ELF_NAME).elf
 
 # To change OpenOCD launch parameters, change this file
 OPENOCD_FLAGS = -f ./stm32f4-openocd.cfg
 
 # Targets
 debug: telnet
-	$(TERM) -e $(DEBUGGER) $(ELF_PATH) -ex "target extended-remote localhost:3333" &
+	$(TERM) -e $(DEBUGGER) --command=.gdbinit $(ELF_PATH) &
+	# $(TERM) -e $(DEBUGGER) $(ELF_PATH) -ex "target extended-remote localhost:3333" &
 
 telnet: openocd
 	$(TERM) -e telnet localhost 4444 &
