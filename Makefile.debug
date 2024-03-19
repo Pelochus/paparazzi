@@ -15,13 +15,14 @@ OPENOCD_FLAGS = -f ./stm32f4-openocd.cfg
 
 # Targets
 debug: telnet
-	$(TERM) -e "$(DEBUGGER) $(ELF_PATH) -ex target extended-remote localhost:3333" &
+	$(TERM) -e $(DEBUGGER) $(ELF_PATH) -ex "target extended-remote localhost:3333" &
 
 telnet: openocd
-	$(TERM) -e "telnet localhost 4444" &
+	$(TERM) -e telnet localhost 4444 &
+	sleep 1
 
 openocd: dump
-	$(TERM) -e "openocd $(OPENOCD_FLAGS)" &
+	$(TERM) -e openocd $(OPENOCD_FLAGS) &
 	sleep 1
 
 dump: | dir
