@@ -14,7 +14,7 @@
             "svdFile": "STM32F405.svd",
             "servertype": "openocd",
             "configFiles": ["interface/stlink.cfg", "target/stm32f4x.cfg"],
-            "runToMain": true,
+            "runToEntryPoint": "main",
             "gdbPath": "/usr/bin/gdb-multiarch",
             "preLaunchCommands": [
                 "set mem inaccessible-by-default off",
