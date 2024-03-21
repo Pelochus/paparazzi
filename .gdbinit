@@ -1,5 +1,5 @@
 target extended-remote localhost:3333
 layout regs
-break main
-monitor reset halt
+break __cpu_init
+monitor reset
 monitor halt
