@@ -18,6 +18,11 @@ Run:
 This will launch an OpenOCD server and two new terminals, one with telnet and the other one with GDB.
 It also dumps the firmware in ARM assembly with objdump to the folder objdump.
 
+It is also very recommended (easier and works better) to follow this
+[guide](https://www.bitcraze.io/documentation/repository/crazyflie-firmware/master/development/openocd_gdb_debugging/)
+from Bitcraze (the official debugging guide for Crazyflie).
+Use the updated file ```.vscode/launch.json``` from this repo.
+
 # TODO INCLUDE DEBUGGING SETUP PHOTO HERE, COULD BE USEFUL
 
 ### Useful links and docs
