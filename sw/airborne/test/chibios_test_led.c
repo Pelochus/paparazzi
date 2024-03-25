@@ -32,11 +32,11 @@ static THD_FUNCTION(Thread1, arg) {
   while (true) {
 
     //palSetPad(GPIOD, 13);       /* Orange.  */
-    palSetPad(GPIOB, 12);       /* Orange.  */
+    palSetPad(GPIOC, LED_RED_R);       /* Orange.  */
     LED_ON(1);
     chThdSleepMilliseconds(500);
     //palClearPad(GPIOD, 13);     /* Orange.  */
-    palClearPad(GPIOB, 12);     /* Orange.  */
+    palClearPad(GPIOC, LED_RED_R);     /* Orange.  */
     LED_OFF(1);
     chThdSleepMilliseconds(500);
   }
@@ -76,8 +76,6 @@ int main(void) {
    * sleeping in a loop and check the button state.
    */
   while (true) {
-    //if (palReadPad(GPIOA, GPIOA_BUTTON))
-    //  TestThread(&SD2);
     chThdSleepMilliseconds(500);
   }
 
