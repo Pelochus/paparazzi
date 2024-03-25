@@ -32,16 +32,14 @@ from pprzlink.pprz_transport import PprzTransport
 from pprzlink.message import PprzMessage
 import pprzlink.messages_xml_map as messages_xml_map
 
-CRTP_PORT_PPRZLINK = 9
-
+CRTP_PORT_PPRZLINK = 15
 
 # Only output errors from the logging framework
 #logging.basicConfig(level=logging.DEBUG)
 logging.basicConfig(level=logging.ERROR)
 
-
 class RadioBridge:
-    def __init__(self, link_uri, msg_class='telemetry', verbose=False):
+    def __init__(self, link_uri, msg_class='telemetry', verbose=True):
         """ Initialize and run with the specified link_uri """
         self.verbose = verbose
 
@@ -90,7 +88,9 @@ class RadioBridge:
             self._got_packet(pk)
 
     def _got_packet(self, pk):
+        # print(pk.port) # Debug
         if pk.port == CRTP_PORT_PPRZLINK:
+            # print(pk.data) # Debug
             for c in pk.data:
                 if self._transport.parse_byte(bytes([c])):
                     (sender_id, _, _, msg) = self._transport.unpack()
