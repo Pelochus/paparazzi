@@ -14,6 +14,8 @@ BOARD_DIR=$(BOARD)/chibios/v$(BOARD_VERSION)
 BOARD_CFG=\"boards/$(BOARD_DIR)/$(BOARD).h\"
 
 ARCH=chibios
+# $(TARGET).ARCHDIR = $(ARCH)
+# RTOS=chibios
 
 ## FPU on F4
 USE_FPU=softfp
