@@ -83,14 +83,14 @@ class RadioBridge:
         self._driver.close()
 
     def run(self):
-        pk = self._driver.receive_packet(0.1) # wait for next message with timeout
+        pk = self._driver.receive_packet(1) # wait for next message with timeout
         if pk is not None:
             self._got_packet(pk)
 
     def _got_packet(self, pk):
         # print(pk.port) # Debug
         if (pk.port == CRTP_PORT_PPRZLINK):
-            # print(pk.data) # Debug
+            print(pk.data) # Debug
             for c in pk.data:
                 if self._transport.parse_byte(bytes([c])):
                     (sender_id, _, _, msg) = self._transport.unpack()
