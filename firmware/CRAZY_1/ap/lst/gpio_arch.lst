@@ -1,0 +1,314 @@
+ARM GAS  /tmp/ccwzbprc.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"gpio_arch.c"
+  13              		.text
+  14              		.section	.text.gpio_setup_output,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	gpio_setup_output
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	gpio_setup_output, %function
+  24              	gpio_setup_output:
+  25              		@ args = 0, pretend = 0, frame = 8
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27 0000 10B5     		push	{r4, lr}
+  28 0002 82B0     		sub	sp, sp, #8
+  29 0004 0C46     		mov	r4, r1
+  30 0006 0190     		str	r0, [sp, #4]
+  31 0008 3023     		movs	r3, #48
+  32              		.syntax unified
+  33              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  34 000a 83F31188 		MSR basepri, r3
+  35              	@ 0 "" 2
+  36              		.thumb
+  37              		.syntax unified
+  38 000e FFF7FEFF 		bl	__stats_start_measure_crit_thd
+  39 0012 0122     		movs	r2, #1
+  40 0014 0198     		ldr	r0, [sp, #4]
+  41 0016 02FA04F1 		lsl	r1, r2, r4
+  42 001a FFF7FEFF 		bl	_pal_lld_setgroupmode
+  43 001e FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+  44 0022 0023     		movs	r3, #0
+  45              		.syntax unified
+  46              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  47 0024 83F31188 		MSR basepri, r3
+  48              	@ 0 "" 2
+  49              		.thumb
+  50              		.syntax unified
+  51 0028 02B0     		add	sp, sp, #8
+  52              		@ sp needed
+  53 002a 10BD     		pop	{r4, pc}
+  54              		.size	gpio_setup_output, .-gpio_setup_output
+  55              		.section	.text.gpio_setup_input,"ax",%progbits
+  56              		.align	1
+  57              		.p2align 4,,15
+ARM GAS  /tmp/ccwzbprc.s 			page 2
+
+
+  58              		.global	gpio_setup_input
+  59              		.syntax unified
+  60              		.thumb
+  61              		.thumb_func
+  62              		.fpu fpv4-sp-d16
+  63              		.type	gpio_setup_input, %function
+  64              	gpio_setup_input:
+  65              		@ args = 0, pretend = 0, frame = 8
+  66              		@ frame_needed = 0, uses_anonymous_args = 0
+  67 0000 10B5     		push	{r4, lr}
+  68 0002 82B0     		sub	sp, sp, #8
+  69 0004 0C46     		mov	r4, r1
+  70 0006 0190     		str	r0, [sp, #4]
+  71 0008 3023     		movs	r3, #48
+  72              		.syntax unified
+  73              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  74 000a 83F31188 		MSR basepri, r3
+  75              	@ 0 "" 2
+  76              		.thumb
+  77              		.syntax unified
+  78 000e FFF7FEFF 		bl	__stats_start_measure_crit_thd
+  79 0012 0121     		movs	r1, #1
+  80 0014 0198     		ldr	r0, [sp, #4]
+  81 0016 0022     		movs	r2, #0
+  82 0018 A140     		lsls	r1, r1, r4
+  83 001a FFF7FEFF 		bl	_pal_lld_setgroupmode
+  84 001e FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+  85 0022 0023     		movs	r3, #0
+  86              		.syntax unified
+  87              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  88 0024 83F31188 		MSR basepri, r3
+  89              	@ 0 "" 2
+  90              		.thumb
+  91              		.syntax unified
+  92 0028 02B0     		add	sp, sp, #8
+  93              		@ sp needed
+  94 002a 10BD     		pop	{r4, pc}
+  95              		.size	gpio_setup_input, .-gpio_setup_input
+  96              		.section	.text.gpio_setup_input_pullup,"ax",%progbits
+  97              		.align	1
+  98              		.p2align 4,,15
+  99              		.global	gpio_setup_input_pullup
+ 100              		.syntax unified
+ 101              		.thumb
+ 102              		.thumb_func
+ 103              		.fpu fpv4-sp-d16
+ 104              		.type	gpio_setup_input_pullup, %function
+ 105              	gpio_setup_input_pullup:
+ 106              		@ args = 0, pretend = 0, frame = 8
+ 107              		@ frame_needed = 0, uses_anonymous_args = 0
+ 108 0000 10B5     		push	{r4, lr}
+ 109 0002 82B0     		sub	sp, sp, #8
+ 110 0004 0C46     		mov	r4, r1
+ 111 0006 0190     		str	r0, [sp, #4]
+ 112 0008 3023     		movs	r3, #48
+ 113              		.syntax unified
+ 114              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ARM GAS  /tmp/ccwzbprc.s 			page 3
+
+
+ 115 000a 83F31188 		MSR basepri, r3
+ 116              	@ 0 "" 2
+ 117              		.thumb
+ 118              		.syntax unified
+ 119 000e FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 120 0012 0121     		movs	r1, #1
+ 121 0014 0198     		ldr	r0, [sp, #4]
+ 122 0016 2022     		movs	r2, #32
+ 123 0018 A140     		lsls	r1, r1, r4
+ 124 001a FFF7FEFF 		bl	_pal_lld_setgroupmode
+ 125 001e FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 126 0022 0023     		movs	r3, #0
+ 127              		.syntax unified
+ 128              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 129 0024 83F31188 		MSR basepri, r3
+ 130              	@ 0 "" 2
+ 131              		.thumb
+ 132              		.syntax unified
+ 133 0028 02B0     		add	sp, sp, #8
+ 134              		@ sp needed
+ 135 002a 10BD     		pop	{r4, pc}
+ 136              		.size	gpio_setup_input_pullup, .-gpio_setup_input_pullup
+ 137              		.section	.text.gpio_setup_input_pulldown,"ax",%progbits
+ 138              		.align	1
+ 139              		.p2align 4,,15
+ 140              		.global	gpio_setup_input_pulldown
+ 141              		.syntax unified
+ 142              		.thumb
+ 143              		.thumb_func
+ 144              		.fpu fpv4-sp-d16
+ 145              		.type	gpio_setup_input_pulldown, %function
+ 146              	gpio_setup_input_pulldown:
+ 147              		@ args = 0, pretend = 0, frame = 8
+ 148              		@ frame_needed = 0, uses_anonymous_args = 0
+ 149 0000 10B5     		push	{r4, lr}
+ 150 0002 82B0     		sub	sp, sp, #8
+ 151 0004 0C46     		mov	r4, r1
+ 152 0006 0190     		str	r0, [sp, #4]
+ 153 0008 3023     		movs	r3, #48
+ 154              		.syntax unified
+ 155              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 156 000a 83F31188 		MSR basepri, r3
+ 157              	@ 0 "" 2
+ 158              		.thumb
+ 159              		.syntax unified
+ 160 000e FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 161 0012 0121     		movs	r1, #1
+ 162 0014 0198     		ldr	r0, [sp, #4]
+ 163 0016 4022     		movs	r2, #64
+ 164 0018 A140     		lsls	r1, r1, r4
+ 165 001a FFF7FEFF 		bl	_pal_lld_setgroupmode
+ 166 001e FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 167 0022 0023     		movs	r3, #0
+ 168              		.syntax unified
+ 169              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 170 0024 83F31188 		MSR basepri, r3
+ 171              	@ 0 "" 2
+ARM GAS  /tmp/ccwzbprc.s 			page 4
+
+
+ 172              		.thumb
+ 173              		.syntax unified
+ 174 0028 02B0     		add	sp, sp, #8
+ 175              		@ sp needed
+ 176 002a 10BD     		pop	{r4, pc}
+ 177              		.size	gpio_setup_input_pulldown, .-gpio_setup_input_pulldown
+ 178              		.section	.text.gpio_setup_pin_af,"ax",%progbits
+ 179              		.align	1
+ 180              		.p2align 4,,15
+ 181              		.global	gpio_setup_pin_af
+ 182              		.syntax unified
+ 183              		.thumb
+ 184              		.thumb_func
+ 185              		.fpu fpv4-sp-d16
+ 186              		.type	gpio_setup_pin_af, %function
+ 187              	gpio_setup_pin_af:
+ 188              		@ args = 0, pretend = 0, frame = 8
+ 189              		@ frame_needed = 0, uses_anonymous_args = 0
+ 190 0000 70B5     		push	{r4, r5, r6, lr}
+ 191 0002 82B0     		sub	sp, sp, #8
+ 192 0004 1D46     		mov	r5, r3
+ 193 0006 0190     		str	r0, [sp, #4]
+ 194 0008 0E46     		mov	r6, r1
+ 195 000a 1446     		mov	r4, r2
+ 196 000c 3023     		movs	r3, #48
+ 197              		.syntax unified
+ 198              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 199 000e 83F31188 		MSR basepri, r3
+ 200              	@ 0 "" 2
+ 201              		.thumb
+ 202              		.syntax unified
+ 203 0012 FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 204 0016 0198     		ldr	r0, [sp, #4]
+ 205 0018 94B9     		cbnz	r4, .L15
+ 206 001a 5DB9     		cbnz	r5, .L16
+ 207 001c 0121     		movs	r1, #1
+ 208 001e 2A46     		mov	r2, r5
+ 209 0020 B140     		lsls	r1, r1, r6
+ 210 0022 FFF7FEFF 		bl	_pal_lld_setgroupmode
+ 211              	.L12:
+ 212 0026 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 213 002a 0023     		movs	r3, #0
+ 214              		.syntax unified
+ 215              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 216 002c 83F31188 		MSR basepri, r3
+ 217              	@ 0 "" 2
+ 218              		.thumb
+ 219              		.syntax unified
+ 220 0030 02B0     		add	sp, sp, #8
+ 221              		@ sp needed
+ 222 0032 70BD     		pop	{r4, r5, r6, pc}
+ 223              	.L16:
+ 224 0034 0122     		movs	r2, #1
+ 225 0036 02FA06F1 		lsl	r1, r2, r6
+ 226 003a FFF7FEFF 		bl	_pal_lld_setgroupmode
+ 227 003e F2E7     		b	.L12
+ 228              	.L15:
+ARM GAS  /tmp/ccwzbprc.s 			page 5
+
+
+ 229 0040 E201     		lsls	r2, r4, #7
+ 230 0042 0121     		movs	r1, #1
+ 231 0044 42F00202 		orr	r2, r2, #2
+ 232 0048 B140     		lsls	r1, r1, r6
+ 233 004a FFF7FEFF 		bl	_pal_lld_setgroupmode
+ 234 004e EAE7     		b	.L12
+ 235              		.size	gpio_setup_pin_af, .-gpio_setup_pin_af
+ 236              		.section	.text.gpio_setup_pin_analog,"ax",%progbits
+ 237              		.align	1
+ 238              		.p2align 4,,15
+ 239              		.global	gpio_setup_pin_analog
+ 240              		.syntax unified
+ 241              		.thumb
+ 242              		.thumb_func
+ 243              		.fpu fpv4-sp-d16
+ 244              		.type	gpio_setup_pin_analog, %function
+ 245              	gpio_setup_pin_analog:
+ 246              		@ args = 0, pretend = 0, frame = 8
+ 247              		@ frame_needed = 0, uses_anonymous_args = 0
+ 248 0000 10B5     		push	{r4, lr}
+ 249 0002 82B0     		sub	sp, sp, #8
+ 250 0004 0C46     		mov	r4, r1
+ 251 0006 0190     		str	r0, [sp, #4]
+ 252 0008 3023     		movs	r3, #48
+ 253              		.syntax unified
+ 254              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 255 000a 83F31188 		MSR basepri, r3
+ 256              	@ 0 "" 2
+ 257              		.thumb
+ 258              		.syntax unified
+ 259 000e FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 260 0012 0121     		movs	r1, #1
+ 261 0014 0198     		ldr	r0, [sp, #4]
+ 262 0016 0322     		movs	r2, #3
+ 263 0018 A140     		lsls	r1, r1, r4
+ 264 001a FFF7FEFF 		bl	_pal_lld_setgroupmode
+ 265 001e FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 266 0022 0023     		movs	r3, #0
+ 267              		.syntax unified
+ 268              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 269 0024 83F31188 		MSR basepri, r3
+ 270              	@ 0 "" 2
+ 271              		.thumb
+ 272              		.syntax unified
+ 273 0028 02B0     		add	sp, sp, #8
+ 274              		@ sp needed
+ 275 002a 10BD     		pop	{r4, pc}
+ 276              		.size	gpio_setup_pin_analog, .-gpio_setup_pin_analog
+ 277              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccwzbprc.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 gpio_arch.c
+     /tmp/ccwzbprc.s:15     .text.gpio_setup_output:0000000000000000 $t
+     /tmp/ccwzbprc.s:24     .text.gpio_setup_output:0000000000000000 gpio_setup_output
+     /tmp/ccwzbprc.s:56     .text.gpio_setup_input:0000000000000000 $t
+     /tmp/ccwzbprc.s:64     .text.gpio_setup_input:0000000000000000 gpio_setup_input
+     /tmp/ccwzbprc.s:97     .text.gpio_setup_input_pullup:0000000000000000 $t
+     /tmp/ccwzbprc.s:105    .text.gpio_setup_input_pullup:0000000000000000 gpio_setup_input_pullup
+     /tmp/ccwzbprc.s:138    .text.gpio_setup_input_pulldown:0000000000000000 $t
+     /tmp/ccwzbprc.s:146    .text.gpio_setup_input_pulldown:0000000000000000 gpio_setup_input_pulldown
+     /tmp/ccwzbprc.s:179    .text.gpio_setup_pin_af:0000000000000000 $t
+     /tmp/ccwzbprc.s:187    .text.gpio_setup_pin_af:0000000000000000 gpio_setup_pin_af
+     /tmp/ccwzbprc.s:237    .text.gpio_setup_pin_analog:0000000000000000 $t
+     /tmp/ccwzbprc.s:245    .text.gpio_setup_pin_analog:0000000000000000 gpio_setup_pin_analog
+
+UNDEFINED SYMBOLS
+__stats_start_measure_crit_thd
+_pal_lld_setgroupmode
+__stats_stop_measure_crit_thd

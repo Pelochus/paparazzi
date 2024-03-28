@@ -1,0 +1,1585 @@
+ARM GAS  /tmp/ccFx5XcL.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"nav_rotorcraft_base.c"
+  13              		.text
+  14              		.section	.text.nav_stage_init,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.arch armv7e-m
+  18              		.syntax unified
+  19              		.thumb
+  20              		.thumb_func
+  21              		.fpu fpv4-sp-d16
+  22              		.type	nav_stage_init, %function
+  23              	nav_stage_init:
+  24              		@ args = 0, pretend = 0, frame = 0
+  25              		@ frame_needed = 0, uses_anonymous_args = 0
+  26              		@ link register save eliminated.
+  27 0000 024B     		ldr	r3, .L3
+  28 0002 0022     		movs	r2, #0
+  29 0004 9A63     		str	r2, [r3, #56]	@ float
+  30 0006 DA61     		str	r2, [r3, #28]	@ float
+  31 0008 7047     		bx	lr
+  32              	.L4:
+  33 000a 00BF     		.align	2
+  34              	.L3:
+  35 000c 00000000 		.word	.LANCHOR0
+  36              		.size	nav_stage_init, .-nav_stage_init
+  37              		.section	.text._nav_oval_init,"ax",%progbits
+  38              		.align	1
+  39              		.p2align 4,,15
+  40              		.syntax unified
+  41              		.thumb
+  42              		.thumb_func
+  43              		.fpu fpv4-sp-d16
+  44              		.type	_nav_oval_init, %function
+  45              	_nav_oval_init:
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              		@ link register save eliminated.
+  49 0000 014B     		ldr	r3, .L6
+  50 0002 0122     		movs	r2, #1
+  51 0004 9A87     		strh	r2, [r3, #60]	@ movhi
+  52 0006 7047     		bx	lr
+  53              	.L7:
+  54              		.align	2
+  55              	.L6:
+  56 0008 00000000 		.word	.LANCHOR0
+  57              		.size	_nav_oval_init, .-_nav_oval_init
+ARM GAS  /tmp/ccFx5XcL.s 			page 2
+
+
+  58              		.section	.text.nav_goto,"ax",%progbits
+  59              		.align	1
+  60              		.p2align 4,,15
+  61              		.syntax unified
+  62              		.thumb
+  63              		.thumb_func
+  64              		.fpu fpv4-sp-d16
+  65              		.type	nav_goto, %function
+  66              	nav_goto:
+  67              		@ args = 0, pretend = 0, frame = 0
+  68              		@ frame_needed = 0, uses_anonymous_args = 0
+  69 0000 38B5     		push	{r3, r4, r5, lr}
+  70 0002 0446     		mov	r4, r0
+  71 0004 07C8     		ldm	r0, {r0, r1, r2}
+  72 0006 094D     		ldr	r5, .L10
+  73 0008 05F10C03 		add	r3, r5, #12
+  74 000c 83E80700 		stm	r3, {r0, r1, r2}
+  75 0010 2046     		mov	r0, r4
+  76 0012 FFF7FEFF 		bl	get_dist2_to_point
+  77 0016 064B     		ldr	r3, .L10+4
+  78 0018 2268     		ldr	r2, [r4]	@ float
+  79 001a 6168     		ldr	r1, [r4, #4]	@ float
+  80 001c 5A60     		str	r2, [r3, #4]	@ float
+  81 001e 0022     		movs	r2, #0
+  82 0020 1A70     		strb	r2, [r3]
+  83 0022 9A70     		strb	r2, [r3, #2]
+  84 0024 A861     		str	r0, [r5, #24]	@ float
+  85 0026 9960     		str	r1, [r3, #8]	@ float
+  86 0028 38BD     		pop	{r3, r4, r5, pc}
+  87              	.L11:
+  88 002a 00BF     		.align	2
+  89              	.L10:
+  90 002c 00000000 		.word	.LANCHOR0
+  91 0030 00000000 		.word	nav
+  92              		.size	nav_goto, .-nav_goto
+  93              		.section	.rodata.send_nav_status.str1.4,"aMS",%progbits,1
+  94              		.align	2
+  95              	.LC0:
+  96 0000 524F544F 		.ascii	"ROTORCRAFT_NAV_STATUS\000"
+  96      52435241 
+  96      46545F4E 
+  96      41565F53 
+  96      54415455 
+  97 0016 0000     		.align	2
+  98              	.LC1:
+  99 0018 5345474D 		.ascii	"SEGMENT\000"
+  99      454E5400 
+ 100              		.align	2
+ 101              	.LC2:
+ 102 0020 43495243 		.ascii	"CIRCLE\000"
+ 102      4C4500
+ 103              		.section	.text.send_nav_status,"ax",%progbits
+ 104              		.align	1
+ 105              		.p2align 4,,15
+ 106              		.syntax unified
+ 107              		.thumb
+ 108              		.thumb_func
+ARM GAS  /tmp/ccFx5XcL.s 			page 3
+
+
+ 109              		.fpu fpv4-sp-d16
+ 110              		.type	send_nav_status, %function
+ 111              	send_nav_status:
+ 112              		@ args = 0, pretend = 0, frame = 32
+ 113              		@ frame_needed = 0, uses_anonymous_args = 0
+ 114 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 115 0004 694E     		ldr	r6, .L35
+ 116 0006 D6ED1C7A 		vldr.32	s15, [r6, #112]
+ 117 000a 8BB0     		sub	sp, sp, #44
+ 118 000c F5EE407A 		vcmp.f32	s15, #0
+ 119 0010 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 120 0014 0446     		mov	r4, r0
+ 121 0016 0391     		str	r1, [sp, #12]
+ 122 0018 00F1CB81 		bmi	.L29
+ 123 001c B1EEE77A 		vsqrt.f32	s14, s15
+ 124              	.L15:
+ 125 0020 DFF8A091 		ldr	r9, .L35+24
+ 126 0024 D9ED067A 		vldr.32	s15, [r9, #24]
+ 127 0028 8DED047A 		vstr.32	s14, [sp, #16]
+ 128 002c F5EE407A 		vcmp.f32	s15, #0
+ 129 0030 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 130 0034 00F1C481 		bmi	.L30
+ 131 0038 B1EEE77A 		vsqrt.f32	s14, s15
+ 132              	.L18:
+ 133 003c 039A     		ldr	r2, [sp, #12]
+ 134 003e 0992     		str	r2, [sp, #36]
+ 135 0040 1F23     		movs	r3, #31
+ 136 0042 0025     		movs	r5, #0
+ 137 0044 2268     		ldr	r2, [r4]
+ 138 0046 ADF81C30 		strh	r3, [sp, #28]	@ movhi
+ 139 004a 1321     		movs	r1, #19
+ 140 004c 0894     		str	r4, [sp, #32]
+ 141 004e 8DF81E50 		strb	r5, [sp, #30]
+ 142 0052 0695     		str	r5, [sp, #24]
+ 143 0054 07A8     		add	r0, sp, #28
+ 144 0056 8DED057A 		vstr.32	s14, [sp, #20]
+ 145 005a 9047     		blx	r2
+ 146 005c 089A     		ldr	r2, [sp, #32]
+ 147 005e 0746     		mov	r7, r0
+ 148 0060 5368     		ldr	r3, [r2, #4]
+ 149 0062 06A9     		add	r1, sp, #24
+ 150 0064 82B2     		uxth	r2, r0
+ 151 0066 07A8     		add	r0, sp, #28
+ 152 0068 9847     		blx	r3
+ 153 006a 0028     		cmp	r0, #0
+ 154 006c 00F0AC80 		beq	.L19
+ 155 0070 089A     		ldr	r2, [sp, #32]
+ 156 0072 3946     		mov	r1, r7
+ 157 0074 D269     		ldr	r2, [r2, #28]
+ 158 0076 07A8     		add	r0, sp, #28
+ 159 0078 9047     		blx	r2
+ 160 007a 089A     		ldr	r2, [sp, #32]
+ 161 007c 0699     		ldr	r1, [sp, #24]
+ 162 007e 1769     		ldr	r7, [r2, #16]
+ 163 0080 07A8     		add	r0, sp, #28
+ 164 0082 1322     		movs	r2, #19
+ 165 0084 B847     		blx	r7
+ARM GAS  /tmp/ccFx5XcL.s 			page 4
+
+
+ 166 0086 4FF00108 		mov	r8, #1
+ 167 008a 089A     		ldr	r2, [sp, #32]
+ 168 008c CDF80480 		str	r8, [sp, #4]
+ 169 0090 07AB     		add	r3, sp, #28
+ 170 0092 0093     		str	r3, [sp]
+ 171 0094 9768     		ldr	r7, [r2, #8]
+ 172 0096 0699     		ldr	r1, [sp, #24]
+ 173 0098 2B46     		mov	r3, r5
+ 174 009a 07A8     		add	r0, sp, #28
+ 175 009c 0222     		movs	r2, #2
+ 176 009e B847     		blx	r7
+ 177 00a0 089A     		ldr	r2, [sp, #32]
+ 178 00a2 9DF81D10 		ldrb	r1, [sp, #29]	@ zero_extendqisi2
+ 179 00a6 0091     		str	r1, [sp]
+ 180 00a8 0195     		str	r5, [sp, #4]
+ 181 00aa D768     		ldr	r7, [r2, #12]
+ 182 00ac 0699     		ldr	r1, [sp, #24]
+ 183 00ae 2B46     		mov	r3, r5
+ 184 00b0 07A8     		add	r0, sp, #28
+ 185 00b2 0222     		movs	r2, #2
+ 186 00b4 B847     		blx	r7
+ 187 00b6 9DF81E20 		ldrb	r2, [sp, #30]	@ zero_extendqisi2
+ 188 00ba 0195     		str	r5, [sp, #4]
+ 189 00bc 1201     		lsls	r2, r2, #4
+ 190 00be 42EA0802 		orr	r2, r2, r8
+ 191 00c2 D2B2     		uxtb	r2, r2
+ 192 00c4 0092     		str	r2, [sp]
+ 193 00c6 089A     		ldr	r2, [sp, #32]
+ 194 00c8 0699     		ldr	r1, [sp, #24]
+ 195 00ca D768     		ldr	r7, [r2, #12]
+ 196 00cc 2B46     		mov	r3, r5
+ 197 00ce 07A8     		add	r0, sp, #28
+ 198 00d0 0222     		movs	r2, #2
+ 199 00d2 B847     		blx	r7
+ 200 00d4 3649     		ldr	r1, .L35+4
+ 201 00d6 089A     		ldr	r2, [sp, #32]
+ 202 00d8 0191     		str	r1, [sp, #4]
+ 203 00da 9F21     		movs	r1, #159
+ 204 00dc 0091     		str	r1, [sp]
+ 205 00de D768     		ldr	r7, [r2, #12]
+ 206 00e0 0699     		ldr	r1, [sp, #24]
+ 207 00e2 2B46     		mov	r3, r5
+ 208 00e4 07A8     		add	r0, sp, #28
+ 209 00e6 0222     		movs	r2, #2
+ 210 00e8 B847     		blx	r7
+ 211 00ea 0227     		movs	r7, #2
+ 212 00ec 089A     		ldr	r2, [sp, #32]
+ 213 00ee 3149     		ldr	r1, .L35+8
+ 214 00f0 0197     		str	r7, [sp, #4]
+ 215 00f2 0091     		str	r1, [sp]
+ 216 00f4 D2F808A0 		ldr	r10, [r2, #8]
+ 217 00f8 0699     		ldr	r1, [sp, #24]
+ 218 00fa 2B46     		mov	r3, r5
+ 219 00fc 07A8     		add	r0, sp, #28
+ 220 00fe 0422     		movs	r2, #4
+ 221 0100 D047     		blx	r10
+ 222 0102 089A     		ldr	r2, [sp, #32]
+ARM GAS  /tmp/ccFx5XcL.s 			page 5
+
+
+ 223 0104 2C49     		ldr	r1, .L35+12
+ 224 0106 0197     		str	r7, [sp, #4]
+ 225 0108 0091     		str	r1, [sp]
+ 226 010a D2F808A0 		ldr	r10, [r2, #8]
+ 227 010e 0699     		ldr	r1, [sp, #24]
+ 228 0110 2B46     		mov	r3, r5
+ 229 0112 07A8     		add	r0, sp, #28
+ 230 0114 0422     		movs	r2, #4
+ 231 0116 D047     		blx	r10
+ 232 0118 089A     		ldr	r2, [sp, #32]
+ 233 011a 4FF0040A 		mov	r10, #4
+ 234 011e 04A9     		add	r1, sp, #16
+ 235 0120 CDF804A0 		str	r10, [sp, #4]
+ 236 0124 0091     		str	r1, [sp]
+ 237 0126 D2F808B0 		ldr	fp, [r2, #8]
+ 238 012a 0699     		ldr	r1, [sp, #24]
+ 239 012c 2B46     		mov	r3, r5
+ 240 012e 07A8     		add	r0, sp, #28
+ 241 0130 0A22     		movs	r2, #10
+ 242 0132 D847     		blx	fp
+ 243 0134 089A     		ldr	r2, [sp, #32]
+ 244 0136 CDF804A0 		str	r10, [sp, #4]
+ 245 013a 05A9     		add	r1, sp, #20
+ 246 013c 0091     		str	r1, [sp]
+ 247 013e D2F808A0 		ldr	r10, [r2, #8]
+ 248 0142 0699     		ldr	r1, [sp, #24]
+ 249 0144 2B46     		mov	r3, r5
+ 250 0146 07A8     		add	r0, sp, #28
+ 251 0148 0A22     		movs	r2, #10
+ 252 014a D047     		blx	r10
+ 253 014c 089A     		ldr	r2, [sp, #32]
+ 254 014e 1B49     		ldr	r1, .L35+16
+ 255 0150 0091     		str	r1, [sp]
+ 256 0152 CDF80480 		str	r8, [sp, #4]
+ 257 0156 D2F808A0 		ldr	r10, [r2, #8]
+ 258 015a 0699     		ldr	r1, [sp, #24]
+ 259 015c 3A46     		mov	r2, r7
+ 260 015e 2B46     		mov	r3, r5
+ 261 0160 07A8     		add	r0, sp, #28
+ 262 0162 D047     		blx	r10
+ 263 0164 089A     		ldr	r2, [sp, #32]
+ 264 0166 1649     		ldr	r1, .L35+20
+ 265 0168 0091     		str	r1, [sp]
+ 266 016a CDF80480 		str	r8, [sp, #4]
+ 267 016e D2F808A0 		ldr	r10, [r2, #8]
+ 268 0172 0699     		ldr	r1, [sp, #24]
+ 269 0174 3A46     		mov	r2, r7
+ 270 0176 2B46     		mov	r3, r5
+ 271 0178 07A8     		add	r0, sp, #28
+ 272 017a D047     		blx	r10
+ 273 017c CDE90068 		strd	r6, r8, [sp]
+ 274 0180 0899     		ldr	r1, [sp, #32]
+ 275 0182 3A46     		mov	r2, r7
+ 276 0184 2B46     		mov	r3, r5
+ 277 0186 8F68     		ldr	r7, [r1, #8]
+ 278 0188 0699     		ldr	r1, [sp, #24]
+ 279 018a 07A8     		add	r0, sp, #28
+ARM GAS  /tmp/ccFx5XcL.s 			page 6
+
+
+ 280 018c B847     		blx	r7
+ 281 018e 089B     		ldr	r3, [sp, #32]
+ 282 0190 0699     		ldr	r1, [sp, #24]
+ 283 0192 5B69     		ldr	r3, [r3, #20]
+ 284 0194 07A8     		add	r0, sp, #28
+ 285 0196 9847     		blx	r3
+ 286 0198 3678     		ldrb	r6, [r6]	@ zero_extendqisi2
+ 287 019a 012E     		cmp	r6, #1
+ 288 019c 1BD0     		beq	.L33
+ 289              	.L21:
+ 290 019e 022E     		cmp	r6, #2
+ 291 01a0 00F0A280 		beq	.L34
+ 292              	.L12:
+ 293 01a4 0BB0     		add	sp, sp, #44
+ 294              		@ sp needed
+ 295 01a6 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 296              	.L36:
+ 297 01aa 00BF     		.align	2
+ 298              	.L35:
+ 299 01ac 00000000 		.word	nav
+ 300 01b0 00000000 		.word	.LC0
+ 301 01b4 00000000 		.word	block_time
+ 302 01b8 00000000 		.word	stage_time
+ 303 01bc 00000000 		.word	nav_block
+ 304 01c0 00000000 		.word	nav_stage
+ 305 01c4 00000000 		.word	.LANCHOR0
+ 306              	.L19:
+ 307 01c8 089B     		ldr	r3, [sp, #32]
+ 308 01ca 07A8     		add	r0, sp, #28
+ 309 01cc 9B69     		ldr	r3, [r3, #24]
+ 310 01ce 9847     		blx	r3
+ 311 01d0 3678     		ldrb	r6, [r6]	@ zero_extendqisi2
+ 312 01d2 012E     		cmp	r6, #1
+ 313 01d4 E3D1     		bne	.L21
+ 314              	.L33:
+ 315 01d6 039B     		ldr	r3, [sp, #12]
+ 316 01d8 1F22     		movs	r2, #31
+ 317 01da CDE90843 		strd	r4, r3, [sp, #32]
+ 318 01de 2368     		ldr	r3, [r4]
+ 319 01e0 ADF81C20 		strh	r2, [sp, #28]	@ movhi
+ 320 01e4 0024     		movs	r4, #0
+ 321 01e6 1421     		movs	r1, #20
+ 322 01e8 8DF81E40 		strb	r4, [sp, #30]
+ 323 01ec 0694     		str	r4, [sp, #24]
+ 324 01ee 07A8     		add	r0, sp, #28
+ 325 01f0 9847     		blx	r3
+ 326 01f2 089B     		ldr	r3, [sp, #32]
+ 327 01f4 0546     		mov	r5, r0
+ 328 01f6 82B2     		uxth	r2, r0
+ 329 01f8 5B68     		ldr	r3, [r3, #4]
+ 330 01fa 06A9     		add	r1, sp, #24
+ 331 01fc 07A8     		add	r0, sp, #28
+ 332 01fe 9847     		blx	r3
+ 333 0200 0028     		cmp	r0, #0
+ 334 0202 6AD0     		beq	.L22
+ 335 0204 089B     		ldr	r3, [sp, #32]
+ 336 0206 2946     		mov	r1, r5
+ARM GAS  /tmp/ccFx5XcL.s 			page 7
+
+
+ 337 0208 DB69     		ldr	r3, [r3, #28]
+ 338 020a 07A8     		add	r0, sp, #28
+ 339 020c 9847     		blx	r3
+ 340 020e 089B     		ldr	r3, [sp, #32]
+ 341 0210 0699     		ldr	r1, [sp, #24]
+ 342 0212 1B69     		ldr	r3, [r3, #16]
+ 343 0214 07A8     		add	r0, sp, #28
+ 344 0216 1422     		movs	r2, #20
+ 345 0218 9847     		blx	r3
+ 346 021a 089A     		ldr	r2, [sp, #32]
+ 347 021c 0196     		str	r6, [sp, #4]
+ 348 021e 07AB     		add	r3, sp, #28
+ 349 0220 0093     		str	r3, [sp]
+ 350 0222 9568     		ldr	r5, [r2, #8]
+ 351 0224 0699     		ldr	r1, [sp, #24]
+ 352 0226 2346     		mov	r3, r4
+ 353 0228 07A8     		add	r0, sp, #28
+ 354 022a 0222     		movs	r2, #2
+ 355 022c A847     		blx	r5
+ 356 022e 9DF81D30 		ldrb	r3, [sp, #29]	@ zero_extendqisi2
+ 357 0232 089A     		ldr	r2, [sp, #32]
+ 358 0234 0699     		ldr	r1, [sp, #24]
+ 359 0236 CDE90034 		strd	r3, r4, [sp]
+ 360 023a 07A8     		add	r0, sp, #28
+ 361 023c D568     		ldr	r5, [r2, #12]
+ 362 023e 2346     		mov	r3, r4
+ 363 0240 0222     		movs	r2, #2
+ 364 0242 A847     		blx	r5
+ 365 0244 9DF81E30 		ldrb	r3, [sp, #30]	@ zero_extendqisi2
+ 366 0248 089A     		ldr	r2, [sp, #32]
+ 367 024a 0699     		ldr	r1, [sp, #24]
+ 368 024c 1B01     		lsls	r3, r3, #4
+ 369 024e 43F00103 		orr	r3, r3, #1
+ 370 0252 DBB2     		uxtb	r3, r3
+ 371 0254 CDE90034 		strd	r3, r4, [sp]
+ 372 0258 07A8     		add	r0, sp, #28
+ 373 025a D568     		ldr	r5, [r2, #12]
+ 374 025c 2346     		mov	r3, r4
+ 375 025e 0222     		movs	r2, #2
+ 376 0260 A847     		blx	r5
+ 377 0262 5B4B     		ldr	r3, .L37
+ 378 0264 089A     		ldr	r2, [sp, #32]
+ 379 0266 0193     		str	r3, [sp, #4]
+ 380 0268 1623     		movs	r3, #22
+ 381 026a 0093     		str	r3, [sp]
+ 382 026c D568     		ldr	r5, [r2, #12]
+ 383 026e 0699     		ldr	r1, [sp, #24]
+ 384 0270 0426     		movs	r6, #4
+ 385 0272 2346     		mov	r3, r4
+ 386 0274 07A8     		add	r0, sp, #28
+ 387 0276 0222     		movs	r2, #2
+ 388 0278 A847     		blx	r5
+ 389 027a CDE90096 		strd	r9, r6, [sp]
+ 390 027e 089A     		ldr	r2, [sp, #32]
+ 391 0280 0699     		ldr	r1, [sp, #24]
+ 392 0282 9568     		ldr	r5, [r2, #8]
+ 393 0284 2346     		mov	r3, r4
+ARM GAS  /tmp/ccFx5XcL.s 			page 8
+
+
+ 394 0286 07A8     		add	r0, sp, #28
+ 395 0288 0A22     		movs	r2, #10
+ 396 028a A847     		blx	r5
+ 397 028c 514D     		ldr	r5, .L37+4
+ 398 028e 089B     		ldr	r3, [sp, #32]
+ 399 0290 0699     		ldr	r1, [sp, #24]
+ 400 0292 CDE90056 		strd	r5, r6, [sp]
+ 401 0296 0A22     		movs	r2, #10
+ 402 0298 9F68     		ldr	r7, [r3, #8]
+ 403 029a 07A8     		add	r0, sp, #28
+ 404 029c 2346     		mov	r3, r4
+ 405 029e B847     		blx	r7
+ 406 02a0 089B     		ldr	r3, [sp, #32]
+ 407 02a2 0196     		str	r6, [sp, #4]
+ 408 02a4 05F10802 		add	r2, r5, #8
+ 409              	.L32:
+ 410 02a8 0092     		str	r2, [sp]
+ 411 02aa 9F68     		ldr	r7, [r3, #8]
+ 412 02ac 0699     		ldr	r1, [sp, #24]
+ 413 02ae 2346     		mov	r3, r4
+ 414 02b0 07A8     		add	r0, sp, #28
+ 415 02b2 0A22     		movs	r2, #10
+ 416 02b4 0C35     		adds	r5, r5, #12
+ 417 02b6 B847     		blx	r7
+ 418 02b8 CDE90056 		strd	r5, r6, [sp]
+ 419 02bc 089B     		ldr	r3, [sp, #32]
+ 420 02be 0699     		ldr	r1, [sp, #24]
+ 421 02c0 9D68     		ldr	r5, [r3, #8]
+ 422 02c2 07A8     		add	r0, sp, #28
+ 423 02c4 2346     		mov	r3, r4
+ 424 02c6 0A22     		movs	r2, #10
+ 425 02c8 A847     		blx	r5
+ 426 02ca 089B     		ldr	r3, [sp, #32]
+ 427 02cc 0699     		ldr	r1, [sp, #24]
+ 428 02ce 5B69     		ldr	r3, [r3, #20]
+ 429 02d0 07A8     		add	r0, sp, #28
+ 430 02d2 9847     		blx	r3
+ 431 02d4 0BB0     		add	sp, sp, #44
+ 432              		@ sp needed
+ 433 02d6 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 434              	.L22:
+ 435 02da 089B     		ldr	r3, [sp, #32]
+ 436 02dc 07A8     		add	r0, sp, #28
+ 437 02de 9B69     		ldr	r3, [r3, #24]
+ 438 02e0 9847     		blx	r3
+ 439 02e2 0BB0     		add	sp, sp, #44
+ 440              		@ sp needed
+ 441 02e4 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 442              	.L34:
+ 443 02e8 039A     		ldr	r2, [sp, #12]
+ 444 02ea 2368     		ldr	r3, [r4]
+ 445 02ec 0894     		str	r4, [sp, #32]
+ 446 02ee 0992     		str	r2, [sp, #36]
+ 447 02f0 0024     		movs	r4, #0
+ 448 02f2 1F22     		movs	r2, #31
+ 449 02f4 ADF81C20 		strh	r2, [sp, #28]	@ movhi
+ 450 02f8 1021     		movs	r1, #16
+ARM GAS  /tmp/ccFx5XcL.s 			page 9
+
+
+ 451 02fa 8DF81E40 		strb	r4, [sp, #30]
+ 452 02fe 0694     		str	r4, [sp, #24]
+ 453 0300 07A8     		add	r0, sp, #28
+ 454 0302 9847     		blx	r3
+ 455 0304 089B     		ldr	r3, [sp, #32]
+ 456 0306 82B2     		uxth	r2, r0
+ 457 0308 5B68     		ldr	r3, [r3, #4]
+ 458 030a 0546     		mov	r5, r0
+ 459 030c 06A9     		add	r1, sp, #24
+ 460 030e 07A8     		add	r0, sp, #28
+ 461 0310 9847     		blx	r3
+ 462 0312 089B     		ldr	r3, [sp, #32]
+ 463 0314 0028     		cmp	r0, #0
+ 464 0316 48D0     		beq	.L25
+ 465 0318 2946     		mov	r1, r5
+ 466 031a DB69     		ldr	r3, [r3, #28]
+ 467 031c 07A8     		add	r0, sp, #28
+ 468 031e 9847     		blx	r3
+ 469 0320 089B     		ldr	r3, [sp, #32]
+ 470 0322 0699     		ldr	r1, [sp, #24]
+ 471 0324 1B69     		ldr	r3, [r3, #16]
+ 472 0326 1022     		movs	r2, #16
+ 473 0328 07A8     		add	r0, sp, #28
+ 474 032a 9847     		blx	r3
+ 475 032c 0123     		movs	r3, #1
+ 476 032e 089A     		ldr	r2, [sp, #32]
+ 477 0330 0193     		str	r3, [sp, #4]
+ 478 0332 07AB     		add	r3, sp, #28
+ 479 0334 0093     		str	r3, [sp]
+ 480 0336 9568     		ldr	r5, [r2, #8]
+ 481 0338 0699     		ldr	r1, [sp, #24]
+ 482 033a 3246     		mov	r2, r6
+ 483 033c 2346     		mov	r3, r4
+ 484 033e 07A8     		add	r0, sp, #28
+ 485 0340 A847     		blx	r5
+ 486 0342 9DF81D30 		ldrb	r3, [sp, #29]	@ zero_extendqisi2
+ 487 0346 089A     		ldr	r2, [sp, #32]
+ 488 0348 0699     		ldr	r1, [sp, #24]
+ 489 034a CDE90034 		strd	r3, r4, [sp]
+ 490 034e 07A8     		add	r0, sp, #28
+ 491 0350 D568     		ldr	r5, [r2, #12]
+ 492 0352 2346     		mov	r3, r4
+ 493 0354 3246     		mov	r2, r6
+ 494 0356 A847     		blx	r5
+ 495 0358 9DF81E30 		ldrb	r3, [sp, #30]	@ zero_extendqisi2
+ 496 035c 089A     		ldr	r2, [sp, #32]
+ 497 035e 0699     		ldr	r1, [sp, #24]
+ 498 0360 1B01     		lsls	r3, r3, #4
+ 499 0362 43F00103 		orr	r3, r3, #1
+ 500 0366 DBB2     		uxtb	r3, r3
+ 501 0368 CDE90034 		strd	r3, r4, [sp]
+ 502 036c 07A8     		add	r0, sp, #28
+ 503 036e D568     		ldr	r5, [r2, #12]
+ 504 0370 2346     		mov	r3, r4
+ 505 0372 3246     		mov	r2, r6
+ 506 0374 A847     		blx	r5
+ 507 0376 184B     		ldr	r3, .L37+8
+ARM GAS  /tmp/ccFx5XcL.s 			page 10
+
+
+ 508 0378 0899     		ldr	r1, [sp, #32]
+ 509 037a 0193     		str	r3, [sp, #4]
+ 510 037c 1523     		movs	r3, #21
+ 511 037e 0093     		str	r3, [sp]
+ 512 0380 CD68     		ldr	r5, [r1, #12]
+ 513 0382 0699     		ldr	r1, [sp, #24]
+ 514 0384 3246     		mov	r2, r6
+ 515 0386 2346     		mov	r3, r4
+ 516 0388 07A8     		add	r0, sp, #28
+ 517 038a A847     		blx	r5
+ 518 038c 134D     		ldr	r5, .L37+12
+ 519 038e 089B     		ldr	r3, [sp, #32]
+ 520 0390 0699     		ldr	r1, [sp, #24]
+ 521 0392 0426     		movs	r6, #4
+ 522 0394 CDE90056 		strd	r5, r6, [sp]
+ 523 0398 0A22     		movs	r2, #10
+ 524 039a 9F68     		ldr	r7, [r3, #8]
+ 525 039c 07A8     		add	r0, sp, #28
+ 526 039e 2346     		mov	r3, r4
+ 527 03a0 B847     		blx	r7
+ 528 03a2 089B     		ldr	r3, [sp, #32]
+ 529 03a4 0196     		str	r6, [sp, #4]
+ 530 03a6 AA19     		adds	r2, r5, r6
+ 531 03a8 7EE7     		b	.L32
+ 532              	.L25:
+ 533 03aa 9B69     		ldr	r3, [r3, #24]
+ 534 03ac 07A8     		add	r0, sp, #28
+ 535 03ae 9847     		blx	r3
+ 536 03b0 F8E6     		b	.L12
+ 537              	.L29:
+ 538 03b2 17EE900A 		vmov	r0, s15
+ 539 03b6 FFF7FEFF 		bl	sqrtf
+ 540 03ba 07EE100A 		vmov	s14, r0
+ 541 03be 2FE6     		b	.L15
+ 542              	.L30:
+ 543 03c0 17EE900A 		vmov	r0, s15
+ 544 03c4 FFF7FEFF 		bl	sqrtf
+ 545 03c8 07EE100A 		vmov	s14, r0
+ 546 03cc 36E6     		b	.L18
+ 547              	.L38:
+ 548 03ce 00BF     		.align	2
+ 549              	.L37:
+ 550 03d0 18000000 		.word	.LC1
+ 551 03d4 04000000 		.word	.LANCHOR0+4
+ 552 03d8 20000000 		.word	.LC2
+ 553 03dc 24000000 		.word	.LANCHOR0+36
+ 554              		.size	send_nav_status, .-send_nav_status
+ 555              		.global	__aeabi_f2d
+ 556              		.global	__aeabi_dsub
+ 557              		.global	__aeabi_d2f
+ 558              		.global	__aeabi_dadd
+ 559              		.global	__aeabi_dmul
+ 560              		.section	.text.nav_oval,"ax",%progbits
+ 561              		.align	1
+ 562              		.p2align 4,,15
+ 563              		.syntax unified
+ 564              		.thumb
+ARM GAS  /tmp/ccFx5XcL.s 			page 11
+
+
+ 565              		.thumb_func
+ 566              		.fpu fpv4-sp-d16
+ 567              		.type	nav_oval, %function
+ 568              	nav_oval:
+ 569              		@ args = 0, pretend = 0, frame = 48
+ 570              		@ frame_needed = 0, uses_anonymous_args = 0
+ 571 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+ 572 0004 90ED016A 		vldr.32	s12, [r0, #4]
+ 573 0008 91ED017A 		vldr.32	s14, [r1, #4]
+ 574 000c D0ED005A 		vldr.32	s11, [r0]
+ 575 0010 D1ED006A 		vldr.32	s13, [r1]
+ 576 0014 8668     		ldr	r6, [r0, #8]	@ float
+ 577 0016 2DED048B 		vpush.64	{d8, d9}
+ 578 001a 76EE478A 		vsub.f32	s17, s12, s14
+ 579 001e 35EEE69A 		vsub.f32	s18, s11, s13
+ 580 0022 68EEA87A 		vmul.f32	s15, s17, s17
+ 581 0026 08EE102A 		vmov	s16, r2
+ 582 002a E9EE097A 		vfma.f32	s15, s18, s18
+ 583 002e 8DB0     		sub	sp, sp, #52
+ 584 0030 0446     		mov	r4, r0
+ 585 0032 0D46     		mov	r5, r1
+ 586 0034 F5EE407A 		vcmp.f32	s15, #0
+ 587 0038 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 588 003c 8E60     		str	r6, [r1, #8]	@ float
+ 589 003e 00F1E081 		bmi	.L99
+ 590 0042 B1EEE75A 		vsqrt.f32	s10, s15
+ 591              	.L42:
+ 592 0046 0296     		str	r6, [sp, #8]	@ float
+ 593 0048 0596     		str	r6, [sp, #20]	@ float
+ 594 004a 0896     		str	r6, [sp, #32]	@ float
+ 595 004c 0B96     		str	r6, [sp, #44]	@ float
+ 596 004e DFED8E7A 		vldr.32	s15, .L103+24
+ 597 0052 B4EEE75A 		vcmpe.f32	s10, s15
+ 598 0056 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 599 005a C4BF     		itt	gt
+ 600 005c 89EE059A 		vdivgt.f32	s18, s18, s10
+ 601 0060 C8EE858A 		vdivgt.f32	s17, s17, s10
+ 602 0064 78EE087A 		vadd.f32	s15, s16, s16
+ 603 0068 F0EE653A 		vmov.f32	s7, s11
+ 604 006c B0EE464A 		vmov.f32	s8, s12
+ 605 0070 F0EE664A 		vmov.f32	s9, s13
+ 606 0074 B0EE475A 		vmov.f32	s10, s14
+ 607 0078 E8EE283A 		vfma.f32	s7, s16, s17
+ 608 007c A9EE484A 		vfms.f32	s8, s18, s16
+ 609 0080 E7EEA85A 		vfma.f32	s11, s15, s17
+ 610 0084 A7EEC96A 		vfms.f32	s12, s15, s18
+ 611 0088 E7EEA84A 		vfma.f32	s9, s15, s17
+ 612 008c A7EEC95A 		vfms.f32	s10, s15, s18
+ 613 0090 E8EE286A 		vfma.f32	s13, s16, s17
+ 614 0094 A9EE487A 		vfms.f32	s14, s18, s16
+ 615 0098 19EE101A 		vmov	r1, s18
+ 616 009c 18EE900A 		vmov	r0, s17
+ 617 00a0 CDED003A 		vstr.32	s7, [sp]
+ 618 00a4 8DED014A 		vstr.32	s8, [sp, #4]
+ 619 00a8 CDED035A 		vstr.32	s11, [sp, #12]
+ 620 00ac 8DED046A 		vstr.32	s12, [sp, #16]
+ 621 00b0 CDED064A 		vstr.32	s9, [sp, #24]
+ARM GAS  /tmp/ccFx5XcL.s 			page 12
+
+
+ 622 00b4 8DED075A 		vstr.32	s10, [sp, #28]
+ 623 00b8 CDED096A 		vstr.32	s13, [sp, #36]
+ 624 00bc 8DED0A7A 		vstr.32	s14, [sp, #40]
+ 625 00c0 FFF7FEFF 		bl	atan2f
+ 626 00c4 FFF7FEFF 		bl	__aeabi_f2d
+ 627 00c8 0246     		mov	r2, r0
+ 628 00ca 0B46     		mov	r3, r1
+ 629 00cc 68A1     		adr	r1, .L103
+ 630 00ce D1E90001 		ldrd	r0, [r1]
+ 631 00d2 FFF7FEFF 		bl	__aeabi_dsub
+ 632 00d6 FFF7FEFF 		bl	__aeabi_d2f
+ 633 00da 8046     		mov	r8, r0	@ float
+ 634 00dc FFF7FEFF 		bl	__aeabi_f2d
+ 635 00e0 63A3     		adr	r3, .L103
+ 636 00e2 D3E90023 		ldrd	r2, [r3]
+ 637 00e6 FFF7FEFF 		bl	__aeabi_dadd
+ 638 00ea FFF7FEFF 		bl	__aeabi_d2f
+ 639 00ee B5EEC08A 		vcmpe.f32	s16, #0
+ 640 00f2 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 641 00f6 0646     		mov	r6, r0	@ float
+ 642 00f8 40F37A81 		ble	.L100
+ 643 00fc FFF7FEFF 		bl	__aeabi_f2d
+ 644 0100 5BA3     		adr	r3, .L103
+ 645 0102 D3E90023 		ldrd	r2, [r3]
+ 646 0106 FFF7FEFF 		bl	__aeabi_dadd
+ 647 010a FFF7FEFF 		bl	__aeabi_d2f
+ 648 010e DFF88C91 		ldr	r9, .L103+44
+ 649 0112 B046     		mov	r8, r6	@ float
+ 650 0114 0646     		mov	r6, r0	@ float
+ 651              	.L45:
+ 652 0116 5D4F     		ldr	r7, .L103+28
+ 653 0118 97F83C30 		ldrb	r3, [r7, #60]	@ zero_extendqisi2
+ 654 011c 032B     		cmp	r3, #3
+ 655 011e 14D8     		bhi	.L39
+ 656 0120 DFE813F0 		tbh	[pc, r3, lsl #1]
+ 657              	.L49:
+ 658 0124 4C01     		.2byte	(.L52-.L49)/2
+ 659 0126 BE00     		.2byte	(.L51-.L49)/2
+ 660 0128 0400     		.2byte	(.L50-.L49)/2
+ 661 012a 1800     		.2byte	(.L48-.L49)/2
+ 662              		.p2align 1
+ 663              	.L50:
+ 664 012c 584E     		ldr	r6, .L103+32
+ 665 012e 2146     		mov	r1, r4
+ 666 0130 D6F88C30 		ldr	r3, [r6, #140]
+ 667 0134 2846     		mov	r0, r5
+ 668 0136 9847     		blx	r3
+ 669 0138 D6F89030 		ldr	r3, [r6, #144]
+ 670 013c 0022     		movs	r2, #0
+ 671 013e 2946     		mov	r1, r5
+ 672 0140 2046     		mov	r0, r4
+ 673 0142 9847     		blx	r3
+ 674 0144 0028     		cmp	r0, #0
+ 675 0146 40F05681 		bne	.L102
+ 676              	.L39:
+ 677 014a 0DB0     		add	sp, sp, #52
+ 678              		@ sp needed
+ARM GAS  /tmp/ccFx5XcL.s 			page 13
+
+
+ 679 014c BDEC048B 		vldm	sp!, {d8-d9}
+ 680 0150 BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 681              	.L48:
+ 682 0154 4E4B     		ldr	r3, .L103+32
+ 683 0156 18EE101A 		vmov	r1, s16
+ 684 015a D3F89430 		ldr	r3, [r3, #148]
+ 685 015e 6846     		mov	r0, sp
+ 686 0160 9847     		blx	r3
+ 687 0162 3046     		mov	r0, r6	@ float
+ 688 0164 FFF7FEFF 		bl	__aeabi_f2d
+ 689 0168 43A3     		adr	r3, .L103+8
+ 690 016a D3E90023 		ldrd	r2, [r3]
+ 691 016e FFF7FEFF 		bl	__aeabi_dmul
+ 692 0172 0446     		mov	r4, r0
+ 693 0174 4846     		mov	r0, r9	@ float
+ 694 0176 0D46     		mov	r5, r1
+ 695 0178 FFF7FEFF 		bl	__aeabi_f2d
+ 696 017c 0246     		mov	r2, r0
+ 697 017e 0B46     		mov	r3, r1
+ 698 0180 2046     		mov	r0, r4
+ 699 0182 2946     		mov	r1, r5
+ 700 0184 FFF7FEFF 		bl	__aeabi_dsub
+ 701 0188 0446     		mov	r4, r0
+ 702 018a 786B     		ldr	r0, [r7, #52]	@ float
+ 703 018c 0D46     		mov	r5, r1
+ 704 018e FFF7FEFF 		bl	__aeabi_f2d
+ 705 0192 0246     		mov	r2, r0
+ 706 0194 0B46     		mov	r3, r1
+ 707 0196 3AA1     		adr	r1, .L103+16
+ 708 0198 D1E90001 		ldrd	r0, [r1]
+ 709 019c FFF7FEFF 		bl	__aeabi_dsub
+ 710 01a0 35A3     		adr	r3, .L103+8
+ 711 01a2 D3E90023 		ldrd	r2, [r3]
+ 712 01a6 FFF7FEFF 		bl	__aeabi_dmul
+ 713 01aa FFF7FEFF 		bl	__aeabi_d2f
+ 714 01ae 07EE900A 		vmov	s15, r0
+ 715 01b2 F5EEC07A 		vcmpe.f32	s15, #0
+ 716 01b6 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 717 01ba 08D5     		bpl	.L53
+ 718 01bc 9FED357A 		vldr.32	s14, .L103+36
+ 719              	.L55:
+ 720 01c0 77EE877A 		vadd.f32	s15, s15, s14
+ 721 01c4 F5EEC07A 		vcmpe.f32	s15, #0
+ 722 01c8 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 723 01cc F8D4     		bmi	.L55
+ 724              	.L53:
+ 725 01ce 9FED317A 		vldr.32	s14, .L103+36
+ 726 01d2 F4EEC77A 		vcmpe.f32	s15, s14
+ 727 01d6 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 728 01da 06DB     		blt	.L56
+ 729              	.L58:
+ 730 01dc 77EEC77A 		vsub.f32	s15, s15, s14
+ 731 01e0 F4EEC77A 		vcmpe.f32	s15, s14
+ 732 01e4 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 733 01e8 F8DA     		bge	.L58
+ 734              	.L56:
+ 735 01ea 17EE900A 		vmov	r0, s15
+ARM GAS  /tmp/ccFx5XcL.s 			page 14
+
+
+ 736 01ee FFF7FEFF 		bl	__aeabi_f2d
+ 737 01f2 0246     		mov	r2, r0
+ 738 01f4 0B46     		mov	r3, r1
+ 739 01f6 2046     		mov	r0, r4
+ 740 01f8 2946     		mov	r1, r5
+ 741 01fa FFF7FEFF 		bl	__aeabi_dsub
+ 742 01fe FFF7FEFF 		bl	__aeabi_d2f
+ 743 0202 07EE900A 		vmov	s15, r0
+ 744 0206 F5EEC07A 		vcmpe.f32	s15, #0
+ 745 020a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 746 020e 08D5     		bpl	.L59
+ 747 0210 9FED207A 		vldr.32	s14, .L103+36
+ 748              	.L61:
+ 749 0214 77EE877A 		vadd.f32	s15, s15, s14
+ 750 0218 F5EEC07A 		vcmpe.f32	s15, #0
+ 751 021c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 752 0220 F8D4     		bmi	.L61
+ 753              	.L59:
+ 754 0222 9FED1C7A 		vldr.32	s14, .L103+36
+ 755 0226 F4EEC77A 		vcmpe.f32	s15, s14
+ 756 022a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 757 022e 06DB     		blt	.L62
+ 758              	.L64:
+ 759 0230 77EEC77A 		vsub.f32	s15, s15, s14
+ 760 0234 F4EEC77A 		vcmpe.f32	s15, s14
+ 761 0238 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 762 023c F8DA     		bge	.L64
+ 763              	.L62:
+ 764 023e 9FED167A 		vldr.32	s14, .L103+40
+ 765 0242 F4EEC77A 		vcmpe.f32	s15, s14
+ 766 0246 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 767 024a 07DC     		bgt	.L65
+ 768 024c B2EE047A 		vmov.f32	s14, #1.0e+1
+ 769 0250 F4EEC77A 		vcmpe.f32	s15, s14
+ 770 0254 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 771 0258 7FF577AF 		bpl	.L39
+ 772              	.L65:
+ 773 025c 0023     		movs	r3, #0
+ 774 025e 87F83C30 		strb	r3, [r7, #60]
+ 775 0262 FFF7FEFF 		bl	nav_init_stage
+ 776 0266 0DB0     		add	sp, sp, #52
+ 777              		@ sp needed
+ 778 0268 BDEC048B 		vldm	sp!, {d8-d9}
+ 779 026c BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 780              	.L104:
+ 781              		.align	3
+ 782              	.L103:
+ 783 0270 182D4454 		.word	1413754136
+ 784 0274 FB210940 		.word	1074340347
+ 785 0278 F8C1631A 		.word	442745336
+ 786 027c DCA54C40 		.word	1078765020
+ 787 0280 182D4454 		.word	1413754136
+ 788 0284 FB21F93F 		.word	1073291771
+ 789 0288 17B7D138 		.word	953267991
+ 790 028c 00000000 		.word	.LANCHOR0
+ 791 0290 00000000 		.word	nav
+ 792 0294 0000B443 		.word	1135869952
+ARM GAS  /tmp/ccFx5XcL.s 			page 15
+
+
+ 793 0298 0000AF43 		.word	1135542272
+ 794 029c 00007041 		.word	1097859072
+ 795              	.L51:
+ 796 02a0 634B     		ldr	r3, .L105+16
+ 797 02a2 18EE101A 		vmov	r1, s16
+ 798 02a6 D3F89430 		ldr	r3, [r3, #148]
+ 799 02aa 09A8     		add	r0, sp, #36
+ 800 02ac 9847     		blx	r3
+ 801 02ae 4046     		mov	r0, r8	@ float
+ 802 02b0 FFF7FEFF 		bl	__aeabi_f2d
+ 803 02b4 5AA3     		adr	r3, .L105
+ 804 02b6 D3E90023 		ldrd	r2, [r3]
+ 805 02ba FFF7FEFF 		bl	__aeabi_dmul
+ 806 02be 0446     		mov	r4, r0
+ 807 02c0 4846     		mov	r0, r9	@ float
+ 808 02c2 0D46     		mov	r5, r1
+ 809 02c4 FFF7FEFF 		bl	__aeabi_f2d
+ 810 02c8 0246     		mov	r2, r0
+ 811 02ca 0B46     		mov	r3, r1
+ 812 02cc 2046     		mov	r0, r4
+ 813 02ce 2946     		mov	r1, r5
+ 814 02d0 FFF7FEFF 		bl	__aeabi_dsub
+ 815 02d4 0446     		mov	r4, r0
+ 816 02d6 786B     		ldr	r0, [r7, #52]	@ float
+ 817 02d8 0D46     		mov	r5, r1
+ 818 02da FFF7FEFF 		bl	__aeabi_f2d
+ 819 02de 0246     		mov	r2, r0
+ 820 02e0 0B46     		mov	r3, r1
+ 821 02e2 51A1     		adr	r1, .L105+8
+ 822 02e4 D1E90001 		ldrd	r0, [r1]
+ 823 02e8 FFF7FEFF 		bl	__aeabi_dsub
+ 824 02ec 4CA3     		adr	r3, .L105
+ 825 02ee D3E90023 		ldrd	r2, [r3]
+ 826 02f2 FFF7FEFF 		bl	__aeabi_dmul
+ 827 02f6 FFF7FEFF 		bl	__aeabi_d2f
+ 828 02fa 07EE900A 		vmov	s15, r0
+ 829 02fe F5EEC07A 		vcmpe.f32	s15, #0
+ 830 0302 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 831 0306 08D5     		bpl	.L67
+ 832 0308 9FED4A7A 		vldr.32	s14, .L105+20
+ 833              	.L69:
+ 834 030c 77EE877A 		vadd.f32	s15, s15, s14
+ 835 0310 F5EEC07A 		vcmpe.f32	s15, #0
+ 836 0314 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 837 0318 F8D4     		bmi	.L69
+ 838              	.L67:
+ 839 031a 9FED467A 		vldr.32	s14, .L105+20
+ 840 031e F4EEC77A 		vcmpe.f32	s15, s14
+ 841 0322 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 842 0326 06DB     		blt	.L70
+ 843              	.L72:
+ 844 0328 77EEC77A 		vsub.f32	s15, s15, s14
+ 845 032c F4EEC77A 		vcmpe.f32	s15, s14
+ 846 0330 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 847 0334 F8DA     		bge	.L72
+ 848              	.L70:
+ 849 0336 17EE900A 		vmov	r0, s15
+ARM GAS  /tmp/ccFx5XcL.s 			page 16
+
+
+ 850 033a FFF7FEFF 		bl	__aeabi_f2d
+ 851 033e 0246     		mov	r2, r0
+ 852 0340 0B46     		mov	r3, r1
+ 853 0342 2046     		mov	r0, r4
+ 854 0344 2946     		mov	r1, r5
+ 855 0346 FFF7FEFF 		bl	__aeabi_dsub
+ 856 034a FFF7FEFF 		bl	__aeabi_d2f
+ 857 034e 07EE900A 		vmov	s15, r0
+ 858 0352 F5EEC07A 		vcmpe.f32	s15, #0
+ 859 0356 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 860 035a 08D5     		bpl	.L73
+ 861 035c 9FED357A 		vldr.32	s14, .L105+20
+ 862              	.L75:
+ 863 0360 77EE877A 		vadd.f32	s15, s15, s14
+ 864 0364 F5EEC07A 		vcmpe.f32	s15, #0
+ 865 0368 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 866 036c F8D4     		bmi	.L75
+ 867              	.L73:
+ 868 036e 9FED317A 		vldr.32	s14, .L105+20
+ 869 0372 F4EEC77A 		vcmpe.f32	s15, s14
+ 870 0376 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 871 037a 06DB     		blt	.L76
+ 872              	.L78:
+ 873 037c 77EEC77A 		vsub.f32	s15, s15, s14
+ 874 0380 F4EEC77A 		vcmpe.f32	s15, s14
+ 875 0384 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 876 0388 F8DA     		bge	.L78
+ 877              	.L76:
+ 878 038a 9FED2B7A 		vldr.32	s14, .L105+24
+ 879 038e F4EEC77A 		vcmpe.f32	s15, s14
+ 880 0392 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 881 0396 07DC     		bgt	.L79
+ 882 0398 B2EE047A 		vmov.f32	s14, #1.0e+1
+ 883 039c F4EEC77A 		vcmpe.f32	s15, s14
+ 884 03a0 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 885 03a4 7FF5D1AE 		bpl	.L39
+ 886              	.L79:
+ 887 03a8 0223     		movs	r3, #2
+ 888 03aa 87F83C30 		strb	r3, [r7, #60]
+ 889 03ae FFF7FEFF 		bl	nav_init_stage
+ 890 03b2 0DB0     		add	sp, sp, #52
+ 891              		@ sp needed
+ 892 03b4 BDEC048B 		vldm	sp!, {d8-d9}
+ 893 03b8 BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 894              	.L52:
+ 895 03bc 1C4C     		ldr	r4, .L105+16
+ 896 03be 06A9     		add	r1, sp, #24
+ 897 03c0 D4F88C30 		ldr	r3, [r4, #140]
+ 898 03c4 03A8     		add	r0, sp, #12
+ 899 03c6 9847     		blx	r3
+ 900 03c8 D4F89030 		ldr	r3, [r4, #144]
+ 901 03cc 0022     		movs	r2, #0
+ 902 03ce 03A9     		add	r1, sp, #12
+ 903 03d0 06A8     		add	r0, sp, #24
+ 904 03d2 9847     		blx	r3
+ 905 03d4 0028     		cmp	r0, #0
+ 906 03d6 3FF4B8AE 		beq	.L39
+ARM GAS  /tmp/ccFx5XcL.s 			page 17
+
+
+ 907 03da 97F83D30 		ldrb	r3, [r7, #61]	@ zero_extendqisi2
+ 908 03de 0122     		movs	r2, #1
+ 909 03e0 1344     		add	r3, r3, r2
+ 910 03e2 87F83C20 		strb	r2, [r7, #60]
+ 911 03e6 87F83D30 		strb	r3, [r7, #61]
+ 912 03ea FFF7FEFF 		bl	nav_init_stage
+ 913 03ee ACE6     		b	.L39
+ 914              	.L100:
+ 915 03f0 DFF84890 		ldr	r9, .L105+28
+ 916 03f4 8FE6     		b	.L45
+ 917              	.L102:
+ 918 03f6 0323     		movs	r3, #3
+ 919 03f8 87F83C30 		strb	r3, [r7, #60]
+ 920 03fc FFF7FEFF 		bl	nav_init_stage
+ 921 0400 A3E6     		b	.L39
+ 922              	.L99:
+ 923 0402 17EE900A 		vmov	r0, s15
+ 924 0406 FFF7FEFF 		bl	sqrtf
+ 925 040a D4ED005A 		vldr.32	s11, [r4]
+ 926 040e 94ED016A 		vldr.32	s12, [r4, #4]
+ 927 0412 D5ED006A 		vldr.32	s13, [r5]
+ 928 0416 95ED017A 		vldr.32	s14, [r5, #4]
+ 929 041a 05EE100A 		vmov	s10, r0
+ 930 041e 12E6     		b	.L42
+ 931              	.L106:
+ 932              		.align	3
+ 933              	.L105:
+ 934 0420 F8C1631A 		.word	442745336
+ 935 0424 DCA54C40 		.word	1078765020
+ 936 0428 182D4454 		.word	1413754136
+ 937 042c FB21F93F 		.word	1073291771
+ 938 0430 00000000 		.word	nav
+ 939 0434 0000B443 		.word	1135869952
+ 940 0438 0000AF43 		.word	1135542272
+ 941 043c 000070C1 		.word	-1049624576
+ 942              		.size	nav_oval, .-nav_oval
+ 943              		.section	.text.nav_approaching,"ax",%progbits
+ 944              		.align	1
+ 945              		.p2align 4,,15
+ 946              		.syntax unified
+ 947              		.thumb
+ 948              		.thumb_func
+ 949              		.fpu fpv4-sp-d16
+ 950              		.type	nav_approaching, %function
+ 951              	nav_approaching:
+ 952              		@ args = 0, pretend = 0, frame = 0
+ 953              		@ frame_needed = 0, uses_anonymous_args = 0
+ 954 0000 70B5     		push	{r4, r5, r6, lr}
+ 955 0002 3E4E     		ldr	r6, .L127
+ 956 0004 3388     		ldrh	r3, [r6]
+ 957 0006 2DED048B 		vpush.64	{d8, d9}
+ 958 000a 09EE102A 		vmov	s18, r2
+ 959 000e 1A06     		lsls	r2, r3, #24
+ 960 0010 0546     		mov	r5, r0
+ 961 0012 0C46     		mov	r4, r1
+ 962 0014 64D5     		bpl	.L124
+ 963              	.L108:
+ARM GAS  /tmp/ccFx5XcL.s 			page 18
+
+
+ 964 0016 B5EEC09A 		vcmpe.f32	s18, #0
+ 965 001a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 966 001e 3EDC     		bgt	.L125
+ 967 0020 95ED008A 		vldr.32	s16, [r5]
+ 968 0024 96ED427A 		vldr.32	s14, [r6, #264]
+ 969 0028 D5ED018A 		vldr.32	s17, [r5, #4]
+ 970 002c D6ED437A 		vldr.32	s15, [r6, #268]
+ 971 0030 38EE478A 		vsub.f32	s16, s16, s14
+ 972 0034 78EEE78A 		vsub.f32	s17, s17, s15
+ 973              	.L112:
+ 974 0038 68EEA87A 		vmul.f32	s15, s17, s17
+ 975 003c E8EE087A 		vfma.f32	s15, s16, s16
+ 976 0040 F5EE407A 		vcmp.f32	s15, #0
+ 977 0044 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 978 0048 50D4     		bmi	.L122
+ 979 004a B1EEE77A 		vsqrt.f32	s14, s15
+ 980              	.L115:
+ 981 004e F0EE087A 		vmov.f32	s15, #3.0e+0
+ 982 0052 B4EEE77A 		vcmpe.f32	s14, s15
+ 983 0056 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 984 005a 3DD4     		bmi	.L117
+ 985 005c DCB1     		cbz	r4, .L118
+ 986 005e D5ED017A 		vldr.32	s15, [r5, #4]
+ 987 0062 94ED016A 		vldr.32	s12, [r4, #4]
+ 988 0066 95ED007A 		vldr.32	s14, [r5]
+ 989 006a D4ED006A 		vldr.32	s13, [r4]
+ 990 006e 77EEC67A 		vsub.f32	s15, s15, s12
+ 991 0072 37EE667A 		vsub.f32	s14, s14, s13
+ 992 0076 67EEA88A 		vmul.f32	s17, s15, s17
+ 993 007a DFED217A 		vldr.32	s15, .L127+4
+ 994 007e E7EE088A 		vfma.f32	s17, s14, s16
+ 995 0082 F4EEE78A 		vcmpe.f32	s17, s15
+ 996 0086 BDEC048B 		vldm	sp!, {d8-d9}
+ 997 008a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 998 008e 4CBF     		ite	mi
+ 999 0090 0120     		movmi	r0, #1
+ 1000 0092 0020     		movpl	r0, #0
+ 1001 0094 70BD     		pop	{r4, r5, r6, pc}
+ 1002              	.L118:
+ 1003 0096 BDEC048B 		vldm	sp!, {d8-d9}
+ 1004 009a 2046     		mov	r0, r4
+ 1005 009c 70BD     		pop	{r4, r5, r6, pc}
+ 1006              	.L125:
+ 1007 009e B6F81431 		ldrh	r3, [r6, #276]
+ 1008 00a2 1B06     		lsls	r3, r3, #24
+ 1009 00a4 1FD5     		bpl	.L126
+ 1010              	.L111:
+ 1011 00a6 96ED428A 		vldr.32	s16, [r6, #264]
+ 1012 00aa D6ED577A 		vldr.32	s15, [r6, #348]
+ 1013 00ae D6ED438A 		vldr.32	s17, [r6, #268]
+ 1014 00b2 D6ED586A 		vldr.32	s13, [r6, #352]
+ 1015 00b6 B0EE487A 		vmov.f32	s14, s16
+ 1016 00ba A7EE897A 		vfma.f32	s14, s15, s18
+ 1017 00be F0EE687A 		vmov.f32	s15, s17
+ 1018 00c2 E6EE897A 		vfma.f32	s15, s13, s18
+ 1019 00c6 95ED008A 		vldr.32	s16, [r5]
+ 1020 00ca D5ED018A 		vldr.32	s17, [r5, #4]
+ARM GAS  /tmp/ccFx5XcL.s 			page 19
+
+
+ 1021 00ce 38EE478A 		vsub.f32	s16, s16, s14
+ 1022 00d2 78EEE78A 		vsub.f32	s17, s17, s15
+ 1023 00d6 AFE7     		b	.L112
+ 1024              	.L117:
+ 1025 00d8 BDEC048B 		vldm	sp!, {d8-d9}
+ 1026 00dc 0120     		movs	r0, #1
+ 1027 00de 70BD     		pop	{r4, r5, r6, pc}
+ 1028              	.L124:
+ 1029 00e0 FFF7FEFF 		bl	stateCalcPositionEnu_f
+ 1030 00e4 97E7     		b	.L108
+ 1031              	.L126:
+ 1032 00e6 FFF7FEFF 		bl	stateCalcSpeedEnu_f
+ 1033 00ea DCE7     		b	.L111
+ 1034              	.L122:
+ 1035 00ec 17EE900A 		vmov	r0, s15
+ 1036 00f0 FFF7FEFF 		bl	sqrtf
+ 1037 00f4 07EE100A 		vmov	s14, r0
+ 1038 00f8 A9E7     		b	.L115
+ 1039              	.L128:
+ 1040 00fa 00BF     		.align	2
+ 1041              	.L127:
+ 1042 00fc 00000000 		.word	state
+ 1043 0100 0AD723BC 		.word	-1138501878
+ 1044              		.size	nav_approaching, .-nav_approaching
+ 1045              		.section	.text.nav_route,"ax",%progbits
+ 1046              		.align	1
+ 1047              		.p2align 4,,15
+ 1048              		.syntax unified
+ 1049              		.thumb
+ 1050              		.thumb_func
+ 1051              		.fpu fpv4-sp-d16
+ 1052              		.type	nav_route, %function
+ 1053              	nav_route:
+ 1054              		@ args = 0, pretend = 0, frame = 8
+ 1055              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1056 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 1057 0002 414E     		ldr	r6, .L147
+ 1058 0004 D0ED007A 		vldr.32	s15, [r0]
+ 1059 0008 3388     		ldrh	r3, [r6]
+ 1060 000a D0ED016A 		vldr.32	s13, [r0, #4]
+ 1061 000e 2DED048B 		vpush.64	{d8, d9}
+ 1062 0012 91ED008A 		vldr.32	s16, [r1]
+ 1063 0016 D1ED018A 		vldr.32	s17, [r1, #4]
+ 1064 001a 1A06     		lsls	r2, r3, #24
+ 1065 001c 38EE678A 		vsub.f32	s16, s16, s15
+ 1066 0020 78EEE68A 		vsub.f32	s17, s17, s13
+ 1067 0024 83B0     		sub	sp, sp, #12
+ 1068 0026 0446     		mov	r4, r0
+ 1069 0028 0D46     		mov	r5, r1
+ 1070 002a 50D5     		bpl	.L145
+ 1071 002c 96ED429A 		vldr.32	s18, [r6, #264]
+ 1072 0030 39EE679A 		vsub.f32	s18, s18, s15
+ 1073              	.L132:
+ 1074 0034 28EEA87A 		vmul.f32	s14, s17, s17
+ 1075 0038 9FED346A 		vldr.32	s12, .L147+4
+ 1076 003c D6ED437A 		vldr.32	s15, [r6, #268]
+ 1077 0040 A8EE087A 		vfma.f32	s14, s16, s16
+ARM GAS  /tmp/ccFx5XcL.s 			page 20
+
+
+ 1078 0044 77EEE67A 		vsub.f32	s15, s15, s13
+ 1079 0048 B4EEC67A 		vcmpe.f32	s14, s12
+ 1080 004c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1081 0050 3ADD     		ble	.L140
+ 1082 0052 B5EE407A 		vcmp.f32	s14, #0
+ 1083 0056 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1084 005a 48D4     		bmi	.L146
+ 1085              	.L133:
+ 1086 005c B1EEC76A 		vsqrt.f32	s12, s14
+ 1087              	.L137:
+ 1088 0060 2B4E     		ldr	r6, .L147+8
+ 1089 0062 2C4F     		ldr	r7, .L147+12
+ 1090 0064 06F10C03 		add	r3, r6, #12
+ 1091 0068 68EEA77A 		vmul.f32	s15, s17, s15
+ 1092 006c B2EE085A 		vmov.f32	s10, #1.2e+1
+ 1093 0070 E8EE097A 		vfma.f32	s15, s16, s18
+ 1094 0074 D4ED005A 		vldr.32	s11, [r4]
+ 1095 0078 86ED086A 		vstr.32	s12, [r6, #32]
+ 1096 007c 87EE867A 		vdiv.f32	s14, s15, s12
+ 1097 0080 77EE057A 		vadd.f32	s15, s14, s10
+ 1098 0084 87EE867A 		vdiv.f32	s14, s15, s12
+ 1099 0088 C6ED077A 		vstr.32	s15, [r6, #28]
+ 1100 008c F0EE657A 		vmov.f32	s15, s11
+ 1101 0090 E8EE077A 		vfma.f32	s15, s16, s14
+ 1102 0094 E8EE876A 		vfma.f32	s13, s17, s14
+ 1103 0098 C7ED017A 		vstr.32	s15, [r7, #4]
+ 1104 009c C7ED026A 		vstr.32	s13, [r7, #8]
+ 1105 00a0 94E80700 		ldm	r4, {r0, r1, r2}
+ 1106 00a4 86E80700 		stm	r6, {r0, r1, r2}
+ 1107 00a8 95E80700 		ldm	r5, {r0, r1, r2}
+ 1108 00ac 83E80700 		stm	r3, {r0, r1, r2}
+ 1109 00b0 2846     		mov	r0, r5
+ 1110 00b2 FFF7FEFF 		bl	get_dist2_to_point
+ 1111 00b6 0122     		movs	r2, #1
+ 1112 00b8 0023     		movs	r3, #0
+ 1113 00ba B061     		str	r0, [r6, #24]	@ float
+ 1114 00bc 3A70     		strb	r2, [r7]
+ 1115 00be BB70     		strb	r3, [r7, #2]
+ 1116 00c0 03B0     		add	sp, sp, #12
+ 1117              		@ sp needed
+ 1118 00c2 BDEC048B 		vldm	sp!, {d8-d9}
+ 1119 00c6 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 1120              	.L140:
+ 1121 00c8 B0EE467A 		vmov.f32	s14, s12
+ 1122 00cc C6E7     		b	.L133
+ 1123              	.L145:
+ 1124 00ce FFF7FEFF 		bl	stateCalcPositionEnu_f
+ 1125 00d2 3388     		ldrh	r3, [r6]
+ 1126 00d4 96ED429A 		vldr.32	s18, [r6, #264]
+ 1127 00d8 D4ED007A 		vldr.32	s15, [r4]
+ 1128 00dc 1B06     		lsls	r3, r3, #24
+ 1129 00de 39EE679A 		vsub.f32	s18, s18, s15
+ 1130 00e2 01D4     		bmi	.L144
+ 1131 00e4 FFF7FEFF 		bl	stateCalcPositionEnu_f
+ 1132              	.L144:
+ 1133 00e8 D4ED016A 		vldr.32	s13, [r4, #4]
+ 1134 00ec A2E7     		b	.L132
+ARM GAS  /tmp/ccFx5XcL.s 			page 21
+
+
+ 1135              	.L146:
+ 1136 00ee 17EE100A 		vmov	r0, s14
+ 1137 00f2 CDED017A 		vstr.32	s15, [sp, #4]	@ int
+ 1138 00f6 FFF7FEFF 		bl	sqrtf
+ 1139 00fa D4ED016A 		vldr.32	s13, [r4, #4]
+ 1140 00fe DDED017A 		vldr.32	s15, [sp, #4]	@ int
+ 1141 0102 06EE100A 		vmov	s12, r0
+ 1142 0106 ABE7     		b	.L137
+ 1143              	.L148:
+ 1144              		.align	2
+ 1145              	.L147:
+ 1146 0108 00000000 		.word	state
+ 1147 010c CDCCCC3D 		.word	1036831949
+ 1148 0110 00000000 		.word	.LANCHOR0
+ 1149 0114 00000000 		.word	nav
+ 1150              		.size	nav_route, .-nav_route
+ 1151              		.global	__aeabi_dcmpgt
+ 1152              		.global	__aeabi_dcmplt
+ 1153              		.section	.text.nav_circle,"ax",%progbits
+ 1154              		.align	1
+ 1155              		.p2align 4,,15
+ 1156              		.syntax unified
+ 1157              		.thumb
+ 1158              		.thumb_func
+ 1159              		.fpu fpv4-sp-d16
+ 1160              		.type	nav_circle, %function
+ 1161              	nav_circle:
+ 1162              		@ args = 0, pretend = 0, frame = 8
+ 1163              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1164 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 1165 0004 2DED048B 		vpush.64	{d8, d9}
+ 1166 0008 08EE901A 		vmov	s17, r1
+ 1167 000c DFED887A 		vldr.32	s15, .L181+40
+ 1168 0010 F0EEE89A 		vabs.f32	s19, s17
+ 1169 0014 F4EEE79A 		vcmpe.f32	s19, s15
+ 1170 0018 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1171 001c 83B0     		sub	sp, sp, #12
+ 1172 001e 8246     		mov	r10, r0
+ 1173 0020 6DD5     		bpl	.L174
+ 1174 0022 844C     		ldr	r4, .L181+44
+ 1175 0024 0268     		ldr	r2, [r0]	@ float
+ 1176 0026 4368     		ldr	r3, [r0, #4]	@ float
+ 1177 0028 DFF820B2 		ldr	fp, .L181+68
+ 1178 002c 6260     		str	r2, [r4, #4]	@ float
+ 1179 002e A360     		str	r3, [r4, #8]	@ float
+ 1180              	.L152:
+ 1181 0030 9FED817A 		vldr.32	s14, .L181+48
+ 1182 0034 F5EEC08A 		vcmpe.f32	s17, #0
+ 1183 0038 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1184 003c F7EE007A 		vmov.f32	s15, #1.0e+0
+ 1185 0040 BFEE008A 		vmov.f32	s16, #-1.0e+0
+ 1186 0044 F4EEC79A 		vcmpe.f32	s19, s14
+ 1187 0048 C8BF     		it	gt
+ 1188 004a B0EE678A 		vmovgt.f32	s16, s15
+ 1189 004e F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1190 0052 30DD     		ble	.L175
+ 1191 0054 F2EE087A 		vmov.f32	s15, #1.2e+1
+ARM GAS  /tmp/ccFx5XcL.s 			page 22
+
+
+ 1192 0058 87EEA99A 		vdiv.f32	s18, s15, s19
+ 1193 005c 19EE100A 		vmov	r0, s18
+ 1194 0060 FFF7FEFF 		bl	__aeabi_f2d
+ 1195 0064 68A3     		adr	r3, .L181
+ 1196 0066 D3E90023 		ldrd	r2, [r3]
+ 1197 006a 0646     		mov	r6, r0
+ 1198 006c 0F46     		mov	r7, r1
+ 1199 006e FFF7FEFF 		bl	__aeabi_dcmplt
+ 1200 0072 B0BB     		cbnz	r0, .L179
+ 1201 0074 9FED719A 		vldr.32	s18, .L181+52
+ 1202              	.L164:
+ 1203 0078 DBED0D7A 		vldr.32	s15, [fp, #52]
+ 1204 007c E8EE497A 		vfms.f32	s15, s16, s18
+ 1205 0080 17EE900A 		vmov	r0, s15
+ 1206 0084 17EE905A 		vmov	r5, s15
+ 1207 0088 FFF7FEFF 		bl	cosf
+ 1208 008c 0346     		mov	r3, r0	@ float
+ 1209 008e 2846     		mov	r0, r5	@ float
+ 1210 0090 08EE103A 		vmov	s16, r3
+ 1211 0094 FFF7FEFF 		bl	sinf
+ 1212 0098 9AED007A 		vldr.32	s14, [r10]
+ 1213 009c DAED017A 		vldr.32	s15, [r10, #4]
+ 1214 00a0 06EE900A 		vmov	s13, r0
+ 1215 00a4 A9EE887A 		vfma.f32	s14, s19, s16
+ 1216 00a8 E9EEA67A 		vfma.f32	s15, s19, s13
+ 1217 00ac 84ED017A 		vstr.32	s14, [r4, #4]
+ 1218 00b0 C4ED027A 		vstr.32	s15, [r4, #8]
+ 1219 00b4 05E0     		b	.L166
+ 1220              	.L175:
+ 1221 00b6 DAF80020 		ldr	r2, [r10]	@ float
+ 1222 00ba DAF80430 		ldr	r3, [r10, #4]	@ float
+ 1223 00be A360     		str	r3, [r4, #8]	@ float
+ 1224 00c0 6260     		str	r2, [r4, #4]	@ float
+ 1225              	.L166:
+ 1226 00c2 9AE80700 		ldm	r10, {r0, r1, r2}
+ 1227 00c6 5E4B     		ldr	r3, .L181+56
+ 1228 00c8 CBED0C8A 		vstr.32	s17, [fp, #48]
+ 1229 00cc 83E80700 		stm	r3, {r0, r1, r2}
+ 1230 00d0 0222     		movs	r2, #2
+ 1231 00d2 0023     		movs	r3, #0
+ 1232 00d4 2270     		strb	r2, [r4]
+ 1233 00d6 A370     		strb	r3, [r4, #2]
+ 1234 00d8 03B0     		add	sp, sp, #12
+ 1235              		@ sp needed
+ 1236 00da BDEC048B 		vldm	sp!, {d8-d9}
+ 1237 00de BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 1238              	.L179:
+ 1239 00e2 4BA3     		adr	r3, .L181+8
+ 1240 00e4 D3E90023 		ldrd	r2, [r3]
+ 1241 00e8 3046     		mov	r0, r6
+ 1242 00ea 3946     		mov	r1, r7
+ 1243 00ec FFF7FEFF 		bl	__aeabi_dcmpgt
+ 1244 00f0 DFED547A 		vldr.32	s15, .L181+60
+ 1245 00f4 0028     		cmp	r0, #0
+ 1246 00f6 08BF     		it	eq
+ 1247 00f8 B0EE679A 		vmoveq.f32	s18, s15
+ 1248 00fc BCE7     		b	.L164
+ARM GAS  /tmp/ccFx5XcL.s 			page 23
+
+
+ 1249              	.L174:
+ 1250 00fe 524C     		ldr	r4, .L181+64
+ 1251 0100 2388     		ldrh	r3, [r4]
+ 1252 0102 1A06     		lsls	r2, r3, #24
+ 1253 0104 6DD5     		bpl	.L180
+ 1254 0106 D4ED427A 		vldr.32	s15, [r4, #264]
+ 1255 010a 90ED007A 		vldr.32	s14, [r0]
+ 1256 010e 77EEC77A 		vsub.f32	s15, s15, s14
+ 1257 0112 17EE901A 		vmov	r1, s15
+ 1258              	.L154:
+ 1259 0116 94ED437A 		vldr.32	s14, [r4, #268]
+ 1260 011a DAED017A 		vldr.32	s15, [r10, #4]
+ 1261 011e DFF82CB1 		ldr	fp, .L181+68
+ 1262 0122 77EE677A 		vsub.f32	s15, s14, s15
+ 1263 0126 9BED0D8A 		vldr.32	s16, [fp, #52]
+ 1264 012a 17EE900A 		vmov	r0, s15
+ 1265 012e FFF7FEFF 		bl	atan2f
+ 1266 0132 07EE900A 		vmov	s15, r0
+ 1267 0136 37EEC88A 		vsub.f32	s16, s15, s16
+ 1268 013a CBF83400 		str	r0, [fp, #52]	@ float
+ 1269 013e 18EE100A 		vmov	r0, s16
+ 1270 0142 FFF7FEFF 		bl	__aeabi_f2d
+ 1271 0146 34A3     		adr	r3, .L181+16
+ 1272 0148 D3E90023 		ldrd	r2, [r3]
+ 1273 014c 0446     		mov	r4, r0
+ 1274 014e 0D46     		mov	r5, r1
+ 1275 0150 FFF7FEFF 		bl	__aeabi_dcmpgt
+ 1276 0154 D0B1     		cbz	r0, .L155
+ 1277 0156 0FF2C809 		adr	r9, .L181+24
+ 1278 015a D9E90089 		ldrd	r8, [r9]
+ 1279 015e 2EA7     		adr	r7, .L181+16
+ 1280 0160 D7E90067 		ldrd	r6, [r7]
+ 1281              	.L157:
+ 1282 0164 4246     		mov	r2, r8
+ 1283 0166 4B46     		mov	r3, r9
+ 1284 0168 2046     		mov	r0, r4
+ 1285 016a 2946     		mov	r1, r5
+ 1286 016c FFF7FEFF 		bl	__aeabi_dsub
+ 1287 0170 FFF7FEFF 		bl	__aeabi_d2f
+ 1288 0174 08EE100A 		vmov	s16, r0
+ 1289 0178 FFF7FEFF 		bl	__aeabi_f2d
+ 1290 017c 3246     		mov	r2, r6
+ 1291 017e 3B46     		mov	r3, r7
+ 1292 0180 0446     		mov	r4, r0
+ 1293 0182 0D46     		mov	r5, r1
+ 1294 0184 FFF7FEFF 		bl	__aeabi_dcmpgt
+ 1295 0188 0028     		cmp	r0, #0
+ 1296 018a EBD1     		bne	.L157
+ 1297              	.L155:
+ 1298 018c 26A3     		adr	r3, .L181+32
+ 1299 018e D3E90023 		ldrd	r2, [r3]
+ 1300 0192 2046     		mov	r0, r4
+ 1301 0194 2946     		mov	r1, r5
+ 1302 0196 FFF7FEFF 		bl	__aeabi_dcmplt
+ 1303 019a D0B1     		cbz	r0, .L158
+ 1304 019c 20A7     		adr	r7, .L181+24
+ 1305 019e D7E90067 		ldrd	r6, [r7]
+ARM GAS  /tmp/ccFx5XcL.s 			page 24
+
+
+ 1306 01a2 0FF28409 		adr	r9, .L181+32
+ 1307 01a6 D9E90089 		ldrd	r8, [r9]
+ 1308              	.L160:
+ 1309 01aa 3246     		mov	r2, r6
+ 1310 01ac 3B46     		mov	r3, r7
+ 1311 01ae 2046     		mov	r0, r4
+ 1312 01b0 2946     		mov	r1, r5
+ 1313 01b2 FFF7FEFF 		bl	__aeabi_dadd
+ 1314 01b6 FFF7FEFF 		bl	__aeabi_d2f
+ 1315 01ba 08EE100A 		vmov	s16, r0
+ 1316 01be FFF7FEFF 		bl	__aeabi_f2d
+ 1317 01c2 4246     		mov	r2, r8
+ 1318 01c4 4B46     		mov	r3, r9
+ 1319 01c6 0446     		mov	r4, r0
+ 1320 01c8 0D46     		mov	r5, r1
+ 1321 01ca FFF7FEFF 		bl	__aeabi_dcmplt
+ 1322 01ce 0028     		cmp	r0, #0
+ 1323 01d0 EBD1     		bne	.L160
+ 1324              	.L158:
+ 1325 01d2 DBED0E7A 		vldr.32	s15, [fp, #56]
+ 1326 01d6 174C     		ldr	r4, .L181+44
+ 1327 01d8 37EE888A 		vadd.f32	s16, s15, s16
+ 1328 01dc 8BED0E8A 		vstr.32	s16, [fp, #56]
+ 1329 01e0 26E7     		b	.L152
+ 1330              	.L180:
+ 1331 01e2 FFF7FEFF 		bl	stateCalcPositionEnu_f
+ 1332 01e6 D4ED427A 		vldr.32	s15, [r4, #264]
+ 1333 01ea 9AED007A 		vldr.32	s14, [r10]
+ 1334 01ee 2388     		ldrh	r3, [r4]
+ 1335 01f0 77EEC77A 		vsub.f32	s15, s15, s14
+ 1336 01f4 1B06     		lsls	r3, r3, #24
+ 1337 01f6 17EE901A 		vmov	r1, s15
+ 1338 01fa 8CD4     		bmi	.L154
+ 1339 01fc CDED017A 		vstr.32	s15, [sp, #4]	@ int
+ 1340 0200 FFF7FEFF 		bl	stateCalcPositionEnu_f
+ 1341 0204 0199     		ldr	r1, [sp, #4]
+ 1342 0206 86E7     		b	.L154
+ 1343              	.L182:
+ 1344              		.align	3
+ 1345              	.L181:
+ 1346 0208 182D4454 		.word	1413754136
+ 1347 020c FB21E93F 		.word	1072243195
+ 1348 0210 182D4454 		.word	1413754136
+ 1349 0214 FB21C93F 		.word	1070146043
+ 1350 0218 182D4454 		.word	1413754136
+ 1351 021c FB210940 		.word	1074340347
+ 1352 0220 182D4454 		.word	1413754136
+ 1353 0224 FB211940 		.word	1075388923
+ 1354 0228 182D4454 		.word	1413754136
+ 1355 022c FB2109C0 		.word	-1073143301
+ 1356 0230 6F12833A 		.word	981668463
+ 1357 0234 00000000 		.word	nav
+ 1358 0238 CDCCCC3D 		.word	1036831949
+ 1359 023c DB0F493F 		.word	1061752795
+ 1360 0240 24000000 		.word	.LANCHOR0+36
+ 1361 0244 DB0F493E 		.word	1044975579
+ 1362 0248 00000000 		.word	state
+ARM GAS  /tmp/ccFx5XcL.s 			page 25
+
+
+ 1363 024c 00000000 		.word	.LANCHOR0
+ 1364              		.size	nav_circle, .-nav_circle
+ 1365              		.section	.text.nav_rotorcraft_init,"ax",%progbits
+ 1366              		.align	1
+ 1367              		.p2align 4,,15
+ 1368              		.global	nav_rotorcraft_init
+ 1369              		.syntax unified
+ 1370              		.thumb
+ 1371              		.thumb_func
+ 1372              		.fpu fpv4-sp-d16
+ 1373              		.type	nav_rotorcraft_init, %function
+ 1374              	nav_rotorcraft_init:
+ 1375              		@ args = 0, pretend = 0, frame = 0
+ 1376              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1377 0000 08B5     		push	{r3, lr}
+ 1378 0002 104B     		ldr	r3, .L185
+ 1379 0004 DFF864C0 		ldr	ip, .L185+40
+ 1380 0008 0F48     		ldr	r0, .L185+4
+ 1381 000a C3F830C0 		str	ip, [r3, #48]	@ float
+ 1382 000e 0021     		movs	r1, #0
+ 1383 0010 4FF07E52 		mov	r2, #1065353216
+ 1384 0014 D961     		str	r1, [r3, #28]	@ float
+ 1385 0016 1A62     		str	r2, [r3, #32]	@ float
+ 1386 0018 FFF7FEFF 		bl	nav_register_stage_init
+ 1387 001c 0B4A     		ldr	r2, .L185+8
+ 1388 001e 0C49     		ldr	r1, .L185+12
+ 1389 0020 0C48     		ldr	r0, .L185+16
+ 1390 0022 FFF7FEFF 		bl	nav_register_goto_wp
+ 1391 0026 0C48     		ldr	r0, .L185+20
+ 1392 0028 FFF7FEFF 		bl	nav_register_circle
+ 1393 002c 0B49     		ldr	r1, .L185+24
+ 1394 002e 0C48     		ldr	r0, .L185+28
+ 1395 0030 FFF7FEFF 		bl	nav_register_oval
+ 1396 0034 BDE80840 		pop	{r3, lr}
+ 1397 0038 0A4A     		ldr	r2, .L185+32
+ 1398 003a 0B48     		ldr	r0, .L185+36
+ 1399 003c 9F21     		movs	r1, #159
+ 1400 003e FFF7FEBF 		b	register_periodic_telemetry
+ 1401              	.L186:
+ 1402 0042 00BF     		.align	2
+ 1403              	.L185:
+ 1404 0044 00000000 		.word	.LANCHOR0
+ 1405 0048 00000000 		.word	nav_stage_init
+ 1406 004c 00000000 		.word	nav_approaching
+ 1407 0050 00000000 		.word	nav_route
+ 1408 0054 00000000 		.word	nav_goto
+ 1409 0058 00000000 		.word	nav_circle
+ 1410 005c 00000000 		.word	nav_oval
+ 1411 0060 00000000 		.word	_nav_oval_init
+ 1412 0064 00000000 		.word	send_nav_status
+ 1413 0068 00000000 		.word	pprz_telemetry
+ 1414 006c 0000A040 		.word	1084227584
+ 1415              		.size	nav_rotorcraft_init, .-nav_rotorcraft_init
+ 1416              		.global	nav_rotorcraft_base
+ 1417              		.section	.bss.nav_rotorcraft_base,"aw",%nobits
+ 1418              		.align	2
+ 1419              		.set	.LANCHOR0,. + 0
+ARM GAS  /tmp/ccFx5XcL.s 			page 26
+
+
+ 1420              		.type	nav_rotorcraft_base, %object
+ 1421              		.size	nav_rotorcraft_base, 64
+ 1422              	nav_rotorcraft_base:
+ 1423 0000 00000000 		.space	64
+ 1423      00000000 
+ 1423      00000000 
+ 1423      00000000 
+ 1423      00000000 
+ 1424              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccFx5XcL.s 			page 27
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 nav_rotorcraft_base.c
+     /tmp/ccFx5XcL.s:15     .text.nav_stage_init:0000000000000000 $t
+     /tmp/ccFx5XcL.s:23     .text.nav_stage_init:0000000000000000 nav_stage_init
+     /tmp/ccFx5XcL.s:35     .text.nav_stage_init:000000000000000c $d
+     /tmp/ccFx5XcL.s:38     .text._nav_oval_init:0000000000000000 $t
+     /tmp/ccFx5XcL.s:45     .text._nav_oval_init:0000000000000000 _nav_oval_init
+     /tmp/ccFx5XcL.s:56     .text._nav_oval_init:0000000000000008 $d
+     /tmp/ccFx5XcL.s:59     .text.nav_goto:0000000000000000 $t
+     /tmp/ccFx5XcL.s:66     .text.nav_goto:0000000000000000 nav_goto
+     /tmp/ccFx5XcL.s:90     .text.nav_goto:000000000000002c $d
+     /tmp/ccFx5XcL.s:94     .rodata.send_nav_status.str1.4:0000000000000000 $d
+     /tmp/ccFx5XcL.s:104    .text.send_nav_status:0000000000000000 $t
+     /tmp/ccFx5XcL.s:111    .text.send_nav_status:0000000000000000 send_nav_status
+     /tmp/ccFx5XcL.s:299    .text.send_nav_status:00000000000001ac $d
+     /tmp/ccFx5XcL.s:307    .text.send_nav_status:00000000000001c8 $t
+     /tmp/ccFx5XcL.s:550    .text.send_nav_status:00000000000003d0 $d
+     /tmp/ccFx5XcL.s:561    .text.nav_oval:0000000000000000 $t
+     /tmp/ccFx5XcL.s:568    .text.nav_oval:0000000000000000 nav_oval
+     /tmp/ccFx5XcL.s:658    .text.nav_oval:0000000000000124 $d
+     /tmp/ccFx5XcL.s:662    .text.nav_oval:000000000000012c $t
+     /tmp/ccFx5XcL.s:783    .text.nav_oval:0000000000000270 $d
+     /tmp/ccFx5XcL.s:796    .text.nav_oval:00000000000002a0 $t
+     /tmp/ccFx5XcL.s:934    .text.nav_oval:0000000000000420 $d
+     /tmp/ccFx5XcL.s:944    .text.nav_approaching:0000000000000000 $t
+     /tmp/ccFx5XcL.s:951    .text.nav_approaching:0000000000000000 nav_approaching
+     /tmp/ccFx5XcL.s:1042   .text.nav_approaching:00000000000000fc $d
+     /tmp/ccFx5XcL.s:1046   .text.nav_route:0000000000000000 $t
+     /tmp/ccFx5XcL.s:1053   .text.nav_route:0000000000000000 nav_route
+     /tmp/ccFx5XcL.s:1146   .text.nav_route:0000000000000108 $d
+     /tmp/ccFx5XcL.s:1154   .text.nav_circle:0000000000000000 $t
+     /tmp/ccFx5XcL.s:1161   .text.nav_circle:0000000000000000 nav_circle
+     /tmp/ccFx5XcL.s:1346   .text.nav_circle:0000000000000208 $d
+     /tmp/ccFx5XcL.s:1366   .text.nav_rotorcraft_init:0000000000000000 $t
+     /tmp/ccFx5XcL.s:1374   .text.nav_rotorcraft_init:0000000000000000 nav_rotorcraft_init
+     /tmp/ccFx5XcL.s:1404   .text.nav_rotorcraft_init:0000000000000044 $d
+     /tmp/ccFx5XcL.s:1422   .bss.nav_rotorcraft_base:0000000000000000 nav_rotorcraft_base
+     /tmp/ccFx5XcL.s:1418   .bss.nav_rotorcraft_base:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+get_dist2_to_point
+nav
+block_time
+stage_time
+nav_block
+nav_stage
+sqrtf
+__aeabi_f2d
+__aeabi_dsub
+__aeabi_d2f
+__aeabi_dadd
+__aeabi_dmul
+atan2f
+nav_init_stage
+stateCalcPositionEnu_f
+stateCalcSpeedEnu_f
+state
+ARM GAS  /tmp/ccFx5XcL.s 			page 28
+
+
+__aeabi_dcmpgt
+__aeabi_dcmplt
+cosf
+sinf
+nav_register_stage_init
+nav_register_goto_wp
+nav_register_circle
+nav_register_oval
+register_periodic_telemetry
+pprz_telemetry

@@ -35,7 +35,7 @@ import pprzlink.messages_xml_map as messages_xml_map
 CRTP_PORT_PPRZLINK = 15
 
 # Only output errors from the logging framework
-#logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
 logging.basicConfig(level=logging.ERROR)
 
 class RadioBridge:
@@ -89,7 +89,7 @@ class RadioBridge:
 
     def _got_packet(self, pk):
         # print(pk.port) # Debug
-        if pk.port == CRTP_PORT_PPRZLINK:
+        if (pk.port == CRTP_PORT_PPRZLINK):
             # print(pk.data) # Debug
             for c in pk.data:
                 if self._transport.parse_byte(bytes([c])):
@@ -130,7 +130,7 @@ if __name__ == '__main__':
         # Initialize the low-level drivers (don't list the debug drivers)
         cflib.crtp.radiodriver.set_retries_before_disconnect(1500)
         cflib.crtp.radiodriver.set_retries(3)
-        cflib.crtp.init_drivers(enable_debug_driver=False)
+        cflib.crtp.init_drivers(enable_debug_driver=True)
 
         # Scan for Crazyflies and use the first one found
         print('Scanning interfaces for Crazyflies...')
@@ -138,7 +138,9 @@ if __name__ == '__main__':
             address = int(args.address, 16)
         else:
             address = None # equivalent to default 0xE7E7E7E7E7
+
         available = cflib.crtp.scan_interfaces(address)
+
         if len(available) > 0:
             print('Crazyflies found:')
             for i in available:
@@ -149,6 +151,7 @@ if __name__ == '__main__':
 
     bridge = None
     link_uri = None
+
     if args.uri is not None:
         link_uri = args.uri
     else:
@@ -174,4 +177,3 @@ if __name__ == '__main__':
         time.sleep(1)
 
     sys.exit()
-

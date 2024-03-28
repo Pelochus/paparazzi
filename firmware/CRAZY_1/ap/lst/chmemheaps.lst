@@ -1,0 +1,484 @@
+ARM GAS  /tmp/cceJAVBQ.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"chmemheaps.c"
+  13              		.text
+  14              		.section	.text.__heap_init,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	__heap_init
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	__heap_init, %function
+  24              	__heap_init:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27 0000 10B5     		push	{r4, lr}
+  28 0002 084C     		ldr	r4, .L4
+  29 0004 084B     		ldr	r3, .L4+4
+  30 0006 2046     		mov	r0, r4
+  31 0008 40F8043B 		str	r3, [r0], #4
+  32 000c FFF7FEFF 		bl	chCoreGetStatusX
+  33 0010 0023     		movs	r3, #0
+  34 0012 C4E90333 		strd	r3, r3, [r4, #12]
+  35 0016 04F11400 		add	r0, r4, #20
+  36 001a BDE81040 		pop	{r4, lr}
+  37 001e FFF7FEBF 		b	chMtxObjectInit
+  38              	.L5:
+  39 0022 00BF     		.align	2
+  40              	.L4:
+  41 0024 00000000 		.word	.LANCHOR0
+  42 0028 00000000 		.word	chCoreAllocFromTop
+  43              		.size	__heap_init, .-__heap_init
+  44              		.section	.text.chHeapObjectInit,"ax",%progbits
+  45              		.align	1
+  46              		.p2align 4,,15
+  47              		.global	chHeapObjectInit
+  48              		.syntax unified
+  49              		.thumb
+  50              		.thumb_func
+  51              		.fpu fpv4-sp-d16
+  52              		.type	chHeapObjectInit, %function
+  53              	chHeapObjectInit:
+  54              		@ args = 0, pretend = 0, frame = 0
+  55              		@ frame_needed = 0, uses_anonymous_args = 0
+  56              		@ link register save eliminated.
+  57 0000 30B4     		push	{r4, r5}
+ARM GAS  /tmp/cceJAVBQ.s 			page 2
+
+
+  58 0002 CC1D     		adds	r4, r1, #7
+  59 0004 24F00704 		bic	r4, r4, #7
+  60 0008 611A     		subs	r1, r4, r1
+  61 000a 083A     		subs	r2, r2, #8
+  62 000c 521A     		subs	r2, r2, r1
+  63 000e D208     		lsrs	r2, r2, #3
+  64 0010 511C     		adds	r1, r2, #1
+  65 0012 0025     		movs	r5, #0
+  66 0014 0346     		mov	r3, r0
+  67 0016 C900     		lsls	r1, r1, #3
+  68 0018 C0E90345 		strd	r4, r5, [r0, #12]
+  69 001c 0560     		str	r5, [r0]
+  70 001e C4E90052 		strd	r5, r2, [r4]
+  71 0022 1430     		adds	r0, r0, #20
+  72 0024 C3E90141 		strd	r4, r1, [r3, #4]
+  73 0028 30BC     		pop	{r4, r5}
+  74 002a FFF7FEBF 		b	chMtxObjectInit
+  75              		.size	chHeapObjectInit, .-chHeapObjectInit
+  76 002e 00BF     		.section	.text.chHeapAllocAligned,"ax",%progbits
+  77              		.align	1
+  78              		.p2align 4,,15
+  79              		.global	chHeapAllocAligned
+  80              		.syntax unified
+  81              		.thumb
+  82              		.thumb_func
+  83              		.fpu fpv4-sp-d16
+  84              		.type	chHeapAllocAligned, %function
+  85              	chHeapAllocAligned:
+  86              		@ args = 0, pretend = 0, frame = 8
+  87              		@ frame_needed = 0, uses_anonymous_args = 0
+  88 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  89 0004 414B     		ldr	r3, .L29
+  90 0006 83B0     		sub	sp, sp, #12
+  91 0008 0028     		cmp	r0, #0
+  92 000a 14BF     		ite	ne
+  93 000c 8146     		movne	r9, r0
+  94 000e 9946     		moveq	r9, r3
+  95 0010 082A     		cmp	r2, #8
+  96 0012 09F11400 		add	r0, r9, #20
+  97 0016 38BF     		it	cc
+  98 0018 0822     		movcc	r2, #8
+  99 001a 01F10708 		add	r8, r1, #7
+ 100 001e 0090     		str	r0, [sp]
+ 101 0020 0191     		str	r1, [sp, #4]
+ 102 0022 9246     		mov	r10, r2
+ 103 0024 FFF7FEFF 		bl	chMtxLock
+ 104 0028 D9F80C40 		ldr	r4, [r9, #12]
+ 105 002c 0098     		ldr	r0, [sp]
+ 106 002e 4FEAD808 		lsr	r8, r8, #3
+ 107 0032 ECB1     		cbz	r4, .L10
+ 108 0034 09F10C01 		add	r1, r9, #12
+ 109 0038 CAF10002 		rsb	r2, r10, #0
+ 110 003c 0AF10707 		add	r7, r10, #7
+ 111 0040 00E0     		b	.L16
+ 112              	.L17:
+ 113 0042 1C46     		mov	r4, r3
+ 114              	.L16:
+ARM GAS  /tmp/cceJAVBQ.s 			page 3
+
+
+ 115 0044 6668     		ldr	r6, [r4, #4]
+ 116 0046 E319     		adds	r3, r4, r7
+ 117 0048 1340     		ands	r3, r3, r2
+ 118 004a 06F1010C 		add	ip, r6, #1
+ 119 004e 1D46     		mov	r5, r3
+ 120 0050 04EBCC0C 		add	ip, r4, ip, lsl #3
+ 121 0054 083B     		subs	r3, r3, #8
+ 122 0056 ACEB050E 		sub	lr, ip, r5
+ 123 005a 9C45     		cmp	ip, r3
+ 124 005c 4FEAEE0B 		asr	fp, lr, #3
+ 125 0060 02D9     		bls	.L11
+ 126 0062 B8EBEE0F 		cmp	r8, lr, asr #3
+ 127 0066 18D9     		bls	.L26
+ 128              	.L11:
+ 129 0068 2368     		ldr	r3, [r4]
+ 130 006a 2146     		mov	r1, r4
+ 131 006c 002B     		cmp	r3, #0
+ 132 006e E8D1     		bne	.L17
+ 133              	.L10:
+ 134 0070 FFF7FEFF 		bl	chMtxUnlock
+ 135 0074 D9F80050 		ldr	r5, [r9]
+ 136 0078 5DB1     		cbz	r5, .L8
+ 137 007a 5146     		mov	r1, r10
+ 138 007c 4FEAC800 		lsl	r0, r8, #3
+ 139 0080 0822     		movs	r2, #8
+ 140 0082 A847     		blx	r5
+ 141 0084 0546     		mov	r5, r0
+ 142 0086 20B1     		cbz	r0, .L8
+ 143 0088 019B     		ldr	r3, [sp, #4]
+ 144 008a 40F8089C 		str	r9, [r0, #-8]
+ 145 008e 40F8043C 		str	r3, [r0, #-4]
+ 146              	.L8:
+ 147 0092 2846     		mov	r0, r5
+ 148 0094 03B0     		add	sp, sp, #12
+ 149              		@ sp needed
+ 150 0096 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 151              	.L26:
+ 152 009a 9C42     		cmp	r4, r3
+ 153 009c 1BD3     		bcc	.L27
+ 154 009e 4645     		cmp	r6, r8
+ 155 00a0 2DD0     		beq	.L28
+ 156 00a2 08F10108 		add	r8, r8, #1
+ 157 00a6 04EBC802 		add	r2, r4, r8, lsl #3
+ 158 00aa 02F10803 		add	r3, r2, #8
+ 159 00ae ACEB0303 		sub	r3, ip, r3
+ 160 00b2 2568     		ldr	r5, [r4]
+ 161 00b4 44F83850 		str	r5, [r4, r8, lsl #3]
+ 162 00b8 DB10     		asrs	r3, r3, #3
+ 163 00ba 5360     		str	r3, [r2, #4]
+ 164 00bc 04F10805 		add	r5, r4, #8
+ 165 00c0 0A60     		str	r2, [r1]
+ 166 00c2 2346     		mov	r3, r4
+ 167              	.L13:
+ 168 00c4 019A     		ldr	r2, [sp, #4]
+ 169 00c6 C3E90092 		strd	r9, r2, [r3]
+ 170 00ca FFF7FEFF 		bl	chMtxUnlock
+ 171 00ce 2846     		mov	r0, r5
+ARM GAS  /tmp/cceJAVBQ.s 			page 4
+
+
+ 172 00d0 03B0     		add	sp, sp, #12
+ 173              		@ sp needed
+ 174 00d2 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 175              	.L27:
+ 176 00d6 04F10802 		add	r2, r4, #8
+ 177 00da 9A1A     		subs	r2, r3, r2
+ 178 00dc D210     		asrs	r2, r2, #3
+ 179 00de C345     		cmp	fp, r8
+ 180 00e0 6260     		str	r2, [r4, #4]
+ 181 00e2 EFD9     		bls	.L13
+ 182 00e4 08F10106 		add	r6, r8, #1
+ 183 00e8 03EBC601 		add	r1, r3, r6, lsl #3
+ 184 00ec 6FEA0802 		mvn	r2, r8
+ 185 00f0 5A44     		add	r2, r2, fp
+ 186 00f2 4A60     		str	r2, [r1, #4]
+ 187 00f4 2268     		ldr	r2, [r4]
+ 188 00f6 43F83620 		str	r2, [r3, r6, lsl #3]
+ 189 00fa 2160     		str	r1, [r4]
+ 190 00fc E2E7     		b	.L13
+ 191              	.L28:
+ 192 00fe 2546     		mov	r5, r4
+ 193 0100 2346     		mov	r3, r4
+ 194 0102 55F8082B 		ldr	r2, [r5], #8
+ 195 0106 0A60     		str	r2, [r1]
+ 196 0108 DCE7     		b	.L13
+ 197              	.L30:
+ 198 010a 00BF     		.align	2
+ 199              	.L29:
+ 200 010c 00000000 		.word	.LANCHOR0
+ 201              		.size	chHeapAllocAligned, .-chHeapAllocAligned
+ 202              		.section	.text.chHeapFree,"ax",%progbits
+ 203              		.align	1
+ 204              		.p2align 4,,15
+ 205              		.global	chHeapFree
+ 206              		.syntax unified
+ 207              		.thumb
+ 208              		.thumb_func
+ 209              		.fpu fpv4-sp-d16
+ 210              		.type	chHeapFree, %function
+ 211              	chHeapFree:
+ 212              		@ args = 0, pretend = 0, frame = 8
+ 213              		@ frame_needed = 0, uses_anonymous_args = 0
+ 214 0000 70B5     		push	{r4, r5, r6, lr}
+ 215 0002 0646     		mov	r6, r0
+ 216 0004 A0F10804 		sub	r4, r0, #8
+ 217 0008 50E90203 		ldrd	r0, r3, [r0, #-8]
+ 218 000c 0733     		adds	r3, r3, #7
+ 219 000e 82B0     		sub	sp, sp, #8
+ 220 0010 DB08     		lsrs	r3, r3, #3
+ 221 0012 00F10C05 		add	r5, r0, #12
+ 222 0016 46F8043C 		str	r3, [r6, #-4]
+ 223 001a 1430     		adds	r0, r0, #20
+ 224 001c 0190     		str	r0, [sp, #4]
+ 225 001e FFF7FEFF 		bl	chMtxLock
+ 226 0022 0198     		ldr	r0, [sp, #4]
+ 227 0024 2B46     		mov	r3, r5
+ 228              	.L38:
+ARM GAS  /tmp/cceJAVBQ.s 			page 5
+
+
+ 229 0026 9D42     		cmp	r5, r3
+ 230 0028 1A68     		ldr	r2, [r3]
+ 231 002a 01D0     		beq	.L32
+ 232 002c A342     		cmp	r3, r4
+ 233 002e 02D2     		bcs	.L35
+ 234              	.L32:
+ 235 0030 1AB1     		cbz	r2, .L34
+ 236 0032 9442     		cmp	r4, r2
+ 237 0034 01D3     		bcc	.L34
+ 238              	.L35:
+ 239 0036 1346     		mov	r3, r2
+ 240 0038 F5E7     		b	.L38
+ 241              	.L34:
+ 242 003a 46F8082C 		str	r2, [r6, #-8]
+ 243 003e 56F8042C 		ldr	r2, [r6, #-4]
+ 244 0042 1C60     		str	r4, [r3]
+ 245 0044 56F8081C 		ldr	r1, [r6, #-8]
+ 246 0048 0132     		adds	r2, r2, #1
+ 247 004a 04EBC205 		add	r5, r4, r2, lsl #3
+ 248 004e A942     		cmp	r1, r5
+ 249 0050 0AD0     		beq	.L43
+ 250 0052 5968     		ldr	r1, [r3, #4]
+ 251 0054 4A1C     		adds	r2, r1, #1
+ 252 0056 03EBC202 		add	r2, r3, r2, lsl #3
+ 253 005a 9442     		cmp	r4, r2
+ 254 005c 11D0     		beq	.L44
+ 255              	.L37:
+ 256 005e 02B0     		add	sp, sp, #8
+ 257              		@ sp needed
+ 258 0060 BDE87040 		pop	{r4, r5, r6, lr}
+ 259 0064 FFF7FEBF 		b	chMtxUnlock
+ 260              	.L43:
+ 261 0068 4D68     		ldr	r5, [r1, #4]
+ 262 006a 2A44     		add	r2, r2, r5
+ 263 006c 46F8042C 		str	r2, [r6, #-4]
+ 264 0070 0A68     		ldr	r2, [r1]
+ 265 0072 5968     		ldr	r1, [r3, #4]
+ 266 0074 46F8082C 		str	r2, [r6, #-8]
+ 267 0078 4A1C     		adds	r2, r1, #1
+ 268 007a 03EBC202 		add	r2, r3, r2, lsl #3
+ 269 007e 9442     		cmp	r4, r2
+ 270 0080 EDD1     		bne	.L37
+ 271              	.L44:
+ 272 0082 56E90242 		ldrd	r4, r2, [r6, #-8]
+ 273 0086 0132     		adds	r2, r2, #1
+ 274 0088 1144     		add	r1, r1, r2
+ 275 008a C3E90041 		strd	r4, r1, [r3]
+ 276 008e 02B0     		add	sp, sp, #8
+ 277              		@ sp needed
+ 278 0090 BDE87040 		pop	{r4, r5, r6, lr}
+ 279 0094 FFF7FEBF 		b	chMtxUnlock
+ 280              		.size	chHeapFree, .-chHeapFree
+ 281              		.section	.text.chHeapStatus,"ax",%progbits
+ 282              		.align	1
+ 283              		.p2align 4,,15
+ 284              		.global	chHeapStatus
+ 285              		.syntax unified
+ARM GAS  /tmp/cceJAVBQ.s 			page 6
+
+
+ 286              		.thumb
+ 287              		.thumb_func
+ 288              		.fpu fpv4-sp-d16
+ 289              		.type	chHeapStatus, %function
+ 290              	chHeapStatus:
+ 291              		@ args = 0, pretend = 0, frame = 8
+ 292              		@ frame_needed = 0, uses_anonymous_args = 0
+ 293 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 294 0002 174C     		ldr	r4, .L60
+ 295 0004 83B0     		sub	sp, sp, #12
+ 296 0006 0028     		cmp	r0, #0
+ 297 0008 18BF     		it	ne
+ 298 000a 0446     		movne	r4, r0
+ 299 000c 04F11400 		add	r0, r4, #20
+ 300 0010 0190     		str	r0, [sp, #4]
+ 301 0012 0F46     		mov	r7, r1
+ 302 0014 1646     		mov	r6, r2
+ 303 0016 FFF7FEFF 		bl	chMtxLock
+ 304 001a E368     		ldr	r3, [r4, #12]
+ 305 001c 0198     		ldr	r0, [sp, #4]
+ 306 001e D3B1     		cbz	r3, .L51
+ 307 0020 4FF0000C 		mov	ip, #0
+ 308 0024 E646     		mov	lr, ip
+ 309 0026 6546     		mov	r5, ip
+ 310              	.L48:
+ 311 0028 D3E90034 		ldrd	r3, r4, [r3]
+ 312 002c A445     		cmp	ip, r4
+ 313 002e 05F10105 		add	r5, r5, #1
+ 314 0032 A644     		add	lr, lr, r4
+ 315 0034 38BF     		it	cc
+ 316 0036 A446     		movcc	ip, r4
+ 317 0038 002B     		cmp	r3, #0
+ 318 003a F5D1     		bne	.L48
+ 319              	.L47:
+ 320 003c 17B1     		cbz	r7, .L49
+ 321 003e 4FEACE03 		lsl	r3, lr, #3
+ 322 0042 3B60     		str	r3, [r7]
+ 323              	.L49:
+ 324 0044 16B1     		cbz	r6, .L50
+ 325 0046 4FEACC03 		lsl	r3, ip, #3
+ 326 004a 3360     		str	r3, [r6]
+ 327              	.L50:
+ 328 004c FFF7FEFF 		bl	chMtxUnlock
+ 329 0050 2846     		mov	r0, r5
+ 330 0052 03B0     		add	sp, sp, #12
+ 331              		@ sp needed
+ 332 0054 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 333              	.L51:
+ 334 0056 9C46     		mov	ip, r3
+ 335 0058 9E46     		mov	lr, r3
+ 336 005a 1D46     		mov	r5, r3
+ 337 005c EEE7     		b	.L47
+ 338              	.L61:
+ 339 005e 00BF     		.align	2
+ 340              	.L60:
+ 341 0060 00000000 		.word	.LANCHOR0
+ 342              		.size	chHeapStatus, .-chHeapStatus
+ARM GAS  /tmp/cceJAVBQ.s 			page 7
+
+
+ 343              		.section	.text.chHeapIntegrityCheck,"ax",%progbits
+ 344              		.align	1
+ 345              		.p2align 4,,15
+ 346              		.global	chHeapIntegrityCheck
+ 347              		.syntax unified
+ 348              		.thumb
+ 349              		.thumb_func
+ 350              		.fpu fpv4-sp-d16
+ 351              		.type	chHeapIntegrityCheck, %function
+ 352              	chHeapIntegrityCheck:
+ 353              		@ args = 0, pretend = 0, frame = 8
+ 354              		@ frame_needed = 0, uses_anonymous_args = 0
+ 355 0000 30B5     		push	{r4, r5, lr}
+ 356 0002 1B4C     		ldr	r4, .L78
+ 357 0004 0028     		cmp	r0, #0
+ 358 0006 18BF     		it	ne
+ 359 0008 0446     		movne	r4, r0
+ 360 000a 83B0     		sub	sp, sp, #12
+ 361 000c 2068     		ldr	r0, [r4]
+ 362 000e 10B1     		cbz	r0, .L66
+ 363 0010 FFF7FEFF 		bl	chMemIsAddressExecutableX
+ 364 0014 40B3     		cbz	r0, .L76
+ 365              	.L66:
+ 366 0016 04F11400 		add	r0, r4, #20
+ 367 001a 0190     		str	r0, [sp, #4]
+ 368 001c FFF7FEFF 		bl	chMtxLock
+ 369 0020 04F10C03 		add	r3, r4, #12
+ 370 0024 0198     		ldr	r0, [sp, #4]
+ 371 0026 1B68     		ldr	r3, [r3]
+ 372 0028 0022     		movs	r2, #0
+ 373 002a ABB1     		cbz	r3, .L77
+ 374              	.L69:
+ 375 002c 9A42     		cmp	r2, r3
+ 376 002e 15D2     		bcs	.L74
+ 377 0030 5A07     		lsls	r2, r3, #29
+ 378 0032 13D1     		bne	.L74
+ 379 0034 5A68     		ldr	r2, [r3, #4]
+ 380 0036 6568     		ldr	r5, [r4, #4]
+ 381 0038 A168     		ldr	r1, [r4, #8]
+ 382 003a 03EBC202 		add	r2, r3, r2, lsl #3
+ 383 003e 0732     		adds	r2, r2, #7
+ 384 0040 9342     		cmp	r3, r2
+ 385 0042 0BD8     		bhi	.L74
+ 386 0044 0139     		subs	r1, r1, #1
+ 387 0046 AB42     		cmp	r3, r5
+ 388 0048 2944     		add	r1, r1, r5
+ 389 004a 07D3     		bcc	.L74
+ 390 004c 8A42     		cmp	r2, r1
+ 391 004e 05D8     		bhi	.L74
+ 392 0050 1A46     		mov	r2, r3
+ 393 0052 1B68     		ldr	r3, [r3]
+ 394 0054 002B     		cmp	r3, #0
+ 395 0056 E9D1     		bne	.L69
+ 396              	.L77:
+ 397 0058 1C46     		mov	r4, r3
+ 398 005a 00E0     		b	.L68
+ 399              	.L74:
+ARM GAS  /tmp/cceJAVBQ.s 			page 8
+
+
+ 400 005c 0124     		movs	r4, #1
+ 401              	.L68:
+ 402 005e FFF7FEFF 		bl	chMtxUnlock
+ 403 0062 2046     		mov	r0, r4
+ 404 0064 03B0     		add	sp, sp, #12
+ 405              		@ sp needed
+ 406 0066 30BD     		pop	{r4, r5, pc}
+ 407              	.L76:
+ 408 0068 0124     		movs	r4, #1
+ 409 006a 2046     		mov	r0, r4
+ 410 006c 03B0     		add	sp, sp, #12
+ 411              		@ sp needed
+ 412 006e 30BD     		pop	{r4, r5, pc}
+ 413              	.L79:
+ 414              		.align	2
+ 415              	.L78:
+ 416 0070 00000000 		.word	.LANCHOR0
+ 417              		.size	chHeapIntegrityCheck, .-chHeapIntegrityCheck
+ 418              		.section	.bss.default_heap,"aw",%nobits
+ 419              		.align	2
+ 420              		.set	.LANCHOR0,. + 0
+ 421              		.type	default_heap, %object
+ 422              		.size	default_heap, 36
+ 423              	default_heap:
+ 424 0000 00000000 		.space	36
+ 424      00000000 
+ 424      00000000 
+ 424      00000000 
+ 424      00000000 
+ 425              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/cceJAVBQ.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 chmemheaps.c
+     /tmp/cceJAVBQ.s:15     .text.__heap_init:0000000000000000 $t
+     /tmp/cceJAVBQ.s:24     .text.__heap_init:0000000000000000 __heap_init
+     /tmp/cceJAVBQ.s:41     .text.__heap_init:0000000000000024 $d
+     /tmp/cceJAVBQ.s:45     .text.chHeapObjectInit:0000000000000000 $t
+     /tmp/cceJAVBQ.s:53     .text.chHeapObjectInit:0000000000000000 chHeapObjectInit
+     /tmp/cceJAVBQ.s:77     .text.chHeapAllocAligned:0000000000000000 $t
+     /tmp/cceJAVBQ.s:85     .text.chHeapAllocAligned:0000000000000000 chHeapAllocAligned
+     /tmp/cceJAVBQ.s:200    .text.chHeapAllocAligned:000000000000010c $d
+     /tmp/cceJAVBQ.s:203    .text.chHeapFree:0000000000000000 $t
+     /tmp/cceJAVBQ.s:211    .text.chHeapFree:0000000000000000 chHeapFree
+     /tmp/cceJAVBQ.s:282    .text.chHeapStatus:0000000000000000 $t
+     /tmp/cceJAVBQ.s:290    .text.chHeapStatus:0000000000000000 chHeapStatus
+     /tmp/cceJAVBQ.s:341    .text.chHeapStatus:0000000000000060 $d
+     /tmp/cceJAVBQ.s:344    .text.chHeapIntegrityCheck:0000000000000000 $t
+     /tmp/cceJAVBQ.s:352    .text.chHeapIntegrityCheck:0000000000000000 chHeapIntegrityCheck
+     /tmp/cceJAVBQ.s:416    .text.chHeapIntegrityCheck:0000000000000070 $d
+     /tmp/cceJAVBQ.s:419    .bss.default_heap:0000000000000000 $d
+     /tmp/cceJAVBQ.s:423    .bss.default_heap:0000000000000000 default_heap
+
+UNDEFINED SYMBOLS
+chCoreGetStatusX
+chMtxObjectInit
+chCoreAllocFromTop
+chMtxLock
+chMtxUnlock
+chMemIsAddressExecutableX

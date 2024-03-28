@@ -1,0 +1,567 @@
+ARM GAS  /tmp/ccMaiDjn.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"sys_time_arch.c"
+  13              		.text
+  14              		.section	.rodata.thd_sys_tick.str1.4,"aMS",%progbits,1
+  15              		.align	2
+  16              	.LC0:
+  17 0000 7379735F 		.ascii	"sys_tick_handler\000"
+  17      7469636B 
+  17      5F68616E 
+  17      646C6572 
+  17      00
+  18              		.global	__aeabi_f2d
+  19              		.global	__aeabi_dadd
+  20              		.global	__aeabi_d2uiz
+  21              		.section	.text.thd_sys_tick,"ax",%progbits
+  22              		.align	1
+  23              		.p2align 4,,15
+  24              		.arch armv7e-m
+  25              		.syntax unified
+  26              		.thumb
+  27              		.thumb_func
+  28              		.fpu fpv4-sp-d16
+  29              		.type	thd_sys_tick, %function
+  30              	thd_sys_tick:
+  31              		@ Volatile: function does not return.
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34 0000 DFF80891 		ldr	r9, .L14+28
+  35 0004 3A4D     		ldr	r5, .L14
+  36 0006 3B4A     		ldr	r2, .L14+4
+  37 0008 DFF804A1 		ldr	r10, .L14+32
+  38 000c 2DE98848 		push	{r3, r7, fp, lr}
+  39 0010 D9F80C30 		ldr	r3, [r9, #12]
+  40 0014 2C46     		mov	r4, r5
+  41 0016 DA61     		str	r2, [r3, #28]
+  42              	.L7:
+  43 0018 3026     		movs	r6, #48
+  44              		.syntax unified
+  45              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  46 001a 86F31188 		MSR basepri, r6
+  47              	@ 0 "" 2
+  48              		.thumb
+  49              		.syntax unified
+  50 001e FFF7FEFF 		bl	__stats_start_measure_crit_thd
+  51 0022 0027     		movs	r7, #0
+  52 0024 D9F81CB0 		ldr	fp, [r9, #28]
+  53 0028 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ARM GAS  /tmp/ccMaiDjn.s 			page 2
+
+
+  54              		.syntax unified
+  55              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  56 002c 87F31188 		MSR basepri, r7
+  57              	@ 0 "" 2
+  58              		.thumb
+  59              		.syntax unified
+  60 0030 5046     		mov	r0, r10
+  61 0032 FFF7FEFF 		bl	chMtxLock
+  62 0036 AB68     		ldr	r3, [r5, #8]
+  63 0038 0133     		adds	r3, r3, #1
+  64 003a AB60     		str	r3, [r5, #8]
+  65              		.syntax unified
+  66              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  67 003c 86F31188 		MSR basepri, r6
+  68              	@ 0 "" 2
+  69              		.thumb
+  70              		.syntax unified
+  71 0040 FFF7FEFF 		bl	__stats_start_measure_crit_thd
+  72 0044 D9F81C60 		ldr	r6, [r9, #28]
+  73 0048 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+  74              		.syntax unified
+  75              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  76 004c 87F31188 		MSR basepri, r7
+  77              	@ 0 "" 2
+  78              		.thumb
+  79              		.syntax unified
+  80 0050 294B     		ldr	r3, .L14+8
+  81 0052 2A4A     		ldr	r2, .L14+12
+  82 0054 5B68     		ldr	r3, [r3, #4]
+  83 0056 1360     		str	r3, [r2]
+  84 0058 294B     		ldr	r3, .L14+16
+  85 005a 2968     		ldr	r1, [r5]
+  86 005c A3FB0623 		umull	r2, r3, r3, r6
+  87 0060 B1EB533F 		cmp	r1, r3, lsr #13
+  88 0064 4FEA5332 		lsr	r2, r3, #13
+  89 0068 04D2     		bcs	.L2
+  90 006a 2649     		ldr	r1, .L14+20
+  91 006c 4B69     		ldr	r3, [r1, #20]
+  92 006e 83F00803 		eor	r3, r3, #8
+  93 0072 4B61     		str	r3, [r1, #20]
+  94              	.L2:
+  95 0074 2A60     		str	r2, [r5]
+  96 0076 D5ED007A 		vldr.32	s15, [r5]	@ int
+  97 007a 95ED567A 		vldr.32	s14, [r5, #344]	@ int
+  98 007e 1C4F     		ldr	r7, .L14
+  99 0080 B8EE477A 		vcvt.f32.u32	s14, s14
+ 100 0084 F8EE677A 		vcvt.f32.u32	s15, s15
+ 101 0088 4FF00108 		mov	r8, #1
+ 102 008c 67EE277A 		vmul.f32	s15, s14, s15
+ 103 0090 17EE900A 		vmov	r0, s15
+ 104 0094 FFF7FEFF 		bl	__aeabi_f2d
+ 105 0098 1B4B     		ldr	r3, .L14+24
+ 106 009a 0022     		movs	r2, #0
+ 107 009c FFF7FEFF 		bl	__aeabi_dadd
+ 108 00a0 FFF7FEFF 		bl	__aeabi_d2uiz
+ 109 00a4 301A     		subs	r0, r6, r0
+ 110 00a6 6860     		str	r0, [r5, #4]
+ARM GAS  /tmp/ccMaiDjn.s 			page 3
+
+
+ 111 00a8 0026     		movs	r6, #0
+ 112 00aa 2546     		mov	r5, r4
+ 113              	.L6:
+ 114 00ac 3B7B     		ldrb	r3, [r7, #12]	@ zero_extendqisi2
+ 115 00ae 83B1     		cbz	r3, .L4
+ 116 00b0 A268     		ldr	r2, [r4, #8]
+ 117 00b2 B869     		ldr	r0, [r7, #24]
+ 118 00b4 06EB8603 		add	r3, r6, r6, lsl #2
+ 119 00b8 8242     		cmp	r2, r0
+ 120 00ba 04EB8303 		add	r3, r4, r3, lsl #2
+ 121 00be 08D3     		bcc	.L4
+ 122 00c0 FA69     		ldr	r2, [r7, #28]
+ 123 00c2 3969     		ldr	r1, [r7, #16]
+ 124 00c4 0244     		add	r2, r2, r0
+ 125 00c6 BA61     		str	r2, [r7, #24]
+ 126 00c8 F0B2     		uxtb	r0, r6
+ 127 00ca 83F81480 		strb	r8, [r3, #20]
+ 128 00ce 01B1     		cbz	r1, .L4
+ 129 00d0 8847     		blx	r1
+ 130              	.L4:
+ 131 00d2 0136     		adds	r6, r6, #1
+ 132 00d4 102E     		cmp	r6, #16
+ 133 00d6 07F11407 		add	r7, r7, #20
+ 134 00da E7D1     		bne	.L6
+ 135 00dc 5046     		mov	r0, r10
+ 136 00de FFF7FEFF 		bl	chMtxUnlock
+ 137 00e2 0BF10501 		add	r1, fp, #5
+ 138 00e6 5846     		mov	r0, fp
+ 139 00e8 FFF7FEFF 		bl	chThdSleepUntilWindowed
+ 140 00ec 94E7     		b	.L7
+ 141              	.L15:
+ 142 00ee 00BF     		.align	2
+ 143              	.L14:
+ 144 00f0 00000000 		.word	sys_time
+ 145 00f4 00000000 		.word	.LC0
+ 146 00f8 001000E0 		.word	-536866816
+ 147 00fc 00000000 		.word	.LANCHOR1
+ 148 0100 5917B7D1 		.word	-776530087
+ 149 0104 00080240 		.word	1073874944
+ 150 0108 0000E03F 		.word	1071644672
+ 151 010c 00000000 		.word	ch0
+ 152 0110 00000000 		.word	.LANCHOR0
+ 153              		.size	thd_sys_tick, .-thd_sys_tick
+ 154              		.section	.text.sys_time_arch_init,"ax",%progbits
+ 155              		.align	1
+ 156              		.p2align 4,,15
+ 157              		.global	sys_time_arch_init
+ 158              		.syntax unified
+ 159              		.thumb
+ 160              		.thumb_func
+ 161              		.fpu fpv4-sp-d16
+ 162              		.type	sys_time_arch_init, %function
+ 163              	sys_time_arch_init:
+ 164              		@ args = 0, pretend = 0, frame = 0
+ 165              		@ frame_needed = 0, uses_anonymous_args = 0
+ 166 0000 10B5     		push	{r4, lr}
+ 167 0002 114C     		ldr	r4, .L18
+ARM GAS  /tmp/ccMaiDjn.s 			page 4
+
+
+ 168 0004 DFED117A 		vldr.32	s15, .L18+4
+ 169 0008 94ED537A 		vldr.32	s14, [r4, #332]
+ 170 000c 67EE277A 		vmul.f32	s15, s14, s15
+ 171 0010 82B0     		sub	sp, sp, #8
+ 172 0012 17EE900A 		vmov	r0, s15
+ 173 0016 42F21073 		movw	r3, #10000
+ 174 001a C4F85831 		str	r3, [r4, #344]
+ 175 001e FFF7FEFF 		bl	__aeabi_f2d
+ 176 0022 0B4B     		ldr	r3, .L18+8
+ 177 0024 0022     		movs	r2, #0
+ 178 0026 FFF7FEFF 		bl	__aeabi_dadd
+ 179 002a FFF7FEFF 		bl	__aeabi_d2uiz
+ 180 002e 0022     		movs	r2, #0
+ 181 0030 0092     		str	r2, [sp]
+ 182 0032 C4F85401 		str	r0, [r4, #340]
+ 183 0036 074B     		ldr	r3, .L18+12
+ 184 0038 0748     		ldr	r0, .L18+16
+ 185 003a 8222     		movs	r2, #130
+ 186 003c 4FF4BB61 		mov	r1, #1496
+ 187 0040 FFF7FEFF 		bl	chThdCreateStatic
+ 188 0044 02B0     		add	sp, sp, #8
+ 189              		@ sp needed
+ 190 0046 10BD     		pop	{r4, pc}
+ 191              	.L19:
+ 192              		.align	2
+ 193              	.L18:
+ 194 0048 00000000 		.word	sys_time
+ 195 004c 00401C46 		.word	1176256512
+ 196 0050 0000E03F 		.word	1071644672
+ 197 0054 00000000 		.word	thd_sys_tick
+ 198 0058 00000000 		.word	.LANCHOR2
+ 199              		.size	sys_time_arch_init, .-sys_time_arch_init
+ 200              		.global	__aeabi_uldivmod
+ 201              		.global	__aeabi_ldivmod
+ 202              		.section	.text.get_sys_time_usec,"ax",%progbits
+ 203              		.align	1
+ 204              		.p2align 4,,15
+ 205              		.global	get_sys_time_usec
+ 206              		.syntax unified
+ 207              		.thumb
+ 208              		.thumb_func
+ 209              		.fpu fpv4-sp-d16
+ 210              		.type	get_sys_time_usec, %function
+ 211              	get_sys_time_usec:
+ 212              		@ args = 0, pretend = 0, frame = 0
+ 213              		@ frame_needed = 0, uses_anonymous_args = 0
+ 214 0000 70B5     		push	{r4, r5, r6, lr}
+ 215 0002 134D     		ldr	r5, .L22
+ 216 0004 2846     		mov	r0, r5
+ 217 0006 FFF7FEFF 		bl	chMtxLock
+ 218 000a 124A     		ldr	r2, .L22+4
+ 219 000c 124B     		ldr	r3, .L22+8
+ 220 000e 5B68     		ldr	r3, [r3, #4]
+ 221 0010 1468     		ldr	r4, [r2]
+ 222 0012 5668     		ldr	r6, [r2, #4]
+ 223 0014 114A     		ldr	r2, .L22+12
+ 224 0016 1268     		ldr	r2, [r2]
+ARM GAS  /tmp/ccMaiDjn.s 			page 5
+
+
+ 225 0018 013B     		subs	r3, r3, #1
+ 226 001a 9B1A     		subs	r3, r3, r2
+ 227 001c 104A     		ldr	r2, .L22+16
+ 228 001e DB08     		lsrs	r3, r3, #3
+ 229 0020 A2FB0323 		umull	r2, r3, r2, r3
+ 230 0024 0F4A     		ldr	r2, .L22+20
+ 231 0026 02FB04F4 		mul	r4, r2, r4
+ 232 002a 0134     		adds	r4, r4, #1
+ 233 002c 42F20F70 		movw	r0, #9999
+ 234 0030 0021     		movs	r1, #0
+ 235 0032 E6FB0201 		umlal	r0, r1, r6, r2
+ 236 0036 04EB5304 		add	r4, r4, r3, lsr #1
+ 237 003a 42F21072 		movw	r2, #10000
+ 238 003e 0023     		movs	r3, #0
+ 239 0040 FFF7FEFF 		bl	__aeabi_uldivmod
+ 240 0044 0444     		add	r4, r4, r0
+ 241 0046 2846     		mov	r0, r5
+ 242 0048 FFF7FEFF 		bl	chMtxUnlock
+ 243 004c 2046     		mov	r0, r4
+ 244 004e 70BD     		pop	{r4, r5, r6, pc}
+ 245              	.L23:
+ 246              		.align	2
+ 247              	.L22:
+ 248 0050 00000000 		.word	.LANCHOR0
+ 249 0054 00000000 		.word	sys_time
+ 250 0058 001000E0 		.word	-536866816
+ 251 005c 00000000 		.word	.LANCHOR1
+ 252 0060 19866118 		.word	409044505
+ 253 0064 40420F00 		.word	1000000
+ 254              		.size	get_sys_time_usec, .-get_sys_time_usec
+ 255              		.section	.text.get_sys_time_usec100,"ax",%progbits
+ 256              		.align	1
+ 257              		.p2align 4,,15
+ 258              		.global	get_sys_time_usec100
+ 259              		.syntax unified
+ 260              		.thumb
+ 261              		.thumb_func
+ 262              		.fpu fpv4-sp-d16
+ 263              		.type	get_sys_time_usec100, %function
+ 264              	get_sys_time_usec100:
+ 265              		@ args = 0, pretend = 0, frame = 0
+ 266              		@ frame_needed = 0, uses_anonymous_args = 0
+ 267 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 268 0002 184C     		ldr	r4, .L26
+ 269 0004 184E     		ldr	r6, .L26+4
+ 270 0006 194F     		ldr	r7, .L26+8
+ 271 0008 2046     		mov	r0, r4
+ 272 000a FFF7FEFF 		bl	chMtxLock
+ 273 000e 184B     		ldr	r3, .L26+12
+ 274 0010 1849     		ldr	r1, .L26+16
+ 275 0012 5B68     		ldr	r3, [r3, #4]
+ 276 0014 0968     		ldr	r1, [r1]
+ 277 0016 184A     		ldr	r2, .L26+20
+ 278 0018 013B     		subs	r3, r3, #1
+ 279 001a 5B1A     		subs	r3, r3, r1
+ 280 001c 1749     		ldr	r1, .L26+24
+ 281 001e 1568     		ldr	r5, [r2]
+ARM GAS  /tmp/ccMaiDjn.s 			page 6
+
+
+ 282 0020 5268     		ldr	r2, [r2, #4]
+ 283 0022 DB08     		lsrs	r3, r3, #3
+ 284 0024 A1FB0313 		umull	r1, r3, r1, r3
+ 285 0028 5B08     		lsrs	r3, r3, #1
+ 286 002a 0133     		adds	r3, r3, #1
+ 287 002c A6FB0313 		umull	r1, r3, r6, r3
+ 288 0030 42F20F70 		movw	r0, #9999
+ 289 0034 0021     		movs	r1, #0
+ 290 0036 E2FB0701 		umlal	r0, r1, r2, r7
+ 291 003a 42F21072 		movw	r2, #10000
+ 292 003e 02FB05F5 		mul	r5, r2, r5
+ 293 0042 05EB5315 		add	r5, r5, r3, lsr #5
+ 294 0046 42F21072 		movw	r2, #10000
+ 295 004a 0023     		movs	r3, #0
+ 296 004c FFF7FEFF 		bl	__aeabi_uldivmod
+ 297 0050 A6FB0030 		umull	r3, r0, r6, r0
+ 298 0054 05EB5015 		add	r5, r5, r0, lsr #5
+ 299 0058 2046     		mov	r0, r4
+ 300 005a FFF7FEFF 		bl	chMtxUnlock
+ 301 005e 2846     		mov	r0, r5
+ 302 0060 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 303              	.L27:
+ 304 0062 00BF     		.align	2
+ 305              	.L26:
+ 306 0064 00000000 		.word	.LANCHOR0
+ 307 0068 1F85EB51 		.word	1374389535
+ 308 006c 40420F00 		.word	1000000
+ 309 0070 001000E0 		.word	-536866816
+ 310 0074 00000000 		.word	.LANCHOR1
+ 311 0078 00000000 		.word	sys_time
+ 312 007c 19866118 		.word	409044505
+ 313              		.size	get_sys_time_usec100, .-get_sys_time_usec100
+ 314              		.section	.text.get_sys_time_msec,"ax",%progbits
+ 315              		.align	1
+ 316              		.p2align 4,,15
+ 317              		.global	get_sys_time_msec
+ 318              		.syntax unified
+ 319              		.thumb
+ 320              		.thumb_func
+ 321              		.fpu fpv4-sp-d16
+ 322              		.type	get_sys_time_msec, %function
+ 323              	get_sys_time_msec:
+ 324              		@ args = 0, pretend = 0, frame = 0
+ 325              		@ frame_needed = 0, uses_anonymous_args = 0
+ 326 0000 70B5     		push	{r4, r5, r6, lr}
+ 327 0002 134D     		ldr	r5, .L30
+ 328 0004 2846     		mov	r0, r5
+ 329 0006 FFF7FEFF 		bl	chMtxLock
+ 330 000a 124A     		ldr	r2, .L30+4
+ 331 000c 124B     		ldr	r3, .L30+8
+ 332 000e 5B68     		ldr	r3, [r3, #4]
+ 333 0010 1468     		ldr	r4, [r2]
+ 334 0012 5668     		ldr	r6, [r2, #4]
+ 335 0014 114A     		ldr	r2, .L30+12
+ 336 0016 1268     		ldr	r2, [r2]
+ 337 0018 013B     		subs	r3, r3, #1
+ 338 001a 9B1A     		subs	r3, r3, r2
+ARM GAS  /tmp/ccMaiDjn.s 			page 7
+
+
+ 339 001c 104A     		ldr	r2, .L30+16
+ 340 001e A2FB0323 		umull	r2, r3, r2, r3
+ 341 0022 4FF47A72 		mov	r2, #1000
+ 342 0026 02FB04F4 		mul	r4, r2, r4
+ 343 002a 0134     		adds	r4, r4, #1
+ 344 002c 42F20F70 		movw	r0, #9999
+ 345 0030 0021     		movs	r1, #0
+ 346 0032 E6FB0201 		umlal	r0, r1, r6, r2
+ 347 0036 04EBD334 		add	r4, r4, r3, lsr #15
+ 348 003a 42F21072 		movw	r2, #10000
+ 349 003e 0023     		movs	r3, #0
+ 350 0040 FFF7FEFF 		bl	__aeabi_uldivmod
+ 351 0044 0444     		add	r4, r4, r0
+ 352 0046 2846     		mov	r0, r5
+ 353 0048 FFF7FEFF 		bl	chMtxUnlock
+ 354 004c 2046     		mov	r0, r4
+ 355 004e 70BD     		pop	{r4, r5, r6, pc}
+ 356              	.L31:
+ 357              		.align	2
+ 358              	.L30:
+ 359 0050 00000000 		.word	.LANCHOR0
+ 360 0054 00000000 		.word	sys_time
+ 361 0058 001000E0 		.word	-536866816
+ 362 005c 00000000 		.word	.LANCHOR1
+ 363 0060 09A4EE31 		.word	837723145
+ 364              		.size	get_sys_time_msec, .-get_sys_time_msec
+ 365              		.section	.text.sys_time_usleep,"ax",%progbits
+ 366              		.align	1
+ 367              		.p2align 4,,15
+ 368              		.global	sys_time_usleep
+ 369              		.syntax unified
+ 370              		.thumb
+ 371              		.thumb_func
+ 372              		.fpu fpv4-sp-d16
+ 373              		.type	sys_time_usleep, %function
+ 374              	sys_time_usleep:
+ 375              		@ args = 0, pretend = 0, frame = 0
+ 376              		@ frame_needed = 0, uses_anonymous_args = 0
+ 377 0000 B0F57A7F 		cmp	r0, #1000
+ 378 0004 08B5     		push	{r3, lr}
+ 379 0006 0AD2     		bcs	.L33
+ 380              		.syntax unified
+ 381              	@ 142 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 382 0008 72B6     		cpsid i
+ 383              	@ 0 "" 2
+ 384              		.thumb
+ 385              		.syntax unified
+ 386 000a A823     		movs	r3, #168
+ 387 000c 03FB00F0 		mul	r0, r3, r0
+ 388 0010 FFF7FEFF 		bl	chSysPolledDelayX
+ 389 0014 0023     		movs	r3, #0
+ 390              		.syntax unified
+ 391              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 392 0016 83F31188 		MSR basepri, r3
+ 393              	@ 0 "" 2
+ 394              	@ 131 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 395 001a 62B6     		cpsie i
+ARM GAS  /tmp/ccMaiDjn.s 			page 8
+
+
+ 396              	@ 0 "" 2
+ 397              		.thumb
+ 398              		.syntax unified
+ 399 001c 08BD     		pop	{r3, pc}
+ 400              	.L33:
+ 401 001e 074B     		ldr	r3, .L37
+ 402 0020 42F21072 		movw	r2, #10000
+ 403 0024 0021     		movs	r1, #0
+ 404 0026 E0FB0231 		umlal	r3, r1, r0, r2
+ 405 002a 1846     		mov	r0, r3
+ 406 002c 044A     		ldr	r2, .L37+4
+ 407 002e 0023     		movs	r3, #0
+ 408 0030 FFF7FEFF 		bl	__aeabi_uldivmod
+ 409 0034 BDE80840 		pop	{r3, lr}
+ 410 0038 FFF7FEBF 		b	chThdSleep
+ 411              	.L38:
+ 412              		.align	2
+ 413              	.L37:
+ 414 003c 3F420F00 		.word	999999
+ 415 0040 40420F00 		.word	1000000
+ 416              		.size	sys_time_usleep, .-sys_time_usleep
+ 417              		.section	.text.sys_time_msleep,"ax",%progbits
+ 418              		.align	1
+ 419              		.p2align 4,,15
+ 420              		.global	sys_time_msleep
+ 421              		.syntax unified
+ 422              		.thumb
+ 423              		.thumb_func
+ 424              		.fpu fpv4-sp-d16
+ 425              		.type	sys_time_msleep, %function
+ 426              	sys_time_msleep:
+ 427              		@ args = 0, pretend = 0, frame = 0
+ 428              		@ frame_needed = 0, uses_anonymous_args = 0
+ 429 0000 08B5     		push	{r3, lr}
+ 430 0002 42F2107C 		movw	ip, #10000
+ 431 0006 40F2E731 		movw	r1, #999
+ 432 000a 0023     		movs	r3, #0
+ 433 000c 0CFB0010 		mla	r0, ip, r0, r1
+ 434 0010 4FF47A72 		mov	r2, #1000
+ 435 0014 0021     		movs	r1, #0
+ 436 0016 FFF7FEFF 		bl	__aeabi_uldivmod
+ 437 001a BDE80840 		pop	{r3, lr}
+ 438 001e FFF7FEBF 		b	chThdSleep
+ 439              		.size	sys_time_msleep, .-sys_time_msleep
+ 440 0022 00BF     		.section	.text.sys_time_ssleep,"ax",%progbits
+ 441              		.align	1
+ 442              		.p2align 4,,15
+ 443              		.global	sys_time_ssleep
+ 444              		.syntax unified
+ 445              		.thumb
+ 446              		.thumb_func
+ 447              		.fpu fpv4-sp-d16
+ 448              		.type	sys_time_ssleep, %function
+ 449              	sys_time_ssleep:
+ 450              		@ args = 0, pretend = 0, frame = 0
+ 451              		@ frame_needed = 0, uses_anonymous_args = 0
+ 452              		@ link register save eliminated.
+ARM GAS  /tmp/ccMaiDjn.s 			page 9
+
+
+ 453 0000 42F21073 		movw	r3, #10000
+ 454 0004 03FB00F0 		mul	r0, r3, r0
+ 455 0008 FFF7FEBF 		b	chThdSleep
+ 456              		.size	sys_time_ssleep, .-sys_time_ssleep
+ 457              		.section	.bss.cpu_counter,"aw",%nobits
+ 458              		.align	2
+ 459              		.set	.LANCHOR1,. + 0
+ 460              		.type	cpu_counter, %object
+ 461              		.size	cpu_counter, 4
+ 462              	cpu_counter:
+ 463 0000 00000000 		.space	4
+ 464              		.section	.bss.wa_thd_sys_tick,"aw",%nobits
+ 465              		.align	3
+ 466              		.set	.LANCHOR2,. + 0
+ 467              		.type	wa_thd_sys_tick, %object
+ 468              		.size	wa_thd_sys_tick, 1496
+ 469              	wa_thd_sys_tick:
+ 470 0000 00000000 		.space	1496
+ 470      00000000 
+ 470      00000000 
+ 470      00000000 
+ 470      00000000 
+ 471              		.section	.data.sys_time_mtx,"aw"
+ 472              		.align	2
+ 473              		.set	.LANCHOR0,. + 0
+ 474              		.type	sys_time_mtx, %object
+ 475              		.size	sys_time_mtx, 16
+ 476              	sys_time_mtx:
+ 477 0000 00000000 		.word	sys_time_mtx
+ 478 0004 00000000 		.word	sys_time_mtx
+ 479 0008 00000000 		.word	0
+ 480 000c 00000000 		.word	0
+ 481              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccMaiDjn.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 sys_time_arch.c
+     /tmp/ccMaiDjn.s:15     .rodata.thd_sys_tick.str1.4:0000000000000000 $d
+     /tmp/ccMaiDjn.s:22     .text.thd_sys_tick:0000000000000000 $t
+     /tmp/ccMaiDjn.s:30     .text.thd_sys_tick:0000000000000000 thd_sys_tick
+     /tmp/ccMaiDjn.s:144    .text.thd_sys_tick:00000000000000f0 $d
+     /tmp/ccMaiDjn.s:155    .text.sys_time_arch_init:0000000000000000 $t
+     /tmp/ccMaiDjn.s:163    .text.sys_time_arch_init:0000000000000000 sys_time_arch_init
+     /tmp/ccMaiDjn.s:194    .text.sys_time_arch_init:0000000000000048 $d
+     /tmp/ccMaiDjn.s:203    .text.get_sys_time_usec:0000000000000000 $t
+     /tmp/ccMaiDjn.s:211    .text.get_sys_time_usec:0000000000000000 get_sys_time_usec
+     /tmp/ccMaiDjn.s:248    .text.get_sys_time_usec:0000000000000050 $d
+     /tmp/ccMaiDjn.s:256    .text.get_sys_time_usec100:0000000000000000 $t
+     /tmp/ccMaiDjn.s:264    .text.get_sys_time_usec100:0000000000000000 get_sys_time_usec100
+     /tmp/ccMaiDjn.s:306    .text.get_sys_time_usec100:0000000000000064 $d
+     /tmp/ccMaiDjn.s:315    .text.get_sys_time_msec:0000000000000000 $t
+     /tmp/ccMaiDjn.s:323    .text.get_sys_time_msec:0000000000000000 get_sys_time_msec
+     /tmp/ccMaiDjn.s:359    .text.get_sys_time_msec:0000000000000050 $d
+     /tmp/ccMaiDjn.s:366    .text.sys_time_usleep:0000000000000000 $t
+     /tmp/ccMaiDjn.s:374    .text.sys_time_usleep:0000000000000000 sys_time_usleep
+     /tmp/ccMaiDjn.s:414    .text.sys_time_usleep:000000000000003c $d
+     /tmp/ccMaiDjn.s:418    .text.sys_time_msleep:0000000000000000 $t
+     /tmp/ccMaiDjn.s:426    .text.sys_time_msleep:0000000000000000 sys_time_msleep
+     /tmp/ccMaiDjn.s:441    .text.sys_time_ssleep:0000000000000000 $t
+     /tmp/ccMaiDjn.s:449    .text.sys_time_ssleep:0000000000000000 sys_time_ssleep
+     /tmp/ccMaiDjn.s:458    .bss.cpu_counter:0000000000000000 $d
+     /tmp/ccMaiDjn.s:462    .bss.cpu_counter:0000000000000000 cpu_counter
+     /tmp/ccMaiDjn.s:465    .bss.wa_thd_sys_tick:0000000000000000 $d
+     /tmp/ccMaiDjn.s:469    .bss.wa_thd_sys_tick:0000000000000000 wa_thd_sys_tick
+     /tmp/ccMaiDjn.s:472    .data.sys_time_mtx:0000000000000000 $d
+     /tmp/ccMaiDjn.s:476    .data.sys_time_mtx:0000000000000000 sys_time_mtx
+
+UNDEFINED SYMBOLS
+__aeabi_f2d
+__aeabi_dadd
+__aeabi_d2uiz
+__stats_start_measure_crit_thd
+__stats_stop_measure_crit_thd
+chMtxLock
+chMtxUnlock
+chThdSleepUntilWindowed
+sys_time
+ch0
+chThdCreateStatic
+__aeabi_uldivmod
+__aeabi_ldivmod
+chSysPolledDelayX
+chThdSleep

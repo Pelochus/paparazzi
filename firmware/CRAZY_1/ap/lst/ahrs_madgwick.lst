@@ -1,0 +1,501 @@
+ARM GAS  /tmp/ccjad2p4.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"ahrs_madgwick.c"
+  13              		.text
+  14              		.section	.text.ahrs_madgwick_init,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	ahrs_madgwick_init
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	ahrs_madgwick_init, %function
+  24              	ahrs_madgwick_init:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27              		@ link register save eliminated.
+  28 0000 084B     		ldr	r3, .L3
+  29 0002 0022     		movs	r2, #0
+  30 0004 4FF07E50 		mov	r0, #1065353216
+  31 0008 0021     		movs	r1, #0
+  32 000a 1860     		str	r0, [r3]	@ float
+  33 000c 5A60     		str	r2, [r3, #4]	@ float
+  34 000e 9A60     		str	r2, [r3, #8]	@ float
+  35 0010 DA60     		str	r2, [r3, #12]	@ float
+  36 0012 DA61     		str	r2, [r3, #28]	@ float
+  37 0014 1A62     		str	r2, [r3, #32]	@ float
+  38 0016 5A62     		str	r2, [r3, #36]	@ float
+  39 0018 9A62     		str	r2, [r3, #40]	@ float
+  40 001a DA62     		str	r2, [r3, #44]	@ float
+  41 001c 1A63     		str	r2, [r3, #48]	@ float
+  42 001e 9986     		strh	r1, [r3, #52]	@ movhi
+  43 0020 7047     		bx	lr
+  44              	.L4:
+  45 0022 00BF     		.align	2
+  46              	.L3:
+  47 0024 00000000 		.word	.LANCHOR0
+  48              		.size	ahrs_madgwick_init, .-ahrs_madgwick_init
+  49              		.global	__aeabi_f2d
+  50              		.global	__aeabi_dsub
+  51              		.global	__aeabi_dcmplt
+  52              		.global	__aeabi_dcmpgt
+  53              		.section	.text.ahrs_madgwick_align,"ax",%progbits
+  54              		.align	1
+  55              		.p2align 4,,15
+  56              		.global	ahrs_madgwick_align
+  57              		.syntax unified
+ARM GAS  /tmp/ccjad2p4.s 			page 2
+
+
+  58              		.thumb
+  59              		.thumb_func
+  60              		.fpu fpv4-sp-d16
+  61              		.type	ahrs_madgwick_align, %function
+  62              	ahrs_madgwick_align:
+  63              		@ args = 0, pretend = 0, frame = 0
+  64              		@ frame_needed = 0, uses_anonymous_args = 0
+  65 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+  66 0002 2DED048B 		vpush.64	{d8, d9}
+  67 0006 91ED018A 		vldr.32	s16, [r1, #4]
+  68 000a 91ED009A 		vldr.32	s18, [r1]
+  69 000e D1ED028A 		vldr.32	s17, [r1, #8]
+  70 0012 68EE087A 		vmul.f32	s15, s16, s16
+  71 0016 0546     		mov	r5, r0
+  72 0018 E9EE097A 		vfma.f32	s15, s18, s18
+  73 001c E8EEA87A 		vfma.f32	s15, s17, s17
+  74 0020 F5EE407A 		vcmp.f32	s15, #0
+  75 0024 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+  76 0028 7ED4     		bmi	.L26
+  77 002a B1EEE77A 		vsqrt.f32	s14, s15
+  78              	.L8:
+  79 002e DFED457A 		vldr.32	s15, .L31
+  80 0032 B4EEE77A 		vcmpe.f32	s14, s15
+  81 0036 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+  82 003a 05DD     		ble	.L9
+  83 003c 89EE079A 		vdiv.f32	s18, s18, s14
+  84 0040 88EE078A 		vdiv.f32	s16, s16, s14
+  85 0044 C8EE878A 		vdiv.f32	s17, s17, s14
+  86              	.L9:
+  87 0048 18EE900A 		vmov	r0, s17
+  88 004c FFF7FEFF 		bl	__aeabi_f2d
+  89 0050 3D4B     		ldr	r3, .L31+4
+  90 0052 0022     		movs	r2, #0
+  91 0054 FFF7FEFF 		bl	__aeabi_dsub
+  92 0058 0022     		movs	r2, #0
+  93 005a 0023     		movs	r3, #0
+  94 005c 0646     		mov	r6, r0
+  95 005e 0F46     		mov	r7, r1
+  96 0060 FFF7FEFF 		bl	__aeabi_dcmplt
+  97 0064 0022     		movs	r2, #0
+  98 0066 C0B9     		cbnz	r0, .L30
+  99 0068 384B     		ldr	r3, .L31+8
+ 100 006a 3046     		mov	r0, r6
+ 101 006c 3946     		mov	r1, r7
+ 102 006e FFF7FEFF 		bl	__aeabi_dcmplt
+ 103 0072 C8B1     		cbz	r0, .L14
+ 104              	.L13:
+ 105 0074 364C     		ldr	r4, .L31+12
+ 106 0076 0023     		movs	r3, #0
+ 107 0078 4FF07E52 		mov	r2, #1065353216
+ 108 007c 2360     		str	r3, [r4]	@ float
+ 109 007e 6260     		str	r2, [r4, #4]	@ float
+ 110 0080 A360     		str	r3, [r4, #8]	@ float
+ 111 0082 E360     		str	r3, [r4, #12]	@ float
+ 112              	.L16:
+ 113 0084 95E80700 		ldm	r5, {r0, r1, r2}
+ 114 0088 BDEC048B 		vldm	sp!, {d8-d9}
+ARM GAS  /tmp/ccjad2p4.s 			page 3
+
+
+ 115 008c 314B     		ldr	r3, .L31+16
+ 116 008e 83E80700 		stm	r3, {r0, r1, r2}
+ 117 0092 0123     		movs	r3, #1
+ 118 0094 84F83530 		strb	r3, [r4, #53]
+ 119 0098 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 120              	.L30:
+ 121 009a 2F4B     		ldr	r3, .L31+20
+ 122 009c 3046     		mov	r0, r6
+ 123 009e 3946     		mov	r1, r7
+ 124 00a0 FFF7FEFF 		bl	__aeabi_dcmpgt
+ 125 00a4 0028     		cmp	r0, #0
+ 126 00a6 E5D1     		bne	.L13
+ 127              	.L14:
+ 128 00a8 F7EE007A 		vmov.f32	s15, #1.0e+0
+ 129 00ac 77EEE88A 		vsub.f32	s17, s15, s17
+ 130 00b0 68EE087A 		vmul.f32	s15, s16, s16
+ 131 00b4 9FED297A 		vldr.32	s14, .L31+24
+ 132 00b8 254C     		ldr	r4, .L31+12
+ 133 00ba E8EEA87A 		vfma.f32	s15, s17, s17
+ 134 00be B1EE488A 		vneg.f32	s16, s16
+ 135 00c2 E9EE097A 		vfma.f32	s15, s18, s18
+ 136 00c6 84ED018A 		vstr.32	s16, [r4, #4]
+ 137 00ca 77EE877A 		vadd.f32	s15, s15, s14
+ 138 00ce 84ED029A 		vstr.32	s18, [r4, #8]
+ 139 00d2 F4EE477A 		vcmp.f32	s15, s14
+ 140 00d6 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 141 00da 84ED037A 		vstr.32	s14, [r4, #12]
+ 142 00de C4ED008A 		vstr.32	s17, [r4]
+ 143 00e2 28D4     		bmi	.L28
+ 144 00e4 B1EEE77A 		vsqrt.f32	s14, s15
+ 145              	.L19:
+ 146 00e8 DFED1D7A 		vldr.32	s15, .L31+28
+ 147 00ec B4EEE77A 		vcmpe.f32	s14, s15
+ 148 00f0 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 149 00f4 C6DD     		ble	.L16
+ 150 00f6 94ED006A 		vldr.32	s12, [r4]
+ 151 00fa D4ED016A 		vldr.32	s13, [r4, #4]
+ 152 00fe D4ED027A 		vldr.32	s15, [r4, #8]
+ 153 0102 94ED035A 		vldr.32	s10, [r4, #12]
+ 154 0106 C6EE075A 		vdiv.f32	s11, s12, s14
+ 155 010a 86EE876A 		vdiv.f32	s12, s13, s14
+ 156 010e C7EE876A 		vdiv.f32	s13, s15, s14
+ 157 0112 C5EE077A 		vdiv.f32	s15, s10, s14
+ 158 0116 C4ED005A 		vstr.32	s11, [r4]
+ 159 011a 84ED016A 		vstr.32	s12, [r4, #4]
+ 160 011e C4ED026A 		vstr.32	s13, [r4, #8]
+ 161 0122 C4ED037A 		vstr.32	s15, [r4, #12]
+ 162 0126 ADE7     		b	.L16
+ 163              	.L26:
+ 164 0128 17EE900A 		vmov	r0, s15
+ 165 012c FFF7FEFF 		bl	sqrtf
+ 166 0130 07EE100A 		vmov	s14, r0
+ 167 0134 7BE7     		b	.L8
+ 168              	.L28:
+ 169 0136 17EE900A 		vmov	r0, s15
+ 170 013a FFF7FEFF 		bl	sqrtf
+ 171 013e 07EE100A 		vmov	s14, r0
+ARM GAS  /tmp/ccjad2p4.s 			page 4
+
+
+ 172 0142 D1E7     		b	.L19
+ 173              	.L32:
+ 174              		.align	2
+ 175              	.L31:
+ 176 0144 17B7D138 		.word	953267991
+ 177 0148 0000F03F 		.word	1072693248
+ 178 014c 00003438 		.word	942931968
+ 179 0150 00000000 		.word	.LANCHOR0
+ 180 0154 1C000000 		.word	.LANCHOR0+28
+ 181 0158 000034B8 		.word	-1204551680
+ 182 015c 00000000 		.word	0
+ 183 0160 00008000 		.word	8388608
+ 184              		.size	ahrs_madgwick_align, .-ahrs_madgwick_align
+ 185              		.section	.text.ahrs_madgwick_propagate,"ax",%progbits
+ 186              		.align	1
+ 187              		.p2align 4,,15
+ 188              		.global	ahrs_madgwick_propagate
+ 189              		.syntax unified
+ 190              		.thumb
+ 191              		.thumb_func
+ 192              		.fpu fpv4-sp-d16
+ 193              		.type	ahrs_madgwick_propagate, %function
+ 194              	ahrs_madgwick_propagate:
+ 195              		@ args = 0, pretend = 0, frame = 24
+ 196              		@ frame_needed = 0, uses_anonymous_args = 0
+ 197 0000 10B5     		push	{r4, lr}
+ 198 0002 BC4C     		ldr	r4, .L57
+ 199 0004 2DED048B 		vpush.64	{d8, d9}
+ 200 0008 94F83430 		ldrb	r3, [r4, #52]	@ zero_extendqisi2
+ 201 000c 08EE101A 		vmov	s16, r1
+ 202 0010 86B0     		sub	sp, sp, #24
+ 203 0012 002B     		cmp	r3, #0
+ 204 0014 40F09080 		bne	.L34
+ 205 0018 D4ED074A 		vldr.32	s9, [r4, #28]
+ 206 001c 94ED085A 		vldr.32	s10, [r4, #32]
+ 207 0020 D4ED095A 		vldr.32	s11, [r4, #36]
+ 208              	.L35:
+ 209 0024 D0ED006A 		vldr.32	s13, [r0]
+ 210 0028 90ED017A 		vldr.32	s14, [r0, #4]
+ 211 002c D0ED027A 		vldr.32	s15, [r0, #8]
+ 212 0030 B04A     		ldr	r2, .L57
+ 213 0032 76EEE46A 		vsub.f32	s13, s13, s9
+ 214 0036 37EE457A 		vsub.f32	s14, s14, s10
+ 215 003a 77EEE57A 		vsub.f32	s15, s15, s11
+ 216 003e 02F11001 		add	r1, r2, #16
+ 217 0042 02A8     		add	r0, sp, #8
+ 218 0044 C4ED046A 		vstr.32	s13, [r4, #16]
+ 219 0048 84ED057A 		vstr.32	s14, [r4, #20]
+ 220 004c C4ED067A 		vstr.32	s15, [r4, #24]
+ 221 0050 FFF7FEFF 		bl	float_quat_derivative
+ 222 0054 D4ED0B7A 		vldr.32	s15, [r4, #44]
+ 223 0058 D4ED0A6A 		vldr.32	s13, [r4, #40]
+ 224 005c 94ED0C7A 		vldr.32	s14, [r4, #48]
+ 225 0060 67EEA77A 		vmul.f32	s15, s15, s15
+ 226 0064 E6EEA67A 		vfma.f32	s15, s13, s13
+ 227 0068 E7EE077A 		vfma.f32	s15, s14, s14
+ 228 006c F5EE407A 		vcmp.f32	s15, #0
+ARM GAS  /tmp/ccjad2p4.s 			page 5
+
+
+ 229 0070 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 230 0074 00F12381 		bmi	.L53
+ 231 0078 B1EEE74A 		vsqrt.f32	s8, s15
+ 232              	.L38:
+ 233 007c DFED9E7A 		vldr.32	s15, .L57+4
+ 234 0080 B4EEE74A 		vcmpe.f32	s8, s15
+ 235 0084 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 236 0088 76DC     		bgt	.L39
+ 237 008a D4ED005A 		vldr.32	s11, [r4]
+ 238 008e 9DED024A 		vldr.32	s8, [sp, #8]
+ 239 0092 94ED017A 		vldr.32	s14, [r4, #4]
+ 240 0096 DDED033A 		vldr.32	s7, [sp, #12]
+ 241 009a D4ED027A 		vldr.32	s15, [r4, #8]
+ 242 009e DDED044A 		vldr.32	s9, [sp, #16]
+ 243 00a2 94ED036A 		vldr.32	s12, [r4, #12]
+ 244 00a6 9DED055A 		vldr.32	s10, [sp, #20]
+ 245              	.L40:
+ 246 00aa A8EE237A 		vfma.f32	s14, s16, s7
+ 247 00ae E8EE247A 		vfma.f32	s15, s16, s9
+ 248 00b2 E8EE045A 		vfma.f32	s11, s16, s8
+ 249 00b6 F0EE476A 		vmov.f32	s13, s14
+ 250 00ba B0EE677A 		vmov.f32	s14, s15
+ 251 00be 66EEA67A 		vmul.f32	s15, s13, s13
+ 252 00c2 A8EE056A 		vfma.f32	s12, s16, s10
+ 253 00c6 E5EEA57A 		vfma.f32	s15, s11, s11
+ 254 00ca C4ED005A 		vstr.32	s11, [r4]
+ 255 00ce E7EE077A 		vfma.f32	s15, s14, s14
+ 256 00d2 C4ED016A 		vstr.32	s13, [r4, #4]
+ 257 00d6 E6EE067A 		vfma.f32	s15, s12, s12
+ 258 00da 84ED027A 		vstr.32	s14, [r4, #8]
+ 259 00de F5EE407A 		vcmp.f32	s15, #0
+ 260 00e2 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 261 00e6 84ED036A 		vstr.32	s12, [r4, #12]
+ 262 00ea 00F1E180 		bmi	.L55
+ 263 00ee B1EEE77A 		vsqrt.f32	s14, s15
+ 264              	.L46:
+ 265 00f2 DFED827A 		vldr.32	s15, .L57+8
+ 266 00f6 B4EEE77A 		vcmpe.f32	s14, s15
+ 267 00fa F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 268 00fe 17DD     		ble	.L33
+ 269 0100 94ED006A 		vldr.32	s12, [r4]
+ 270 0104 D4ED016A 		vldr.32	s13, [r4, #4]
+ 271 0108 D4ED027A 		vldr.32	s15, [r4, #8]
+ 272 010c 94ED035A 		vldr.32	s10, [r4, #12]
+ 273 0110 C6EE075A 		vdiv.f32	s11, s12, s14
+ 274 0114 86EE876A 		vdiv.f32	s12, s13, s14
+ 275 0118 C7EE876A 		vdiv.f32	s13, s15, s14
+ 276 011c C5EE077A 		vdiv.f32	s15, s10, s14
+ 277 0120 C4ED005A 		vstr.32	s11, [r4]
+ 278 0124 84ED016A 		vstr.32	s12, [r4, #4]
+ 279 0128 C4ED026A 		vstr.32	s13, [r4, #8]
+ 280 012c C4ED037A 		vstr.32	s15, [r4, #12]
+ 281              	.L33:
+ 282 0130 06B0     		add	sp, sp, #24
+ 283              		@ sp needed
+ 284 0132 BDEC048B 		vldm	sp!, {d8-d9}
+ 285 0136 10BD     		pop	{r4, pc}
+ARM GAS  /tmp/ccjad2p4.s 			page 6
+
+
+ 286              	.L34:
+ 287 0138 9FED716A 		vldr.32	s12, .L57+12
+ 288 013c 4FF07E52 		mov	r2, #1065353216
+ 289 0140 0023     		movs	r3, #0
+ 290 0142 F0EE465A 		vmov.f32	s11, s12
+ 291 0146 B0EE465A 		vmov.f32	s10, s12
+ 292 014a F0EE464A 		vmov.f32	s9, s12
+ 293 014e 2260     		str	r2, [r4]	@ float
+ 294 0150 84ED016A 		vstr.32	s12, [r4, #4]
+ 295 0154 84ED026A 		vstr.32	s12, [r4, #8]
+ 296 0158 84ED036A 		vstr.32	s12, [r4, #12]
+ 297 015c 84ED076A 		vstr.32	s12, [r4, #28]
+ 298 0160 84ED086A 		vstr.32	s12, [r4, #32]
+ 299 0164 84ED096A 		vstr.32	s12, [r4, #36]
+ 300 0168 84ED0A6A 		vstr.32	s12, [r4, #40]
+ 301 016c 84ED0B6A 		vstr.32	s12, [r4, #44]
+ 302 0170 84ED0C6A 		vstr.32	s12, [r4, #48]
+ 303 0174 A386     		strh	r3, [r4, #52]	@ movhi
+ 304 0176 55E7     		b	.L35
+ 305              	.L39:
+ 306 0178 94ED0A7A 		vldr.32	s14, [r4, #40]
+ 307 017c D4ED0B7A 		vldr.32	s15, [r4, #44]
+ 308 0180 D4ED005A 		vldr.32	s11, [r4]
+ 309 0184 94ED036A 		vldr.32	s12, [r4, #12]
+ 310 0188 94ED0C1A 		vldr.32	s2, [r4, #48]
+ 311 018c B1EE477A 		vneg.f32	s14, s14
+ 312 0190 87EE045A 		vdiv.f32	s10, s14, s8
+ 313 0194 F1EE677A 		vneg.f32	s15, s15
+ 314 0198 C7EE844A 		vdiv.f32	s9, s15, s8
+ 315 019c 75EEA56A 		vadd.f32	s13, s11, s11
+ 316 01a0 65EEA52A 		vmul.f32	s5, s11, s11
+ 317 01a4 B1EE003A 		vmov.f32	s6, #4.0e+0
+ 318 01a8 D4ED027A 		vldr.32	s15, [r4, #8]
+ 319 01ac 94ED017A 		vldr.32	s14, [r4, #4]
+ 320 01b0 62EE832A 		vmul.f32	s5, s5, s6
+ 321 01b4 65EE268A 		vmul.f32	s17, s10, s13
+ 322 01b8 36EE060A 		vadd.f32	s0, s12, s12
+ 323 01bc E2EEA78A 		vfma.f32	s17, s5, s15
+ 324 01c0 67EE031A 		vmul.f32	s3, s14, s6
+ 325 01c4 66EE069A 		vmul.f32	s19, s12, s12
+ 326 01c8 20EE459A 		vnmul.f32	s18, s0, s10
+ 327 01cc 67EE830A 		vmul.f32	s1, s15, s6
+ 328 01d0 A1EEA99A 		vfma.f32	s18, s3, s19
+ 329 01d4 E0EEA98A 		vfma.f32	s17, s1, s19
+ 330 01d8 A2EE879A 		vfma.f32	s18, s5, s14
+ 331 01dc E4EEC08A 		vfms.f32	s17, s9, s0
+ 332 01e0 A4EEE69A 		vfms.f32	s18, s9, s13
+ 333 01e4 F2EE006A 		vmov.f32	s13, #8.0e+0
+ 334 01e8 67EE072A 		vmul.f32	s5, s14, s14
+ 335 01ec 27EE260A 		vmul.f32	s0, s14, s13
+ 336 01f0 B1EE411A 		vneg.f32	s2, s2
+ 337 01f4 67EEA66A 		vmul.f32	s13, s15, s13
+ 338 01f8 78EEE08A 		vsub.f32	s17, s17, s1
+ 339 01fc 81EE042A 		vdiv.f32	s4, s2, s8
+ 340 0200 E6EEA28A 		vfma.f32	s17, s13, s5
+ 341 0204 27EEA71A 		vmul.f32	s2, s15, s15
+ 342 0208 37EE074A 		vadd.f32	s8, s14, s14
+ARM GAS  /tmp/ccjad2p4.s 			page 7
+
+
+ 343 020c E6EE818A 		vfma.f32	s17, s13, s2
+ 344 0210 77EEA73A 		vadd.f32	s7, s15, s15
+ 345 0214 62EE836A 		vmul.f32	s13, s5, s6
+ 346 0218 64EE459A 		vnmul.f32	s19, s8, s10
+ 347 021c 39EE619A 		vsub.f32	s18, s18, s3
+ 348 0220 E6EE869A 		vfma.f32	s19, s13, s12
+ 349 0224 A0EE229A 		vfma.f32	s18, s0, s5
+ 350 0228 61EE036A 		vmul.f32	s13, s2, s6
+ 351 022c 25EE235A 		vmul.f32	s10, s10, s7
+ 352 0230 25EE833A 		vmul.f32	s6, s11, s6
+ 353 0234 A0EE019A 		vfma.f32	s18, s0, s2
+ 354 0238 A3EE015A 		vfma.f32	s10, s6, s2
+ 355 023c A2EE219A 		vfma.f32	s18, s4, s3
+ 356 0240 A3EE225A 		vfma.f32	s10, s6, s5
+ 357 0244 E6EE869A 		vfma.f32	s19, s13, s12
+ 358 0248 A4EEC45A 		vfms.f32	s10, s9, s8
+ 359 024c 69EE096A 		vmul.f32	s13, s18, s18
+ 360 0250 E2EE208A 		vfma.f32	s17, s4, s1
+ 361 0254 E5EE056A 		vfma.f32	s13, s10, s10
+ 362 0258 E4EEE39A 		vfms.f32	s19, s9, s7
+ 363 025c E8EEA86A 		vfma.f32	s13, s17, s17
+ 364 0260 E9EEA96A 		vfma.f32	s13, s19, s19
+ 365 0264 F5EE406A 		vcmp.f32	s13, #0
+ 366 0268 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 367 026c 2ED4     		bmi	.L54
+ 368 026e F1EEE64A 		vsqrt.f32	s9, s13
+ 369              	.L43:
+ 370 0272 DFED246A 		vldr.32	s13, .L57+16
+ 371 0276 9DED024A 		vldr.32	s8, [sp, #8]
+ 372 027a DDED033A 		vldr.32	s7, [sp, #12]
+ 373 027e 86EEA43A 		vdiv.f32	s6, s13, s9
+ 374 0282 DDED044A 		vldr.32	s9, [sp, #16]
+ 375 0286 DDED056A 		vldr.32	s13, [sp, #20]
+ 376 028a A5EE434A 		vfms.f32	s8, s10, s6
+ 377 028e E9EEC36A 		vfms.f32	s13, s19, s6
+ 378 0292 E9EE433A 		vfms.f32	s7, s18, s6
+ 379 0296 E8EEC34A 		vfms.f32	s9, s17, s6
+ 380 029a B0EE665A 		vmov.f32	s10, s13
+ 381 029e 8DED024A 		vstr.32	s8, [sp, #8]
+ 382 02a2 CDED033A 		vstr.32	s7, [sp, #12]
+ 383 02a6 CDED044A 		vstr.32	s9, [sp, #16]
+ 384 02aa CDED056A 		vstr.32	s13, [sp, #20]
+ 385 02ae FCE6     		b	.L40
+ 386              	.L55:
+ 387 02b0 17EE900A 		vmov	r0, s15
+ 388 02b4 FFF7FEFF 		bl	sqrtf
+ 389 02b8 07EE100A 		vmov	s14, r0
+ 390 02bc 19E7     		b	.L46
+ 391              	.L53:
+ 392 02be 17EE900A 		vmov	r0, s15
+ 393 02c2 FFF7FEFF 		bl	sqrtf
+ 394 02c6 04EE100A 		vmov	s8, r0
+ 395 02ca D7E6     		b	.L38
+ 396              	.L54:
+ 397 02cc 16EE900A 		vmov	r0, s13
+ 398 02d0 8DED015A 		vstr.32	s10, [sp, #4]	@ int
+ 399 02d4 FFF7FEFF 		bl	sqrtf
+ARM GAS  /tmp/ccjad2p4.s 			page 8
+
+
+ 400 02d8 D4ED005A 		vldr.32	s11, [r4]
+ 401 02dc 94ED017A 		vldr.32	s14, [r4, #4]
+ 402 02e0 D4ED027A 		vldr.32	s15, [r4, #8]
+ 403 02e4 94ED036A 		vldr.32	s12, [r4, #12]
+ 404 02e8 9DED015A 		vldr.32	s10, [sp, #4]	@ int
+ 405 02ec 04EE900A 		vmov	s9, r0
+ 406 02f0 BFE7     		b	.L43
+ 407              	.L58:
+ 408 02f2 00BF     		.align	2
+ 409              	.L57:
+ 410 02f4 00000000 		.word	.LANCHOR0
+ 411 02f8 0AD7233C 		.word	1008981770
+ 412 02fc 00008000 		.word	8388608
+ 413 0300 00000000 		.word	0
+ 414 0304 CDCCCC3D 		.word	1036831949
+ 415              		.size	ahrs_madgwick_propagate, .-ahrs_madgwick_propagate
+ 416              		.section	.text.ahrs_madgwick_update_accel,"ax",%progbits
+ 417              		.align	1
+ 418              		.p2align 4,,15
+ 419              		.global	ahrs_madgwick_update_accel
+ 420              		.syntax unified
+ 421              		.thumb
+ 422              		.thumb_func
+ 423              		.fpu fpv4-sp-d16
+ 424              		.type	ahrs_madgwick_update_accel, %function
+ 425              	ahrs_madgwick_update_accel:
+ 426              		@ args = 0, pretend = 0, frame = 0
+ 427              		@ frame_needed = 0, uses_anonymous_args = 0
+ 428              		@ link register save eliminated.
+ 429 0000 07C8     		ldm	r0, {r0, r1, r2}
+ 430 0002 024B     		ldr	r3, .L60
+ 431 0004 83E80700 		stm	r3, {r0, r1, r2}
+ 432 0008 7047     		bx	lr
+ 433              	.L61:
+ 434 000a 00BF     		.align	2
+ 435              	.L60:
+ 436 000c 28000000 		.word	.LANCHOR0+40
+ 437              		.size	ahrs_madgwick_update_accel, .-ahrs_madgwick_update_accel
+ 438              		.global	ahrs_madgwick
+ 439              		.section	.bss.ahrs_madgwick,"aw",%nobits
+ 440              		.align	2
+ 441              		.set	.LANCHOR0,. + 0
+ 442              		.type	ahrs_madgwick, %object
+ 443              		.size	ahrs_madgwick, 56
+ 444              	ahrs_madgwick:
+ 445 0000 00000000 		.space	56
+ 445      00000000 
+ 445      00000000 
+ 445      00000000 
+ 445      00000000 
+ 446              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccjad2p4.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 ahrs_madgwick.c
+     /tmp/ccjad2p4.s:15     .text.ahrs_madgwick_init:0000000000000000 $t
+     /tmp/ccjad2p4.s:24     .text.ahrs_madgwick_init:0000000000000000 ahrs_madgwick_init
+     /tmp/ccjad2p4.s:47     .text.ahrs_madgwick_init:0000000000000024 $d
+     /tmp/ccjad2p4.s:54     .text.ahrs_madgwick_align:0000000000000000 $t
+     /tmp/ccjad2p4.s:62     .text.ahrs_madgwick_align:0000000000000000 ahrs_madgwick_align
+     /tmp/ccjad2p4.s:176    .text.ahrs_madgwick_align:0000000000000144 $d
+     /tmp/ccjad2p4.s:186    .text.ahrs_madgwick_propagate:0000000000000000 $t
+     /tmp/ccjad2p4.s:194    .text.ahrs_madgwick_propagate:0000000000000000 ahrs_madgwick_propagate
+     /tmp/ccjad2p4.s:410    .text.ahrs_madgwick_propagate:00000000000002f4 $d
+     /tmp/ccjad2p4.s:417    .text.ahrs_madgwick_update_accel:0000000000000000 $t
+     /tmp/ccjad2p4.s:425    .text.ahrs_madgwick_update_accel:0000000000000000 ahrs_madgwick_update_accel
+     /tmp/ccjad2p4.s:436    .text.ahrs_madgwick_update_accel:000000000000000c $d
+     /tmp/ccjad2p4.s:444    .bss.ahrs_madgwick:0000000000000000 ahrs_madgwick
+     /tmp/ccjad2p4.s:440    .bss.ahrs_madgwick:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+__aeabi_f2d
+__aeabi_dsub
+__aeabi_dcmplt
+__aeabi_dcmpgt
+sqrtf
+float_quat_derivative

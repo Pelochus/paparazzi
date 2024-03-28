@@ -1,0 +1,576 @@
+ARM GAS  /tmp/ccA5DhQB.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"chmtx.c"
+  13              		.text
+  14              		.section	.text.chMtxObjectInit,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	chMtxObjectInit
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	chMtxObjectInit, %function
+  24              	chMtxObjectInit:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27              		@ link register save eliminated.
+  28 0000 0023     		movs	r3, #0
+  29 0002 C0E90000 		strd	r0, r0, [r0]
+  30 0006 8360     		str	r3, [r0, #8]
+  31 0008 7047     		bx	lr
+  32              		.size	chMtxObjectInit, .-chMtxObjectInit
+  33 000a 00BF     		.section	.text.chMtxObjectDispose,"ax",%progbits
+  34              		.align	1
+  35              		.p2align 4,,15
+  36              		.global	chMtxObjectDispose
+  37              		.syntax unified
+  38              		.thumb
+  39              		.thumb_func
+  40              		.fpu fpv4-sp-d16
+  41              		.type	chMtxObjectDispose, %function
+  42              	chMtxObjectDispose:
+  43              		@ args = 0, pretend = 0, frame = 0
+  44              		@ frame_needed = 0, uses_anonymous_args = 0
+  45              		@ link register save eliminated.
+  46 0000 7047     		bx	lr
+  47              		.size	chMtxObjectDispose, .-chMtxObjectDispose
+  48 0002 00BF     		.section	.text.chMtxLockS,"ax",%progbits
+  49              		.align	1
+  50              		.p2align 4,,15
+  51              		.global	chMtxLockS
+  52              		.syntax unified
+  53              		.thumb
+  54              		.thumb_func
+  55              		.fpu fpv4-sp-d16
+  56              		.type	chMtxLockS, %function
+  57              	chMtxLockS:
+ARM GAS  /tmp/ccA5DhQB.s 			page 2
+
+
+  58              		@ args = 0, pretend = 0, frame = 0
+  59              		@ frame_needed = 0, uses_anonymous_args = 0
+  60 0000 70B5     		push	{r4, r5, r6, lr}
+  61 0002 2F4B     		ldr	r3, .L31
+  62 0004 0446     		mov	r4, r0
+  63 0006 8068     		ldr	r0, [r0, #8]
+  64 0008 DD68     		ldr	r5, [r3, #12]
+  65 000a 30B3     		cbz	r0, .L26
+  66 000c AA68     		ldr	r2, [r5, #8]
+  67 000e 8368     		ldr	r3, [r0, #8]
+  68 0010 9342     		cmp	r3, r2
+  69 0012 07D2     		bcs	.L10
+  70              	.L13:
+  71 0014 90F82430 		ldrb	r3, [r0, #36]	@ zero_extendqisi2
+  72 0018 8260     		str	r2, [r0, #8]
+  73 001a 062B     		cmp	r3, #6
+  74 001c 36D0     		beq	.L7
+  75 001e 072B     		cmp	r3, #7
+  76 0020 20D0     		beq	.L8
+  77 0022 9BB1     		cbz	r3, .L27
+  78              	.L10:
+  79 0024 2346     		mov	r3, r4
+  80 0026 03E0     		b	.L18
+  81              	.L28:
+  82 0028 9968     		ldr	r1, [r3, #8]
+  83 002a AA68     		ldr	r2, [r5, #8]
+  84 002c 9142     		cmp	r1, r2
+  85 002e 02D3     		bcc	.L17
+  86              	.L18:
+  87 0030 1B68     		ldr	r3, [r3]
+  88 0032 9C42     		cmp	r4, r3
+  89 0034 F8D1     		bne	.L28
+  90              	.L17:
+  91 0036 5A68     		ldr	r2, [r3, #4]
+  92 0038 0620     		movs	r0, #6
+  93 003a C5E90032 		strd	r3, r2, [r5]
+  94 003e 1560     		str	r5, [r2]
+  95 0040 5D60     		str	r5, [r3, #4]
+  96 0042 AC62     		str	r4, [r5, #40]
+  97 0044 BDE87040 		pop	{r4, r5, r6, lr}
+  98 0048 FFF7FEBF 		b	chSchGoSleepS
+  99              	.L27:
+ 100 004c D0E90032 		ldrd	r3, r2, [r0]
+ 101 0050 1360     		str	r3, [r2]
+ 102 0052 5A60     		str	r2, [r3, #4]
+ 103 0054 FFF7FEFF 		bl	chSchReadyI
+ 104 0058 E4E7     		b	.L10
+ 105              	.L26:
+ 106 005a EB6B     		ldr	r3, [r5, #60]
+ 107 005c C4E90253 		strd	r5, r3, [r4, #8]
+ 108 0060 EC63     		str	r4, [r5, #60]
+ 109 0062 70BD     		pop	{r4, r5, r6, pc}
+ 110              	.L8:
+ 111 0064 D0E90032 		ldrd	r3, r2, [r0]
+ 112 0068 866A     		ldr	r6, [r0, #40]
+ 113 006a 1360     		str	r3, [r2]
+ 114 006c 5A60     		str	r2, [r3, #4]
+ARM GAS  /tmp/ccA5DhQB.s 			page 3
+
+
+ 115 006e 3346     		mov	r3, r6
+ 116 0070 03E0     		b	.L15
+ 117              	.L29:
+ 118 0072 9968     		ldr	r1, [r3, #8]
+ 119 0074 8268     		ldr	r2, [r0, #8]
+ 120 0076 9142     		cmp	r1, r2
+ 121 0078 02D3     		bcc	.L14
+ 122              	.L15:
+ 123 007a 1B68     		ldr	r3, [r3]
+ 124 007c 9E42     		cmp	r6, r3
+ 125 007e F8D1     		bne	.L29
+ 126              	.L14:
+ 127 0080 5A68     		ldr	r2, [r3, #4]
+ 128 0082 C0E90032 		strd	r3, r2, [r0]
+ 129 0086 1060     		str	r0, [r2]
+ 130 0088 5860     		str	r0, [r3, #4]
+ 131 008a CBE7     		b	.L10
+ 132              	.L7:
+ 133 008c D0E90032 		ldrd	r3, r2, [r0]
+ 134 0090 866A     		ldr	r6, [r0, #40]
+ 135 0092 1360     		str	r3, [r2]
+ 136 0094 5A60     		str	r2, [r3, #4]
+ 137 0096 3346     		mov	r3, r6
+ 138 0098 03E0     		b	.L12
+ 139              	.L30:
+ 140 009a 9968     		ldr	r1, [r3, #8]
+ 141 009c 8268     		ldr	r2, [r0, #8]
+ 142 009e 9142     		cmp	r1, r2
+ 143 00a0 02D3     		bcc	.L11
+ 144              	.L12:
+ 145 00a2 1B68     		ldr	r3, [r3]
+ 146 00a4 9E42     		cmp	r6, r3
+ 147 00a6 F8D1     		bne	.L30
+ 148              	.L11:
+ 149 00a8 5A68     		ldr	r2, [r3, #4]
+ 150 00aa 0360     		str	r3, [r0]
+ 151 00ac 4260     		str	r2, [r0, #4]
+ 152 00ae 1060     		str	r0, [r2]
+ 153 00b0 5860     		str	r0, [r3, #4]
+ 154 00b2 B068     		ldr	r0, [r6, #8]
+ 155 00b4 AA68     		ldr	r2, [r5, #8]
+ 156 00b6 8368     		ldr	r3, [r0, #8]
+ 157 00b8 9342     		cmp	r3, r2
+ 158 00ba ABD3     		bcc	.L13
+ 159 00bc B2E7     		b	.L10
+ 160              	.L32:
+ 161 00be 00BF     		.align	2
+ 162              	.L31:
+ 163 00c0 00000000 		.word	ch0
+ 164              		.size	chMtxLockS, .-chMtxLockS
+ 165              		.section	.text.chMtxLock,"ax",%progbits
+ 166              		.align	1
+ 167              		.p2align 4,,15
+ 168              		.global	chMtxLock
+ 169              		.syntax unified
+ 170              		.thumb
+ 171              		.thumb_func
+ARM GAS  /tmp/ccA5DhQB.s 			page 4
+
+
+ 172              		.fpu fpv4-sp-d16
+ 173              		.type	chMtxLock, %function
+ 174              	chMtxLock:
+ 175              		@ args = 0, pretend = 0, frame = 8
+ 176              		@ frame_needed = 0, uses_anonymous_args = 0
+ 177 0000 00B5     		push	{lr}
+ 178 0002 83B0     		sub	sp, sp, #12
+ 179 0004 3023     		movs	r3, #48
+ 180 0006 0190     		str	r0, [sp, #4]
+ 181              		.syntax unified
+ 182              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 183 0008 83F31188 		MSR basepri, r3
+ 184              	@ 0 "" 2
+ 185              		.thumb
+ 186              		.syntax unified
+ 187 000c FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 188 0010 0198     		ldr	r0, [sp, #4]
+ 189 0012 FFF7FEFF 		bl	chMtxLockS
+ 190 0016 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 191 001a 0023     		movs	r3, #0
+ 192              		.syntax unified
+ 193              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 194 001c 83F31188 		MSR basepri, r3
+ 195              	@ 0 "" 2
+ 196              		.thumb
+ 197              		.syntax unified
+ 198 0020 03B0     		add	sp, sp, #12
+ 199              		@ sp needed
+ 200 0022 5DF804FB 		ldr	pc, [sp], #4
+ 201              		.size	chMtxLock, .-chMtxLock
+ 202 0026 00BF     		.section	.text.chMtxTryLock,"ax",%progbits
+ 203              		.align	1
+ 204              		.p2align 4,,15
+ 205              		.global	chMtxTryLock
+ 206              		.syntax unified
+ 207              		.thumb
+ 208              		.thumb_func
+ 209              		.fpu fpv4-sp-d16
+ 210              		.type	chMtxTryLock, %function
+ 211              	chMtxTryLock:
+ 212              		@ args = 0, pretend = 0, frame = 8
+ 213              		@ frame_needed = 0, uses_anonymous_args = 0
+ 214 0000 10B5     		push	{r4, lr}
+ 215 0002 3023     		movs	r3, #48
+ 216 0004 82B0     		sub	sp, sp, #8
+ 217 0006 0446     		mov	r4, r0
+ 218              		.syntax unified
+ 219              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 220 0008 83F31188 		MSR basepri, r3
+ 221              	@ 0 "" 2
+ 222              		.thumb
+ 223              		.syntax unified
+ 224 000c FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 225 0010 A368     		ldr	r3, [r4, #8]
+ 226 0012 4BB1     		cbz	r3, .L39
+ 227 0014 0020     		movs	r0, #0
+ 228              	.L36:
+ARM GAS  /tmp/ccA5DhQB.s 			page 5
+
+
+ 229 0016 0190     		str	r0, [sp, #4]
+ 230 0018 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 231 001c 0023     		movs	r3, #0
+ 232              		.syntax unified
+ 233              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 234 001e 83F31188 		MSR basepri, r3
+ 235              	@ 0 "" 2
+ 236              		.thumb
+ 237              		.syntax unified
+ 238 0022 0198     		ldr	r0, [sp, #4]
+ 239 0024 02B0     		add	sp, sp, #8
+ 240              		@ sp needed
+ 241 0026 10BD     		pop	{r4, pc}
+ 242              	.L39:
+ 243 0028 034B     		ldr	r3, .L40
+ 244 002a DB68     		ldr	r3, [r3, #12]
+ 245 002c A360     		str	r3, [r4, #8]
+ 246 002e DA6B     		ldr	r2, [r3, #60]
+ 247 0030 E260     		str	r2, [r4, #12]
+ 248 0032 0120     		movs	r0, #1
+ 249 0034 DC63     		str	r4, [r3, #60]
+ 250 0036 EEE7     		b	.L36
+ 251              	.L41:
+ 252              		.align	2
+ 253              	.L40:
+ 254 0038 00000000 		.word	ch0
+ 255              		.size	chMtxTryLock, .-chMtxTryLock
+ 256              		.section	.text.chMtxTryLockS,"ax",%progbits
+ 257              		.align	1
+ 258              		.p2align 4,,15
+ 259              		.global	chMtxTryLockS
+ 260              		.syntax unified
+ 261              		.thumb
+ 262              		.thumb_func
+ 263              		.fpu fpv4-sp-d16
+ 264              		.type	chMtxTryLockS, %function
+ 265              	chMtxTryLockS:
+ 266              		@ args = 0, pretend = 0, frame = 0
+ 267              		@ frame_needed = 0, uses_anonymous_args = 0
+ 268              		@ link register save eliminated.
+ 269 0000 8268     		ldr	r2, [r0, #8]
+ 270 0002 0346     		mov	r3, r0
+ 271 0004 0AB1     		cbz	r2, .L45
+ 272 0006 0020     		movs	r0, #0
+ 273 0008 7047     		bx	lr
+ 274              	.L45:
+ 275 000a 044A     		ldr	r2, .L46
+ 276 000c D268     		ldr	r2, [r2, #12]
+ 277 000e 9A60     		str	r2, [r3, #8]
+ 278 0010 D16B     		ldr	r1, [r2, #60]
+ 279 0012 D960     		str	r1, [r3, #12]
+ 280 0014 0120     		movs	r0, #1
+ 281 0016 D363     		str	r3, [r2, #60]
+ 282 0018 7047     		bx	lr
+ 283              	.L47:
+ 284 001a 00BF     		.align	2
+ 285              	.L46:
+ARM GAS  /tmp/ccA5DhQB.s 			page 6
+
+
+ 286 001c 00000000 		.word	ch0
+ 287              		.size	chMtxTryLockS, .-chMtxTryLockS
+ 288              		.section	.text.chMtxUnlock,"ax",%progbits
+ 289              		.align	1
+ 290              		.p2align 4,,15
+ 291              		.global	chMtxUnlock
+ 292              		.syntax unified
+ 293              		.thumb
+ 294              		.thumb_func
+ 295              		.fpu fpv4-sp-d16
+ 296              		.type	chMtxUnlock, %function
+ 297              	chMtxUnlock:
+ 298              		@ args = 0, pretend = 0, frame = 0
+ 299              		@ frame_needed = 0, uses_anonymous_args = 0
+ 300 0000 38B5     		push	{r3, r4, r5, lr}
+ 301 0002 1A4B     		ldr	r3, .L59
+ 302 0004 0446     		mov	r4, r0
+ 303 0006 DD68     		ldr	r5, [r3, #12]
+ 304 0008 3023     		movs	r3, #48
+ 305              		.syntax unified
+ 306              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 307 000a 83F31188 		MSR basepri, r3
+ 308              	@ 0 "" 2
+ 309              		.thumb
+ 310              		.syntax unified
+ 311 000e FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 312 0012 2268     		ldr	r2, [r4]
+ 313 0014 E368     		ldr	r3, [r4, #12]
+ 314 0016 EB63     		str	r3, [r5, #60]
+ 315 0018 A242     		cmp	r2, r4
+ 316 001a 1ED0     		beq	.L49
+ 317 001c 296C     		ldr	r1, [r5, #64]
+ 318 001e 4BB1     		cbz	r3, .L50
+ 319              	.L52:
+ 320 0020 1A68     		ldr	r2, [r3]
+ 321 0022 9342     		cmp	r3, r2
+ 322 0024 03D0     		beq	.L51
+ 323 0026 9268     		ldr	r2, [r2, #8]
+ 324 0028 9142     		cmp	r1, r2
+ 325 002a 38BF     		it	cc
+ 326 002c 1146     		movcc	r1, r2
+ 327              	.L51:
+ 328 002e DB68     		ldr	r3, [r3, #12]
+ 329 0030 002B     		cmp	r3, #0
+ 330 0032 F5D1     		bne	.L52
+ 331              	.L50:
+ 332 0034 A960     		str	r1, [r5, #8]
+ 333 0036 2068     		ldr	r0, [r4]
+ 334 0038 C26B     		ldr	r2, [r0, #60]
+ 335 003a 0368     		ldr	r3, [r0]
+ 336 003c 2360     		str	r3, [r4]
+ 337 003e 5C60     		str	r4, [r3, #4]
+ 338 0040 C4E90202 		strd	r0, r2, [r4, #8]
+ 339 0044 C463     		str	r4, [r0, #60]
+ 340 0046 FFF7FEFF 		bl	chSchReadyI
+ 341 004a FFF7FEFF 		bl	chSchRescheduleS
+ 342 004e FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ARM GAS  /tmp/ccA5DhQB.s 			page 7
+
+
+ 343 0052 0023     		movs	r3, #0
+ 344              		.syntax unified
+ 345              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 346 0054 83F31188 		MSR basepri, r3
+ 347              	@ 0 "" 2
+ 348              		.thumb
+ 349              		.syntax unified
+ 350 0058 38BD     		pop	{r3, r4, r5, pc}
+ 351              	.L49:
+ 352 005a 0023     		movs	r3, #0
+ 353 005c 9360     		str	r3, [r2, #8]
+ 354 005e FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 355 0062 0023     		movs	r3, #0
+ 356              		.syntax unified
+ 357              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 358 0064 83F31188 		MSR basepri, r3
+ 359              	@ 0 "" 2
+ 360              		.thumb
+ 361              		.syntax unified
+ 362 0068 38BD     		pop	{r3, r4, r5, pc}
+ 363              	.L60:
+ 364 006a 00BF     		.align	2
+ 365              	.L59:
+ 366 006c 00000000 		.word	ch0
+ 367              		.size	chMtxUnlock, .-chMtxUnlock
+ 368              		.section	.text.chMtxUnlockS,"ax",%progbits
+ 369              		.align	1
+ 370              		.p2align 4,,15
+ 371              		.global	chMtxUnlockS
+ 372              		.syntax unified
+ 373              		.thumb
+ 374              		.thumb_func
+ 375              		.fpu fpv4-sp-d16
+ 376              		.type	chMtxUnlockS, %function
+ 377              	chMtxUnlockS:
+ 378              		@ args = 0, pretend = 0, frame = 0
+ 379              		@ frame_needed = 0, uses_anonymous_args = 0
+ 380              		@ link register save eliminated.
+ 381 0000 134B     		ldr	r3, .L71
+ 382 0002 0268     		ldr	r2, [r0]
+ 383 0004 10B4     		push	{r4}
+ 384 0006 DC68     		ldr	r4, [r3, #12]
+ 385 0008 C368     		ldr	r3, [r0, #12]
+ 386 000a E363     		str	r3, [r4, #60]
+ 387 000c 8242     		cmp	r2, r0
+ 388 000e 19D0     		beq	.L62
+ 389 0010 0146     		mov	r1, r0
+ 390 0012 206C     		ldr	r0, [r4, #64]
+ 391 0014 4BB1     		cbz	r3, .L63
+ 392              	.L65:
+ 393 0016 1A68     		ldr	r2, [r3]
+ 394 0018 9342     		cmp	r3, r2
+ 395 001a 03D0     		beq	.L64
+ 396 001c 9268     		ldr	r2, [r2, #8]
+ 397 001e 9042     		cmp	r0, r2
+ 398 0020 38BF     		it	cc
+ 399 0022 1046     		movcc	r0, r2
+ARM GAS  /tmp/ccA5DhQB.s 			page 8
+
+
+ 400              	.L64:
+ 401 0024 DB68     		ldr	r3, [r3, #12]
+ 402 0026 002B     		cmp	r3, #0
+ 403 0028 F5D1     		bne	.L65
+ 404              	.L63:
+ 405 002a A060     		str	r0, [r4, #8]
+ 406 002c 0868     		ldr	r0, [r1]
+ 407 002e 5DF8044B 		ldr	r4, [sp], #4
+ 408 0032 C26B     		ldr	r2, [r0, #60]
+ 409 0034 0368     		ldr	r3, [r0]
+ 410 0036 0B60     		str	r3, [r1]
+ 411 0038 5960     		str	r1, [r3, #4]
+ 412 003a C1E90202 		strd	r0, r2, [r1, #8]
+ 413 003e C163     		str	r1, [r0, #60]
+ 414 0040 FFF7FEBF 		b	chSchReadyI
+ 415              	.L62:
+ 416 0044 0023     		movs	r3, #0
+ 417 0046 5DF8044B 		ldr	r4, [sp], #4
+ 418 004a 9360     		str	r3, [r2, #8]
+ 419 004c 7047     		bx	lr
+ 420              	.L72:
+ 421 004e 00BF     		.align	2
+ 422              	.L71:
+ 423 0050 00000000 		.word	ch0
+ 424              		.size	chMtxUnlockS, .-chMtxUnlockS
+ 425              		.section	.text.chMtxUnlockAllS,"ax",%progbits
+ 426              		.align	1
+ 427              		.p2align 4,,15
+ 428              		.global	chMtxUnlockAllS
+ 429              		.syntax unified
+ 430              		.thumb
+ 431              		.thumb_func
+ 432              		.fpu fpv4-sp-d16
+ 433              		.type	chMtxUnlockAllS, %function
+ 434              	chMtxUnlockAllS:
+ 435              		@ args = 0, pretend = 0, frame = 0
+ 436              		@ frame_needed = 0, uses_anonymous_args = 0
+ 437 0000 114B     		ldr	r3, .L81
+ 438 0002 70B5     		push	{r4, r5, r6, lr}
+ 439 0004 DC68     		ldr	r4, [r3, #12]
+ 440 0006 E36B     		ldr	r3, [r4, #60]
+ 441 0008 EBB1     		cbz	r3, .L73
+ 442 000a 0026     		movs	r6, #0
+ 443              	.L77:
+ 444 000c 1A68     		ldr	r2, [r3]
+ 445 000e D968     		ldr	r1, [r3, #12]
+ 446 0010 E163     		str	r1, [r4, #60]
+ 447 0012 9342     		cmp	r3, r2
+ 448 0014 1046     		mov	r0, r2
+ 449 0016 11D0     		beq	.L75
+ 450 0018 D56B     		ldr	r5, [r2, #60]
+ 451 001a 1168     		ldr	r1, [r2]
+ 452 001c 1960     		str	r1, [r3]
+ 453 001e 4B60     		str	r3, [r1, #4]
+ 454 0020 C3E90225 		strd	r2, r5, [r3, #8]
+ 455 0024 D363     		str	r3, [r2, #60]
+ 456 0026 FFF7FEFF 		bl	chSchReadyI
+ARM GAS  /tmp/ccA5DhQB.s 			page 9
+
+
+ 457 002a E36B     		ldr	r3, [r4, #60]
+ 458 002c 002B     		cmp	r3, #0
+ 459 002e EDD1     		bne	.L77
+ 460              	.L80:
+ 461 0030 236C     		ldr	r3, [r4, #64]
+ 462 0032 A360     		str	r3, [r4, #8]
+ 463 0034 BDE87040 		pop	{r4, r5, r6, lr}
+ 464 0038 FFF7FEBF 		b	chSchRescheduleS
+ 465              	.L75:
+ 466 003c 9E60     		str	r6, [r3, #8]
+ 467 003e 0B46     		mov	r3, r1
+ 468 0040 002B     		cmp	r3, #0
+ 469 0042 E3D1     		bne	.L77
+ 470 0044 F4E7     		b	.L80
+ 471              	.L73:
+ 472 0046 70BD     		pop	{r4, r5, r6, pc}
+ 473              	.L82:
+ 474              		.align	2
+ 475              	.L81:
+ 476 0048 00000000 		.word	ch0
+ 477              		.size	chMtxUnlockAllS, .-chMtxUnlockAllS
+ 478              		.section	.text.chMtxUnlockAll,"ax",%progbits
+ 479              		.align	1
+ 480              		.p2align 4,,15
+ 481              		.global	chMtxUnlockAll
+ 482              		.syntax unified
+ 483              		.thumb
+ 484              		.thumb_func
+ 485              		.fpu fpv4-sp-d16
+ 486              		.type	chMtxUnlockAll, %function
+ 487              	chMtxUnlockAll:
+ 488              		@ args = 0, pretend = 0, frame = 0
+ 489              		@ frame_needed = 0, uses_anonymous_args = 0
+ 490 0000 08B5     		push	{r3, lr}
+ 491 0002 3023     		movs	r3, #48
+ 492              		.syntax unified
+ 493              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 494 0004 83F31188 		MSR basepri, r3
+ 495              	@ 0 "" 2
+ 496              		.thumb
+ 497              		.syntax unified
+ 498 0008 FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 499 000c FFF7FEFF 		bl	chMtxUnlockAllS
+ 500 0010 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 501 0014 0023     		movs	r3, #0
+ 502              		.syntax unified
+ 503              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 504 0016 83F31188 		MSR basepri, r3
+ 505              	@ 0 "" 2
+ 506              		.thumb
+ 507              		.syntax unified
+ 508 001a 08BD     		pop	{r3, pc}
+ 509              		.size	chMtxUnlockAll, .-chMtxUnlockAll
+ 510              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccA5DhQB.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 chmtx.c
+     /tmp/ccA5DhQB.s:15     .text.chMtxObjectInit:0000000000000000 $t
+     /tmp/ccA5DhQB.s:24     .text.chMtxObjectInit:0000000000000000 chMtxObjectInit
+     /tmp/ccA5DhQB.s:34     .text.chMtxObjectDispose:0000000000000000 $t
+     /tmp/ccA5DhQB.s:42     .text.chMtxObjectDispose:0000000000000000 chMtxObjectDispose
+     /tmp/ccA5DhQB.s:49     .text.chMtxLockS:0000000000000000 $t
+     /tmp/ccA5DhQB.s:57     .text.chMtxLockS:0000000000000000 chMtxLockS
+     /tmp/ccA5DhQB.s:163    .text.chMtxLockS:00000000000000c0 $d
+     /tmp/ccA5DhQB.s:166    .text.chMtxLock:0000000000000000 $t
+     /tmp/ccA5DhQB.s:174    .text.chMtxLock:0000000000000000 chMtxLock
+     /tmp/ccA5DhQB.s:203    .text.chMtxTryLock:0000000000000000 $t
+     /tmp/ccA5DhQB.s:211    .text.chMtxTryLock:0000000000000000 chMtxTryLock
+     /tmp/ccA5DhQB.s:254    .text.chMtxTryLock:0000000000000038 $d
+     /tmp/ccA5DhQB.s:257    .text.chMtxTryLockS:0000000000000000 $t
+     /tmp/ccA5DhQB.s:265    .text.chMtxTryLockS:0000000000000000 chMtxTryLockS
+     /tmp/ccA5DhQB.s:286    .text.chMtxTryLockS:000000000000001c $d
+     /tmp/ccA5DhQB.s:289    .text.chMtxUnlock:0000000000000000 $t
+     /tmp/ccA5DhQB.s:297    .text.chMtxUnlock:0000000000000000 chMtxUnlock
+     /tmp/ccA5DhQB.s:366    .text.chMtxUnlock:000000000000006c $d
+     /tmp/ccA5DhQB.s:369    .text.chMtxUnlockS:0000000000000000 $t
+     /tmp/ccA5DhQB.s:377    .text.chMtxUnlockS:0000000000000000 chMtxUnlockS
+     /tmp/ccA5DhQB.s:423    .text.chMtxUnlockS:0000000000000050 $d
+     /tmp/ccA5DhQB.s:426    .text.chMtxUnlockAllS:0000000000000000 $t
+     /tmp/ccA5DhQB.s:434    .text.chMtxUnlockAllS:0000000000000000 chMtxUnlockAllS
+     /tmp/ccA5DhQB.s:476    .text.chMtxUnlockAllS:0000000000000048 $d
+     /tmp/ccA5DhQB.s:479    .text.chMtxUnlockAll:0000000000000000 $t
+     /tmp/ccA5DhQB.s:487    .text.chMtxUnlockAll:0000000000000000 chMtxUnlockAll
+
+UNDEFINED SYMBOLS
+chSchGoSleepS
+chSchReadyI
+ch0
+__stats_start_measure_crit_thd
+__stats_stop_measure_crit_thd
+chSchRescheduleS

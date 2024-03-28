@@ -1,0 +1,207 @@
+ARM GAS  /tmp/ccLCRD5V.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"nvic.c"
+  13              		.text
+  14              		.section	.text.nvicInit,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	nvicInit
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	nvicInit, %function
+  24              	nvicInit:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27              		@ link register save eliminated.
+  28 0000 4FF0E023 		mov	r3, #-536813568
+  29 0004 10B4     		push	{r4}
+  30 0006 5C68     		ldr	r4, [r3, #4]
+  31 0008 0022     		movs	r2, #0
+  32 000a 4FF0FF30 		mov	r0, #-1
+  33              	.L2:
+  34 000e 9300     		lsls	r3, r2, #2
+  35 0010 03F16043 		add	r3, r3, #-536870912
+  36 0014 03F56143 		add	r3, r3, #57600
+  37 0018 9442     		cmp	r4, r2
+  38 001a C3F88000 		str	r0, [r3, #128]
+  39 001e 02F10102 		add	r2, r2, #1
+  40 0022 C3F88001 		str	r0, [r3, #384]
+  41 0026 F2D1     		bne	.L2
+  42 0028 5DF8044B 		ldr	r4, [sp], #4
+  43 002c 7047     		bx	lr
+  44              		.size	nvicInit, .-nvicInit
+  45 002e 00BF     		.section	.text.nvicEnableVector,"ax",%progbits
+  46              		.align	1
+  47              		.p2align 4,,15
+  48              		.global	nvicEnableVector
+  49              		.syntax unified
+  50              		.thumb
+  51              		.thumb_func
+  52              		.fpu fpv4-sp-d16
+  53              		.type	nvicEnableVector, %function
+  54              	nvicEnableVector:
+  55              		@ args = 0, pretend = 0, frame = 0
+  56              		@ frame_needed = 0, uses_anonymous_args = 0
+  57              		@ link register save eliminated.
+ARM GAS  /tmp/ccLCRD5V.s 			page 2
+
+
+  58 0000 4309     		lsrs	r3, r0, #5
+  59 0002 9B00     		lsls	r3, r3, #2
+  60 0004 00F1604C 		add	ip, r0, #-536870912
+  61 0008 03F16043 		add	r3, r3, #-536870912
+  62 000c 03F56143 		add	r3, r3, #57600
+  63 0010 0901     		lsls	r1, r1, #4
+  64 0012 0CF5614C 		add	ip, ip, #57600
+  65 0016 00F01F00 		and	r0, r0, #31
+  66 001a 0122     		movs	r2, #1
+  67 001c 02FA00F0 		lsl	r0, r2, r0
+  68 0020 C9B2     		uxtb	r1, r1
+  69 0022 8CF80013 		strb	r1, [ip, #768]
+  70 0026 C3F88001 		str	r0, [r3, #384]
+  71 002a 1860     		str	r0, [r3]
+  72 002c 7047     		bx	lr
+  73              		.size	nvicEnableVector, .-nvicEnableVector
+  74 002e 00BF     		.section	.text.nvicDisableVector,"ax",%progbits
+  75              		.align	1
+  76              		.p2align 4,,15
+  77              		.global	nvicDisableVector
+  78              		.syntax unified
+  79              		.thumb
+  80              		.thumb_func
+  81              		.fpu fpv4-sp-d16
+  82              		.type	nvicDisableVector, %function
+  83              	nvicDisableVector:
+  84              		@ args = 0, pretend = 0, frame = 0
+  85              		@ frame_needed = 0, uses_anonymous_args = 0
+  86              		@ link register save eliminated.
+  87 0000 4309     		lsrs	r3, r0, #5
+  88 0002 9B00     		lsls	r3, r3, #2
+  89 0004 00F16041 		add	r1, r0, #-536870912
+  90 0008 03F16043 		add	r3, r3, #-536870912
+  91 000c 03F56143 		add	r3, r3, #57600
+  92 0010 0122     		movs	r2, #1
+  93 0012 00F01F00 		and	r0, r0, #31
+  94 0016 01F56141 		add	r1, r1, #57600
+  95 001a 02FA00F0 		lsl	r0, r2, r0
+  96 001e 0022     		movs	r2, #0
+  97 0020 C3F88000 		str	r0, [r3, #128]
+  98 0024 C3F88001 		str	r0, [r3, #384]
+  99 0028 81F80023 		strb	r2, [r1, #768]
+ 100 002c 7047     		bx	lr
+ 101              		.size	nvicDisableVector, .-nvicDisableVector
+ 102 002e 00BF     		.section	.text.nvicSetSystemHandlerPriority,"ax",%progbits
+ 103              		.align	1
+ 104              		.p2align 4,,15
+ 105              		.global	nvicSetSystemHandlerPriority
+ 106              		.syntax unified
+ 107              		.thumb
+ 108              		.thumb_func
+ 109              		.fpu fpv4-sp-d16
+ 110              		.type	nvicSetSystemHandlerPriority, %function
+ 111              	nvicSetSystemHandlerPriority:
+ 112              		@ args = 0, pretend = 0, frame = 0
+ 113              		@ frame_needed = 0, uses_anonymous_args = 0
+ 114              		@ link register save eliminated.
+ARM GAS  /tmp/ccLCRD5V.s 			page 3
+
+
+ 115 0000 00F16040 		add	r0, r0, #-536870912
+ 116 0004 0901     		lsls	r1, r1, #4
+ 117 0006 00F56D40 		add	r0, r0, #60672
+ 118 000a C9B2     		uxtb	r1, r1
+ 119 000c 0176     		strb	r1, [r0, #24]
+ 120 000e 7047     		bx	lr
+ 121              		.size	nvicSetSystemHandlerPriority, .-nvicSetSystemHandlerPriority
+ 122              		.section	.text.nvicClearPending,"ax",%progbits
+ 123              		.align	1
+ 124              		.p2align 4,,15
+ 125              		.global	nvicClearPending
+ 126              		.syntax unified
+ 127              		.thumb
+ 128              		.thumb_func
+ 129              		.fpu fpv4-sp-d16
+ 130              		.type	nvicClearPending, %function
+ 131              	nvicClearPending:
+ 132              		@ args = 0, pretend = 0, frame = 0
+ 133              		@ frame_needed = 0, uses_anonymous_args = 0
+ 134              		@ link register save eliminated.
+ 135 0000 4309     		lsrs	r3, r0, #5
+ 136 0002 0549     		ldr	r1, .L10
+ 137 0004 00F01F00 		and	r0, r0, #31
+ 138 0008 0122     		movs	r2, #1
+ 139 000a 6033     		adds	r3, r3, #96
+ 140 000c 02FA00F0 		lsl	r0, r2, r0
+ 141 0010 41F82300 		str	r0, [r1, r3, lsl #2]
+ 142 0014 7047     		bx	lr
+ 143              	.L11:
+ 144 0016 00BF     		.align	2
+ 145              	.L10:
+ 146 0018 00E100E0 		.word	-536813312
+ 147              		.size	nvicClearPending, .-nvicClearPending
+ 148              		.section	.text.nvicSetPending,"ax",%progbits
+ 149              		.align	1
+ 150              		.p2align 4,,15
+ 151              		.global	nvicSetPending
+ 152              		.syntax unified
+ 153              		.thumb
+ 154              		.thumb_func
+ 155              		.fpu fpv4-sp-d16
+ 156              		.type	nvicSetPending, %function
+ 157              	nvicSetPending:
+ 158              		@ args = 0, pretend = 0, frame = 0
+ 159              		@ frame_needed = 0, uses_anonymous_args = 0
+ 160              		@ link register save eliminated.
+ 161 0000 4309     		lsrs	r3, r0, #5
+ 162 0002 0549     		ldr	r1, .L13
+ 163 0004 00F01F00 		and	r0, r0, #31
+ 164 0008 0122     		movs	r2, #1
+ 165 000a 4033     		adds	r3, r3, #64
+ 166 000c 02FA00F0 		lsl	r0, r2, r0
+ 167 0010 41F82300 		str	r0, [r1, r3, lsl #2]
+ 168 0014 7047     		bx	lr
+ 169              	.L14:
+ 170 0016 00BF     		.align	2
+ 171              	.L13:
+ARM GAS  /tmp/ccLCRD5V.s 			page 4
+
+
+ 172 0018 00E100E0 		.word	-536813312
+ 173              		.size	nvicSetPending, .-nvicSetPending
+ 174              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccLCRD5V.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 nvic.c
+     /tmp/ccLCRD5V.s:15     .text.nvicInit:0000000000000000 $t
+     /tmp/ccLCRD5V.s:24     .text.nvicInit:0000000000000000 nvicInit
+     /tmp/ccLCRD5V.s:46     .text.nvicEnableVector:0000000000000000 $t
+     /tmp/ccLCRD5V.s:54     .text.nvicEnableVector:0000000000000000 nvicEnableVector
+     /tmp/ccLCRD5V.s:75     .text.nvicDisableVector:0000000000000000 $t
+     /tmp/ccLCRD5V.s:83     .text.nvicDisableVector:0000000000000000 nvicDisableVector
+     /tmp/ccLCRD5V.s:103    .text.nvicSetSystemHandlerPriority:0000000000000000 $t
+     /tmp/ccLCRD5V.s:111    .text.nvicSetSystemHandlerPriority:0000000000000000 nvicSetSystemHandlerPriority
+     /tmp/ccLCRD5V.s:123    .text.nvicClearPending:0000000000000000 $t
+     /tmp/ccLCRD5V.s:131    .text.nvicClearPending:0000000000000000 nvicClearPending
+     /tmp/ccLCRD5V.s:146    .text.nvicClearPending:0000000000000018 $d
+     /tmp/ccLCRD5V.s:149    .text.nvicSetPending:0000000000000000 $t
+     /tmp/ccLCRD5V.s:157    .text.nvicSetPending:0000000000000000 nvicSetPending
+     /tmp/ccLCRD5V.s:172    .text.nvicSetPending:0000000000000018 $d
+
+NO UNDEFINED SYMBOLS

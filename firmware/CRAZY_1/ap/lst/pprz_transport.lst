@@ -1,0 +1,475 @@
+ARM GAS  /tmp/cc1uc7ev.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"pprz_transport.c"
+  13              		.text
+  14              		.section	.text.put_bytes,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.arch armv7e-m
+  18              		.syntax unified
+  19              		.thumb
+  20              		.thumb_func
+  21              		.fpu fpv4-sp-d16
+  22              		.type	put_bytes, %function
+  23              	put_bytes:
+  24              		@ args = 8, pretend = 0, frame = 0
+  25              		@ frame_needed = 0, uses_anonymous_args = 0
+  26 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  27 0002 BDF81830 		ldrh	r3, [sp, #24]
+  28 0006 059A     		ldr	r2, [sp, #20]
+  29 0008 ABB1     		cbz	r3, .L4
+  30 000a 4468     		ldr	r4, [r0, #4]
+  31 000c 256A     		ldr	r5, [r4, #32]
+  32 000e 95F82CC1 		ldrb	ip, [r5, #300]	@ zero_extendqisi2
+  33 0012 95F82DE1 		ldrb	lr, [r5, #301]	@ zero_extendqisi2
+  34 0016 1446     		mov	r4, r2
+  35 0018 9F18     		adds	r7, r3, r2
+  36              	.L3:
+  37 001a 14F8016B 		ldrb	r6, [r4], #1	@ zero_extendqisi2
+  38 001e B444     		add	ip, ip, r6
+  39 0020 5FFA8CFC 		uxtb	ip, ip
+  40 0024 E644     		add	lr, lr, ip
+  41 0026 5FFA8EFE 		uxtb	lr, lr
+  42 002a A742     		cmp	r7, r4
+  43 002c 85F82CC1 		strb	ip, [r5, #300]
+  44 0030 85F82DE1 		strb	lr, [r5, #301]
+  45 0034 F1D1     		bne	.L3
+  46              	.L4:
+  47 0036 8068     		ldr	r0, [r0, #8]
+  48 0038 8468     		ldr	r4, [r0, #8]
+  49 003a C069     		ldr	r0, [r0, #28]
+  50 003c A446     		mov	ip, r4
+  51 003e BDE8F040 		pop	{r4, r5, r6, r7, lr}
+  52 0042 6047     		bx	ip	@ indirect register sibling call
+  53              		.size	put_bytes, .-put_bytes
+  54              		.section	.text.put_named_byte,"ax",%progbits
+  55              		.align	1
+  56              		.p2align 4,,15
+  57              		.syntax unified
+ARM GAS  /tmp/cc1uc7ev.s 			page 2
+
+
+  58              		.thumb
+  59              		.thumb_func
+  60              		.fpu fpv4-sp-d16
+  61              		.type	put_named_byte, %function
+  62              	put_named_byte:
+  63              		@ args = 8, pretend = 0, frame = 0
+  64              		@ frame_needed = 0, uses_anonymous_args = 0
+  65              		@ link register save eliminated.
+  66 0000 10B4     		push	{r4}
+  67 0002 4368     		ldr	r3, [r0, #4]
+  68 0004 9DF80420 		ldrb	r2, [sp, #4]	@ zero_extendqisi2
+  69 0008 1C6A     		ldr	r4, [r3, #32]
+  70 000a 94F82C31 		ldrb	r3, [r4, #300]	@ zero_extendqisi2
+  71 000e 94F82DC1 		ldrb	ip, [r4, #301]	@ zero_extendqisi2
+  72 0012 1344     		add	r3, r3, r2
+  73 0014 DBB2     		uxtb	r3, r3
+  74 0016 84F82C31 		strb	r3, [r4, #300]
+  75 001a 6344     		add	r3, r3, ip
+  76 001c 84F82D31 		strb	r3, [r4, #301]
+  77 0020 8368     		ldr	r3, [r0, #8]
+  78 0022 5C68     		ldr	r4, [r3, #4]
+  79 0024 D869     		ldr	r0, [r3, #28]
+  80 0026 2346     		mov	r3, r4
+  81 0028 5DF8044B 		ldr	r4, [sp], #4
+  82 002c 1847     		bx	r3	@ indirect register sibling call
+  83              		.size	put_named_byte, .-put_named_byte
+  84 002e 00BF     		.section	.text.size_of,"ax",%progbits
+  85              		.align	1
+  86              		.p2align 4,,15
+  87              		.syntax unified
+  88              		.thumb
+  89              		.thumb_func
+  90              		.fpu fpv4-sp-d16
+  91              		.type	size_of, %function
+  92              	size_of:
+  93              		@ args = 0, pretend = 0, frame = 0
+  94              		@ frame_needed = 0, uses_anonymous_args = 0
+  95              		@ link register save eliminated.
+  96 0000 0431     		adds	r1, r1, #4
+  97 0002 C8B2     		uxtb	r0, r1
+  98 0004 7047     		bx	lr
+  99              		.size	size_of, .-size_of
+ 100 0006 00BF     		.section	.text.start_message,"ax",%progbits
+ 101              		.align	1
+ 102              		.p2align 4,,15
+ 103              		.syntax unified
+ 104              		.thumb
+ 105              		.thumb_func
+ 106              		.fpu fpv4-sp-d16
+ 107              		.type	start_message, %function
+ 108              	start_message:
+ 109              		@ args = 0, pretend = 0, frame = 0
+ 110              		@ frame_needed = 0, uses_anonymous_args = 0
+ 111 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 112 0002 8368     		ldr	r3, [r0, #8]
+ 113 0004 0546     		mov	r5, r0
+ 114 0006 1446     		mov	r4, r2
+ARM GAS  /tmp/cc1uc7ev.s 			page 3
+
+
+ 115 0008 D869     		ldr	r0, [r3, #28]
+ 116 000a 5B68     		ldr	r3, [r3, #4]
+ 117 000c 9922     		movs	r2, #153
+ 118 000e 0E46     		mov	r6, r1
+ 119 0010 0434     		adds	r4, r4, #4
+ 120 0012 9847     		blx	r3
+ 121 0014 AB68     		ldr	r3, [r5, #8]
+ 122 0016 E4B2     		uxtb	r4, r4
+ 123 0018 5F68     		ldr	r7, [r3, #4]
+ 124 001a D869     		ldr	r0, [r3, #28]
+ 125 001c 3146     		mov	r1, r6
+ 126 001e 2246     		mov	r2, r4
+ 127 0020 B847     		blx	r7
+ 128 0022 6B68     		ldr	r3, [r5, #4]
+ 129 0024 1B6A     		ldr	r3, [r3, #32]
+ 130 0026 83F82C41 		strb	r4, [r3, #300]
+ 131 002a 83F82D41 		strb	r4, [r3, #301]
+ 132 002e F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 133              		.size	start_message, .-start_message
+ 134              		.section	.text.end_message,"ax",%progbits
+ 135              		.align	1
+ 136              		.p2align 4,,15
+ 137              		.syntax unified
+ 138              		.thumb
+ 139              		.thumb_func
+ 140              		.fpu fpv4-sp-d16
+ 141              		.type	end_message, %function
+ 142              	end_message:
+ 143              		@ args = 0, pretend = 0, frame = 0
+ 144              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145 0000 70B5     		push	{r4, r5, r6, lr}
+ 146 0002 D0E90123 		ldrd	r2, r3, [r0, #4]
+ 147 0006 126A     		ldr	r2, [r2, #32]
+ 148 0008 0446     		mov	r4, r0
+ 149 000a 92F82C21 		ldrb	r2, [r2, #300]	@ zero_extendqisi2
+ 150 000e D869     		ldr	r0, [r3, #28]
+ 151 0010 5B68     		ldr	r3, [r3, #4]
+ 152 0012 0D46     		mov	r5, r1
+ 153 0014 9847     		blx	r3
+ 154 0016 D4E90123 		ldrd	r2, r3, [r4, #4]
+ 155 001a 126A     		ldr	r2, [r2, #32]
+ 156 001c 5E68     		ldr	r6, [r3, #4]
+ 157 001e D869     		ldr	r0, [r3, #28]
+ 158 0020 92F82D21 		ldrb	r2, [r2, #301]	@ zero_extendqisi2
+ 159 0024 2946     		mov	r1, r5
+ 160 0026 B047     		blx	r6
+ 161 0028 A368     		ldr	r3, [r4, #8]
+ 162 002a 2946     		mov	r1, r5
+ 163 002c DA68     		ldr	r2, [r3, #12]
+ 164 002e D869     		ldr	r0, [r3, #28]
+ 165 0030 BDE87040 		pop	{r4, r5, r6, lr}
+ 166 0034 1047     		bx	r2	@ indirect register sibling call
+ 167              		.size	end_message, .-end_message
+ 168 0036 00BF     		.section	.text.overrun,"ax",%progbits
+ 169              		.align	1
+ 170              		.p2align 4,,15
+ 171              		.syntax unified
+ARM GAS  /tmp/cc1uc7ev.s 			page 4
+
+
+ 172              		.thumb
+ 173              		.thumb_func
+ 174              		.fpu fpv4-sp-d16
+ 175              		.type	overrun, %function
+ 176              	overrun:
+ 177              		@ args = 0, pretend = 0, frame = 0
+ 178              		@ frame_needed = 0, uses_anonymous_args = 0
+ 179              		@ link register save eliminated.
+ 180 0000 8268     		ldr	r2, [r0, #8]
+ 181 0002 92F82230 		ldrb	r3, [r2, #34]	@ zero_extendqisi2
+ 182 0006 0133     		adds	r3, r3, #1
+ 183 0008 82F82230 		strb	r3, [r2, #34]
+ 184 000c 7047     		bx	lr
+ 185              		.size	overrun, .-overrun
+ 186 000e 00BF     		.section	.text.count_bytes,"ax",%progbits
+ 187              		.align	1
+ 188              		.p2align 4,,15
+ 189              		.syntax unified
+ 190              		.thumb
+ 191              		.thumb_func
+ 192              		.fpu fpv4-sp-d16
+ 193              		.type	count_bytes, %function
+ 194              	count_bytes:
+ 195              		@ args = 0, pretend = 0, frame = 0
+ 196              		@ frame_needed = 0, uses_anonymous_args = 0
+ 197              		@ link register save eliminated.
+ 198 0000 8268     		ldr	r2, [r0, #8]
+ 199 0002 536A     		ldr	r3, [r2, #36]
+ 200 0004 1944     		add	r1, r1, r3
+ 201 0006 5162     		str	r1, [r2, #36]
+ 202 0008 7047     		bx	lr
+ 203              		.size	count_bytes, .-count_bytes
+ 204 000a 00BF     		.section	.text.check_available_space,"ax",%progbits
+ 205              		.align	1
+ 206              		.p2align 4,,15
+ 207              		.syntax unified
+ 208              		.thumb
+ 209              		.thumb_func
+ 210              		.fpu fpv4-sp-d16
+ 211              		.type	check_available_space, %function
+ 212              	check_available_space:
+ 213              		@ args = 0, pretend = 0, frame = 0
+ 214              		@ frame_needed = 0, uses_anonymous_args = 0
+ 215              		@ link register save eliminated.
+ 216 0000 8368     		ldr	r3, [r0, #8]
+ 217 0002 10B4     		push	{r4}
+ 218 0004 1C68     		ldr	r4, [r3]
+ 219 0006 D869     		ldr	r0, [r3, #28]
+ 220 0008 2346     		mov	r3, r4
+ 221 000a 5DF8044B 		ldr	r4, [sp], #4
+ 222 000e 1847     		bx	r3
+ 223              		.size	check_available_space, .-check_available_space
+ 224              		.section	.text.pprz_transport_init,"ax",%progbits
+ 225              		.align	1
+ 226              		.p2align 4,,15
+ 227              		.global	pprz_transport_init
+ 228              		.syntax unified
+ARM GAS  /tmp/cc1uc7ev.s 			page 5
+
+
+ 229              		.thumb
+ 230              		.thumb_func
+ 231              		.fpu fpv4-sp-d16
+ 232              		.type	pprz_transport_init, %function
+ 233              	pprz_transport_init:
+ 234              		@ args = 0, pretend = 0, frame = 0
+ 235              		@ frame_needed = 0, uses_anonymous_args = 0
+ 236              		@ link register save eliminated.
+ 237 0000 0023     		movs	r3, #0
+ 238 0002 10B4     		push	{r4}
+ 239 0004 0C4C     		ldr	r4, .L21
+ 240 0006 0D49     		ldr	r1, .L21+4
+ 241 0008 0D4A     		ldr	r2, .L21+8
+ 242 000a 80F80431 		strb	r3, [r0, #260]
+ 243 000e 80F80131 		strb	r3, [r0, #257]
+ 244 0012 C0F80841 		str	r4, [r0, #264]
+ 245 0016 0B4B     		ldr	r3, .L21+12
+ 246 0018 0B4C     		ldr	r4, .L21+16
+ 247 001a C0E94312 		strd	r1, r2, [r0, #268]
+ 248 001e C0E94543 		strd	r4, r3, [r0, #276]
+ 249 0022 0A49     		ldr	r1, .L21+20
+ 250 0024 0A4A     		ldr	r2, .L21+24
+ 251 0026 0B4B     		ldr	r3, .L21+28
+ 252 0028 5DF8044B 		ldr	r4, [sp], #4
+ 253 002c C0E94712 		strd	r1, r2, [r0, #284]
+ 254 0030 C0E94930 		strd	r3, r0, [r0, #292]
+ 255 0034 7047     		bx	lr
+ 256              	.L22:
+ 257 0036 00BF     		.align	2
+ 258              	.L21:
+ 259 0038 00000000 		.word	size_of
+ 260 003c 00000000 		.word	check_available_space
+ 261 0040 00000000 		.word	put_bytes
+ 262 0044 00000000 		.word	start_message
+ 263 0048 00000000 		.word	put_named_byte
+ 264 004c 00000000 		.word	end_message
+ 265 0050 00000000 		.word	overrun
+ 266 0054 00000000 		.word	count_bytes
+ 267              		.size	pprz_transport_init, .-pprz_transport_init
+ 268              		.section	.text.parse_pprz,"ax",%progbits
+ 269              		.align	1
+ 270              		.p2align 4,,15
+ 271              		.global	parse_pprz
+ 272              		.syntax unified
+ 273              		.thumb
+ 274              		.thumb_func
+ 275              		.fpu fpv4-sp-d16
+ 276              		.type	parse_pprz, %function
+ 277              	parse_pprz:
+ 278              		@ args = 0, pretend = 0, frame = 0
+ 279              		@ frame_needed = 0, uses_anonymous_args = 0
+ 280              		@ link register save eliminated.
+ 281 0000 90F80431 		ldrb	r3, [r0, #260]	@ zero_extendqisi2
+ 282 0004 042B     		cmp	r3, #4
+ 283 0006 09D8     		bhi	.L24
+ 284 0008 DFE803F0 		tbb	[pc, r3]
+ 285              	.L26:
+ARM GAS  /tmp/cc1uc7ev.s 			page 6
+
+
+ 286 000c 19       		.byte	(.L30-.L26)/2
+ 287 000d 1F       		.byte	(.L29-.L26)/2
+ 288 000e 2F       		.byte	(.L28-.L26)/2
+ 289 000f 49       		.byte	(.L27-.L26)/2
+ 290 0010 11       		.byte	(.L25-.L26)/2
+ 291 0011 00       		.p2align 1
+ 292              	.L36:
+ 293 0012 90F80231 		ldrb	r3, [r0, #258]	@ zero_extendqisi2
+ 294 0016 0133     		adds	r3, r3, #1
+ 295 0018 80F80231 		strb	r3, [r0, #258]
+ 296              	.L24:
+ 297 001c 90F80331 		ldrb	r3, [r0, #259]	@ zero_extendqisi2
+ 298 0020 0133     		adds	r3, r3, #1
+ 299 0022 80F80331 		strb	r3, [r0, #259]
+ 300              	.L35:
+ 301 0026 0023     		movs	r3, #0
+ 302 0028 80F80431 		strb	r3, [r0, #260]
+ 303              	.L23:
+ 304 002c 7047     		bx	lr
+ 305              	.L25:
+ 306 002e 90F80731 		ldrb	r3, [r0, #263]	@ zero_extendqisi2
+ 307 0032 8B42     		cmp	r3, r1
+ 308 0034 F2D1     		bne	.L24
+ 309 0036 0123     		movs	r3, #1
+ 310 0038 80F80131 		strb	r3, [r0, #257]
+ 311 003c F3E7     		b	.L35
+ 312              	.L30:
+ 313 003e 9929     		cmp	r1, #153
+ 314 0040 F4D1     		bne	.L23
+ 315 0042 0123     		movs	r3, #1
+ 316 0044 80F80431 		strb	r3, [r0, #260]
+ 317 0048 7047     		bx	lr
+ 318              	.L29:
+ 319 004a 90F80131 		ldrb	r3, [r0, #257]	@ zero_extendqisi2
+ 320 004e 002B     		cmp	r3, #0
+ 321 0050 DFD1     		bne	.L36
+ 322 0052 0B1F     		subs	r3, r1, #4
+ 323 0054 DBB2     		uxtb	r3, r3
+ 324 0056 0222     		movs	r2, #2
+ 325 0058 80F80031 		strb	r3, [r0, #256]
+ 326 005c 80F80711 		strb	r1, [r0, #263]
+ 327 0060 80F80611 		strb	r1, [r0, #262]
+ 328 0064 A0F80421 		strh	r2, [r0, #260]	@ movhi
+ 329 0068 7047     		bx	lr
+ 330              	.L28:
+ 331 006a 90F80531 		ldrb	r3, [r0, #261]	@ zero_extendqisi2
+ 332 006e C154     		strb	r1, [r0, r3]
+ 333 0070 90F806C1 		ldrb	ip, [r0, #262]	@ zero_extendqisi2
+ 334 0074 90F80721 		ldrb	r2, [r0, #263]	@ zero_extendqisi2
+ 335 0078 6144     		add	r1, r1, ip
+ 336 007a C9B2     		uxtb	r1, r1
+ 337 007c 0A44     		add	r2, r2, r1
+ 338 007e 0133     		adds	r3, r3, #1
+ 339 0080 80F80611 		strb	r1, [r0, #262]
+ 340 0084 90F80011 		ldrb	r1, [r0, #256]	@ zero_extendqisi2
+ 341 0088 80F80721 		strb	r2, [r0, #263]
+ 342 008c DBB2     		uxtb	r3, r3
+ARM GAS  /tmp/cc1uc7ev.s 			page 7
+
+
+ 343 008e 8B42     		cmp	r3, r1
+ 344 0090 80F80531 		strb	r3, [r0, #261]
+ 345 0094 CAD1     		bne	.L23
+ 346 0096 0323     		movs	r3, #3
+ 347 0098 80F80431 		strb	r3, [r0, #260]
+ 348 009c 7047     		bx	lr
+ 349              	.L27:
+ 350 009e 90F80631 		ldrb	r3, [r0, #262]	@ zero_extendqisi2
+ 351 00a2 8B42     		cmp	r3, r1
+ 352 00a4 BAD1     		bne	.L24
+ 353 00a6 0423     		movs	r3, #4
+ 354 00a8 80F80431 		strb	r3, [r0, #260]
+ 355 00ac 7047     		bx	lr
+ 356              		.size	parse_pprz, .-parse_pprz
+ 357 00ae 00BF     		.section	.text.pprz_check_and_parse,"ax",%progbits
+ 358              		.align	1
+ 359              		.p2align 4,,15
+ 360              		.global	pprz_check_and_parse
+ 361              		.syntax unified
+ 362              		.thumb
+ 363              		.thumb_func
+ 364              		.fpu fpv4-sp-d16
+ 365              		.type	pprz_check_and_parse, %function
+ 366              	pprz_check_and_parse:
+ 367              		@ args = 0, pretend = 0, frame = 0
+ 368              		@ frame_needed = 0, uses_anonymous_args = 0
+ 369 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 370 0002 0446     		mov	r4, r0
+ 371 0004 1F46     		mov	r7, r3
+ 372 0006 C069     		ldr	r0, [r0, #28]
+ 373 0008 2369     		ldr	r3, [r4, #16]
+ 374 000a 0D46     		mov	r5, r1
+ 375 000c 1646     		mov	r6, r2
+ 376 000e 9847     		blx	r3
+ 377 0010 50B9     		cbnz	r0, .L38
+ 378              	.L37:
+ 379 0012 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 380              	.L57:
+ 381 0014 95F80111 		ldrb	r1, [r5, #257]	@ zero_extendqisi2
+ 382 0018 59B9     		cbnz	r1, .L40
+ 383 001a 6369     		ldr	r3, [r4, #20]
+ 384 001c E069     		ldr	r0, [r4, #28]
+ 385 001e 9847     		blx	r3
+ 386 0020 0146     		mov	r1, r0
+ 387 0022 2846     		mov	r0, r5
+ 388 0024 FFF7FEFF 		bl	parse_pprz
+ 389              	.L38:
+ 390 0028 2169     		ldr	r1, [r4, #16]
+ 391 002a E069     		ldr	r0, [r4, #28]
+ 392 002c 8847     		blx	r1
+ 393 002e 0028     		cmp	r0, #0
+ 394 0030 F0D1     		bne	.L57
+ 395              	.L40:
+ 396 0032 95F80131 		ldrb	r3, [r5, #257]	@ zero_extendqisi2
+ 397 0036 002B     		cmp	r3, #0
+ 398 0038 EBD0     		beq	.L37
+ 399 003a 95F80031 		ldrb	r3, [r5, #256]	@ zero_extendqisi2
+ARM GAS  /tmp/cc1uc7ev.s 			page 8
+
+
+ 400 003e 4BB1     		cbz	r3, .L43
+ 401 0040 0022     		movs	r2, #0
+ 402 0042 1346     		mov	r3, r2
+ 403              	.L44:
+ 404 0044 E95C     		ldrb	r1, [r5, r3]	@ zero_extendqisi2
+ 405 0046 F154     		strb	r1, [r6, r3]
+ 406 0048 0132     		adds	r2, r2, #1
+ 407 004a 95F80011 		ldrb	r1, [r5, #256]	@ zero_extendqisi2
+ 408 004e D3B2     		uxtb	r3, r2
+ 409 0050 9942     		cmp	r1, r3
+ 410 0052 F7D8     		bhi	.L44
+ 411              	.L43:
+ 412 0054 0122     		movs	r2, #1
+ 413 0056 0023     		movs	r3, #0
+ 414 0058 3A70     		strb	r2, [r7]
+ 415 005a 85F80131 		strb	r3, [r5, #257]
+ 416 005e F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 417              		.size	pprz_check_and_parse, .-pprz_check_and_parse
+ 418              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/cc1uc7ev.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 pprz_transport.c
+     /tmp/cc1uc7ev.s:15     .text.put_bytes:0000000000000000 $t
+     /tmp/cc1uc7ev.s:23     .text.put_bytes:0000000000000000 put_bytes
+     /tmp/cc1uc7ev.s:55     .text.put_named_byte:0000000000000000 $t
+     /tmp/cc1uc7ev.s:62     .text.put_named_byte:0000000000000000 put_named_byte
+     /tmp/cc1uc7ev.s:85     .text.size_of:0000000000000000 $t
+     /tmp/cc1uc7ev.s:92     .text.size_of:0000000000000000 size_of
+     /tmp/cc1uc7ev.s:101    .text.start_message:0000000000000000 $t
+     /tmp/cc1uc7ev.s:108    .text.start_message:0000000000000000 start_message
+     /tmp/cc1uc7ev.s:135    .text.end_message:0000000000000000 $t
+     /tmp/cc1uc7ev.s:142    .text.end_message:0000000000000000 end_message
+     /tmp/cc1uc7ev.s:169    .text.overrun:0000000000000000 $t
+     /tmp/cc1uc7ev.s:176    .text.overrun:0000000000000000 overrun
+     /tmp/cc1uc7ev.s:187    .text.count_bytes:0000000000000000 $t
+     /tmp/cc1uc7ev.s:194    .text.count_bytes:0000000000000000 count_bytes
+     /tmp/cc1uc7ev.s:205    .text.check_available_space:0000000000000000 $t
+     /tmp/cc1uc7ev.s:212    .text.check_available_space:0000000000000000 check_available_space
+     /tmp/cc1uc7ev.s:225    .text.pprz_transport_init:0000000000000000 $t
+     /tmp/cc1uc7ev.s:233    .text.pprz_transport_init:0000000000000000 pprz_transport_init
+     /tmp/cc1uc7ev.s:259    .text.pprz_transport_init:0000000000000038 $d
+     /tmp/cc1uc7ev.s:269    .text.parse_pprz:0000000000000000 $t
+     /tmp/cc1uc7ev.s:277    .text.parse_pprz:0000000000000000 parse_pprz
+     /tmp/cc1uc7ev.s:286    .text.parse_pprz:000000000000000c $d
+     /tmp/cc1uc7ev.s:358    .text.pprz_check_and_parse:0000000000000000 $t
+     /tmp/cc1uc7ev.s:366    .text.pprz_check_and_parse:0000000000000000 pprz_check_and_parse
+     /tmp/cc1uc7ev.s:291    .text.parse_pprz:0000000000000011 $d
+     /tmp/cc1uc7ev.s:291    .text.parse_pprz:0000000000000012 $t
+
+NO UNDEFINED SYMBOLS

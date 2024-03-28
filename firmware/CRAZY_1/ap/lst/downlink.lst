@@ -1,0 +1,320 @@
+ARM GAS  /tmp/ccyaA2a2.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"downlink.c"
+  13              		.text
+  14              		.section	.rodata.send_downlink.str1.4,"aMS",%progbits,1
+  15              		.align	2
+  16              	.LC0:
+  17 0000 44415441 		.ascii	"DATALINK_REPORT\000"
+  17      4C494E4B 
+  17      5F524550 
+  17      4F525400 
+  18              		.section	.text.send_downlink,"ax",%progbits
+  19              		.align	1
+  20              		.p2align 4,,15
+  21              		.arch armv7e-m
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  25              		.fpu fpv4-sp-d16
+  26              		.type	send_downlink, %function
+  27              	send_downlink:
+  28              		@ args = 0, pretend = 0, frame = 24
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+  31 0004 89B0     		sub	sp, sp, #36
+  32 0006 0546     		mov	r5, r0
+  33 0008 0C46     		mov	r4, r1
+  34 000a FFF7FEFF 		bl	get_sys_time_msec
+  35 000e 654A     		ldr	r2, .L8
+  36 0010 1368     		ldr	r3, [r2]
+  37 0012 8342     		cmp	r3, r0
+  38 0014 02D3     		bcc	.L7
+  39 0016 09B0     		add	sp, sp, #36
+  40              		@ sp needed
+  41 0018 BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+  42              	.L7:
+  43 001c C31A     		subs	r3, r0, r3
+  44 001e 1060     		str	r0, [r2]
+  45 0020 6148     		ldr	r0, .L8+4
+  46 0022 626A     		ldr	r2, [r4, #36]
+  47 0024 0168     		ldr	r1, [r0]
+  48 0026 2E68     		ldr	r6, [r5]
+  49 0028 604F     		ldr	r7, .L8+8
+  50 002a 0695     		str	r5, [sp, #24]
+  51 002c 604D     		ldr	r5, .L8+12
+  52 002e 0260     		str	r2, [r0]
+  53 0030 511A     		subs	r1, r2, r1
+  54 0032 3868     		ldr	r0, [r7]
+ARM GAS  /tmp/ccyaA2a2.s 			page 2
+
+
+  55 0034 2A88     		ldrh	r2, [r5]
+  56 0036 3A60     		str	r2, [r7]
+  57 0038 101A     		subs	r0, r2, r0
+  58 003a 4FF47A77 		mov	r7, #1000
+  59 003e 07FB01F2 		mul	r2, r7, r1
+  60 0042 07FB00F0 		mul	r0, r7, r0
+  61 0046 B2FBF3F2 		udiv	r2, r2, r3
+  62 004a B0FBF3F0 		udiv	r0, r0, r3
+  63 004e 0027     		movs	r7, #0
+  64 0050 1F23     		movs	r3, #31
+  65 0052 ADF80C20 		strh	r2, [sp, #12]	@ movhi
+  66 0056 ADF80E00 		strh	r0, [sp, #14]	@ movhi
+  67 005a ADF81430 		strh	r3, [sp, #20]	@ movhi
+  68 005e 0F21     		movs	r1, #15
+  69 0060 0794     		str	r4, [sp, #28]
+  70 0062 8DF81670 		strb	r7, [sp, #22]
+  71 0066 0497     		str	r7, [sp, #16]
+  72 0068 05A8     		add	r0, sp, #20
+  73 006a B047     		blx	r6
+  74 006c 069B     		ldr	r3, [sp, #24]
+  75 006e 0646     		mov	r6, r0
+  76 0070 82B2     		uxth	r2, r0
+  77 0072 5B68     		ldr	r3, [r3, #4]
+  78 0074 04A9     		add	r1, sp, #16
+  79 0076 05A8     		add	r0, sp, #20
+  80 0078 9847     		blx	r3
+  81 007a 0028     		cmp	r0, #0
+  82 007c 00F08A80 		beq	.L3
+  83 0080 069B     		ldr	r3, [sp, #24]
+  84 0082 3146     		mov	r1, r6
+  85 0084 05A8     		add	r0, sp, #20
+  86 0086 DB69     		ldr	r3, [r3, #28]
+  87 0088 9847     		blx	r3
+  88 008a 069B     		ldr	r3, [sp, #24]
+  89 008c 0499     		ldr	r1, [sp, #16]
+  90 008e 1B69     		ldr	r3, [r3, #16]
+  91 0090 05A8     		add	r0, sp, #20
+  92 0092 0F22     		movs	r2, #15
+  93 0094 9847     		blx	r3
+  94 0096 0126     		movs	r6, #1
+  95 0098 069B     		ldr	r3, [sp, #24]
+  96 009a 0196     		str	r6, [sp, #4]
+  97 009c 05AA     		add	r2, sp, #20
+  98 009e 0092     		str	r2, [sp]
+  99 00a0 D3F80880 		ldr	r8, [r3, #8]
+ 100 00a4 0499     		ldr	r1, [sp, #16]
+ 101 00a6 3B46     		mov	r3, r7
+ 102 00a8 1046     		mov	r0, r2
+ 103 00aa 0222     		movs	r2, #2
+ 104 00ac C047     		blx	r8
+ 105 00ae 069B     		ldr	r3, [sp, #24]
+ 106 00b0 9DF81520 		ldrb	r2, [sp, #21]	@ zero_extendqisi2
+ 107 00b4 0092     		str	r2, [sp]
+ 108 00b6 0197     		str	r7, [sp, #4]
+ 109 00b8 D3F80C80 		ldr	r8, [r3, #12]
+ 110 00bc 0499     		ldr	r1, [sp, #16]
+ 111 00be 3B46     		mov	r3, r7
+ARM GAS  /tmp/ccyaA2a2.s 			page 3
+
+
+ 112 00c0 05A8     		add	r0, sp, #20
+ 113 00c2 0222     		movs	r2, #2
+ 114 00c4 C047     		blx	r8
+ 115 00c6 9DF81630 		ldrb	r3, [sp, #22]	@ zero_extendqisi2
+ 116 00ca 0197     		str	r7, [sp, #4]
+ 117 00cc 1B01     		lsls	r3, r3, #4
+ 118 00ce 3343     		orrs	r3, r3, r6
+ 119 00d0 DBB2     		uxtb	r3, r3
+ 120 00d2 0093     		str	r3, [sp]
+ 121 00d4 069B     		ldr	r3, [sp, #24]
+ 122 00d6 0499     		ldr	r1, [sp, #16]
+ 123 00d8 D3F80C80 		ldr	r8, [r3, #12]
+ 124 00dc 05A8     		add	r0, sp, #20
+ 125 00de 3B46     		mov	r3, r7
+ 126 00e0 0222     		movs	r2, #2
+ 127 00e2 C047     		blx	r8
+ 128 00e4 334A     		ldr	r2, .L8+16
+ 129 00e6 069B     		ldr	r3, [sp, #24]
+ 130 00e8 0192     		str	r2, [sp, #4]
+ 131 00ea 1E22     		movs	r2, #30
+ 132 00ec 0092     		str	r2, [sp]
+ 133 00ee D3F80C80 		ldr	r8, [r3, #12]
+ 134 00f2 0499     		ldr	r1, [sp, #16]
+ 135 00f4 3B46     		mov	r3, r7
+ 136 00f6 05A8     		add	r0, sp, #20
+ 137 00f8 0222     		movs	r2, #2
+ 138 00fa C047     		blx	r8
+ 139 00fc 4FF00208 		mov	r8, #2
+ 140 0100 069B     		ldr	r3, [sp, #24]
+ 141 0102 2D4A     		ldr	r2, .L8+20
+ 142 0104 0092     		str	r2, [sp]
+ 143 0106 CDF80480 		str	r8, [sp, #4]
+ 144 010a D3F80890 		ldr	r9, [r3, #8]
+ 145 010e 0499     		ldr	r1, [sp, #16]
+ 146 0110 3B46     		mov	r3, r7
+ 147 0112 05A8     		add	r0, sp, #20
+ 148 0114 0422     		movs	r2, #4
+ 149 0116 C847     		blx	r9
+ 150 0118 CDE90058 		strd	r5, r8, [sp]
+ 151 011c 069B     		ldr	r3, [sp, #24]
+ 152 011e 0499     		ldr	r1, [sp, #16]
+ 153 0120 9D68     		ldr	r5, [r3, #8]
+ 154 0122 05A8     		add	r0, sp, #20
+ 155 0124 3B46     		mov	r3, r7
+ 156 0126 0422     		movs	r2, #4
+ 157 0128 A847     		blx	r5
+ 158 012a 069B     		ldr	r3, [sp, #24]
+ 159 012c CDF80480 		str	r8, [sp, #4]
+ 160 0130 04F12002 		add	r2, r4, #32
+ 161 0134 0092     		str	r2, [sp]
+ 162 0136 9D68     		ldr	r5, [r3, #8]
+ 163 0138 0499     		ldr	r1, [sp, #16]
+ 164 013a 3B46     		mov	r3, r7
+ 165 013c 05A8     		add	r0, sp, #20
+ 166 013e 0422     		movs	r2, #4
+ 167 0140 A847     		blx	r5
+ 168 0142 069B     		ldr	r3, [sp, #24]
+ARM GAS  /tmp/ccyaA2a2.s 			page 4
+
+
+ 169 0144 CDF80480 		str	r8, [sp, #4]
+ 170 0148 03AA     		add	r2, sp, #12
+ 171 014a 0092     		str	r2, [sp]
+ 172 014c 9D68     		ldr	r5, [r3, #8]
+ 173 014e 0499     		ldr	r1, [sp, #16]
+ 174 0150 3B46     		mov	r3, r7
+ 175 0152 05A8     		add	r0, sp, #20
+ 176 0154 0422     		movs	r2, #4
+ 177 0156 A847     		blx	r5
+ 178 0158 069B     		ldr	r3, [sp, #24]
+ 179 015a CDF80480 		str	r8, [sp, #4]
+ 180 015e 0DF10E02 		add	r2, sp, #14
+ 181 0162 0092     		str	r2, [sp]
+ 182 0164 9D68     		ldr	r5, [r3, #8]
+ 183 0166 0499     		ldr	r1, [sp, #16]
+ 184 0168 3B46     		mov	r3, r7
+ 185 016a 05A8     		add	r0, sp, #20
+ 186 016c 0422     		movs	r2, #4
+ 187 016e 2234     		adds	r4, r4, #34
+ 188 0170 A847     		blx	r5
+ 189 0172 0094     		str	r4, [sp]
+ 190 0174 069C     		ldr	r4, [sp, #24]
+ 191 0176 0196     		str	r6, [sp, #4]
+ 192 0178 0499     		ldr	r1, [sp, #16]
+ 193 017a A468     		ldr	r4, [r4, #8]
+ 194 017c 05A8     		add	r0, sp, #20
+ 195 017e 3B46     		mov	r3, r7
+ 196 0180 4246     		mov	r2, r8
+ 197 0182 A047     		blx	r4
+ 198 0184 069B     		ldr	r3, [sp, #24]
+ 199 0186 0499     		ldr	r1, [sp, #16]
+ 200 0188 5B69     		ldr	r3, [r3, #20]
+ 201 018a 05A8     		add	r0, sp, #20
+ 202 018c 9847     		blx	r3
+ 203 018e 09B0     		add	sp, sp, #36
+ 204              		@ sp needed
+ 205 0190 BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 206              	.L3:
+ 207 0194 069B     		ldr	r3, [sp, #24]
+ 208 0196 05A8     		add	r0, sp, #20
+ 209 0198 9B69     		ldr	r3, [r3, #24]
+ 210 019a 9847     		blx	r3
+ 211 019c 09B0     		add	sp, sp, #36
+ 212              		@ sp needed
+ 213 019e BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 214              	.L9:
+ 215 01a2 00BF     		.align	2
+ 216              	.L8:
+ 217 01a4 00000000 		.word	.LANCHOR0
+ 218 01a8 00000000 		.word	.LANCHOR1
+ 219 01ac 00000000 		.word	.LANCHOR2
+ 220 01b0 00000000 		.word	datalink_nb_msgs
+ 221 01b4 00000000 		.word	.LC0
+ 222 01b8 00000000 		.word	datalink_time
+ 223              		.size	send_downlink, .-send_downlink
+ 224              		.section	.text.downlink_init,"ax",%progbits
+ 225              		.align	1
+ARM GAS  /tmp/ccyaA2a2.s 			page 5
+
+
+ 226              		.p2align 4,,15
+ 227              		.global	downlink_init
+ 228              		.syntax unified
+ 229              		.thumb
+ 230              		.thumb_func
+ 231              		.fpu fpv4-sp-d16
+ 232              		.type	downlink_init, %function
+ 233              	downlink_init:
+ 234              		@ args = 0, pretend = 0, frame = 0
+ 235              		@ frame_needed = 0, uses_anonymous_args = 0
+ 236              		@ link register save eliminated.
+ 237 0000 074B     		ldr	r3, .L12
+ 238 0002 084A     		ldr	r2, .L12+4
+ 239 0004 0848     		ldr	r0, .L12+8
+ 240 0006 10B4     		push	{r4}
+ 241 0008 0024     		movs	r4, #0
+ 242 000a 83F86243 		strb	r4, [r3, #866]
+ 243 000e C3F86443 		str	r4, [r3, #868]
+ 244 0012 A3F86043 		strh	r4, [r3, #864]	@ movhi
+ 245 0016 1E21     		movs	r1, #30
+ 246 0018 5DF8044B 		ldr	r4, [sp], #4
+ 247 001c FFF7FEBF 		b	register_periodic_telemetry
+ 248              	.L13:
+ 249              		.align	2
+ 250              	.L12:
+ 251 0020 00000000 		.word	syslink
+ 252 0024 00000000 		.word	send_downlink
+ 253 0028 00000000 		.word	pprz_telemetry
+ 254              		.size	downlink_init, .-downlink_init
+ 255              		.section	.bss.last_down_nb_bytes,"aw",%nobits
+ 256              		.align	2
+ 257              		.set	.LANCHOR1,. + 0
+ 258              		.type	last_down_nb_bytes, %object
+ 259              		.size	last_down_nb_bytes, 4
+ 260              	last_down_nb_bytes:
+ 261 0000 00000000 		.space	4
+ 262              		.section	.bss.last_ts,"aw",%nobits
+ 263              		.align	2
+ 264              		.set	.LANCHOR0,. + 0
+ 265              		.type	last_ts, %object
+ 266              		.size	last_ts, 4
+ 267              	last_ts:
+ 268 0000 00000000 		.space	4
+ 269              		.section	.bss.last_up_nb_msgs,"aw",%nobits
+ 270              		.align	2
+ 271              		.set	.LANCHOR2,. + 0
+ 272              		.type	last_up_nb_msgs, %object
+ 273              		.size	last_up_nb_msgs, 4
+ 274              	last_up_nb_msgs:
+ 275 0000 00000000 		.space	4
+ 276              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccyaA2a2.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 downlink.c
+     /tmp/ccyaA2a2.s:15     .rodata.send_downlink.str1.4:0000000000000000 $d
+     /tmp/ccyaA2a2.s:19     .text.send_downlink:0000000000000000 $t
+     /tmp/ccyaA2a2.s:27     .text.send_downlink:0000000000000000 send_downlink
+     /tmp/ccyaA2a2.s:217    .text.send_downlink:00000000000001a4 $d
+     /tmp/ccyaA2a2.s:225    .text.downlink_init:0000000000000000 $t
+     /tmp/ccyaA2a2.s:233    .text.downlink_init:0000000000000000 downlink_init
+     /tmp/ccyaA2a2.s:251    .text.downlink_init:0000000000000020 $d
+     /tmp/ccyaA2a2.s:256    .bss.last_down_nb_bytes:0000000000000000 $d
+     /tmp/ccyaA2a2.s:260    .bss.last_down_nb_bytes:0000000000000000 last_down_nb_bytes
+     /tmp/ccyaA2a2.s:263    .bss.last_ts:0000000000000000 $d
+     /tmp/ccyaA2a2.s:267    .bss.last_ts:0000000000000000 last_ts
+     /tmp/ccyaA2a2.s:270    .bss.last_up_nb_msgs:0000000000000000 $d
+     /tmp/ccyaA2a2.s:274    .bss.last_up_nb_msgs:0000000000000000 last_up_nb_msgs
+
+UNDEFINED SYMBOLS
+get_sys_time_msec
+datalink_nb_msgs
+datalink_time
+register_periodic_telemetry
+syslink
+pprz_telemetry

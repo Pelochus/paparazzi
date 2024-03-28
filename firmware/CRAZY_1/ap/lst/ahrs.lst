@@ -1,0 +1,165 @@
+ARM GAS  /tmp/cc8UBEXv.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"ahrs.c"
+  13              		.text
+  14              		.section	.text.ahrs_register_impl,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	ahrs_register_impl
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	ahrs_register_impl, %function
+  24              	ahrs_register_impl:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27              		@ link register save eliminated.
+  28 0000 044B     		ldr	r3, .L7
+  29 0002 1A68     		ldr	r2, [r3]
+  30 0004 1AB1     		cbz	r2, .L2
+  31 0006 5A68     		ldr	r2, [r3, #4]
+  32 0008 02B1     		cbz	r2, .L6
+  33              	.L1:
+  34 000a 7047     		bx	lr
+  35              	.L6:
+  36 000c 0122     		movs	r2, #1
+  37              	.L2:
+  38 000e 43F82200 		str	r0, [r3, r2, lsl #2]
+  39 0012 FAE7     		b	.L1
+  40              	.L8:
+  41              		.align	2
+  42              	.L7:
+  43 0014 00000000 		.word	.LANCHOR0
+  44              		.size	ahrs_register_impl, .-ahrs_register_impl
+  45              		.section	.text.ahrs_switch,"ax",%progbits
+  46              		.align	1
+  47              		.p2align 4,,15
+  48              		.global	ahrs_switch
+  49              		.syntax unified
+  50              		.thumb
+  51              		.thumb_func
+  52              		.fpu fpv4-sp-d16
+  53              		.type	ahrs_switch, %function
+  54              	ahrs_switch:
+  55              		@ args = 0, pretend = 0, frame = 0
+  56              		@ frame_needed = 0, uses_anonymous_args = 0
+  57 0000 0128     		cmp	r0, #1
+ARM GAS  /tmp/cc8UBEXv.s 			page 2
+
+
+  58 0002 70B5     		push	{r4, r5, r6, lr}
+  59 0004 15D8     		bhi	.L14
+  60 0006 0C4D     		ldr	r5, .L22
+  61 0008 55F82030 		ldr	r3, [r5, r0, lsl #2]
+  62 000c 0446     		mov	r4, r0
+  63 000e 0646     		mov	r6, r0
+  64 0010 7BB1     		cbz	r3, .L14
+  65 0012 2B68     		ldr	r3, [r5]
+  66 0014 0BB1     		cbz	r3, .L11
+  67 0016 0020     		movs	r0, #0
+  68 0018 9847     		blx	r3
+  69              	.L11:
+  70 001a 6B68     		ldr	r3, [r5, #4]
+  71 001c 0BB1     		cbz	r3, .L12
+  72 001e 0020     		movs	r0, #0
+  73 0020 9847     		blx	r3
+  74              	.L12:
+  75 0022 55F82430 		ldr	r3, [r5, r4, lsl #2]
+  76 0026 0120     		movs	r0, #1
+  77 0028 9847     		blx	r3
+  78 002a 044B     		ldr	r3, .L22+4
+  79 002c 1C70     		strb	r4, [r3]
+  80              	.L9:
+  81 002e 3046     		mov	r0, r6
+  82 0030 70BD     		pop	{r4, r5, r6, pc}
+  83              	.L14:
+  84 0032 4FF0FF36 		mov	r6, #-1
+  85 0036 FAE7     		b	.L9
+  86              	.L23:
+  87              		.align	2
+  88              	.L22:
+  89 0038 00000000 		.word	.LANCHOR0
+  90 003c 00000000 		.word	.LANCHOR1
+  91              		.size	ahrs_switch, .-ahrs_switch
+  92              		.section	.text.ahrs_init,"ax",%progbits
+  93              		.align	1
+  94              		.p2align 4,,15
+  95              		.global	ahrs_init
+  96              		.syntax unified
+  97              		.thumb
+  98              		.thumb_func
+  99              		.fpu fpv4-sp-d16
+ 100              		.type	ahrs_init, %function
+ 101              	ahrs_init:
+ 102              		@ args = 0, pretend = 0, frame = 0
+ 103              		@ frame_needed = 0, uses_anonymous_args = 0
+ 104 0000 10B5     		push	{r4, lr}
+ 105 0002 064B     		ldr	r3, .L26
+ 106 0004 0024     		movs	r4, #0
+ 107 0006 C3E90044 		strd	r4, r4, [r3]
+ 108 000a FFF7FEFF 		bl	ahrs_madgwick_register
+ 109 000e 2046     		mov	r0, r4
+ 110 0010 FFF7FEFF 		bl	ahrs_switch
+ 111 0014 BDE81040 		pop	{r4, lr}
+ 112 0018 FFF7FEBF 		b	ahrs_aligner_init
+ 113              	.L27:
+ 114              		.align	2
+ARM GAS  /tmp/cc8UBEXv.s 			page 3
+
+
+ 115              	.L26:
+ 116 001c 00000000 		.word	.LANCHOR0
+ 117              		.size	ahrs_init, .-ahrs_init
+ 118              		.global	ahrs_output_idx
+ 119              		.global	ahrs_impls
+ 120              		.section	.bss.ahrs_impls,"aw",%nobits
+ 121              		.align	2
+ 122              		.set	.LANCHOR0,. + 0
+ 123              		.type	ahrs_impls, %object
+ 124              		.size	ahrs_impls, 8
+ 125              	ahrs_impls:
+ 126 0000 00000000 		.space	8
+ 126      00000000 
+ 127              		.section	.bss.ahrs_output_idx,"aw",%nobits
+ 128              		.set	.LANCHOR1,. + 0
+ 129              		.type	ahrs_output_idx, %object
+ 130              		.size	ahrs_output_idx, 1
+ 131              	ahrs_output_idx:
+ 132 0000 00       		.space	1
+ 133              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/cc8UBEXv.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 ahrs.c
+     /tmp/cc8UBEXv.s:15     .text.ahrs_register_impl:0000000000000000 $t
+     /tmp/cc8UBEXv.s:24     .text.ahrs_register_impl:0000000000000000 ahrs_register_impl
+     /tmp/cc8UBEXv.s:43     .text.ahrs_register_impl:0000000000000014 $d
+     /tmp/cc8UBEXv.s:46     .text.ahrs_switch:0000000000000000 $t
+     /tmp/cc8UBEXv.s:54     .text.ahrs_switch:0000000000000000 ahrs_switch
+     /tmp/cc8UBEXv.s:89     .text.ahrs_switch:0000000000000038 $d
+     /tmp/cc8UBEXv.s:93     .text.ahrs_init:0000000000000000 $t
+     /tmp/cc8UBEXv.s:101    .text.ahrs_init:0000000000000000 ahrs_init
+     /tmp/cc8UBEXv.s:116    .text.ahrs_init:000000000000001c $d
+     /tmp/cc8UBEXv.s:131    .bss.ahrs_output_idx:0000000000000000 ahrs_output_idx
+     /tmp/cc8UBEXv.s:125    .bss.ahrs_impls:0000000000000000 ahrs_impls
+     /tmp/cc8UBEXv.s:121    .bss.ahrs_impls:0000000000000000 $d
+     /tmp/cc8UBEXv.s:132    .bss.ahrs_output_idx:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+ahrs_madgwick_register
+ahrs_aligner_init

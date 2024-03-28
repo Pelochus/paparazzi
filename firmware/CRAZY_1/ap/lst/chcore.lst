@@ -1,0 +1,205 @@
+ARM GAS  /tmp/ccu6tyxc.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"chcore.c"
+  13              		.text
+  14              		.section	.text.SVC_Handler,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	SVC_Handler
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	SVC_Handler, %function
+  24              	SVC_Handler:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27              		@ link register save eliminated.
+  28              		.syntax unified
+  29              	@ 251 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  30 0000 EFF30983 		MRS r3, psp
+  31              	@ 0 "" 2
+  32              		.thumb
+  33              		.syntax unified
+  34 0004 0549     		ldr	r1, .L3
+  35 0006 4A6B     		ldr	r2, [r1, #52]
+  36 0008 22F00102 		bic	r2, r2, #1
+  37 000c 6833     		adds	r3, r3, #104
+  38 000e 4A63     		str	r2, [r1, #52]
+  39              		.syntax unified
+  40              	@ 279 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  41 0010 83F30988 		MSR psp, r3
+  42              	@ 0 "" 2
+  43              		.thumb
+  44              		.syntax unified
+  45 0014 0023     		movs	r3, #0
+  46              		.syntax unified
+  47              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  48 0016 83F31188 		MSR basepri, r3
+  49              	@ 0 "" 2
+  50              		.thumb
+  51              		.syntax unified
+  52 001a 7047     		bx	lr
+  53              	.L4:
+  54              		.align	2
+  55              	.L3:
+  56 001c 00EF00E0 		.word	-536809728
+  57              		.size	SVC_Handler, .-SVC_Handler
+ARM GAS  /tmp/ccu6tyxc.s 			page 2
+
+
+  58              		.section	.text.port_init,"ax",%progbits
+  59              		.align	1
+  60              		.p2align 4,,15
+  61              		.global	port_init
+  62              		.syntax unified
+  63              		.thumb
+  64              		.thumb_func
+  65              		.fpu fpv4-sp-d16
+  66              		.type	port_init, %function
+  67              	port_init:
+  68              		@ args = 0, pretend = 0, frame = 0
+  69              		@ frame_needed = 0, uses_anonymous_args = 0
+  70              		@ link register save eliminated.
+  71 0000 3020     		movs	r0, #48
+  72              		.syntax unified
+  73              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  74 0002 80F31188 		MSR basepri, r0
+  75              	@ 0 "" 2
+  76              	@ 131 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  77 0006 62B6     		cpsie i
+  78              	@ 0 "" 2
+  79              		.thumb
+  80              		.syntax unified
+  81 0008 0D4B     		ldr	r3, .L6
+  82 000a 0E4A     		ldr	r2, .L6+4
+  83 000c D968     		ldr	r1, [r3, #12]
+  84 000e 4FF6FF0C 		movw	ip, #63743
+  85 0012 01EA0C01 		and	r1, r1, ip
+  86 0016 0A43     		orrs	r2, r2, r1
+  87 0018 DA60     		str	r2, [r3, #12]
+  88 001a D3F8FC20 		ldr	r2, [r3, #252]
+  89 001e 0A49     		ldr	r1, .L6+8
+  90 0020 42F08072 		orr	r2, r2, #16777216
+  91 0024 C3F8FC20 		str	r2, [r3, #252]
+  92 0028 0A68     		ldr	r2, [r1]
+  93 002a 4FF0200C 		mov	ip, #32
+  94 002e 42F00102 		orr	r2, r2, #1
+  95 0032 0A60     		str	r2, [r1]
+  96 0034 83F81FC0 		strb	ip, [r3, #31]
+  97 0038 83F82200 		strb	r0, [r3, #34]
+  98 003c 7047     		bx	lr
+  99              	.L7:
+ 100 003e 00BF     		.align	2
+ 101              	.L6:
+ 102 0040 00ED00E0 		.word	-536810240
+ 103 0044 0003FA05 		.word	100270848
+ 104 0048 001000E0 		.word	-536866816
+ 105              		.size	port_init, .-port_init
+ 106              		.section	.text.__port_irq_epilogue,"ax",%progbits
+ 107              		.align	1
+ 108              		.p2align 4,,15
+ 109              		.global	__port_irq_epilogue
+ 110              		.syntax unified
+ 111              		.thumb
+ 112              		.thumb_func
+ 113              		.fpu fpv4-sp-d16
+ 114              		.type	__port_irq_epilogue, %function
+ARM GAS  /tmp/ccu6tyxc.s 			page 3
+
+
+ 115              	__port_irq_epilogue:
+ 116              		@ args = 0, pretend = 0, frame = 0
+ 117              		@ frame_needed = 0, uses_anonymous_args = 0
+ 118 0000 3023     		movs	r3, #48
+ 119              		.syntax unified
+ 120              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 121 0002 83F31188 		MSR basepri, r3
+ 122              	@ 0 "" 2
+ 123              		.thumb
+ 124              		.syntax unified
+ 125 0006 0F4B     		ldr	r3, .L17
+ 126 0008 5B68     		ldr	r3, [r3, #4]
+ 127 000a 13F40063 		ands	r3, r3, #2048
+ 128 000e 02D1     		bne	.L16
+ 129              		.syntax unified
+ 130              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 131 0010 83F31188 		MSR basepri, r3
+ 132              	@ 0 "" 2
+ 133              		.thumb
+ 134              		.syntax unified
+ 135 0014 7047     		bx	lr
+ 136              	.L16:
+ 137 0016 10B5     		push	{r4, lr}
+ 138 0018 F1EE103A 		mrc	p10, 7, r3, cr1, cr0, 0	 @GET_FPSCR
+ 139              		.syntax unified
+ 140              	@ 251 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 141 001c EFF30984 		MRS r4, psp
+ 142              	@ 0 "" 2
+ 143              		.thumb
+ 144              		.syntax unified
+ 145 0020 683C     		subs	r4, r4, #104
+ 146 0022 4FF08072 		mov	r2, #16777216
+ 147 0026 084B     		ldr	r3, .L17+4
+ 148 0028 E261     		str	r2, [r4, #28]
+ 149 002a DB6B     		ldr	r3, [r3, #60]
+ 150 002c 2366     		str	r3, [r4, #96]
+ 151              		.syntax unified
+ 152              	@ 279 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 153 002e 84F30988 		MSR psp, r4
+ 154              	@ 0 "" 2
+ 155              		.thumb
+ 156              		.syntax unified
+ 157 0032 FFF7FEFF 		bl	chSchIsPreemptionRequired
+ 158 0036 10B1     		cbz	r0, .L10
+ 159 0038 044B     		ldr	r3, .L17+8
+ 160 003a A361     		str	r3, [r4, #24]
+ 161 003c 10BD     		pop	{r4, pc}
+ 162              	.L10:
+ 163 003e 044B     		ldr	r3, .L17+12
+ 164 0040 A361     		str	r3, [r4, #24]
+ 165 0042 10BD     		pop	{r4, pc}
+ 166              	.L18:
+ 167              		.align	2
+ 168              	.L17:
+ 169 0044 00ED00E0 		.word	-536810240
+ 170 0048 00EF00E0 		.word	-536809728
+ 171 004c 00000000 		.word	__port_switch_from_isr
+ARM GAS  /tmp/ccu6tyxc.s 			page 4
+
+
+ 172 0050 00000000 		.word	__port_exit_from_isr
+ 173              		.size	__port_irq_epilogue, .-__port_irq_epilogue
+ 174              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccu6tyxc.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 chcore.c
+     /tmp/ccu6tyxc.s:15     .text.SVC_Handler:0000000000000000 $t
+     /tmp/ccu6tyxc.s:24     .text.SVC_Handler:0000000000000000 SVC_Handler
+     /tmp/ccu6tyxc.s:56     .text.SVC_Handler:000000000000001c $d
+     /tmp/ccu6tyxc.s:59     .text.port_init:0000000000000000 $t
+     /tmp/ccu6tyxc.s:67     .text.port_init:0000000000000000 port_init
+     /tmp/ccu6tyxc.s:102    .text.port_init:0000000000000040 $d
+     /tmp/ccu6tyxc.s:107    .text.__port_irq_epilogue:0000000000000000 $t
+     /tmp/ccu6tyxc.s:115    .text.__port_irq_epilogue:0000000000000000 __port_irq_epilogue
+     /tmp/ccu6tyxc.s:169    .text.__port_irq_epilogue:0000000000000044 $d
+
+UNDEFINED SYMBOLS
+chSchIsPreemptionRequired
+__port_switch_from_isr
+__port_exit_from_isr

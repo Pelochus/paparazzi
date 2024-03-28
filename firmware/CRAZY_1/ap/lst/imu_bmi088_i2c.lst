@@ -1,0 +1,246 @@
+ARM GAS  /tmp/ccvjcndK.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"imu_bmi088_i2c.c"
+  13              		.text
+  14              		.section	.text.imu_bmi088_init,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	imu_bmi088_init
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	imu_bmi088_init, %function
+  24              	imu_bmi088_init:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27 0000 70B5     		push	{r4, r5, r6, lr}
+  28 0002 0D4C     		ldr	r4, .L4
+  29 0004 0D49     		ldr	r1, .L4+4
+  30 0006 0E4D     		ldr	r5, .L4+8
+  31 0008 2046     		mov	r0, r4
+  32 000a 3023     		movs	r3, #48
+  33 000c D222     		movs	r2, #210
+  34 000e FFF7FEFF 		bl	bmi088_i2c_init
+  35 0012 0022     		movs	r2, #0
+  36 0014 1146     		mov	r1, r2
+  37 0016 0B4B     		ldr	r3, .L4+12
+  38 0018 2566     		str	r5, [r4, #96]
+  39 001a 1320     		movs	r0, #19
+  40 001c 4FF0080C 		mov	ip, #8
+  41 0020 84F864C0 		strb	ip, [r4, #100]
+  42 0024 FFF7FEFF 		bl	imu_set_defaults_gyro
+  43 0028 0022     		movs	r2, #0
+  44 002a BDE87040 		pop	{r4, r5, r6, lr}
+  45 002e 064B     		ldr	r3, .L4+16
+  46 0030 1146     		mov	r1, r2
+  47 0032 1320     		movs	r0, #19
+  48 0034 FFF7FEBF 		b	imu_set_defaults_accel
+  49              	.L5:
+  50              		.align	2
+  51              	.L4:
+  52 0038 00000000 		.word	.LANCHOR0
+  53 003c 00000000 		.word	i2c3
+  54 0040 0102010C 		.word	201392641
+  55 0044 18000000 		.word	BMI088_GYRO_SENS_FRAC+24
+  56 0048 18000000 		.word	BMI088_ACCEL_SENS_FRAC+24
+  57              		.size	imu_bmi088_init, .-imu_bmi088_init
+ARM GAS  /tmp/ccvjcndK.s 			page 2
+
+
+  58              		.section	.text.imu_bmi088_periodic,"ax",%progbits
+  59              		.align	1
+  60              		.p2align 4,,15
+  61              		.global	imu_bmi088_periodic
+  62              		.syntax unified
+  63              		.thumb
+  64              		.thumb_func
+  65              		.fpu fpv4-sp-d16
+  66              		.type	imu_bmi088_periodic, %function
+  67              	imu_bmi088_periodic:
+  68              		@ args = 0, pretend = 0, frame = 0
+  69              		@ frame_needed = 0, uses_anonymous_args = 0
+  70              		@ link register save eliminated.
+  71 0000 0348     		ldr	r0, .L8
+  72 0002 90F86630 		ldrb	r3, [r0, #102]	@ zero_extendqisi2
+  73 0006 0BB1     		cbz	r3, .L7
+  74 0008 FFF7FEBF 		b	bmi088_i2c_read
+  75              	.L7:
+  76 000c FFF7FEBF 		b	bmi088_i2c_start_configure
+  77              	.L9:
+  78              		.align	2
+  79              	.L8:
+  80 0010 00000000 		.word	.LANCHOR0
+  81              		.size	imu_bmi088_periodic, .-imu_bmi088_periodic
+  82              		.section	.text.imu_bmi088_event,"ax",%progbits
+  83              		.align	1
+  84              		.p2align 4,,15
+  85              		.global	imu_bmi088_event
+  86              		.syntax unified
+  87              		.thumb
+  88              		.thumb_func
+  89              		.fpu fpv4-sp-d16
+  90              		.type	imu_bmi088_event, %function
+  91              	imu_bmi088_event:
+  92              		@ args = 0, pretend = 0, frame = 16
+  93              		@ frame_needed = 0, uses_anonymous_args = 0
+  94 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+  95 0004 87B0     		sub	sp, sp, #28
+  96 0006 FFF7FEFF 		bl	get_sys_time_usec
+  97 000a 334E     		ldr	r6, .L46
+  98 000c 0546     		mov	r5, r0
+  99 000e 3046     		mov	r0, r6
+ 100 0010 FFF7FEFF 		bl	bmi088_i2c_event
+ 101 0014 96F85030 		ldrb	r3, [r6, #80]	@ zero_extendqisi2
+ 102 0018 2BB9     		cbnz	r3, .L42
+ 103              	.L11:
+ 104 001a 96F85130 		ldrb	r3, [r6, #81]	@ zero_extendqisi2
+ 105 001e 83BB     		cbnz	r3, .L43
+ 106              	.L10:
+ 107 0020 07B0     		add	sp, sp, #28
+ 108              		@ sp needed
+ 109 0022 BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 110              	.L42:
+ 111 0026 2D49     		ldr	r1, .L46+4
+ 112 0028 B6F95A20 		ldrsh	r2, [r6, #90]
+ 113 002c B6F95C30 		ldrsh	r3, [r6, #92]
+ 114 0030 CC6F     		ldr	r4, [r1, #124]
+ARM GAS  /tmp/ccvjcndK.s 			page 3
+
+
+ 115 0032 B6F95810 		ldrsh	r1, [r6, #88]
+ 116 0036 D6F86890 		ldr	r9, [r6, #104]	@ float
+ 117 003a 0391     		str	r1, [sp, #12]
+ 118 003c 5B42     		rsbs	r3, r3, #0
+ 119 003e 5242     		rsbs	r2, r2, #0
+ 120 0040 CDE90423 		strd	r2, r3, [sp, #16]
+ 121 0044 0023     		movs	r3, #0
+ 122 0046 86F85030 		strb	r3, [r6, #80]
+ 123 004a 002C     		cmp	r4, #0
+ 124 004c E5D0     		beq	.L11
+ 125 004e DFF89080 		ldr	r8, .L46+8
+ 126 0052 04E0     		b	.L15
+ 127              	.L44:
+ 128 0054 8445     		cmp	ip, r0
+ 129 0056 0DD0     		beq	.L13
+ 130              	.L14:
+ 131 0058 A468     		ldr	r4, [r4, #8]
+ 132 005a 002C     		cmp	r4, #0
+ 133 005c DDD0     		beq	.L11
+ 134              	.L15:
+ 135 005e 94F800C0 		ldrb	ip, [r4]	@ zero_extendqisi2
+ 136 0062 BCF1FF0F 		cmp	ip, #255
+ 137 0066 4FF00103 		mov	r3, #1
+ 138 006a 03AA     		add	r2, sp, #12
+ 139 006c 2946     		mov	r1, r5
+ 140 006e 4FF01300 		mov	r0, #19
+ 141 0072 EFD1     		bne	.L44
+ 142              	.L13:
+ 143 0074 CDF80480 		str	r8, [sp, #4]	@ float
+ 144 0078 CDF80090 		str	r9, [sp]	@ float
+ 145 007c 6768     		ldr	r7, [r4, #4]
+ 146 007e B847     		blx	r7
+ 147 0080 EAE7     		b	.L14
+ 148              	.L43:
+ 149 0082 1649     		ldr	r1, .L46+4
+ 150 0084 B6F95420 		ldrsh	r2, [r6, #84]
+ 151 0088 B6F95630 		ldrsh	r3, [r6, #86]
+ 152 008c D1F88040 		ldr	r4, [r1, #128]
+ 153 0090 B6F95210 		ldrsh	r1, [r6, #82]
+ 154 0094 F76E     		ldr	r7, [r6, #108]	@ float
+ 155 0096 0391     		str	r1, [sp, #12]
+ 156 0098 5B42     		rsbs	r3, r3, #0
+ 157 009a 5242     		rsbs	r2, r2, #0
+ 158 009c CDE90423 		strd	r2, r3, [sp, #16]
+ 159 00a0 0023     		movs	r3, #0
+ 160 00a2 86F85130 		strb	r3, [r6, #81]
+ 161 00a6 002C     		cmp	r4, #0
+ 162 00a8 BAD0     		beq	.L10
+ 163 00aa DFF83480 		ldr	r8, .L46+8
+ 164 00ae 04E0     		b	.L20
+ 165              	.L45:
+ 166 00b0 8642     		cmp	r6, r0
+ 167 00b2 0BD0     		beq	.L18
+ 168              	.L19:
+ 169 00b4 A468     		ldr	r4, [r4, #8]
+ 170 00b6 002C     		cmp	r4, #0
+ 171 00b8 B2D0     		beq	.L10
+ARM GAS  /tmp/ccvjcndK.s 			page 4
+
+
+ 172              	.L20:
+ 173 00ba 2678     		ldrb	r6, [r4]	@ zero_extendqisi2
+ 174 00bc FF2E     		cmp	r6, #255
+ 175 00be 4FF00103 		mov	r3, #1
+ 176 00c2 03AA     		add	r2, sp, #12
+ 177 00c4 2946     		mov	r1, r5
+ 178 00c6 4FF01300 		mov	r0, #19
+ 179 00ca F1D1     		bne	.L45
+ 180              	.L18:
+ 181 00cc CDF80480 		str	r8, [sp, #4]	@ float
+ 182 00d0 0097     		str	r7, [sp]	@ float
+ 183 00d2 6668     		ldr	r6, [r4, #4]
+ 184 00d4 B047     		blx	r6
+ 185 00d6 EDE7     		b	.L19
+ 186              	.L47:
+ 187              		.align	2
+ 188              	.L46:
+ 189 00d8 00000000 		.word	.LANCHOR0
+ 190 00dc 00000000 		.word	abi_queues
+ 191 00e0 0000C07F 		.word	2143289344
+ 192              		.size	imu_bmi088_event, .-imu_bmi088_event
+ 193              		.global	imu_bmi088
+ 194              		.section	.bss.imu_bmi088,"aw",%nobits
+ 195              		.align	2
+ 196              		.set	.LANCHOR0,. + 0
+ 197              		.type	imu_bmi088, %object
+ 198              		.size	imu_bmi088, 112
+ 199              	imu_bmi088:
+ 200 0000 00000000 		.space	112
+ 200      00000000 
+ 200      00000000 
+ 200      00000000 
+ 200      00000000 
+ 201              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccvjcndK.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 imu_bmi088_i2c.c
+     /tmp/ccvjcndK.s:15     .text.imu_bmi088_init:0000000000000000 $t
+     /tmp/ccvjcndK.s:24     .text.imu_bmi088_init:0000000000000000 imu_bmi088_init
+     /tmp/ccvjcndK.s:52     .text.imu_bmi088_init:0000000000000038 $d
+     /tmp/ccvjcndK.s:59     .text.imu_bmi088_periodic:0000000000000000 $t
+     /tmp/ccvjcndK.s:67     .text.imu_bmi088_periodic:0000000000000000 imu_bmi088_periodic
+     /tmp/ccvjcndK.s:80     .text.imu_bmi088_periodic:0000000000000010 $d
+     /tmp/ccvjcndK.s:83     .text.imu_bmi088_event:0000000000000000 $t
+     /tmp/ccvjcndK.s:91     .text.imu_bmi088_event:0000000000000000 imu_bmi088_event
+     /tmp/ccvjcndK.s:189    .text.imu_bmi088_event:00000000000000d8 $d
+     /tmp/ccvjcndK.s:199    .bss.imu_bmi088:0000000000000000 imu_bmi088
+     /tmp/ccvjcndK.s:195    .bss.imu_bmi088:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+bmi088_i2c_init
+imu_set_defaults_gyro
+imu_set_defaults_accel
+i2c3
+BMI088_GYRO_SENS_FRAC
+BMI088_ACCEL_SENS_FRAC
+bmi088_i2c_read
+bmi088_i2c_start_configure
+get_sys_time_usec
+bmi088_i2c_event
+abi_queues

@@ -1,0 +1,355 @@
+ARM GAS  /tmp/ccYj4sl9.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"chobjcaches.c"
+  13              		.text
+  14              		.section	.text.chCacheObjectInit,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	chCacheObjectInit
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	chCacheObjectInit, %function
+  24              	chCacheObjectInit:
+  25              		@ args = 16, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+  28 0004 0646     		mov	r6, r0
+  29 0006 1F46     		mov	r7, r3
+  30 0008 8946     		mov	r9, r1
+  31 000a 2430     		adds	r0, r0, #36
+  32 000c 0121     		movs	r1, #1
+  33 000e 1546     		mov	r5, r2
+  34 0010 099C     		ldr	r4, [sp, #36]
+  35 0012 DDF82080 		ldr	r8, [sp, #32]
+  36 0016 FFF7FEFF 		bl	chSemObjectInit
+  37 001a 3946     		mov	r1, r7
+  38 001c 06F13000 		add	r0, r6, #48
+  39 0020 FFF7FEFF 		bl	chSemObjectInit
+  40 0024 0A9B     		ldr	r3, [sp, #40]
+  41 0026 F363     		str	r3, [r6, #60]
+  42 0028 0B9B     		ldr	r3, [sp, #44]
+  43 002a 3364     		str	r3, [r6, #64]
+  44 002c C6E90095 		strd	r9, r5, [r6]
+  45 0030 05EBC901 		add	r1, r5, r9, lsl #3
+  46 0034 0023     		movs	r3, #0
+  47 0036 06F11409 		add	r9, r6, #20
+  48 003a C6E90533 		strd	r3, r3, [r6, #20]
+  49 003e C6E90799 		strd	r9, r9, [r6, #28]
+  50 0042 B760     		str	r7, [r6, #8]
+  51 0044 3461     		str	r4, [r6, #16]
+  52              	.L2:
+  53 0046 C5E90055 		strd	r5, r5, [r5]
+  54 004a 0835     		adds	r5, r5, #8
+  55 004c A942     		cmp	r1, r5
+  56 004e FAD8     		bhi	.L2
+  57 0050 4FF0010A 		mov	r10, #1
+ARM GAS  /tmp/ccYj4sl9.s 			page 2
+
+
+  58 0054 0025     		movs	r5, #0
+  59              	.L3:
+  60 0056 04F11800 		add	r0, r4, #24
+  61 005a 0121     		movs	r1, #1
+  62 005c FFF7FEFF 		bl	chSemObjectInit
+  63 0060 F369     		ldr	r3, [r6, #28]
+  64 0062 013F     		subs	r7, r7, #1
+  65 0064 C4E90239 		strd	r3, r9, [r4, #8]
+  66 0068 DC60     		str	r4, [r3, #12]
+  67 006a F461     		str	r4, [r6, #28]
+  68 006c C4E90455 		strd	r5, r5, [r4, #16]
+  69 0070 C4E909A5 		strd	r10, r5, [r4, #36]
+  70 0074 4444     		add	r4, r4, r8
+  71 0076 EED1     		bne	.L3
+  72 0078 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+  73              		.size	chCacheObjectInit, .-chCacheObjectInit
+  74              		.section	.text.chCacheGetObject,"ax",%progbits
+  75              		.align	1
+  76              		.p2align 4,,15
+  77              		.global	chCacheGetObject
+  78              		.syntax unified
+  79              		.thumb
+  80              		.thumb_func
+  81              		.fpu fpv4-sp-d16
+  82              		.type	chCacheGetObject, %function
+  83              	chCacheGetObject:
+  84              		@ args = 0, pretend = 0, frame = 0
+  85              		@ frame_needed = 0, uses_anonymous_args = 0
+  86 0000 2DE9F84F 		push	{r3, r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  87 0004 0646     		mov	r6, r0
+  88 0006 0F46     		mov	r7, r1
+  89 0008 1546     		mov	r5, r2
+  90 000a 3023     		movs	r3, #48
+  91              		.syntax unified
+  92              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  93 000c 83F31188 		MSR basepri, r3
+  94              	@ 0 "" 2
+  95              		.thumb
+  96              		.syntax unified
+  97 0010 FFF7FEFF 		bl	__stats_start_measure_crit_thd
+  98 0014 3368     		ldr	r3, [r6]
+  99 0016 07EB0508 		add	r8, r7, r5
+ 100 001a 03F1FF3C 		add	ip, r3, #-1
+ 101 001e 0CEA080C 		and	ip, ip, r8
+ 102 0022 7368     		ldr	r3, [r6, #4]
+ 103 0024 53F83C40 		ldr	r4, [r3, ip, lsl #3]
+ 104 0028 03EBCC0C 		add	ip, r3, ip, lsl #3
+ 105 002c A445     		cmp	ip, r4
+ 106 002e 03D1     		bne	.L9
+ 107 0030 1DE0     		b	.L13
+ 108              	.L11:
+ 109 0032 2468     		ldr	r4, [r4]
+ 110 0034 A445     		cmp	ip, r4
+ 111 0036 1AD0     		beq	.L13
+ 112              	.L9:
+ 113 0038 6369     		ldr	r3, [r4, #20]
+ 114 003a 9D42     		cmp	r5, r3
+ARM GAS  /tmp/ccYj4sl9.s 			page 3
+
+
+ 115 003c F9D1     		bne	.L11
+ 116 003e 2369     		ldr	r3, [r4, #16]
+ 117 0040 9F42     		cmp	r7, r3
+ 118 0042 F6D1     		bne	.L11
+ 119 0044 236A     		ldr	r3, [r4, #32]
+ 120 0046 002B     		cmp	r3, #0
+ 121 0048 53DD     		ble	.L27
+ 122 004a 626A     		ldr	r2, [r4, #36]
+ 123 004c D4E90210 		ldrd	r1, r0, [r4, #8]
+ 124 0050 22F00102 		bic	r2, r2, #1
+ 125 0054 013B     		subs	r3, r3, #1
+ 126 0056 8160     		str	r1, [r0, #8]
+ 127 0058 C860     		str	r0, [r1, #12]
+ 128 005a C4E90832 		strd	r3, r2, [r4, #32]
+ 129              	.L14:
+ 130 005e FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 131 0062 0023     		movs	r3, #0
+ 132              		.syntax unified
+ 133              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 134 0064 83F31188 		MSR basepri, r3
+ 135              	@ 0 "" 2
+ 136              		.thumb
+ 137              		.syntax unified
+ 138 0068 2046     		mov	r0, r4
+ 139 006a BDE8F88F 		pop	{r3, r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 140              	.L13:
+ 141 006e 06F13009 		add	r9, r6, #48
+ 142 0072 4FF0000B 		mov	fp, #0
+ 143 0076 4FF0220A 		mov	r10, #34
+ 144 007a 0FE0     		b	.L10
+ 145              	.L15:
+ 146 007c FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 147              		.syntax unified
+ 148              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 149 0080 8BF31188 		MSR basepri, fp
+ 150              	@ 0 "" 2
+ 151              		.thumb
+ 152              		.syntax unified
+ 153 0084 0122     		movs	r2, #1
+ 154 0086 336C     		ldr	r3, [r6, #64]
+ 155 0088 C4F824A0 		str	r10, [r4, #36]
+ 156 008c 2146     		mov	r1, r4
+ 157 008e 3046     		mov	r0, r6
+ 158 0090 9847     		blx	r3
+ 159 0092 3023     		movs	r3, #48
+ 160              		.syntax unified
+ 161              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 162 0094 83F31188 		MSR basepri, r3
+ 163              	@ 0 "" 2
+ 164              		.thumb
+ 165              		.syntax unified
+ 166 0098 FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 167              	.L10:
+ 168 009c 4846     		mov	r0, r9
+ 169 009e FFF7FEFF 		bl	chSemWaitS
+ 170 00a2 346A     		ldr	r4, [r6, #32]
+ 171 00a4 D4E90832 		ldrd	r3, r2, [r4, #32]
+ARM GAS  /tmp/ccYj4sl9.s 			page 4
+
+
+ 172 00a8 D4E90210 		ldrd	r1, r0, [r4, #8]
+ 173 00ac 013B     		subs	r3, r3, #1
+ 174 00ae 8160     		str	r1, [r0, #8]
+ 175 00b0 C860     		str	r0, [r1, #12]
+ 176 00b2 22F00101 		bic	r1, r2, #1
+ 177 00b6 C4E90831 		strd	r3, r1, [r4, #32]
+ 178 00ba D106     		lsls	r1, r2, #27
+ 179 00bc DED4     		bmi	.L15
+ 180 00be 9307     		lsls	r3, r2, #30
+ 181 00c0 04D5     		bpl	.L16
+ 182 00c2 D4E90023 		ldrd	r2, r3, [r4]
+ 183 00c6 1A60     		str	r2, [r3]
+ 184 00c8 2268     		ldr	r2, [r4]
+ 185 00ca 5360     		str	r3, [r2, #4]
+ 186              	.L16:
+ 187 00cc D6E90032 		ldrd	r3, r2, [r6]
+ 188 00d0 013B     		subs	r3, r3, #1
+ 189 00d2 03EA0808 		and	r8, r3, r8
+ 190 00d6 0A23     		movs	r3, #10
+ 191 00d8 6362     		str	r3, [r4, #36]
+ 192 00da 52F83830 		ldr	r3, [r2, r8, lsl #3]
+ 193 00de 2761     		str	r7, [r4, #16]
+ 194 00e0 02EBC801 		add	r1, r2, r8, lsl #3
+ 195 00e4 C4E90031 		strd	r3, r1, [r4]
+ 196 00e8 6561     		str	r5, [r4, #20]
+ 197 00ea 5C60     		str	r4, [r3, #4]
+ 198 00ec 42F83840 		str	r4, [r2, r8, lsl #3]
+ 199 00f0 B5E7     		b	.L14
+ 200              	.L27:
+ 201 00f2 04F11800 		add	r0, r4, #24
+ 202 00f6 FFF7FEFF 		bl	chSemWaitS
+ 203 00fa B0E7     		b	.L14
+ 204              		.size	chCacheGetObject, .-chCacheGetObject
+ 205              		.section	.text.chCacheReleaseObjectI,"ax",%progbits
+ 206              		.align	1
+ 207              		.p2align 4,,15
+ 208              		.global	chCacheReleaseObjectI
+ 209              		.syntax unified
+ 210              		.thumb
+ 211              		.thumb_func
+ 212              		.fpu fpv4-sp-d16
+ 213              		.type	chCacheReleaseObjectI, %function
+ 214              	chCacheReleaseObjectI:
+ 215              		@ args = 0, pretend = 0, frame = 0
+ 216              		@ frame_needed = 0, uses_anonymous_args = 0
+ 217 0000 0B6A     		ldr	r3, [r1, #32]
+ 218 0002 002B     		cmp	r3, #0
+ 219 0004 10B5     		push	{r4, lr}
+ 220 0006 4B6A     		ldr	r3, [r1, #36]
+ 221 0008 0C46     		mov	r4, r1
+ 222 000a 2FDB     		blt	.L35
+ 223 000c 1907     		lsls	r1, r3, #28
+ 224 000e 14D4     		bmi	.L36
+ 225 0010 9A06     		lsls	r2, r3, #26
+ 226 0012 23D4     		bmi	.L32
+ 227 0014 C269     		ldr	r2, [r0, #28]
+ 228 0016 00F11401 		add	r1, r0, #20
+ARM GAS  /tmp/ccYj4sl9.s 			page 5
+
+
+ 229 001a C4E90221 		strd	r2, r1, [r4, #8]
+ 230 001e D460     		str	r4, [r2, #12]
+ 231 0020 C461     		str	r4, [r0, #28]
+ 232              	.L33:
+ 233 0022 03F01203 		and	r3, r3, #18
+ 234 0026 43F00103 		orr	r3, r3, #1
+ 235 002a 6362     		str	r3, [r4, #36]
+ 236              	.L31:
+ 237 002c 3030     		adds	r0, r0, #48
+ 238 002e FFF7FEFF 		bl	chSemSignalI
+ 239 0032 236A     		ldr	r3, [r4, #32]
+ 240 0034 0133     		adds	r3, r3, #1
+ 241 0036 2362     		str	r3, [r4, #32]
+ 242 0038 10BD     		pop	{r4, pc}
+ 243              	.L36:
+ 244 003a D4E90031 		ldrd	r3, r1, [r4]
+ 245 003e 026A     		ldr	r2, [r0, #32]
+ 246 0040 0B60     		str	r3, [r1]
+ 247 0042 5960     		str	r1, [r3, #4]
+ 248 0044 00F11401 		add	r1, r0, #20
+ 249 0048 C4E90212 		strd	r1, r2, [r4, #8]
+ 250 004c 0023     		movs	r3, #0
+ 251 004e 0121     		movs	r1, #1
+ 252 0050 9460     		str	r4, [r2, #8]
+ 253 0052 0462     		str	r4, [r0, #32]
+ 254 0054 C4E90433 		strd	r3, r3, [r4, #16]
+ 255 0058 6162     		str	r1, [r4, #36]
+ 256 005a E7E7     		b	.L31
+ 257              	.L32:
+ 258 005c 026A     		ldr	r2, [r0, #32]
+ 259 005e 00F11401 		add	r1, r0, #20
+ 260 0062 C4E90212 		strd	r1, r2, [r4, #8]
+ 261 0066 9460     		str	r4, [r2, #8]
+ 262 0068 0462     		str	r4, [r0, #32]
+ 263 006a DAE7     		b	.L33
+ 264              	.L35:
+ 265 006c 03F01A03 		and	r3, r3, #26
+ 266 0070 BDE81040 		pop	{r4, lr}
+ 267 0074 01F11800 		add	r0, r1, #24
+ 268 0078 4B62     		str	r3, [r1, #36]
+ 269 007a FFF7FEBF 		b	chSemSignalI
+ 270              		.size	chCacheReleaseObjectI, .-chCacheReleaseObjectI
+ 271 007e 00BF     		.section	.text.chCacheReadObject,"ax",%progbits
+ 272              		.align	1
+ 273              		.p2align 4,,15
+ 274              		.global	chCacheReadObject
+ 275              		.syntax unified
+ 276              		.thumb
+ 277              		.thumb_func
+ 278              		.fpu fpv4-sp-d16
+ 279              		.type	chCacheReadObject, %function
+ 280              	chCacheReadObject:
+ 281              		@ args = 0, pretend = 0, frame = 0
+ 282              		@ frame_needed = 0, uses_anonymous_args = 0
+ 283              		@ link register save eliminated.
+ 284 0000 30B4     		push	{r4, r5}
+ 285 0002 4C6A     		ldr	r4, [r1, #36]
+ARM GAS  /tmp/ccYj4sl9.s 			page 6
+
+
+ 286 0004 C56B     		ldr	r5, [r0, #60]
+ 287 0006 44F00804 		orr	r4, r4, #8
+ 288 000a 4C62     		str	r4, [r1, #36]
+ 289 000c 2B46     		mov	r3, r5
+ 290 000e 30BC     		pop	{r4, r5}
+ 291 0010 1847     		bx	r3
+ 292              		.size	chCacheReadObject, .-chCacheReadObject
+ 293 0012 00BF     		.section	.text.chCacheWriteObject,"ax",%progbits
+ 294              		.align	1
+ 295              		.p2align 4,,15
+ 296              		.global	chCacheWriteObject
+ 297              		.syntax unified
+ 298              		.thumb
+ 299              		.thumb_func
+ 300              		.fpu fpv4-sp-d16
+ 301              		.type	chCacheWriteObject, %function
+ 302              	chCacheWriteObject:
+ 303              		@ args = 0, pretend = 0, frame = 0
+ 304              		@ frame_needed = 0, uses_anonymous_args = 0
+ 305              		@ link register save eliminated.
+ 306 0000 30B4     		push	{r4, r5}
+ 307 0002 4C6A     		ldr	r4, [r1, #36]
+ 308 0004 056C     		ldr	r5, [r0, #64]
+ 309 0006 24F01004 		bic	r4, r4, #16
+ 310 000a 4C62     		str	r4, [r1, #36]
+ 311 000c 2B46     		mov	r3, r5
+ 312 000e 30BC     		pop	{r4, r5}
+ 313 0010 1847     		bx	r3
+ 314              		.size	chCacheWriteObject, .-chCacheWriteObject
+ 315 0012 00BF     		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccYj4sl9.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 chobjcaches.c
+     /tmp/ccYj4sl9.s:15     .text.chCacheObjectInit:0000000000000000 $t
+     /tmp/ccYj4sl9.s:24     .text.chCacheObjectInit:0000000000000000 chCacheObjectInit
+     /tmp/ccYj4sl9.s:75     .text.chCacheGetObject:0000000000000000 $t
+     /tmp/ccYj4sl9.s:83     .text.chCacheGetObject:0000000000000000 chCacheGetObject
+     /tmp/ccYj4sl9.s:206    .text.chCacheReleaseObjectI:0000000000000000 $t
+     /tmp/ccYj4sl9.s:214    .text.chCacheReleaseObjectI:0000000000000000 chCacheReleaseObjectI
+     /tmp/ccYj4sl9.s:272    .text.chCacheReadObject:0000000000000000 $t
+     /tmp/ccYj4sl9.s:280    .text.chCacheReadObject:0000000000000000 chCacheReadObject
+     /tmp/ccYj4sl9.s:294    .text.chCacheWriteObject:0000000000000000 $t
+     /tmp/ccYj4sl9.s:302    .text.chCacheWriteObject:0000000000000000 chCacheWriteObject
+
+UNDEFINED SYMBOLS
+chSemObjectInit
+__stats_start_measure_crit_thd
+__stats_stop_measure_crit_thd
+chSemWaitS
+chSemSignalI

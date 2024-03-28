@@ -1,0 +1,297 @@
+ARM GAS  /tmp/cczzrLhX.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"hal_pal_lld.c"
+  13              		.text
+  14              		.section	.text._pal_lld_init,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	_pal_lld_init
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	_pal_lld_init, %function
+  24              	_pal_lld_init:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27 0000 38B5     		push	{r3, r4, r5, lr}
+  28 0002 054C     		ldr	r4, .L6
+  29 0004 04F18005 		add	r5, r4, #128
+  30              	.L2:
+  31 0008 2046     		mov	r0, r4
+  32 000a 0834     		adds	r4, r4, #8
+  33 000c FFF7FEFF 		bl	chThdQueueObjectInit
+  34 0010 AC42     		cmp	r4, r5
+  35 0012 F9D1     		bne	.L2
+  36 0014 38BD     		pop	{r3, r4, r5, pc}
+  37              	.L7:
+  38 0016 00BF     		.align	2
+  39              	.L6:
+  40 0018 00000000 		.word	.LANCHOR0
+  41              		.size	_pal_lld_init, .-_pal_lld_init
+  42              		.section	.text._pal_lld_setgroupmode,"ax",%progbits
+  43              		.align	1
+  44              		.p2align 4,,15
+  45              		.global	_pal_lld_setgroupmode
+  46              		.syntax unified
+  47              		.thumb
+  48              		.thumb_func
+  49              		.fpu fpv4-sp-d16
+  50              		.type	_pal_lld_setgroupmode, %function
+  51              	_pal_lld_setgroupmode:
+  52              		@ args = 0, pretend = 0, frame = 0
+  53              		@ frame_needed = 0, uses_anonymous_args = 0
+  54 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  55 0004 02F00309 		and	r9, r2, #3
+  56 0008 C2F34114 		ubfx	r4, r2, #5, #2
+  57 000c C2F38006 		ubfx	r6, r2, #2, #1
+ARM GAS  /tmp/cczzrLhX.s 			page 2
+
+
+  58 0010 C2F3C105 		ubfx	r5, r2, #3, #2
+  59 0014 C2F3C317 		ubfx	r7, r2, #7, #4
+  60 0018 CE46     		mov	lr, r9
+  61 001a 0022     		movs	r2, #0
+  62 001c 4FF00F0B 		mov	fp, #15
+  63 0020 A046     		mov	r8, r4
+  64 0022 17E0     		b	.L15
+  65              	.L10:
+  66 0024 D0F800A0 		ldr	r10, [r0]
+  67 0028 03EA0A03 		and	r3, r3, r10
+  68 002c 43EA0E03 		orr	r3, r3, lr
+  69 0030 072A     		cmp	r2, #7
+  70 0032 0360     		str	r3, [r0]
+  71 0034 45D8     		bhi	.L13
+  72 0036 036A     		ldr	r3, [r0, #32]
+  73 0038 23EA0404 		bic	r4, r3, r4
+  74 003c 44EA0C04 		orr	r4, r4, ip
+  75 0040 0462     		str	r4, [r0, #32]
+  76              	.L9:
+  77 0042 4908     		lsrs	r1, r1, #1
+  78 0044 3BD0     		beq	.L19
+  79              	.L21:
+  80 0046 7600     		lsls	r6, r6, #1
+  81 0048 AD00     		lsls	r5, r5, #2
+  82 004a 4FEA8808 		lsl	r8, r8, #2
+  83 004e 4FEA8E0E 		lsl	lr, lr, #2
+  84 0052 0132     		adds	r2, r2, #1
+  85              	.L15:
+  86 0054 CB07     		lsls	r3, r1, #31
+  87 0056 F4D5     		bpl	.L9
+  88 0058 4368     		ldr	r3, [r0, #4]
+  89 005a 0124     		movs	r4, #1
+  90 005c 9440     		lsls	r4, r4, r2
+  91 005e 23EA0403 		bic	r3, r3, r4
+  92 0062 3343     		orrs	r3, r3, r6
+  93 0064 4360     		str	r3, [r0, #4]
+  94 0066 8468     		ldr	r4, [r0, #8]
+  95 0068 4FF0030C 		mov	ip, #3
+  96 006c 5300     		lsls	r3, r2, #1
+  97 006e 0CFA03F3 		lsl	r3, ip, r3
+  98 0072 24EA0304 		bic	r4, r4, r3
+  99 0076 2C43     		orrs	r4, r4, r5
+ 100 0078 8460     		str	r4, [r0, #8]
+ 101 007a C468     		ldr	r4, [r0, #12]
+ 102 007c 24EA030C 		bic	ip, r4, r3
+ 103 0080 4CEA0804 		orr	r4, ip, r8
+ 104 0084 C460     		str	r4, [r0, #12]
+ 105 0086 02F00704 		and	r4, r2, #7
+ 106 008a A400     		lsls	r4, r4, #2
+ 107 008c B9F1020F 		cmp	r9, #2
+ 108 0090 07FA04FC 		lsl	ip, r7, r4
+ 109 0094 6FEA0303 		mvn	r3, r3
+ 110 0098 0BFA04F4 		lsl	r4, fp, r4
+ 111 009c C2D1     		bne	.L10
+ 112 009e 072A     		cmp	r2, #7
+ 113 00a0 16D8     		bhi	.L11
+ 114 00a2 D0F820A0 		ldr	r10, [r0, #32]
+ARM GAS  /tmp/cczzrLhX.s 			page 3
+
+
+ 115 00a6 2AEA0404 		bic	r4, r10, r4
+ 116 00aa 44EA0C04 		orr	r4, r4, ip
+ 117 00ae 0462     		str	r4, [r0, #32]
+ 118              	.L12:
+ 119 00b0 0468     		ldr	r4, [r0]
+ 120 00b2 2340     		ands	r3, r3, r4
+ 121 00b4 43EA0E03 		orr	r3, r3, lr
+ 122 00b8 4908     		lsrs	r1, r1, #1
+ 123 00ba 0360     		str	r3, [r0]
+ 124 00bc C3D1     		bne	.L21
+ 125              	.L19:
+ 126 00be BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 127              	.L13:
+ 128 00c2 436A     		ldr	r3, [r0, #36]
+ 129 00c4 23EA0404 		bic	r4, r3, r4
+ 130 00c8 44EA0C04 		orr	r4, r4, ip
+ 131 00cc 4462     		str	r4, [r0, #36]
+ 132 00ce B8E7     		b	.L9
+ 133              	.L11:
+ 134 00d0 D0F824A0 		ldr	r10, [r0, #36]
+ 135 00d4 2AEA0404 		bic	r4, r10, r4
+ 136 00d8 44EA0C04 		orr	r4, r4, ip
+ 137 00dc 4462     		str	r4, [r0, #36]
+ 138 00de E7E7     		b	.L12
+ 139              		.size	_pal_lld_setgroupmode, .-_pal_lld_setgroupmode
+ 140              		.section	.text._pal_lld_enablepadevent,"ax",%progbits
+ 141              		.align	1
+ 142              		.p2align 4,,15
+ 143              		.global	_pal_lld_enablepadevent
+ 144              		.syntax unified
+ 145              		.thumb
+ 146              		.thumb_func
+ 147              		.fpu fpv4-sp-d16
+ 148              		.type	_pal_lld_enablepadevent, %function
+ 149              	_pal_lld_enablepadevent:
+ 150              		@ args = 0, pretend = 0, frame = 0
+ 151              		@ frame_needed = 0, uses_anonymous_args = 0
+ 152 0000 21F00303 		bic	r3, r1, #3
+ 153 0004 03F18043 		add	r3, r3, #1073741824
+ 154 0008 03F59C33 		add	r3, r3, #79872
+ 155 000c 10B5     		push	{r4, lr}
+ 156 000e 01F0030C 		and	ip, r1, #3
+ 157 0012 0124     		movs	r4, #1
+ 158 0014 04FA01F1 		lsl	r1, r4, r1
+ 159 0018 4FEA8C0C 		lsl	ip, ip, #2
+ 160 001c 9C68     		ldr	r4, [r3, #8]
+ 161 001e C0F38320 		ubfx	r0, r0, #10, #4
+ 162 0022 4FF00F0E 		mov	lr, #15
+ 163 0026 00FA0CF0 		lsl	r0, r0, ip
+ 164 002a 0EFA0CFC 		lsl	ip, lr, ip
+ 165 002e 24EA0C0C 		bic	ip, r4, ip
+ 166 0032 40EA0C00 		orr	r0, r0, ip
+ 167 0036 0D4C     		ldr	r4, .L28
+ 168 0038 9860     		str	r0, [r3, #8]
+ 169 003a A368     		ldr	r3, [r4, #8]
+ 170 003c 12F0010F 		tst	r2, #1
+ 171 0040 14BF     		ite	ne
+ARM GAS  /tmp/cczzrLhX.s 			page 4
+
+
+ 172 0042 0B43     		orrne	r3, r3, r1
+ 173 0044 8B43     		biceq	r3, r3, r1
+ 174 0046 12F0020F 		tst	r2, #2
+ 175 004a 084A     		ldr	r2, .L28
+ 176 004c A360     		str	r3, [r4, #8]
+ 177 004e D368     		ldr	r3, [r2, #12]
+ 178 0050 6FEA0100 		mvn	r0, r1
+ 179 0054 14BF     		ite	ne
+ 180 0056 0B43     		orrne	r3, r3, r1
+ 181 0058 0340     		andeq	r3, r3, r0
+ 182 005a D360     		str	r3, [r2, #12]
+ 183 005c 034B     		ldr	r3, .L28
+ 184 005e 1A68     		ldr	r2, [r3]
+ 185 0060 1143     		orrs	r1, r1, r2
+ 186 0062 1960     		str	r1, [r3]
+ 187 0064 5A68     		ldr	r2, [r3, #4]
+ 188 0066 0240     		ands	r2, r2, r0
+ 189 0068 5A60     		str	r2, [r3, #4]
+ 190 006a 10BD     		pop	{r4, pc}
+ 191              	.L29:
+ 192              		.align	2
+ 193              	.L28:
+ 194 006c 003C0140 		.word	1073822720
+ 195              		.size	_pal_lld_enablepadevent, .-_pal_lld_enablepadevent
+ 196              		.section	.text._pal_lld_disablepadevent,"ax",%progbits
+ 197              		.align	1
+ 198              		.p2align 4,,15
+ 199              		.global	_pal_lld_disablepadevent
+ 200              		.syntax unified
+ 201              		.thumb
+ 202              		.thumb_func
+ 203              		.fpu fpv4-sp-d16
+ 204              		.type	_pal_lld_disablepadevent, %function
+ 205              	_pal_lld_disablepadevent:
+ 206              		@ args = 0, pretend = 0, frame = 0
+ 207              		@ frame_needed = 0, uses_anonymous_args = 0
+ 208              		@ link register save eliminated.
+ 209 0000 70B4     		push	{r4, r5, r6}
+ 210 0002 134D     		ldr	r5, .L34
+ 211 0004 AA68     		ldr	r2, [r5, #8]
+ 212 0006 E868     		ldr	r0, [r5, #12]
+ 213 0008 0123     		movs	r3, #1
+ 214 000a 8B40     		lsls	r3, r3, r1
+ 215 000c 42EA0004 		orr	r4, r2, r0
+ 216 0010 1C42     		tst	r4, r3
+ 217 0012 01D1     		bne	.L33
+ 218 0014 70BC     		pop	{r4, r5, r6}
+ 219 0016 7047     		bx	lr
+ 220              	.L33:
+ 221 0018 20EA0304 		bic	r4, r0, r3
+ 222 001c 8808     		lsrs	r0, r1, #2
+ 223 001e 0D4E     		ldr	r6, .L34+4
+ 224 0020 0230     		adds	r0, r0, #2
+ 225 0022 22EA0302 		bic	r2, r2, r3
+ 226 0026 56F82000 		ldr	r0, [r6, r0, lsl #2]
+ 227 002a 2868     		ldr	r0, [r5]
+ 228 002c 20EA0300 		bic	r0, r0, r3
+ARM GAS  /tmp/cczzrLhX.s 			page 5
+
+
+ 229 0030 2860     		str	r0, [r5]
+ 230 0032 6868     		ldr	r0, [r5, #4]
+ 231 0034 20EA0300 		bic	r0, r0, r3
+ 232 0038 6860     		str	r0, [r5, #4]
+ 233 003a 0748     		ldr	r0, .L34+8
+ 234 003c AA60     		str	r2, [r5, #8]
+ 235 003e 00EBC100 		add	r0, r0, r1, lsl #3
+ 236 0042 EC60     		str	r4, [r5, #12]
+ 237 0044 6FF00101 		mvn	r1, #1
+ 238 0048 6B61     		str	r3, [r5, #20]
+ 239 004a 70BC     		pop	{r4, r5, r6}
+ 240 004c FFF7FEBF 		b	chThdDequeueAllI
+ 241              	.L35:
+ 242              		.align	2
+ 243              	.L34:
+ 244 0050 003C0140 		.word	1073822720
+ 245 0054 00380140 		.word	1073821696
+ 246 0058 00000000 		.word	.LANCHOR0
+ 247              		.size	_pal_lld_disablepadevent, .-_pal_lld_disablepadevent
+ 248              		.global	_pal_events
+ 249              		.section	.bss._pal_events,"aw",%nobits
+ 250              		.align	2
+ 251              		.set	.LANCHOR0,. + 0
+ 252              		.type	_pal_events, %object
+ 253              		.size	_pal_events, 128
+ 254              	_pal_events:
+ 255 0000 00000000 		.space	128
+ 255      00000000 
+ 255      00000000 
+ 255      00000000 
+ 255      00000000 
+ 256              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/cczzrLhX.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 hal_pal_lld.c
+     /tmp/cczzrLhX.s:15     .text._pal_lld_init:0000000000000000 $t
+     /tmp/cczzrLhX.s:24     .text._pal_lld_init:0000000000000000 _pal_lld_init
+     /tmp/cczzrLhX.s:40     .text._pal_lld_init:0000000000000018 $d
+     /tmp/cczzrLhX.s:43     .text._pal_lld_setgroupmode:0000000000000000 $t
+     /tmp/cczzrLhX.s:51     .text._pal_lld_setgroupmode:0000000000000000 _pal_lld_setgroupmode
+     /tmp/cczzrLhX.s:141    .text._pal_lld_enablepadevent:0000000000000000 $t
+     /tmp/cczzrLhX.s:149    .text._pal_lld_enablepadevent:0000000000000000 _pal_lld_enablepadevent
+     /tmp/cczzrLhX.s:194    .text._pal_lld_enablepadevent:000000000000006c $d
+     /tmp/cczzrLhX.s:197    .text._pal_lld_disablepadevent:0000000000000000 $t
+     /tmp/cczzrLhX.s:205    .text._pal_lld_disablepadevent:0000000000000000 _pal_lld_disablepadevent
+     /tmp/cczzrLhX.s:244    .text._pal_lld_disablepadevent:0000000000000050 $d
+     /tmp/cczzrLhX.s:254    .bss._pal_events:0000000000000000 _pal_events
+     /tmp/cczzrLhX.s:250    .bss._pal_events:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+chThdQueueObjectInit
+chThdDequeueAllI

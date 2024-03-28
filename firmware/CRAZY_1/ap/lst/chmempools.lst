@@ -1,0 +1,473 @@
+ARM GAS  /tmp/ccEslExO.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"chmempools.c"
+  13              		.text
+  14              		.section	.text.chPoolObjectInitAligned,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	chPoolObjectInitAligned
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	chPoolObjectInitAligned, %function
+  24              	chPoolObjectInitAligned:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27              		@ link register save eliminated.
+  28 0000 10B4     		push	{r4}
+  29 0002 0024     		movs	r4, #0
+  30 0004 C0E90041 		strd	r4, r1, [r0]
+  31 0008 C0E90223 		strd	r2, r3, [r0, #8]
+  32 000c 5DF8044B 		ldr	r4, [sp], #4
+  33 0010 7047     		bx	lr
+  34              		.size	chPoolObjectInitAligned, .-chPoolObjectInitAligned
+  35 0012 00BF     		.section	.text.chPoolLoadArray,"ax",%progbits
+  36              		.align	1
+  37              		.p2align 4,,15
+  38              		.global	chPoolLoadArray
+  39              		.syntax unified
+  40              		.thumb
+  41              		.thumb_func
+  42              		.fpu fpv4-sp-d16
+  43              		.type	chPoolLoadArray, %function
+  44              	chPoolLoadArray:
+  45              		@ args = 0, pretend = 0, frame = 0
+  46              		@ frame_needed = 0, uses_anonymous_args = 0
+  47 0000 C2B1     		cbz	r2, .L12
+  48 0002 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+  49 0006 0646     		mov	r6, r0
+  50 0008 0C46     		mov	r4, r1
+  51 000a 1546     		mov	r5, r2
+  52 000c 4FF03008 		mov	r8, #48
+  53 0010 0027     		movs	r7, #0
+  54              	.L6:
+  55              		.syntax unified
+  56              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  57 0012 88F31188 		MSR basepri, r8
+ARM GAS  /tmp/ccEslExO.s 			page 2
+
+
+  58              	@ 0 "" 2
+  59              		.thumb
+  60              		.syntax unified
+  61 0016 FFF7FEFF 		bl	__stats_start_measure_crit_thd
+  62 001a 3368     		ldr	r3, [r6]
+  63 001c 2360     		str	r3, [r4]
+  64 001e 3460     		str	r4, [r6]
+  65 0020 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+  66              		.syntax unified
+  67              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  68 0024 87F31188 		MSR basepri, r7
+  69              	@ 0 "" 2
+  70              		.thumb
+  71              		.syntax unified
+  72 0028 7368     		ldr	r3, [r6, #4]
+  73 002a 013D     		subs	r5, r5, #1
+  74 002c 1C44     		add	r4, r4, r3
+  75 002e F0D1     		bne	.L6
+  76 0030 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+  77              	.L12:
+  78 0034 7047     		bx	lr
+  79              		.size	chPoolLoadArray, .-chPoolLoadArray
+  80 0036 00BF     		.section	.text.chPoolAllocI,"ax",%progbits
+  81              		.align	1
+  82              		.p2align 4,,15
+  83              		.global	chPoolAllocI
+  84              		.syntax unified
+  85              		.thumb
+  86              		.thumb_func
+  87              		.fpu fpv4-sp-d16
+  88              		.type	chPoolAllocI, %function
+  89              	chPoolAllocI:
+  90              		@ args = 0, pretend = 0, frame = 0
+  91              		@ frame_needed = 0, uses_anonymous_args = 0
+  92              		@ link register save eliminated.
+  93 0000 0368     		ldr	r3, [r0]
+  94 0002 1BB1     		cbz	r3, .L16
+  95 0004 1A68     		ldr	r2, [r3]
+  96 0006 0260     		str	r2, [r0]
+  97              	.L15:
+  98 0008 1846     		mov	r0, r3
+  99 000a 7047     		bx	lr
+ 100              	.L16:
+ 101 000c C268     		ldr	r2, [r0, #12]
+ 102 000e 002A     		cmp	r2, #0
+ 103 0010 FAD0     		beq	.L15
+ 104 0012 D0E90101 		ldrd	r0, r1, [r0, #4]
+ 105 0016 1047     		bx	r2
+ 106              		.size	chPoolAllocI, .-chPoolAllocI
+ 107              		.section	.text.chPoolAlloc,"ax",%progbits
+ 108              		.align	1
+ 109              		.p2align 4,,15
+ 110              		.global	chPoolAlloc
+ 111              		.syntax unified
+ 112              		.thumb
+ 113              		.thumb_func
+ 114              		.fpu fpv4-sp-d16
+ARM GAS  /tmp/ccEslExO.s 			page 3
+
+
+ 115              		.type	chPoolAlloc, %function
+ 116              	chPoolAlloc:
+ 117              		@ args = 0, pretend = 0, frame = 0
+ 118              		@ frame_needed = 0, uses_anonymous_args = 0
+ 119 0000 38B5     		push	{r3, r4, r5, lr}
+ 120 0002 0446     		mov	r4, r0
+ 121 0004 3023     		movs	r3, #48
+ 122              		.syntax unified
+ 123              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 124 0006 83F31188 		MSR basepri, r3
+ 125              	@ 0 "" 2
+ 126              		.thumb
+ 127              		.syntax unified
+ 128 000a FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 129 000e 2568     		ldr	r5, [r4]
+ 130 0010 45B1     		cbz	r5, .L22
+ 131 0012 2B68     		ldr	r3, [r5]
+ 132 0014 2360     		str	r3, [r4]
+ 133              	.L23:
+ 134 0016 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 135 001a 0023     		movs	r3, #0
+ 136              		.syntax unified
+ 137              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 138 001c 83F31188 		MSR basepri, r3
+ 139              	@ 0 "" 2
+ 140              		.thumb
+ 141              		.syntax unified
+ 142 0020 2846     		mov	r0, r5
+ 143 0022 38BD     		pop	{r3, r4, r5, pc}
+ 144              	.L22:
+ 145 0024 E368     		ldr	r3, [r4, #12]
+ 146 0026 002B     		cmp	r3, #0
+ 147 0028 F5D0     		beq	.L23
+ 148 002a D4E90101 		ldrd	r0, r1, [r4, #4]
+ 149 002e 9847     		blx	r3
+ 150 0030 0546     		mov	r5, r0
+ 151 0032 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 152 0036 0023     		movs	r3, #0
+ 153              		.syntax unified
+ 154              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 155 0038 83F31188 		MSR basepri, r3
+ 156              	@ 0 "" 2
+ 157              		.thumb
+ 158              		.syntax unified
+ 159 003c 2846     		mov	r0, r5
+ 160 003e 38BD     		pop	{r3, r4, r5, pc}
+ 161              		.size	chPoolAlloc, .-chPoolAlloc
+ 162              		.section	.text.chPoolFreeI,"ax",%progbits
+ 163              		.align	1
+ 164              		.p2align 4,,15
+ 165              		.global	chPoolFreeI
+ 166              		.syntax unified
+ 167              		.thumb
+ 168              		.thumb_func
+ 169              		.fpu fpv4-sp-d16
+ 170              		.type	chPoolFreeI, %function
+ 171              	chPoolFreeI:
+ARM GAS  /tmp/ccEslExO.s 			page 4
+
+
+ 172              		@ args = 0, pretend = 0, frame = 0
+ 173              		@ frame_needed = 0, uses_anonymous_args = 0
+ 174              		@ link register save eliminated.
+ 175 0000 0368     		ldr	r3, [r0]
+ 176 0002 0B60     		str	r3, [r1]
+ 177 0004 0160     		str	r1, [r0]
+ 178 0006 7047     		bx	lr
+ 179              		.size	chPoolFreeI, .-chPoolFreeI
+ 180              		.section	.text.chPoolFree,"ax",%progbits
+ 181              		.align	1
+ 182              		.p2align 4,,15
+ 183              		.global	chPoolFree
+ 184              		.syntax unified
+ 185              		.thumb
+ 186              		.thumb_func
+ 187              		.fpu fpv4-sp-d16
+ 188              		.type	chPoolFree, %function
+ 189              	chPoolFree:
+ 190              		@ args = 0, pretend = 0, frame = 0
+ 191              		@ frame_needed = 0, uses_anonymous_args = 0
+ 192 0000 38B5     		push	{r3, r4, r5, lr}
+ 193 0002 0446     		mov	r4, r0
+ 194 0004 0D46     		mov	r5, r1
+ 195 0006 3023     		movs	r3, #48
+ 196              		.syntax unified
+ 197              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 198 0008 83F31188 		MSR basepri, r3
+ 199              	@ 0 "" 2
+ 200              		.thumb
+ 201              		.syntax unified
+ 202 000c FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 203 0010 2368     		ldr	r3, [r4]
+ 204 0012 2B60     		str	r3, [r5]
+ 205 0014 2560     		str	r5, [r4]
+ 206 0016 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 207 001a 0023     		movs	r3, #0
+ 208              		.syntax unified
+ 209              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 210 001c 83F31188 		MSR basepri, r3
+ 211              	@ 0 "" 2
+ 212              		.thumb
+ 213              		.syntax unified
+ 214 0020 38BD     		pop	{r3, r4, r5, pc}
+ 215              		.size	chPoolFree, .-chPoolFree
+ 216 0022 00BF     		.section	.text.chGuardedPoolObjectInitAligned,"ax",%progbits
+ 217              		.align	1
+ 218              		.p2align 4,,15
+ 219              		.global	chGuardedPoolObjectInitAligned
+ 220              		.syntax unified
+ 221              		.thumb
+ 222              		.thumb_func
+ 223              		.fpu fpv4-sp-d16
+ 224              		.type	chGuardedPoolObjectInitAligned, %function
+ 225              	chGuardedPoolObjectInitAligned:
+ 226              		@ args = 0, pretend = 0, frame = 0
+ 227              		@ frame_needed = 0, uses_anonymous_args = 0
+ 228              		@ link register save eliminated.
+ARM GAS  /tmp/ccEslExO.s 			page 5
+
+
+ 229 0000 10B4     		push	{r4}
+ 230 0002 0024     		movs	r4, #0
+ 231 0004 C0E90341 		strd	r4, r1, [r0, #12]
+ 232 0008 C0E90524 		strd	r2, r4, [r0, #20]
+ 233 000c 2146     		mov	r1, r4
+ 234 000e 5DF8044B 		ldr	r4, [sp], #4
+ 235 0012 FFF7FEBF 		b	chSemObjectInit
+ 236              		.size	chGuardedPoolObjectInitAligned, .-chGuardedPoolObjectInitAligned
+ 237 0016 00BF     		.section	.text.chGuardedPoolLoadArray,"ax",%progbits
+ 238              		.align	1
+ 239              		.p2align 4,,15
+ 240              		.global	chGuardedPoolLoadArray
+ 241              		.syntax unified
+ 242              		.thumb
+ 243              		.thumb_func
+ 244              		.fpu fpv4-sp-d16
+ 245              		.type	chGuardedPoolLoadArray, %function
+ 246              	chGuardedPoolLoadArray:
+ 247              		@ args = 0, pretend = 0, frame = 0
+ 248              		@ frame_needed = 0, uses_anonymous_args = 0
+ 249 0000 EAB1     		cbz	r2, .L39
+ 250 0002 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 251 0006 0446     		mov	r4, r0
+ 252 0008 0D46     		mov	r5, r1
+ 253 000a 1646     		mov	r6, r2
+ 254 000c 4FF03008 		mov	r8, #48
+ 255 0010 0027     		movs	r7, #0
+ 256              	.L35:
+ 257              		.syntax unified
+ 258              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 259 0012 88F31188 		MSR basepri, r8
+ 260              	@ 0 "" 2
+ 261              		.thumb
+ 262              		.syntax unified
+ 263 0016 FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 264 001a E368     		ldr	r3, [r4, #12]
+ 265 001c 2B60     		str	r3, [r5]
+ 266 001e 2046     		mov	r0, r4
+ 267 0020 E560     		str	r5, [r4, #12]
+ 268 0022 FFF7FEFF 		bl	chSemSignalI
+ 269 0026 FFF7FEFF 		bl	chSchRescheduleS
+ 270 002a FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 271              		.syntax unified
+ 272              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 273 002e 87F31188 		MSR basepri, r7
+ 274              	@ 0 "" 2
+ 275              		.thumb
+ 276              		.syntax unified
+ 277 0032 2369     		ldr	r3, [r4, #16]
+ 278 0034 013E     		subs	r6, r6, #1
+ 279 0036 1D44     		add	r5, r5, r3
+ 280 0038 EBD1     		bne	.L35
+ 281 003a BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 282              	.L39:
+ 283 003e 7047     		bx	lr
+ 284              		.size	chGuardedPoolLoadArray, .-chGuardedPoolLoadArray
+ 285              		.section	.text.chGuardedPoolAllocTimeoutS,"ax",%progbits
+ARM GAS  /tmp/ccEslExO.s 			page 6
+
+
+ 286              		.align	1
+ 287              		.p2align 4,,15
+ 288              		.global	chGuardedPoolAllocTimeoutS
+ 289              		.syntax unified
+ 290              		.thumb
+ 291              		.thumb_func
+ 292              		.fpu fpv4-sp-d16
+ 293              		.type	chGuardedPoolAllocTimeoutS, %function
+ 294              	chGuardedPoolAllocTimeoutS:
+ 295              		@ args = 0, pretend = 0, frame = 0
+ 296              		@ frame_needed = 0, uses_anonymous_args = 0
+ 297 0000 10B5     		push	{r4, lr}
+ 298 0002 0446     		mov	r4, r0
+ 299 0004 FFF7FEFF 		bl	chSemWaitTimeoutS
+ 300 0008 60B9     		cbnz	r0, .L45
+ 301 000a E068     		ldr	r0, [r4, #12]
+ 302 000c 10B1     		cbz	r0, .L44
+ 303 000e 0368     		ldr	r3, [r0]
+ 304 0010 E360     		str	r3, [r4, #12]
+ 305              	.L42:
+ 306 0012 10BD     		pop	{r4, pc}
+ 307              	.L44:
+ 308 0014 A369     		ldr	r3, [r4, #24]
+ 309 0016 002B     		cmp	r3, #0
+ 310 0018 FBD0     		beq	.L42
+ 311 001a D4E90401 		ldrd	r0, r1, [r4, #16]
+ 312 001e BDE81040 		pop	{r4, lr}
+ 313 0022 1847     		bx	r3
+ 314              	.L45:
+ 315 0024 0020     		movs	r0, #0
+ 316 0026 10BD     		pop	{r4, pc}
+ 317              		.size	chGuardedPoolAllocTimeoutS, .-chGuardedPoolAllocTimeoutS
+ 318              		.section	.text.chGuardedPoolAllocTimeout,"ax",%progbits
+ 319              		.align	1
+ 320              		.p2align 4,,15
+ 321              		.global	chGuardedPoolAllocTimeout
+ 322              		.syntax unified
+ 323              		.thumb
+ 324              		.thumb_func
+ 325              		.fpu fpv4-sp-d16
+ 326              		.type	chGuardedPoolAllocTimeout, %function
+ 327              	chGuardedPoolAllocTimeout:
+ 328              		@ args = 0, pretend = 0, frame = 8
+ 329              		@ frame_needed = 0, uses_anonymous_args = 0
+ 330 0000 30B5     		push	{r4, r5, lr}
+ 331 0002 83B0     		sub	sp, sp, #12
+ 332 0004 0446     		mov	r4, r0
+ 333 0006 0191     		str	r1, [sp, #4]
+ 334 0008 3023     		movs	r3, #48
+ 335              		.syntax unified
+ 336              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 337 000a 83F31188 		MSR basepri, r3
+ 338              	@ 0 "" 2
+ 339              		.thumb
+ 340              		.syntax unified
+ 341 000e FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 342 0012 0199     		ldr	r1, [sp, #4]
+ARM GAS  /tmp/ccEslExO.s 			page 7
+
+
+ 343 0014 2046     		mov	r0, r4
+ 344 0016 FFF7FEFF 		bl	chSemWaitTimeoutS
+ 345 001a 98B9     		cbnz	r0, .L53
+ 346 001c E568     		ldr	r5, [r4, #12]
+ 347 001e 4DB1     		cbz	r5, .L52
+ 348 0020 2B68     		ldr	r3, [r5]
+ 349 0022 E360     		str	r3, [r4, #12]
+ 350              	.L51:
+ 351 0024 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 352 0028 0023     		movs	r3, #0
+ 353              		.syntax unified
+ 354              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 355 002a 83F31188 		MSR basepri, r3
+ 356              	@ 0 "" 2
+ 357              		.thumb
+ 358              		.syntax unified
+ 359 002e 2846     		mov	r0, r5
+ 360 0030 03B0     		add	sp, sp, #12
+ 361              		@ sp needed
+ 362 0032 30BD     		pop	{r4, r5, pc}
+ 363              	.L52:
+ 364 0034 A369     		ldr	r3, [r4, #24]
+ 365 0036 002B     		cmp	r3, #0
+ 366 0038 F4D0     		beq	.L51
+ 367 003a D4E90401 		ldrd	r0, r1, [r4, #16]
+ 368 003e 9847     		blx	r3
+ 369 0040 0546     		mov	r5, r0
+ 370 0042 EFE7     		b	.L51
+ 371              	.L53:
+ 372 0044 0025     		movs	r5, #0
+ 373 0046 EDE7     		b	.L51
+ 374              		.size	chGuardedPoolAllocTimeout, .-chGuardedPoolAllocTimeout
+ 375              		.section	.text.chGuardedPoolFree,"ax",%progbits
+ 376              		.align	1
+ 377              		.p2align 4,,15
+ 378              		.global	chGuardedPoolFree
+ 379              		.syntax unified
+ 380              		.thumb
+ 381              		.thumb_func
+ 382              		.fpu fpv4-sp-d16
+ 383              		.type	chGuardedPoolFree, %function
+ 384              	chGuardedPoolFree:
+ 385              		@ args = 0, pretend = 0, frame = 0
+ 386              		@ frame_needed = 0, uses_anonymous_args = 0
+ 387 0000 38B5     		push	{r3, r4, r5, lr}
+ 388 0002 0446     		mov	r4, r0
+ 389 0004 0D46     		mov	r5, r1
+ 390 0006 3023     		movs	r3, #48
+ 391              		.syntax unified
+ 392              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 393 0008 83F31188 		MSR basepri, r3
+ 394              	@ 0 "" 2
+ 395              		.thumb
+ 396              		.syntax unified
+ 397 000c FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 398 0010 E368     		ldr	r3, [r4, #12]
+ 399 0012 2B60     		str	r3, [r5]
+ARM GAS  /tmp/ccEslExO.s 			page 8
+
+
+ 400 0014 2046     		mov	r0, r4
+ 401 0016 E560     		str	r5, [r4, #12]
+ 402 0018 FFF7FEFF 		bl	chSemSignalI
+ 403 001c FFF7FEFF 		bl	chSchRescheduleS
+ 404 0020 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 405 0024 0023     		movs	r3, #0
+ 406              		.syntax unified
+ 407              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 408 0026 83F31188 		MSR basepri, r3
+ 409              	@ 0 "" 2
+ 410              		.thumb
+ 411              		.syntax unified
+ 412 002a 38BD     		pop	{r3, r4, r5, pc}
+ 413              		.size	chGuardedPoolFree, .-chGuardedPoolFree
+ 414              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccEslExO.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 chmempools.c
+     /tmp/ccEslExO.s:15     .text.chPoolObjectInitAligned:0000000000000000 $t
+     /tmp/ccEslExO.s:24     .text.chPoolObjectInitAligned:0000000000000000 chPoolObjectInitAligned
+     /tmp/ccEslExO.s:36     .text.chPoolLoadArray:0000000000000000 $t
+     /tmp/ccEslExO.s:44     .text.chPoolLoadArray:0000000000000000 chPoolLoadArray
+     /tmp/ccEslExO.s:81     .text.chPoolAllocI:0000000000000000 $t
+     /tmp/ccEslExO.s:89     .text.chPoolAllocI:0000000000000000 chPoolAllocI
+     /tmp/ccEslExO.s:108    .text.chPoolAlloc:0000000000000000 $t
+     /tmp/ccEslExO.s:116    .text.chPoolAlloc:0000000000000000 chPoolAlloc
+     /tmp/ccEslExO.s:163    .text.chPoolFreeI:0000000000000000 $t
+     /tmp/ccEslExO.s:171    .text.chPoolFreeI:0000000000000000 chPoolFreeI
+     /tmp/ccEslExO.s:181    .text.chPoolFree:0000000000000000 $t
+     /tmp/ccEslExO.s:189    .text.chPoolFree:0000000000000000 chPoolFree
+     /tmp/ccEslExO.s:217    .text.chGuardedPoolObjectInitAligned:0000000000000000 $t
+     /tmp/ccEslExO.s:225    .text.chGuardedPoolObjectInitAligned:0000000000000000 chGuardedPoolObjectInitAligned
+     /tmp/ccEslExO.s:238    .text.chGuardedPoolLoadArray:0000000000000000 $t
+     /tmp/ccEslExO.s:246    .text.chGuardedPoolLoadArray:0000000000000000 chGuardedPoolLoadArray
+     /tmp/ccEslExO.s:286    .text.chGuardedPoolAllocTimeoutS:0000000000000000 $t
+     /tmp/ccEslExO.s:294    .text.chGuardedPoolAllocTimeoutS:0000000000000000 chGuardedPoolAllocTimeoutS
+     /tmp/ccEslExO.s:319    .text.chGuardedPoolAllocTimeout:0000000000000000 $t
+     /tmp/ccEslExO.s:327    .text.chGuardedPoolAllocTimeout:0000000000000000 chGuardedPoolAllocTimeout
+     /tmp/ccEslExO.s:376    .text.chGuardedPoolFree:0000000000000000 $t
+     /tmp/ccEslExO.s:384    .text.chGuardedPoolFree:0000000000000000 chGuardedPoolFree
+
+UNDEFINED SYMBOLS
+__stats_start_measure_crit_thd
+__stats_stop_measure_crit_thd
+chSemObjectInit
+chSemSignalI
+chSchRescheduleS
+chSemWaitTimeoutS

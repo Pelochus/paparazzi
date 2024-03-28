@@ -1,0 +1,324 @@
+ARM GAS  /tmp/ccuHAdBA.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"rtos_mon.c"
+  13              		.text
+  14              		.section	.text.init_sysmon,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	init_sysmon
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	init_sysmon, %function
+  24              	init_sysmon:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27 0000 08B5     		push	{r3, lr}
+  28 0002 0448     		ldr	r0, .L4
+  29 0004 CC22     		movs	r2, #204
+  30 0006 0021     		movs	r1, #0
+  31 0008 FFF7FEFF 		bl	memset
+  32 000c BDE80840 		pop	{r3, lr}
+  33 0010 FFF7FEBF 		b	rtos_mon_init_arch
+  34              	.L5:
+  35              		.align	2
+  36              	.L4:
+  37 0014 00000000 		.word	.LANCHOR0
+  38              		.size	init_sysmon, .-init_sysmon
+  39              		.section	.rodata.periodic_report_sysmon.str1.4,"aMS",%progbits,1
+  40              		.align	2
+  41              	.LC0:
+  42 0000 52544F53 		.ascii	"RTOS_MON\000"
+  42      5F4D4F4E 
+  42      00
+  43              		.section	.text.periodic_report_sysmon,"ax",%progbits
+  44              		.align	1
+  45              		.p2align 4,,15
+  46              		.global	periodic_report_sysmon
+  47              		.syntax unified
+  48              		.thumb
+  49              		.thumb_func
+  50              		.fpu fpv4-sp-d16
+  51              		.type	periodic_report_sysmon, %function
+  52              	periodic_report_sysmon:
+  53              		@ args = 0, pretend = 0, frame = 16
+  54              		@ frame_needed = 0, uses_anonymous_args = 0
+  55 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ARM GAS  /tmp/ccuHAdBA.s 			page 2
+
+
+  56 0002 87B0     		sub	sp, sp, #28
+  57 0004 FFF7FEFF 		bl	rtos_mon_periodic_arch
+  58 0008 5E4B     		ldr	r3, .L10
+  59 000a 5F4A     		ldr	r2, .L10+4
+  60 000c 93ED007A 		vldr.32	s14, [r3]	@ int
+  61 0010 D3ED566A 		vldr.32	s13, [r3, #344]	@ int
+  62 0014 93ED016A 		vldr.32	s12, [r3, #4]	@ int
+  63 0018 5C4D     		ldr	r5, .L10+8
+  64 001a 1368     		ldr	r3, [r2]
+  65 001c 5C49     		ldr	r1, .L10+12
+  66 001e 0492     		str	r2, [sp, #16]
+  67 0020 B8EE466A 		vcvt.f32.u32	s12, s12
+  68 0024 F8EE666A 		vcvt.f32.u32	s13, s13
+  69 0028 B8EE477A 		vcvt.f32.u32	s14, s14
+  70 002c C6EE267A 		vdiv.f32	s15, s12, s13
+  71 0030 1F22     		movs	r2, #31
+  72 0032 0024     		movs	r4, #0
+  73 0034 0591     		str	r1, [sp, #20]
+  74 0036 ADF80C20 		strh	r2, [sp, #12]	@ movhi
+  75 003a 1A21     		movs	r1, #26
+  76 003c 8DF80E40 		strb	r4, [sp, #14]
+  77 0040 0294     		str	r4, [sp, #8]
+  78 0042 03A8     		add	r0, sp, #12
+  79 0044 77EE877A 		vadd.f32	s15, s15, s14
+  80 0048 C5ED327A 		vstr.32	s15, [r5, #200]
+  81 004c 9847     		blx	r3
+  82 004e 049B     		ldr	r3, [sp, #16]
+  83 0050 82B2     		uxth	r2, r0
+  84 0052 5B68     		ldr	r3, [r3, #4]
+  85 0054 0646     		mov	r6, r0
+  86 0056 02A9     		add	r1, sp, #8
+  87 0058 03A8     		add	r0, sp, #12
+  88 005a 9847     		blx	r3
+  89 005c 049B     		ldr	r3, [sp, #16]
+  90 005e 0028     		cmp	r0, #0
+  91 0060 00F08A80 		beq	.L7
+  92 0064 3146     		mov	r1, r6
+  93 0066 03A8     		add	r0, sp, #12
+  94 0068 DB69     		ldr	r3, [r3, #28]
+  95 006a 9847     		blx	r3
+  96 006c 049B     		ldr	r3, [sp, #16]
+  97 006e 0299     		ldr	r1, [sp, #8]
+  98 0070 1B69     		ldr	r3, [r3, #16]
+  99 0072 03A8     		add	r0, sp, #12
+ 100 0074 1A22     		movs	r2, #26
+ 101 0076 9847     		blx	r3
+ 102 0078 0126     		movs	r6, #1
+ 103 007a 049B     		ldr	r3, [sp, #16]
+ 104 007c 0196     		str	r6, [sp, #4]
+ 105 007e 03AA     		add	r2, sp, #12
+ 106 0080 0092     		str	r2, [sp]
+ 107 0082 9F68     		ldr	r7, [r3, #8]
+ 108 0084 0299     		ldr	r1, [sp, #8]
+ 109 0086 2346     		mov	r3, r4
+ 110 0088 1046     		mov	r0, r2
+ 111 008a 0222     		movs	r2, #2
+ 112 008c B847     		blx	r7
+ARM GAS  /tmp/ccuHAdBA.s 			page 3
+
+
+ 113 008e 049B     		ldr	r3, [sp, #16]
+ 114 0090 9DF80D20 		ldrb	r2, [sp, #13]	@ zero_extendqisi2
+ 115 0094 0092     		str	r2, [sp]
+ 116 0096 0194     		str	r4, [sp, #4]
+ 117 0098 DF68     		ldr	r7, [r3, #12]
+ 118 009a 0299     		ldr	r1, [sp, #8]
+ 119 009c 2346     		mov	r3, r4
+ 120 009e 03A8     		add	r0, sp, #12
+ 121 00a0 0222     		movs	r2, #2
+ 122 00a2 B847     		blx	r7
+ 123 00a4 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 124 00a8 049A     		ldr	r2, [sp, #16]
+ 125 00aa 0194     		str	r4, [sp, #4]
+ 126 00ac 1B01     		lsls	r3, r3, #4
+ 127 00ae 3343     		orrs	r3, r3, r6
+ 128 00b0 DBB2     		uxtb	r3, r3
+ 129 00b2 0093     		str	r3, [sp]
+ 130 00b4 D768     		ldr	r7, [r2, #12]
+ 131 00b6 0299     		ldr	r1, [sp, #8]
+ 132 00b8 2346     		mov	r3, r4
+ 133 00ba 03A8     		add	r0, sp, #12
+ 134 00bc 0222     		movs	r2, #2
+ 135 00be B847     		blx	r7
+ 136 00c0 344A     		ldr	r2, .L10+16
+ 137 00c2 049B     		ldr	r3, [sp, #16]
+ 138 00c4 0192     		str	r2, [sp, #4]
+ 139 00c6 F622     		movs	r2, #246
+ 140 00c8 0092     		str	r2, [sp]
+ 141 00ca DF68     		ldr	r7, [r3, #12]
+ 142 00cc 0299     		ldr	r1, [sp, #8]
+ 143 00ce 2346     		mov	r3, r4
+ 144 00d0 03A8     		add	r0, sp, #12
+ 145 00d2 0222     		movs	r2, #2
+ 146 00d4 B847     		blx	r7
+ 147 00d6 049B     		ldr	r3, [sp, #16]
+ 148 00d8 0196     		str	r6, [sp, #4]
+ 149 00da 05F11102 		add	r2, r5, #17
+ 150 00de 0092     		str	r2, [sp]
+ 151 00e0 9F68     		ldr	r7, [r3, #8]
+ 152 00e2 0299     		ldr	r1, [sp, #8]
+ 153 00e4 2346     		mov	r3, r4
+ 154 00e6 03A8     		add	r0, sp, #12
+ 155 00e8 0222     		movs	r2, #2
+ 156 00ea B847     		blx	r7
+ 157 00ec 049A     		ldr	r2, [sp, #16]
+ 158 00ee 0196     		str	r6, [sp, #4]
+ 159 00f0 05F11003 		add	r3, r5, #16
+ 160 00f4 0093     		str	r3, [sp]
+ 161 00f6 9668     		ldr	r6, [r2, #8]
+ 162 00f8 0299     		ldr	r1, [sp, #8]
+ 163 00fa 2346     		mov	r3, r4
+ 164 00fc 03A8     		add	r0, sp, #12
+ 165 00fe 0222     		movs	r2, #2
+ 166 0100 B047     		blx	r6
+ 167 0102 0426     		movs	r6, #4
+ 168 0104 CDE90056 		strd	r5, r6, [sp]
+ 169 0108 049B     		ldr	r3, [sp, #16]
+ARM GAS  /tmp/ccuHAdBA.s 			page 4
+
+
+ 170 010a 0299     		ldr	r1, [sp, #8]
+ 171 010c 9F68     		ldr	r7, [r3, #8]
+ 172 010e 03A8     		add	r0, sp, #12
+ 173 0110 2346     		mov	r3, r4
+ 174 0112 0622     		movs	r2, #6
+ 175 0114 B847     		blx	r7
+ 176 0116 049B     		ldr	r3, [sp, #16]
+ 177 0118 0196     		str	r6, [sp, #4]
+ 178 011a AA19     		adds	r2, r5, r6
+ 179 011c 0092     		str	r2, [sp]
+ 180 011e 9F68     		ldr	r7, [r3, #8]
+ 181 0120 0299     		ldr	r1, [sp, #8]
+ 182 0122 2346     		mov	r3, r4
+ 183 0124 03A8     		add	r0, sp, #12
+ 184 0126 0622     		movs	r2, #6
+ 185 0128 B847     		blx	r7
+ 186 012a 049B     		ldr	r3, [sp, #16]
+ 187 012c 0196     		str	r6, [sp, #4]
+ 188 012e 05F10802 		add	r2, r5, #8
+ 189 0132 0092     		str	r2, [sp]
+ 190 0134 9F68     		ldr	r7, [r3, #8]
+ 191 0136 0299     		ldr	r1, [sp, #8]
+ 192 0138 2346     		mov	r3, r4
+ 193 013a 03A8     		add	r0, sp, #12
+ 194 013c 0622     		movs	r2, #6
+ 195 013e B847     		blx	r7
+ 196 0140 049B     		ldr	r3, [sp, #16]
+ 197 0142 0196     		str	r6, [sp, #4]
+ 198 0144 05F10C02 		add	r2, r5, #12
+ 199 0148 0092     		str	r2, [sp]
+ 200 014a 9F68     		ldr	r7, [r3, #8]
+ 201 014c 0299     		ldr	r1, [sp, #8]
+ 202 014e 2346     		mov	r3, r4
+ 203 0150 03A8     		add	r0, sp, #12
+ 204 0152 0622     		movs	r2, #6
+ 205 0154 C835     		adds	r5, r5, #200
+ 206 0156 B847     		blx	r7
+ 207 0158 CDE90056 		strd	r5, r6, [sp]
+ 208 015c 049B     		ldr	r3, [sp, #16]
+ 209 015e 0299     		ldr	r1, [sp, #8]
+ 210 0160 9D68     		ldr	r5, [r3, #8]
+ 211 0162 03A8     		add	r0, sp, #12
+ 212 0164 2346     		mov	r3, r4
+ 213 0166 0A22     		movs	r2, #10
+ 214 0168 A847     		blx	r5
+ 215 016a 049B     		ldr	r3, [sp, #16]
+ 216 016c 0299     		ldr	r1, [sp, #8]
+ 217 016e 5B69     		ldr	r3, [r3, #20]
+ 218 0170 03A8     		add	r0, sp, #12
+ 219 0172 9847     		blx	r3
+ 220 0174 07B0     		add	sp, sp, #28
+ 221              		@ sp needed
+ 222 0176 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 223              	.L7:
+ 224 0178 9B69     		ldr	r3, [r3, #24]
+ 225 017a 03A8     		add	r0, sp, #12
+ 226 017c 9847     		blx	r3
+ARM GAS  /tmp/ccuHAdBA.s 			page 5
+
+
+ 227 017e 07B0     		add	sp, sp, #28
+ 228              		@ sp needed
+ 229 0180 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 230              	.L11:
+ 231 0182 00BF     		.align	2
+ 232              	.L10:
+ 233 0184 00000000 		.word	sys_time
+ 234 0188 08010000 		.word	pprz_tp+264
+ 235 018c 00000000 		.word	.LANCHOR0
+ 236 0190 40030000 		.word	syslink+832
+ 237 0194 00000000 		.word	.LC0
+ 238              		.size	periodic_report_sysmon, .-periodic_report_sysmon
+ 239              		.section	.text.periodic_sysmon,"ax",%progbits
+ 240              		.align	1
+ 241              		.p2align 4,,15
+ 242              		.global	periodic_sysmon
+ 243              		.syntax unified
+ 244              		.thumb
+ 245              		.thumb_func
+ 246              		.fpu fpv4-sp-d16
+ 247              		.type	periodic_sysmon, %function
+ 248              	periodic_sysmon:
+ 249              		@ args = 0, pretend = 0, frame = 0
+ 250              		@ frame_needed = 0, uses_anonymous_args = 0
+ 251              		@ link register save eliminated.
+ 252 0000 7047     		bx	lr
+ 253              		.size	periodic_sysmon, .-periodic_sysmon
+ 254 0002 00BF     		.section	.text.event_sysmon,"ax",%progbits
+ 255              		.align	1
+ 256              		.p2align 4,,15
+ 257              		.global	event_sysmon
+ 258              		.syntax unified
+ 259              		.thumb
+ 260              		.thumb_func
+ 261              		.fpu fpv4-sp-d16
+ 262              		.type	event_sysmon, %function
+ 263              	event_sysmon:
+ 264              		@ args = 0, pretend = 0, frame = 0
+ 265              		@ frame_needed = 0, uses_anonymous_args = 0
+ 266              		@ link register save eliminated.
+ 267 0000 7047     		bx	lr
+ 268              		.size	event_sysmon, .-event_sysmon
+ 269              		.global	rtos_mon
+ 270 0002 00BF     		.section	.bss.rtos_mon,"aw",%nobits
+ 271              		.align	2
+ 272              		.set	.LANCHOR0,. + 0
+ 273              		.type	rtos_mon, %object
+ 274              		.size	rtos_mon, 204
+ 275              	rtos_mon:
+ 276 0000 00000000 		.space	204
+ 276      00000000 
+ 276      00000000 
+ 276      00000000 
+ 276      00000000 
+ 277              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccuHAdBA.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 rtos_mon.c
+     /tmp/ccuHAdBA.s:15     .text.init_sysmon:0000000000000000 $t
+     /tmp/ccuHAdBA.s:24     .text.init_sysmon:0000000000000000 init_sysmon
+     /tmp/ccuHAdBA.s:37     .text.init_sysmon:0000000000000014 $d
+     /tmp/ccuHAdBA.s:40     .rodata.periodic_report_sysmon.str1.4:0000000000000000 $d
+     /tmp/ccuHAdBA.s:44     .text.periodic_report_sysmon:0000000000000000 $t
+     /tmp/ccuHAdBA.s:52     .text.periodic_report_sysmon:0000000000000000 periodic_report_sysmon
+     /tmp/ccuHAdBA.s:233    .text.periodic_report_sysmon:0000000000000184 $d
+     /tmp/ccuHAdBA.s:240    .text.periodic_sysmon:0000000000000000 $t
+     /tmp/ccuHAdBA.s:248    .text.periodic_sysmon:0000000000000000 periodic_sysmon
+     /tmp/ccuHAdBA.s:255    .text.event_sysmon:0000000000000000 $t
+     /tmp/ccuHAdBA.s:263    .text.event_sysmon:0000000000000000 event_sysmon
+     /tmp/ccuHAdBA.s:275    .bss.rtos_mon:0000000000000000 rtos_mon
+     /tmp/ccuHAdBA.s:271    .bss.rtos_mon:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+memset
+rtos_mon_init_arch
+rtos_mon_periodic_arch
+sys_time
+pprz_tp
+syslink

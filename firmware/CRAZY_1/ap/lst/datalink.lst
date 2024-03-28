@@ -1,0 +1,482 @@
+ARM GAS  /tmp/ccySOORQ.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"datalink.c"
+  13              		.text
+  14              		.section	.rodata.pprzlink_msg_v2_send_PONG.constprop.0.str1.4,"aMS",%progbits,1
+  15              		.align	2
+  16              	.LC0:
+  17 0000 504F4E47 		.ascii	"PONG\000"
+  17      00
+  18              		.section	.text.pprzlink_msg_v2_send_PONG.constprop.0,"ax",%progbits
+  19              		.align	1
+  20              		.p2align 4,,15
+  21              		.arch armv7e-m
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  25              		.fpu fpv4-sp-d16
+  26              		.type	pprzlink_msg_v2_send_PONG.constprop.0, %function
+  27              	pprzlink_msg_v2_send_PONG.constprop.0:
+  28              		@ args = 0, pretend = 0, frame = 8
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30 0000 70B5     		push	{r4, r5, r6, lr}
+  31 0002 4368     		ldr	r3, [r0, #4]
+  32 0004 84B0     		sub	sp, sp, #16
+  33 0006 0025     		movs	r5, #0
+  34 0008 0446     		mov	r4, r0
+  35 000a 1B68     		ldr	r3, [r3]
+  36 000c 0395     		str	r5, [sp, #12]
+  37 000e 0421     		movs	r1, #4
+  38 0010 9847     		blx	r3
+  39 0012 6368     		ldr	r3, [r4, #4]
+  40 0014 82B2     		uxth	r2, r0
+  41 0016 5B68     		ldr	r3, [r3, #4]
+  42 0018 0646     		mov	r6, r0
+  43 001a 03A9     		add	r1, sp, #12
+  44 001c 2046     		mov	r0, r4
+  45 001e 9847     		blx	r3
+  46 0020 6368     		ldr	r3, [r4, #4]
+  47 0022 0028     		cmp	r0, #0
+  48 0024 3DD0     		beq	.L2
+  49 0026 3146     		mov	r1, r6
+  50 0028 2046     		mov	r0, r4
+  51 002a DB69     		ldr	r3, [r3, #28]
+  52 002c 9847     		blx	r3
+  53 002e 6368     		ldr	r3, [r4, #4]
+  54 0030 0399     		ldr	r1, [sp, #12]
+  55 0032 1B69     		ldr	r3, [r3, #16]
+  56 0034 2046     		mov	r0, r4
+ARM GAS  /tmp/ccySOORQ.s 			page 2
+
+
+  57 0036 0422     		movs	r2, #4
+  58 0038 9847     		blx	r3
+  59 003a 0123     		movs	r3, #1
+  60 003c 6268     		ldr	r2, [r4, #4]
+  61 003e 0399     		ldr	r1, [sp, #12]
+  62 0040 CDE90043 		strd	r4, r3, [sp]
+  63 0044 2046     		mov	r0, r4
+  64 0046 9668     		ldr	r6, [r2, #8]
+  65 0048 2B46     		mov	r3, r5
+  66 004a 0222     		movs	r2, #2
+  67 004c B047     		blx	r6
+  68 004e 6378     		ldrb	r3, [r4, #1]	@ zero_extendqisi2
+  69 0050 6268     		ldr	r2, [r4, #4]
+  70 0052 0399     		ldr	r1, [sp, #12]
+  71 0054 CDE90035 		strd	r3, r5, [sp]
+  72 0058 2046     		mov	r0, r4
+  73 005a D668     		ldr	r6, [r2, #12]
+  74 005c 2B46     		mov	r3, r5
+  75 005e 0222     		movs	r2, #2
+  76 0060 B047     		blx	r6
+  77 0062 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+  78 0064 6268     		ldr	r2, [r4, #4]
+  79 0066 0399     		ldr	r1, [sp, #12]
+  80 0068 1B01     		lsls	r3, r3, #4
+  81 006a 43F00103 		orr	r3, r3, #1
+  82 006e DBB2     		uxtb	r3, r3
+  83 0070 CDE90035 		strd	r3, r5, [sp]
+  84 0074 2046     		mov	r0, r4
+  85 0076 D668     		ldr	r6, [r2, #12]
+  86 0078 2B46     		mov	r3, r5
+  87 007a 0222     		movs	r2, #2
+  88 007c B047     		blx	r6
+  89 007e 0B49     		ldr	r1, .L6
+  90 0080 6368     		ldr	r3, [r4, #4]
+  91 0082 0322     		movs	r2, #3
+  92 0084 CDE90021 		strd	r2, r1, [sp]
+  93 0088 2046     		mov	r0, r4
+  94 008a 0399     		ldr	r1, [sp, #12]
+  95 008c DE68     		ldr	r6, [r3, #12]
+  96 008e 0222     		movs	r2, #2
+  97 0090 2B46     		mov	r3, r5
+  98 0092 B047     		blx	r6
+  99 0094 6368     		ldr	r3, [r4, #4]
+ 100 0096 0399     		ldr	r1, [sp, #12]
+ 101 0098 5B69     		ldr	r3, [r3, #20]
+ 102 009a 2046     		mov	r0, r4
+ 103 009c 9847     		blx	r3
+ 104 009e 04B0     		add	sp, sp, #16
+ 105              		@ sp needed
+ 106 00a0 70BD     		pop	{r4, r5, r6, pc}
+ 107              	.L2:
+ 108 00a2 9B69     		ldr	r3, [r3, #24]
+ 109 00a4 2046     		mov	r0, r4
+ 110 00a6 9847     		blx	r3
+ 111 00a8 04B0     		add	sp, sp, #16
+ 112              		@ sp needed
+ 113 00aa 70BD     		pop	{r4, r5, r6, pc}
+ARM GAS  /tmp/ccySOORQ.s 			page 3
+
+
+ 114              	.L7:
+ 115              		.align	2
+ 116              	.L6:
+ 117 00ac 00000000 		.word	.LC0
+ 118              		.size	pprzlink_msg_v2_send_PONG.constprop.0, .-pprzlink_msg_v2_send_PONG.constprop.0
+ 119              		.section	.text.datalink_init,"ax",%progbits
+ 120              		.align	1
+ 121              		.p2align 4,,15
+ 122              		.global	datalink_init
+ 123              		.syntax unified
+ 124              		.thumb
+ 125              		.thumb_func
+ 126              		.fpu fpv4-sp-d16
+ 127              		.type	datalink_init, %function
+ 128              	datalink_init:
+ 129              		@ args = 0, pretend = 0, frame = 0
+ 130              		@ frame_needed = 0, uses_anonymous_args = 0
+ 131              		@ link register save eliminated.
+ 132 0000 0348     		ldr	r0, .L9
+ 133 0002 0449     		ldr	r1, .L9+4
+ 134 0004 044A     		ldr	r2, .L9+8
+ 135 0006 0023     		movs	r3, #0
+ 136 0008 0370     		strb	r3, [r0]
+ 137 000a 0B80     		strh	r3, [r1]	@ movhi
+ 138 000c 1380     		strh	r3, [r2]	@ movhi
+ 139 000e 7047     		bx	lr
+ 140              	.L10:
+ 141              		.align	2
+ 142              	.L9:
+ 143 0010 00000000 		.word	.LANCHOR0
+ 144 0014 00000000 		.word	.LANCHOR1
+ 145 0018 00000000 		.word	.LANCHOR2
+ 146              		.size	datalink_init, .-datalink_init
+ 147              		.section	.text.datalink_periodic,"ax",%progbits
+ 148              		.align	1
+ 149              		.p2align 4,,15
+ 150              		.global	datalink_periodic
+ 151              		.syntax unified
+ 152              		.thumb
+ 153              		.thumb_func
+ 154              		.fpu fpv4-sp-d16
+ 155              		.type	datalink_periodic, %function
+ 156              	datalink_periodic:
+ 157              		@ args = 0, pretend = 0, frame = 0
+ 158              		@ frame_needed = 0, uses_anonymous_args = 0
+ 159              		@ link register save eliminated.
+ 160 0000 024A     		ldr	r2, .L12
+ 161 0002 1388     		ldrh	r3, [r2]
+ 162 0004 0133     		adds	r3, r3, #1
+ 163 0006 1380     		strh	r3, [r2]	@ movhi
+ 164 0008 7047     		bx	lr
+ 165              	.L13:
+ 166 000a 00BF     		.align	2
+ 167              	.L12:
+ 168 000c 00000000 		.word	.LANCHOR1
+ 169              		.size	datalink_periodic, .-datalink_periodic
+ 170              		.section	.text.datalink_parse_PING,"ax",%progbits
+ARM GAS  /tmp/ccySOORQ.s 			page 4
+
+
+ 171              		.align	1
+ 172              		.p2align 4,,15
+ 173              		.global	datalink_parse_PING
+ 174              		.syntax unified
+ 175              		.thumb
+ 176              		.thumb_func
+ 177              		.fpu fpv4-sp-d16
+ 178              		.type	datalink_parse_PING, %function
+ 179              	datalink_parse_PING:
+ 180              		@ args = 0, pretend = 0, frame = 16
+ 181              		@ frame_needed = 0, uses_anonymous_args = 0
+ 182 0000 00B5     		push	{lr}
+ 183 0002 85B0     		sub	sp, sp, #20
+ 184 0004 CDE90210 		strd	r1, r0, [sp, #8]
+ 185 0008 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 186 000a 8DF80520 		strb	r2, [sp, #5]
+ 187 000e 4FF01F0C 		mov	ip, #31
+ 188 0012 0023     		movs	r3, #0
+ 189 0014 01A8     		add	r0, sp, #4
+ 190 0016 8DF804C0 		strb	ip, [sp, #4]
+ 191 001a 8DF80630 		strb	r3, [sp, #6]
+ 192 001e FFF7FEFF 		bl	pprzlink_msg_v2_send_PONG.constprop.0
+ 193 0022 05B0     		add	sp, sp, #20
+ 194              		@ sp needed
+ 195 0024 5DF804FB 		ldr	pc, [sp], #4
+ 196              		.size	datalink_parse_PING, .-datalink_parse_PING
+ 197              		.section	.text.dl_parse_msg,"ax",%progbits
+ 198              		.align	1
+ 199              		.p2align 4,,15
+ 200              		.weak	dl_parse_msg
+ 201              		.syntax unified
+ 202              		.thumb
+ 203              		.thumb_func
+ 204              		.fpu fpv4-sp-d16
+ 205              		.type	dl_parse_msg, %function
+ 206              	dl_parse_msg:
+ 207              		@ args = 0, pretend = 0, frame = 24
+ 208              		@ frame_needed = 0, uses_anonymous_args = 0
+ 209 0000 9378     		ldrb	r3, [r2, #2]	@ zero_extendqisi2
+ 210 0002 03F00F03 		and	r3, r3, #15
+ 211 0006 022B     		cmp	r3, #2
+ 212 0008 00D0     		beq	.L38
+ 213              	.L35:
+ 214 000a 7047     		bx	lr
+ 215              	.L38:
+ 216 000c D378     		ldrb	r3, [r2, #3]	@ zero_extendqisi2
+ 217 000e 382B     		cmp	r3, #56
+ 218 0010 36D8     		bhi	.L18
+ 219 0012 012B     		cmp	r3, #1
+ 220 0014 F9D9     		bls	.L35
+ 221 0016 00B5     		push	{lr}
+ 222 0018 023B     		subs	r3, r3, #2
+ 223 001a 87B0     		sub	sp, sp, #28
+ 224 001c 362B     		cmp	r3, #54
+ 225 001e 2CD8     		bhi	.L16
+ 226 0020 DFE803F0 		tbb	[pc, r3]
+ 227              	.L20:
+ARM GAS  /tmp/ccySOORQ.s 			page 5
+
+
+ 228 0024 3B       		.byte	(.L31-.L20)/2
+ 229 0025 41       		.byte	(.L30-.L20)/2
+ 230 0026 46       		.byte	(.L29-.L20)/2
+ 231 0027 4B       		.byte	(.L28-.L20)/2
+ 232 0028 2B       		.byte	(.L16-.L20)/2
+ 233 0029 2B       		.byte	(.L16-.L20)/2
+ 234 002a 1C       		.byte	(.L27-.L20)/2
+ 235 002b 2B       		.byte	(.L16-.L20)/2
+ 236 002c 2B       		.byte	(.L16-.L20)/2
+ 237 002d 2B       		.byte	(.L16-.L20)/2
+ 238 002e 2B       		.byte	(.L16-.L20)/2
+ 239 002f 2B       		.byte	(.L16-.L20)/2
+ 240 0030 2B       		.byte	(.L16-.L20)/2
+ 241 0031 2B       		.byte	(.L16-.L20)/2
+ 242 0032 51       		.byte	(.L26-.L20)/2
+ 243 0033 2B       		.byte	(.L16-.L20)/2
+ 244 0034 2B       		.byte	(.L16-.L20)/2
+ 245 0035 2B       		.byte	(.L16-.L20)/2
+ 246 0036 2B       		.byte	(.L16-.L20)/2
+ 247 0037 2B       		.byte	(.L16-.L20)/2
+ 248 0038 2B       		.byte	(.L16-.L20)/2
+ 249 0039 2B       		.byte	(.L16-.L20)/2
+ 250 003a 2B       		.byte	(.L16-.L20)/2
+ 251 003b 2B       		.byte	(.L16-.L20)/2
+ 252 003c 2B       		.byte	(.L16-.L20)/2
+ 253 003d 2B       		.byte	(.L16-.L20)/2
+ 254 003e 2B       		.byte	(.L16-.L20)/2
+ 255 003f 2B       		.byte	(.L16-.L20)/2
+ 256 0040 2B       		.byte	(.L16-.L20)/2
+ 257 0041 2B       		.byte	(.L16-.L20)/2
+ 258 0042 2B       		.byte	(.L16-.L20)/2
+ 259 0043 2B       		.byte	(.L16-.L20)/2
+ 260 0044 2B       		.byte	(.L16-.L20)/2
+ 261 0045 2B       		.byte	(.L16-.L20)/2
+ 262 0046 2B       		.byte	(.L16-.L20)/2
+ 263 0047 2B       		.byte	(.L16-.L20)/2
+ 264 0048 2B       		.byte	(.L16-.L20)/2
+ 265 0049 2B       		.byte	(.L16-.L20)/2
+ 266 004a 56       		.byte	(.L25-.L20)/2
+ 267 004b 2B       		.byte	(.L16-.L20)/2
+ 268 004c 2B       		.byte	(.L16-.L20)/2
+ 269 004d 2B       		.byte	(.L16-.L20)/2
+ 270 004e 2B       		.byte	(.L16-.L20)/2
+ 271 004f 2B       		.byte	(.L16-.L20)/2
+ 272 0050 2B       		.byte	(.L16-.L20)/2
+ 273 0051 2B       		.byte	(.L16-.L20)/2
+ 274 0052 2B       		.byte	(.L16-.L20)/2
+ 275 0053 2B       		.byte	(.L16-.L20)/2
+ 276 0054 2B       		.byte	(.L16-.L20)/2
+ 277 0055 61       		.byte	(.L24-.L20)/2
+ 278 0056 67       		.byte	(.L23-.L20)/2
+ 279 0057 2B       		.byte	(.L16-.L20)/2
+ 280 0058 6D       		.byte	(.L22-.L20)/2
+ 281 0059 73       		.byte	(.L21-.L20)/2
+ 282 005a 35       		.byte	(.L19-.L20)/2
+ 283 005b 00       		.p2align 1
+ 284              	.L27:
+ARM GAS  /tmp/ccySOORQ.s 			page 6
+
+
+ 285 005c CDE90410 		strd	r1, r0, [sp, #16]
+ 286 0060 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 287 0062 8DF80D20 		strb	r2, [sp, #13]
+ 288 0066 4FF01F0C 		mov	ip, #31
+ 289 006a 0023     		movs	r3, #0
+ 290 006c 03A8     		add	r0, sp, #12
+ 291 006e 8DF80CC0 		strb	ip, [sp, #12]
+ 292 0072 8DF80E30 		strb	r3, [sp, #14]
+ 293 0076 FFF7FEFF 		bl	pprzlink_msg_v2_send_PONG.constprop.0
+ 294              	.L16:
+ 295 007a 07B0     		add	sp, sp, #28
+ 296              		@ sp needed
+ 297 007c 5DF804FB 		ldr	pc, [sp], #4
+ 298              	.L18:
+ 299 0080 992B     		cmp	r3, #153
+ 300 0082 48D0     		beq	.L32
+ 301 0084 9D2B     		cmp	r3, #157
+ 302 0086 49D1     		bne	.L39
+ 303 0088 1046     		mov	r0, r2
+ 304 008a FFF7FEBF 		b	gps_parse_RTCM_INJECT
+ 305              	.L19:
+ 306 008e 1046     		mov	r0, r2
+ 307 0090 07B0     		add	sp, sp, #28
+ 308              		@ sp needed
+ 309 0092 5DF804EB 		ldr	lr, [sp], #4
+ 310 0096 FFF7FEBF 		b	gps_datalink_parse_REMOTE_GPS_LOCAL
+ 311              	.L31:
+ 312 009a 1046     		mov	r0, r2
+ 313 009c 07B0     		add	sp, sp, #28
+ 314              		@ sp needed
+ 315 009e 5DF804EB 		ldr	lr, [sp], #4
+ 316 00a2 FFF7FEBF 		b	nav_parse_MOVE_WP
+ 317              	.L30:
+ 318 00a6 07B0     		add	sp, sp, #28
+ 319              		@ sp needed
+ 320 00a8 5DF804EB 		ldr	lr, [sp], #4
+ 321 00ac FFF7FEBF 		b	air_data_parse_WIND_INFO
+ 322              	.L29:
+ 323 00b0 07B0     		add	sp, sp, #28
+ 324              		@ sp needed
+ 325 00b2 5DF804EB 		ldr	lr, [sp], #4
+ 326 00b6 FFF7FEBF 		b	settings_parse_msg_SETTING
+ 327              	.L28:
+ 328 00ba 1046     		mov	r0, r2
+ 329 00bc 07B0     		add	sp, sp, #28
+ 330              		@ sp needed
+ 331 00be 5DF804EB 		ldr	lr, [sp], #4
+ 332 00c2 FFF7FEBF 		b	nav_parse_BLOCK
+ 333              	.L26:
+ 334 00c6 07B0     		add	sp, sp, #28
+ 335              		@ sp needed
+ 336 00c8 5DF804EB 		ldr	lr, [sp], #4
+ 337 00cc FFF7FEBF 		b	settings_parse_msg_GET_SETTING
+ 338              	.L25:
+ 339 00d0 1046     		mov	r0, r2
+ 340 00d2 0192     		str	r2, [sp, #4]
+ 341 00d4 FFF7FEFF 		bl	autopilot_guided_parse_GUIDED
+ARM GAS  /tmp/ccySOORQ.s 			page 7
+
+
+ 342 00d8 019A     		ldr	r2, [sp, #4]
+ 343 00da 1046     		mov	r0, r2
+ 344 00dc 07B0     		add	sp, sp, #28
+ 345              		@ sp needed
+ 346 00de 5DF804EB 		ldr	lr, [sp], #4
+ 347 00e2 FFF7FEBF 		b	autopilot_guided_parse_GUIDED
+ 348              	.L24:
+ 349 00e6 1046     		mov	r0, r2
+ 350 00e8 07B0     		add	sp, sp, #28
+ 351              		@ sp needed
+ 352 00ea 5DF804EB 		ldr	lr, [sp], #4
+ 353 00ee FFF7FEBF 		b	rc_datalink_parse_RC_3CH
+ 354              	.L23:
+ 355 00f2 1046     		mov	r0, r2
+ 356 00f4 07B0     		add	sp, sp, #28
+ 357              		@ sp needed
+ 358 00f6 5DF804EB 		ldr	lr, [sp], #4
+ 359 00fa FFF7FEBF 		b	rc_datalink_parse_RC_4CH
+ 360              	.L22:
+ 361 00fe 1046     		mov	r0, r2
+ 362 0100 07B0     		add	sp, sp, #28
+ 363              		@ sp needed
+ 364 0102 5DF804EB 		ldr	lr, [sp], #4
+ 365 0106 FFF7FEBF 		b	gps_datalink_parse_EXTERNAL_POSE
+ 366              	.L21:
+ 367 010a 1046     		mov	r0, r2
+ 368 010c 07B0     		add	sp, sp, #28
+ 369              		@ sp needed
+ 370 010e 5DF804EB 		ldr	lr, [sp], #4
+ 371 0112 FFF7FEBF 		b	gps_datalink_parse_EXTERNAL_POSE_SMALL
+ 372              	.L32:
+ 373 0116 1046     		mov	r0, r2
+ 374 0118 FFF7FEBF 		b	gps_parse_GPS_INJECT
+ 375              	.L39:
+ 376 011c 7047     		bx	lr
+ 377              		.size	dl_parse_msg, .-dl_parse_msg
+ 378              		.global	dl_buffer
+ 379              		.global	datalink_nb_msgs
+ 380              		.global	datalink_time
+ 381              		.global	dl_msg_available
+ 382 011e 00BF     		.section	.bss.datalink_nb_msgs,"aw",%nobits
+ 383              		.align	1
+ 384              		.set	.LANCHOR2,. + 0
+ 385              		.type	datalink_nb_msgs, %object
+ 386              		.size	datalink_nb_msgs, 2
+ 387              	datalink_nb_msgs:
+ 388 0000 0000     		.space	2
+ 389              		.section	.bss.datalink_time,"aw",%nobits
+ 390              		.align	1
+ 391              		.set	.LANCHOR1,. + 0
+ 392              		.type	datalink_time, %object
+ 393              		.size	datalink_time, 2
+ 394              	datalink_time:
+ 395 0000 0000     		.space	2
+ 396              		.section	.bss.dl_buffer,"aw",%nobits
+ 397              		.align	3
+ 398              		.type	dl_buffer, %object
+ARM GAS  /tmp/ccySOORQ.s 			page 8
+
+
+ 399              		.size	dl_buffer, 256
+ 400              	dl_buffer:
+ 401 0000 00000000 		.space	256
+ 401      00000000 
+ 401      00000000 
+ 401      00000000 
+ 401      00000000 
+ 402              		.section	.bss.dl_msg_available,"aw",%nobits
+ 403              		.set	.LANCHOR0,. + 0
+ 404              		.type	dl_msg_available, %object
+ 405              		.size	dl_msg_available, 1
+ 406              	dl_msg_available:
+ 407 0000 00       		.space	1
+ 408              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccySOORQ.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 datalink.c
+     /tmp/ccySOORQ.s:15     .rodata.pprzlink_msg_v2_send_PONG.constprop.0.str1.4:0000000000000000 $d
+     /tmp/ccySOORQ.s:19     .text.pprzlink_msg_v2_send_PONG.constprop.0:0000000000000000 $t
+     /tmp/ccySOORQ.s:27     .text.pprzlink_msg_v2_send_PONG.constprop.0:0000000000000000 pprzlink_msg_v2_send_PONG.constprop.0
+     /tmp/ccySOORQ.s:117    .text.pprzlink_msg_v2_send_PONG.constprop.0:00000000000000ac $d
+     /tmp/ccySOORQ.s:120    .text.datalink_init:0000000000000000 $t
+     /tmp/ccySOORQ.s:128    .text.datalink_init:0000000000000000 datalink_init
+     /tmp/ccySOORQ.s:143    .text.datalink_init:0000000000000010 $d
+     /tmp/ccySOORQ.s:148    .text.datalink_periodic:0000000000000000 $t
+     /tmp/ccySOORQ.s:156    .text.datalink_periodic:0000000000000000 datalink_periodic
+     /tmp/ccySOORQ.s:168    .text.datalink_periodic:000000000000000c $d
+     /tmp/ccySOORQ.s:171    .text.datalink_parse_PING:0000000000000000 $t
+     /tmp/ccySOORQ.s:179    .text.datalink_parse_PING:0000000000000000 datalink_parse_PING
+     /tmp/ccySOORQ.s:198    .text.dl_parse_msg:0000000000000000 $t
+     /tmp/ccySOORQ.s:206    .text.dl_parse_msg:0000000000000000 dl_parse_msg
+     /tmp/ccySOORQ.s:228    .text.dl_parse_msg:0000000000000024 $d
+     /tmp/ccySOORQ.s:400    .bss.dl_buffer:0000000000000000 dl_buffer
+     /tmp/ccySOORQ.s:387    .bss.datalink_nb_msgs:0000000000000000 datalink_nb_msgs
+     /tmp/ccySOORQ.s:394    .bss.datalink_time:0000000000000000 datalink_time
+     /tmp/ccySOORQ.s:406    .bss.dl_msg_available:0000000000000000 dl_msg_available
+     /tmp/ccySOORQ.s:383    .bss.datalink_nb_msgs:0000000000000000 $d
+     /tmp/ccySOORQ.s:390    .bss.datalink_time:0000000000000000 $d
+     /tmp/ccySOORQ.s:397    .bss.dl_buffer:0000000000000000 $d
+     /tmp/ccySOORQ.s:407    .bss.dl_msg_available:0000000000000000 $d
+     /tmp/ccySOORQ.s:283    .text.dl_parse_msg:000000000000005b $d
+     /tmp/ccySOORQ.s:283    .text.dl_parse_msg:000000000000005c $t
+
+UNDEFINED SYMBOLS
+gps_parse_RTCM_INJECT
+gps_datalink_parse_REMOTE_GPS_LOCAL
+nav_parse_MOVE_WP
+air_data_parse_WIND_INFO
+settings_parse_msg_SETTING
+nav_parse_BLOCK
+settings_parse_msg_GET_SETTING
+autopilot_guided_parse_GUIDED
+rc_datalink_parse_RC_3CH
+rc_datalink_parse_RC_4CH
+gps_datalink_parse_EXTERNAL_POSE
+gps_datalink_parse_EXTERNAL_POSE_SMALL
+gps_parse_GPS_INJECT

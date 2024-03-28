@@ -1,0 +1,159 @@
+ARM GAS  /tmp/cc1wViS4.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"chdynamic.c"
+  13              		.text
+  14              		.section	.text.chThdCreateFromHeap,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	chThdCreateFromHeap
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	chThdCreateFromHeap, %function
+  24              	chThdCreateFromHeap:
+  25              		@ args = 8, pretend = 0, frame = 24
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  28 0002 1746     		mov	r7, r2
+  29 0004 87B0     		sub	sp, sp, #28
+  30 0006 0822     		movs	r2, #8
+  31 0008 0D46     		mov	r5, r1
+  32 000a 1E46     		mov	r6, r3
+  33 000c FFF7FEFF 		bl	chHeapAllocAligned
+  34 0010 0446     		mov	r4, r0
+  35 0012 F0B1     		cbz	r0, .L1
+  36 0014 0C9B     		ldr	r3, [sp, #48]
+  37 0016 0493     		str	r3, [sp, #16]
+  38 0018 4119     		adds	r1, r0, r5
+  39 001a 0D9B     		ldr	r3, [sp, #52]
+  40 001c 0593     		str	r3, [sp, #20]
+  41 001e CDE90070 		strd	r7, r0, [sp]
+  42 0022 CDE90216 		strd	r1, r6, [sp, #8]
+  43 0026 FFF7FEFF 		bl	__thd_stackfill
+  44 002a 3023     		movs	r3, #48
+  45              		.syntax unified
+  46              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  47 002c 83F31188 		MSR basepri, r3
+  48              	@ 0 "" 2
+  49              		.thumb
+  50              		.syntax unified
+  51 0030 FFF7FEFF 		bl	__stats_start_measure_crit_thd
+  52 0034 6846     		mov	r0, sp
+  53 0036 FFF7FEFF 		bl	chThdCreateSuspendedI
+  54 003a 0123     		movs	r3, #1
+  55 003c 80F82530 		strb	r3, [r0, #37]
+  56 0040 0021     		movs	r1, #0
+  57 0042 0446     		mov	r4, r0
+ARM GAS  /tmp/cc1wViS4.s 			page 2
+
+
+  58 0044 FFF7FEFF 		bl	chSchWakeupS
+  59 0048 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+  60 004c 0023     		movs	r3, #0
+  61              		.syntax unified
+  62              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  63 004e 83F31188 		MSR basepri, r3
+  64              	@ 0 "" 2
+  65              		.thumb
+  66              		.syntax unified
+  67              	.L1:
+  68 0052 2046     		mov	r0, r4
+  69 0054 07B0     		add	sp, sp, #28
+  70              		@ sp needed
+  71 0056 F0BD     		pop	{r4, r5, r6, r7, pc}
+  72              		.size	chThdCreateFromHeap, .-chThdCreateFromHeap
+  73              		.section	.text.chThdCreateFromMemoryPool,"ax",%progbits
+  74              		.align	1
+  75              		.p2align 4,,15
+  76              		.global	chThdCreateFromMemoryPool
+  77              		.syntax unified
+  78              		.thumb
+  79              		.thumb_func
+  80              		.fpu fpv4-sp-d16
+  81              		.type	chThdCreateFromMemoryPool, %function
+  82              	chThdCreateFromMemoryPool:
+  83              		@ args = 4, pretend = 0, frame = 24
+  84              		@ frame_needed = 0, uses_anonymous_args = 0
+  85 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+  86 0004 86B0     		sub	sp, sp, #24
+  87 0006 0546     		mov	r5, r0
+  88 0008 8846     		mov	r8, r1
+  89 000a 1746     		mov	r7, r2
+  90 000c 1E46     		mov	r6, r3
+  91 000e FFF7FEFF 		bl	chPoolAlloc
+  92 0012 0446     		mov	r4, r0
+  93 0014 F8B1     		cbz	r0, .L8
+  94 0016 6968     		ldr	r1, [r5, #4]
+  95 0018 0C9B     		ldr	r3, [sp, #48]
+  96 001a 0593     		str	r3, [sp, #20]
+  97 001c 0144     		add	r1, r1, r0
+  98 001e CDE90080 		strd	r8, r0, [sp]
+  99 0022 CDE90376 		strd	r7, r6, [sp, #12]
+ 100 0026 0291     		str	r1, [sp, #8]
+ 101 0028 FFF7FEFF 		bl	__thd_stackfill
+ 102 002c 3023     		movs	r3, #48
+ 103              		.syntax unified
+ 104              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 105 002e 83F31188 		MSR basepri, r3
+ 106              	@ 0 "" 2
+ 107              		.thumb
+ 108              		.syntax unified
+ 109 0032 FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 110 0036 6846     		mov	r0, sp
+ 111 0038 FFF7FEFF 		bl	chThdCreateSuspendedI
+ 112 003c 0223     		movs	r3, #2
+ 113 003e 80F82530 		strb	r3, [r0, #37]
+ 114 0042 0021     		movs	r1, #0
+ARM GAS  /tmp/cc1wViS4.s 			page 3
+
+
+ 115 0044 4564     		str	r5, [r0, #68]
+ 116 0046 0446     		mov	r4, r0
+ 117 0048 FFF7FEFF 		bl	chSchWakeupS
+ 118 004c FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 119 0050 0023     		movs	r3, #0
+ 120              		.syntax unified
+ 121              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 122 0052 83F31188 		MSR basepri, r3
+ 123              	@ 0 "" 2
+ 124              		.thumb
+ 125              		.syntax unified
+ 126              	.L8:
+ 127 0056 2046     		mov	r0, r4
+ 128 0058 06B0     		add	sp, sp, #24
+ 129              		@ sp needed
+ 130 005a BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 131              		.size	chThdCreateFromMemoryPool, .-chThdCreateFromMemoryPool
+ 132 005e 00BF     		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/cc1wViS4.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 chdynamic.c
+     /tmp/cc1wViS4.s:15     .text.chThdCreateFromHeap:0000000000000000 $t
+     /tmp/cc1wViS4.s:24     .text.chThdCreateFromHeap:0000000000000000 chThdCreateFromHeap
+     /tmp/cc1wViS4.s:74     .text.chThdCreateFromMemoryPool:0000000000000000 $t
+     /tmp/cc1wViS4.s:82     .text.chThdCreateFromMemoryPool:0000000000000000 chThdCreateFromMemoryPool
+
+UNDEFINED SYMBOLS
+chHeapAllocAligned
+__thd_stackfill
+__stats_start_measure_crit_thd
+chThdCreateSuspendedI
+chSchWakeupS
+__stats_stop_measure_crit_thd
+chPoolAlloc

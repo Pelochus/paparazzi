@@ -1,0 +1,584 @@
+ARM GAS  /tmp/cc3mhN8w.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"chmboxes.c"
+  13              		.text
+  14              		.section	.text.chMBObjectInit,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	chMBObjectInit
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	chMBObjectInit, %function
+  24              	chMBObjectInit:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27 0000 10B5     		push	{r4, lr}
+  28 0002 0446     		mov	r4, r0
+  29 0004 0023     		movs	r3, #0
+  30 0006 01EB8202 		add	r2, r1, r2, lsl #2
+  31 000a C4E90211 		strd	r1, r1, [r4, #8]
+  32 000e 1830     		adds	r0, r0, #24
+  33 0010 2160     		str	r1, [r4]
+  34 0012 6260     		str	r2, [r4, #4]
+  35 0014 2361     		str	r3, [r4, #16]
+  36 0016 2375     		strb	r3, [r4, #20]
+  37 0018 FFF7FEFF 		bl	chThdQueueObjectInit
+  38 001c 04F12000 		add	r0, r4, #32
+  39 0020 BDE81040 		pop	{r4, lr}
+  40 0024 FFF7FEBF 		b	chThdQueueObjectInit
+  41              		.size	chMBObjectInit, .-chMBObjectInit
+  42              		.section	.text.chMBReset,"ax",%progbits
+  43              		.align	1
+  44              		.p2align 4,,15
+  45              		.global	chMBReset
+  46              		.syntax unified
+  47              		.thumb
+  48              		.thumb_func
+  49              		.fpu fpv4-sp-d16
+  50              		.type	chMBReset, %function
+  51              	chMBReset:
+  52              		@ args = 0, pretend = 0, frame = 0
+  53              		@ frame_needed = 0, uses_anonymous_args = 0
+  54 0000 38B5     		push	{r3, r4, r5, lr}
+  55 0002 0446     		mov	r4, r0
+  56 0004 3023     		movs	r3, #48
+  57              		.syntax unified
+ARM GAS  /tmp/cc3mhN8w.s 			page 2
+
+
+  58              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  59 0006 83F31188 		MSR basepri, r3
+  60              	@ 0 "" 2
+  61              		.thumb
+  62              		.syntax unified
+  63 000a FFF7FEFF 		bl	__stats_start_measure_crit_thd
+  64 000e 2368     		ldr	r3, [r4]
+  65 0010 0122     		movs	r2, #1
+  66 0012 0025     		movs	r5, #0
+  67 0014 C4E90233 		strd	r3, r3, [r4, #8]
+  68 0018 2275     		strb	r2, [r4, #20]
+  69 001a 04F11800 		add	r0, r4, #24
+  70 001e 2561     		str	r5, [r4, #16]
+  71 0020 6FF00101 		mvn	r1, #1
+  72 0024 FFF7FEFF 		bl	chThdDequeueAllI
+  73 0028 6FF00101 		mvn	r1, #1
+  74 002c 04F12000 		add	r0, r4, #32
+  75 0030 FFF7FEFF 		bl	chThdDequeueAllI
+  76 0034 FFF7FEFF 		bl	chSchRescheduleS
+  77 0038 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+  78              		.syntax unified
+  79              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  80 003c 85F31188 		MSR basepri, r5
+  81              	@ 0 "" 2
+  82              		.thumb
+  83              		.syntax unified
+  84 0040 38BD     		pop	{r3, r4, r5, pc}
+  85              		.size	chMBReset, .-chMBReset
+  86 0042 00BF     		.section	.text.chMBResetI,"ax",%progbits
+  87              		.align	1
+  88              		.p2align 4,,15
+  89              		.global	chMBResetI
+  90              		.syntax unified
+  91              		.thumb
+  92              		.thumb_func
+  93              		.fpu fpv4-sp-d16
+  94              		.type	chMBResetI, %function
+  95              	chMBResetI:
+  96              		@ args = 0, pretend = 0, frame = 0
+  97              		@ frame_needed = 0, uses_anonymous_args = 0
+  98 0000 10B5     		push	{r4, lr}
+  99 0002 0446     		mov	r4, r0
+ 100 0004 0122     		movs	r2, #1
+ 101 0006 2368     		ldr	r3, [r4]
+ 102 0008 2275     		strb	r2, [r4, #20]
+ 103 000a 0020     		movs	r0, #0
+ 104 000c 2061     		str	r0, [r4, #16]
+ 105 000e C4E90233 		strd	r3, r3, [r4, #8]
+ 106 0012 04F11800 		add	r0, r4, #24
+ 107 0016 6FF00101 		mvn	r1, #1
+ 108 001a FFF7FEFF 		bl	chThdDequeueAllI
+ 109 001e 04F12000 		add	r0, r4, #32
+ 110 0022 6FF00101 		mvn	r1, #1
+ 111 0026 BDE81040 		pop	{r4, lr}
+ 112 002a FFF7FEBF 		b	chThdDequeueAllI
+ 113              		.size	chMBResetI, .-chMBResetI
+ 114 002e 00BF     		.section	.text.chMBPostTimeoutS,"ax",%progbits
+ARM GAS  /tmp/cc3mhN8w.s 			page 3
+
+
+ 115              		.align	1
+ 116              		.p2align 4,,15
+ 117              		.global	chMBPostTimeoutS
+ 118              		.syntax unified
+ 119              		.thumb
+ 120              		.thumb_func
+ 121              		.fpu fpv4-sp-d16
+ 122              		.type	chMBPostTimeoutS, %function
+ 123              	chMBPostTimeoutS:
+ 124              		@ args = 0, pretend = 0, frame = 0
+ 125              		@ frame_needed = 0, uses_anonymous_args = 0
+ 126 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 127 0004 0446     		mov	r4, r0
+ 128 0006 0F46     		mov	r7, r1
+ 129 0008 9046     		mov	r8, r2
+ 130 000a 00F11809 		add	r9, r0, #24
+ 131 000e 09E0     		b	.L12
+ 132              	.L18:
+ 133 0010 D4E90065 		ldrd	r6, r5, [r4]
+ 134 0014 2369     		ldr	r3, [r4, #16]
+ 135 0016 AA1B     		subs	r2, r5, r6
+ 136 0018 B3EBA20F 		cmp	r3, r2, asr #2
+ 137 001c 0BD1     		bne	.L17
+ 138 001e FFF7FEFF 		bl	chThdEnqueueTimeoutS
+ 139 0022 30B9     		cbnz	r0, .L8
+ 140              	.L12:
+ 141 0024 237D     		ldrb	r3, [r4, #20]	@ zero_extendqisi2
+ 142 0026 4146     		mov	r1, r8
+ 143 0028 4846     		mov	r0, r9
+ 144 002a 002B     		cmp	r3, #0
+ 145 002c F0D0     		beq	.L18
+ 146 002e 6FF00100 		mvn	r0, #1
+ 147              	.L8:
+ 148 0032 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 149              	.L17:
+ 150 0036 A168     		ldr	r1, [r4, #8]
+ 151 0038 0A1D     		adds	r2, r1, #4
+ 152 003a AA42     		cmp	r2, r5
+ 153 003c 03F10103 		add	r3, r3, #1
+ 154 0040 A260     		str	r2, [r4, #8]
+ 155 0042 04F12000 		add	r0, r4, #32
+ 156 0046 0F60     		str	r7, [r1]
+ 157 0048 28BF     		it	cs
+ 158 004a A660     		strcs	r6, [r4, #8]
+ 159 004c 0021     		movs	r1, #0
+ 160 004e 2361     		str	r3, [r4, #16]
+ 161 0050 FFF7FEFF 		bl	chThdDequeueNextI
+ 162 0054 FFF7FEFF 		bl	chSchRescheduleS
+ 163 0058 0020     		movs	r0, #0
+ 164 005a BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 165              		.size	chMBPostTimeoutS, .-chMBPostTimeoutS
+ 166 005e 00BF     		.section	.text.chMBPostTimeout,"ax",%progbits
+ 167              		.align	1
+ 168              		.p2align 4,,15
+ 169              		.global	chMBPostTimeout
+ 170              		.syntax unified
+ 171              		.thumb
+ARM GAS  /tmp/cc3mhN8w.s 			page 4
+
+
+ 172              		.thumb_func
+ 173              		.fpu fpv4-sp-d16
+ 174              		.type	chMBPostTimeout, %function
+ 175              	chMBPostTimeout:
+ 176              		@ args = 0, pretend = 0, frame = 16
+ 177              		@ frame_needed = 0, uses_anonymous_args = 0
+ 178 0000 00B5     		push	{lr}
+ 179 0002 85B0     		sub	sp, sp, #20
+ 180 0004 CDE90210 		strd	r1, r0, [sp, #8]
+ 181 0008 0192     		str	r2, [sp, #4]
+ 182 000a 3023     		movs	r3, #48
+ 183              		.syntax unified
+ 184              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 185 000c 83F31188 		MSR basepri, r3
+ 186              	@ 0 "" 2
+ 187              		.thumb
+ 188              		.syntax unified
+ 189 0010 FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 190 0014 DDE90121 		ldrd	r2, r1, [sp, #4]
+ 191 0018 0398     		ldr	r0, [sp, #12]
+ 192 001a FFF7FEFF 		bl	chMBPostTimeoutS
+ 193 001e 0190     		str	r0, [sp, #4]
+ 194 0020 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 195 0024 0023     		movs	r3, #0
+ 196              		.syntax unified
+ 197              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 198 0026 83F31188 		MSR basepri, r3
+ 199              	@ 0 "" 2
+ 200              		.thumb
+ 201              		.syntax unified
+ 202 002a 0198     		ldr	r0, [sp, #4]
+ 203 002c 05B0     		add	sp, sp, #20
+ 204              		@ sp needed
+ 205 002e 5DF804FB 		ldr	pc, [sp], #4
+ 206              		.size	chMBPostTimeout, .-chMBPostTimeout
+ 207 0032 00BF     		.section	.text.chMBPostI,"ax",%progbits
+ 208              		.align	1
+ 209              		.p2align 4,,15
+ 210              		.global	chMBPostI
+ 211              		.syntax unified
+ 212              		.thumb
+ 213              		.thumb_func
+ 214              		.fpu fpv4-sp-d16
+ 215              		.type	chMBPostI, %function
+ 216              	chMBPostI:
+ 217              		@ args = 0, pretend = 0, frame = 0
+ 218              		@ frame_needed = 0, uses_anonymous_args = 0
+ 219 0000 037D     		ldrb	r3, [r0, #20]	@ zero_extendqisi2
+ 220 0002 EBB9     		cbnz	r3, .L24
+ 221 0004 70B5     		push	{r4, r5, r6, lr}
+ 222 0006 D0E90062 		ldrd	r6, r2, [r0]
+ 223 000a 0369     		ldr	r3, [r0, #16]
+ 224 000c 941B     		subs	r4, r2, r6
+ 225 000e B3EBA40F 		cmp	r3, r4, asr #2
+ 226 0012 12D0     		beq	.L25
+ 227 0014 8568     		ldr	r5, [r0, #8]
+ 228 0016 2C1D     		adds	r4, r5, #4
+ARM GAS  /tmp/cc3mhN8w.s 			page 5
+
+
+ 229 0018 9442     		cmp	r4, r2
+ 230 001a 03F10103 		add	r3, r3, #1
+ 231 001e 8460     		str	r4, [r0, #8]
+ 232 0020 2960     		str	r1, [r5]
+ 233 0022 00F12000 		add	r0, r0, #32
+ 234 0026 28BF     		it	cs
+ 235 0028 40F8186C 		strcs	r6, [r0, #-24]
+ 236 002c 40F8103C 		str	r3, [r0, #-16]
+ 237 0030 0021     		movs	r1, #0
+ 238 0032 FFF7FEFF 		bl	chThdDequeueNextI
+ 239 0036 0020     		movs	r0, #0
+ 240 0038 70BD     		pop	{r4, r5, r6, pc}
+ 241              	.L25:
+ 242 003a 4FF0FF30 		mov	r0, #-1
+ 243 003e 70BD     		pop	{r4, r5, r6, pc}
+ 244              	.L24:
+ 245 0040 6FF00100 		mvn	r0, #1
+ 246 0044 7047     		bx	lr
+ 247              		.size	chMBPostI, .-chMBPostI
+ 248 0046 00BF     		.section	.text.chMBPostAheadTimeoutS,"ax",%progbits
+ 249              		.align	1
+ 250              		.p2align 4,,15
+ 251              		.global	chMBPostAheadTimeoutS
+ 252              		.syntax unified
+ 253              		.thumb
+ 254              		.thumb_func
+ 255              		.fpu fpv4-sp-d16
+ 256              		.type	chMBPostAheadTimeoutS, %function
+ 257              	chMBPostAheadTimeoutS:
+ 258              		@ args = 0, pretend = 0, frame = 0
+ 259              		@ frame_needed = 0, uses_anonymous_args = 0
+ 260 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 261 0004 0446     		mov	r4, r0
+ 262 0006 0E46     		mov	r6, r1
+ 263 0008 9046     		mov	r8, r2
+ 264 000a 00F11809 		add	r9, r0, #24
+ 265 000e 09E0     		b	.L35
+ 266              	.L42:
+ 267 0010 D4E90057 		ldrd	r5, r7, [r4]
+ 268 0014 2369     		ldr	r3, [r4, #16]
+ 269 0016 7A1B     		subs	r2, r7, r5
+ 270 0018 B3EBA20F 		cmp	r3, r2, asr #2
+ 271 001c 0BD1     		bne	.L41
+ 272 001e FFF7FEFF 		bl	chThdEnqueueTimeoutS
+ 273 0022 30B9     		cbnz	r0, .L30
+ 274              	.L35:
+ 275 0024 237D     		ldrb	r3, [r4, #20]	@ zero_extendqisi2
+ 276 0026 4146     		mov	r1, r8
+ 277 0028 4846     		mov	r0, r9
+ 278 002a 002B     		cmp	r3, #0
+ 279 002c F0D0     		beq	.L42
+ 280 002e 6FF00100 		mvn	r0, #1
+ 281              	.L30:
+ 282 0032 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 283              	.L41:
+ 284 0036 E268     		ldr	r2, [r4, #12]
+ 285 0038 043A     		subs	r2, r2, #4
+ARM GAS  /tmp/cc3mhN8w.s 			page 6
+
+
+ 286 003a AA42     		cmp	r2, r5
+ 287 003c 38BF     		it	cc
+ 288 003e 3A1F     		subcc	r2, r7, #4
+ 289 0040 0133     		adds	r3, r3, #1
+ 290 0042 E260     		str	r2, [r4, #12]
+ 291 0044 04F12000 		add	r0, r4, #32
+ 292 0048 1660     		str	r6, [r2]
+ 293 004a 0021     		movs	r1, #0
+ 294 004c 2361     		str	r3, [r4, #16]
+ 295 004e FFF7FEFF 		bl	chThdDequeueNextI
+ 296 0052 FFF7FEFF 		bl	chSchRescheduleS
+ 297 0056 0020     		movs	r0, #0
+ 298 0058 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 299              		.size	chMBPostAheadTimeoutS, .-chMBPostAheadTimeoutS
+ 300              		.section	.text.chMBPostAheadTimeout,"ax",%progbits
+ 301              		.align	1
+ 302              		.p2align 4,,15
+ 303              		.global	chMBPostAheadTimeout
+ 304              		.syntax unified
+ 305              		.thumb
+ 306              		.thumb_func
+ 307              		.fpu fpv4-sp-d16
+ 308              		.type	chMBPostAheadTimeout, %function
+ 309              	chMBPostAheadTimeout:
+ 310              		@ args = 0, pretend = 0, frame = 16
+ 311              		@ frame_needed = 0, uses_anonymous_args = 0
+ 312 0000 00B5     		push	{lr}
+ 313 0002 85B0     		sub	sp, sp, #20
+ 314 0004 CDE90210 		strd	r1, r0, [sp, #8]
+ 315 0008 0192     		str	r2, [sp, #4]
+ 316 000a 3023     		movs	r3, #48
+ 317              		.syntax unified
+ 318              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 319 000c 83F31188 		MSR basepri, r3
+ 320              	@ 0 "" 2
+ 321              		.thumb
+ 322              		.syntax unified
+ 323 0010 FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 324 0014 DDE90121 		ldrd	r2, r1, [sp, #4]
+ 325 0018 0398     		ldr	r0, [sp, #12]
+ 326 001a FFF7FEFF 		bl	chMBPostAheadTimeoutS
+ 327 001e 0190     		str	r0, [sp, #4]
+ 328 0020 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 329 0024 0023     		movs	r3, #0
+ 330              		.syntax unified
+ 331              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 332 0026 83F31188 		MSR basepri, r3
+ 333              	@ 0 "" 2
+ 334              		.thumb
+ 335              		.syntax unified
+ 336 002a 0198     		ldr	r0, [sp, #4]
+ 337 002c 05B0     		add	sp, sp, #20
+ 338              		@ sp needed
+ 339 002e 5DF804FB 		ldr	pc, [sp], #4
+ 340              		.size	chMBPostAheadTimeout, .-chMBPostAheadTimeout
+ 341 0032 00BF     		.section	.text.chMBPostAheadI,"ax",%progbits
+ 342              		.align	1
+ARM GAS  /tmp/cc3mhN8w.s 			page 7
+
+
+ 343              		.p2align 4,,15
+ 344              		.global	chMBPostAheadI
+ 345              		.syntax unified
+ 346              		.thumb
+ 347              		.thumb_func
+ 348              		.fpu fpv4-sp-d16
+ 349              		.type	chMBPostAheadI, %function
+ 350              	chMBPostAheadI:
+ 351              		@ args = 0, pretend = 0, frame = 0
+ 352              		@ frame_needed = 0, uses_anonymous_args = 0
+ 353 0000 38B5     		push	{r3, r4, r5, lr}
+ 354 0002 037D     		ldrb	r3, [r0, #20]	@ zero_extendqisi2
+ 355 0004 CBB9     		cbnz	r3, .L49
+ 356 0006 D0E90045 		ldrd	r4, r5, [r0]
+ 357 000a 0269     		ldr	r2, [r0, #16]
+ 358 000c 2B1B     		subs	r3, r5, r4
+ 359 000e B2EBA30F 		cmp	r2, r3, asr #2
+ 360 0012 0FD0     		beq	.L50
+ 361 0014 C368     		ldr	r3, [r0, #12]
+ 362 0016 043B     		subs	r3, r3, #4
+ 363 0018 A342     		cmp	r3, r4
+ 364 001a 38BF     		it	cc
+ 365 001c 2B1F     		subcc	r3, r5, #4
+ 366 001e 0132     		adds	r2, r2, #1
+ 367 0020 C360     		str	r3, [r0, #12]
+ 368 0022 1960     		str	r1, [r3]
+ 369 0024 2030     		adds	r0, r0, #32
+ 370 0026 40F8102C 		str	r2, [r0, #-16]
+ 371 002a 0021     		movs	r1, #0
+ 372 002c FFF7FEFF 		bl	chThdDequeueNextI
+ 373 0030 0020     		movs	r0, #0
+ 374 0032 38BD     		pop	{r3, r4, r5, pc}
+ 375              	.L50:
+ 376 0034 4FF0FF30 		mov	r0, #-1
+ 377 0038 38BD     		pop	{r3, r4, r5, pc}
+ 378              	.L49:
+ 379 003a 6FF00100 		mvn	r0, #1
+ 380 003e 38BD     		pop	{r3, r4, r5, pc}
+ 381              		.size	chMBPostAheadI, .-chMBPostAheadI
+ 382              		.section	.text.chMBFetchTimeoutS,"ax",%progbits
+ 383              		.align	1
+ 384              		.p2align 4,,15
+ 385              		.global	chMBFetchTimeoutS
+ 386              		.syntax unified
+ 387              		.thumb
+ 388              		.thumb_func
+ 389              		.fpu fpv4-sp-d16
+ 390              		.type	chMBFetchTimeoutS, %function
+ 391              	chMBFetchTimeoutS:
+ 392              		@ args = 0, pretend = 0, frame = 0
+ 393              		@ frame_needed = 0, uses_anonymous_args = 0
+ 394 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 395 0002 0446     		mov	r4, r0
+ 396 0004 0E46     		mov	r6, r1
+ 397 0006 1546     		mov	r5, r2
+ 398 0008 00F12007 		add	r7, r0, #32
+ 399 000c 04E0     		b	.L57
+ARM GAS  /tmp/cc3mhN8w.s 			page 8
+
+
+ 400              	.L63:
+ 401 000e 2369     		ldr	r3, [r4, #16]
+ 402 0010 53B9     		cbnz	r3, .L62
+ 403 0012 FFF7FEFF 		bl	chThdEnqueueTimeoutS
+ 404 0016 30B9     		cbnz	r0, .L53
+ 405              	.L57:
+ 406 0018 237D     		ldrb	r3, [r4, #20]	@ zero_extendqisi2
+ 407 001a 2946     		mov	r1, r5
+ 408 001c 3846     		mov	r0, r7
+ 409 001e 002B     		cmp	r3, #0
+ 410 0020 F5D0     		beq	.L63
+ 411 0022 6FF00100 		mvn	r0, #1
+ 412              	.L53:
+ 413 0026 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 414              	.L62:
+ 415 0028 E168     		ldr	r1, [r4, #12]
+ 416 002a 0A1D     		adds	r2, r1, #4
+ 417 002c 0968     		ldr	r1, [r1]
+ 418 002e E260     		str	r2, [r4, #12]
+ 419 0030 3160     		str	r1, [r6]
+ 420 0032 6168     		ldr	r1, [r4, #4]
+ 421 0034 8A42     		cmp	r2, r1
+ 422 0036 24BF     		itt	cs
+ 423 0038 2268     		ldrcs	r2, [r4]
+ 424 003a E260     		strcs	r2, [r4, #12]
+ 425 003c 013B     		subs	r3, r3, #1
+ 426 003e 04F11800 		add	r0, r4, #24
+ 427 0042 0021     		movs	r1, #0
+ 428 0044 2361     		str	r3, [r4, #16]
+ 429 0046 FFF7FEFF 		bl	chThdDequeueNextI
+ 430 004a FFF7FEFF 		bl	chSchRescheduleS
+ 431 004e 0020     		movs	r0, #0
+ 432 0050 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 433              		.size	chMBFetchTimeoutS, .-chMBFetchTimeoutS
+ 434 0052 00BF     		.section	.text.chMBFetchTimeout,"ax",%progbits
+ 435              		.align	1
+ 436              		.p2align 4,,15
+ 437              		.global	chMBFetchTimeout
+ 438              		.syntax unified
+ 439              		.thumb
+ 440              		.thumb_func
+ 441              		.fpu fpv4-sp-d16
+ 442              		.type	chMBFetchTimeout, %function
+ 443              	chMBFetchTimeout:
+ 444              		@ args = 0, pretend = 0, frame = 16
+ 445              		@ frame_needed = 0, uses_anonymous_args = 0
+ 446 0000 00B5     		push	{lr}
+ 447 0002 85B0     		sub	sp, sp, #20
+ 448 0004 CDE90210 		strd	r1, r0, [sp, #8]
+ 449 0008 0192     		str	r2, [sp, #4]
+ 450 000a 3023     		movs	r3, #48
+ 451              		.syntax unified
+ 452              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 453 000c 83F31188 		MSR basepri, r3
+ 454              	@ 0 "" 2
+ 455              		.thumb
+ 456              		.syntax unified
+ARM GAS  /tmp/cc3mhN8w.s 			page 9
+
+
+ 457 0010 FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 458 0014 DDE90121 		ldrd	r2, r1, [sp, #4]
+ 459 0018 0398     		ldr	r0, [sp, #12]
+ 460 001a FFF7FEFF 		bl	chMBFetchTimeoutS
+ 461 001e 0190     		str	r0, [sp, #4]
+ 462 0020 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 463 0024 0023     		movs	r3, #0
+ 464              		.syntax unified
+ 465              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 466 0026 83F31188 		MSR basepri, r3
+ 467              	@ 0 "" 2
+ 468              		.thumb
+ 469              		.syntax unified
+ 470 002a 0198     		ldr	r0, [sp, #4]
+ 471 002c 05B0     		add	sp, sp, #20
+ 472              		@ sp needed
+ 473 002e 5DF804FB 		ldr	pc, [sp], #4
+ 474              		.size	chMBFetchTimeout, .-chMBFetchTimeout
+ 475 0032 00BF     		.section	.text.chMBFetchI,"ax",%progbits
+ 476              		.align	1
+ 477              		.p2align 4,,15
+ 478              		.global	chMBFetchI
+ 479              		.syntax unified
+ 480              		.thumb
+ 481              		.thumb_func
+ 482              		.fpu fpv4-sp-d16
+ 483              		.type	chMBFetchI, %function
+ 484              	chMBFetchI:
+ 485              		@ args = 0, pretend = 0, frame = 0
+ 486              		@ frame_needed = 0, uses_anonymous_args = 0
+ 487 0000 037D     		ldrb	r3, [r0, #20]	@ zero_extendqisi2
+ 488 0002 BBB9     		cbnz	r3, .L69
+ 489 0004 0369     		ldr	r3, [r0, #16]
+ 490 0006 93B1     		cbz	r3, .L70
+ 491 0008 10B5     		push	{r4, lr}
+ 492 000a C468     		ldr	r4, [r0, #12]
+ 493 000c 221D     		adds	r2, r4, #4
+ 494 000e 2468     		ldr	r4, [r4]
+ 495 0010 C260     		str	r2, [r0, #12]
+ 496 0012 0C60     		str	r4, [r1]
+ 497 0014 4168     		ldr	r1, [r0, #4]
+ 498 0016 8A42     		cmp	r2, r1
+ 499 0018 24BF     		itt	cs
+ 500 001a 0268     		ldrcs	r2, [r0]
+ 501 001c C260     		strcs	r2, [r0, #12]
+ 502 001e 013B     		subs	r3, r3, #1
+ 503 0020 0361     		str	r3, [r0, #16]
+ 504 0022 0021     		movs	r1, #0
+ 505 0024 1830     		adds	r0, r0, #24
+ 506 0026 FFF7FEFF 		bl	chThdDequeueNextI
+ 507 002a 0020     		movs	r0, #0
+ 508 002c 10BD     		pop	{r4, pc}
+ 509              	.L70:
+ 510 002e 4FF0FF30 		mov	r0, #-1
+ 511 0032 7047     		bx	lr
+ 512              	.L69:
+ 513 0034 6FF00100 		mvn	r0, #1
+ARM GAS  /tmp/cc3mhN8w.s 			page 10
+
+
+ 514 0038 7047     		bx	lr
+ 515              		.size	chMBFetchI, .-chMBFetchI
+ 516 003a 00BF     		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/cc3mhN8w.s 			page 11
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 chmboxes.c
+     /tmp/cc3mhN8w.s:15     .text.chMBObjectInit:0000000000000000 $t
+     /tmp/cc3mhN8w.s:24     .text.chMBObjectInit:0000000000000000 chMBObjectInit
+     /tmp/cc3mhN8w.s:43     .text.chMBReset:0000000000000000 $t
+     /tmp/cc3mhN8w.s:51     .text.chMBReset:0000000000000000 chMBReset
+     /tmp/cc3mhN8w.s:87     .text.chMBResetI:0000000000000000 $t
+     /tmp/cc3mhN8w.s:95     .text.chMBResetI:0000000000000000 chMBResetI
+     /tmp/cc3mhN8w.s:115    .text.chMBPostTimeoutS:0000000000000000 $t
+     /tmp/cc3mhN8w.s:123    .text.chMBPostTimeoutS:0000000000000000 chMBPostTimeoutS
+     /tmp/cc3mhN8w.s:167    .text.chMBPostTimeout:0000000000000000 $t
+     /tmp/cc3mhN8w.s:175    .text.chMBPostTimeout:0000000000000000 chMBPostTimeout
+     /tmp/cc3mhN8w.s:208    .text.chMBPostI:0000000000000000 $t
+     /tmp/cc3mhN8w.s:216    .text.chMBPostI:0000000000000000 chMBPostI
+     /tmp/cc3mhN8w.s:249    .text.chMBPostAheadTimeoutS:0000000000000000 $t
+     /tmp/cc3mhN8w.s:257    .text.chMBPostAheadTimeoutS:0000000000000000 chMBPostAheadTimeoutS
+     /tmp/cc3mhN8w.s:301    .text.chMBPostAheadTimeout:0000000000000000 $t
+     /tmp/cc3mhN8w.s:309    .text.chMBPostAheadTimeout:0000000000000000 chMBPostAheadTimeout
+     /tmp/cc3mhN8w.s:342    .text.chMBPostAheadI:0000000000000000 $t
+     /tmp/cc3mhN8w.s:350    .text.chMBPostAheadI:0000000000000000 chMBPostAheadI
+     /tmp/cc3mhN8w.s:383    .text.chMBFetchTimeoutS:0000000000000000 $t
+     /tmp/cc3mhN8w.s:391    .text.chMBFetchTimeoutS:0000000000000000 chMBFetchTimeoutS
+     /tmp/cc3mhN8w.s:435    .text.chMBFetchTimeout:0000000000000000 $t
+     /tmp/cc3mhN8w.s:443    .text.chMBFetchTimeout:0000000000000000 chMBFetchTimeout
+     /tmp/cc3mhN8w.s:476    .text.chMBFetchI:0000000000000000 $t
+     /tmp/cc3mhN8w.s:484    .text.chMBFetchI:0000000000000000 chMBFetchI
+
+UNDEFINED SYMBOLS
+chThdQueueObjectInit
+__stats_start_measure_crit_thd
+chThdDequeueAllI
+chSchRescheduleS
+__stats_stop_measure_crit_thd
+chThdEnqueueTimeoutS
+chThdDequeueNextI

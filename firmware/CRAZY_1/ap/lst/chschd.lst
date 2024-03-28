@@ -1,0 +1,718 @@
+ARM GAS  /tmp/ccLOC4OR.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"chschd.c"
+  13              		.text
+  14              		.section	.text.__sch_reschedule_ahead,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.arch armv7e-m
+  18              		.syntax unified
+  19              		.thumb
+  20              		.thumb_func
+  21              		.fpu fpv4-sp-d16
+  22              		.type	__sch_reschedule_ahead, %function
+  23              	__sch_reschedule_ahead:
+  24              		@ args = 0, pretend = 0, frame = 0
+  25              		@ frame_needed = 0, uses_anonymous_args = 0
+  26 0000 114A     		ldr	r2, .L6
+  27 0002 38B5     		push	{r3, r4, r5, lr}
+  28 0004 1568     		ldr	r5, [r2]
+  29 0006 D468     		ldr	r4, [r2, #12]
+  30 0008 2B68     		ldr	r3, [r5]
+  31 000a 1360     		str	r3, [r2]
+  32 000c 0121     		movs	r1, #1
+  33 000e 5A60     		str	r2, [r3, #4]
+  34 0010 85F82410 		strb	r1, [r5, #36]
+  35 0014 0021     		movs	r1, #0
+  36 0016 84F82410 		strb	r1, [r4, #36]
+  37 001a A369     		ldr	r3, [r4, #24]
+  38 001c A168     		ldr	r1, [r4, #8]
+  39 001e D560     		str	r5, [r2, #12]
+  40              	.L2:
+  41 0020 1B68     		ldr	r3, [r3]
+  42 0022 9A68     		ldr	r2, [r3, #8]
+  43 0024 8A42     		cmp	r2, r1
+  44 0026 FBD8     		bhi	.L2
+  45 0028 5A68     		ldr	r2, [r3, #4]
+  46 002a 2146     		mov	r1, r4
+  47 002c C4E90032 		strd	r3, r2, [r4]
+  48 0030 2846     		mov	r0, r5
+  49 0032 1460     		str	r4, [r2]
+  50 0034 5C60     		str	r4, [r3, #4]
+  51 0036 FFF7FEFF 		bl	__stats_ctxswc
+  52 003a 2146     		mov	r1, r4
+  53 003c 2846     		mov	r0, r5
+  54 003e BDE83840 		pop	{r3, r4, r5, lr}
+  55 0042 FFF7FEBF 		b	__port_switch
+  56              	.L7:
+  57 0046 00BF     		.align	2
+ARM GAS  /tmp/ccLOC4OR.s 			page 2
+
+
+  58              	.L6:
+  59 0048 00000000 		.word	ch0
+  60              		.size	__sch_reschedule_ahead, .-__sch_reschedule_ahead
+  61              		.section	.text.__sch_reschedule_behind,"ax",%progbits
+  62              		.align	1
+  63              		.p2align 4,,15
+  64              		.syntax unified
+  65              		.thumb
+  66              		.thumb_func
+  67              		.fpu fpv4-sp-d16
+  68              		.type	__sch_reschedule_behind, %function
+  69              	__sch_reschedule_behind:
+  70              		@ args = 0, pretend = 0, frame = 0
+  71              		@ frame_needed = 0, uses_anonymous_args = 0
+  72 0000 38B5     		push	{r3, r4, r5, lr}
+  73 0002 124B     		ldr	r3, .L12
+  74 0004 1D68     		ldr	r5, [r3]
+  75 0006 DC68     		ldr	r4, [r3, #12]
+  76 0008 2A68     		ldr	r2, [r5]
+  77 000a 1A60     		str	r2, [r3]
+  78 000c 0121     		movs	r1, #1
+  79 000e 5360     		str	r3, [r2, #4]
+  80 0010 85F82410 		strb	r1, [r5, #36]
+  81 0014 0A21     		movs	r1, #10
+  82 0016 0022     		movs	r2, #0
+  83 0018 DD60     		str	r5, [r3, #12]
+  84 001a 84F82710 		strb	r1, [r4, #39]
+  85 001e A369     		ldr	r3, [r4, #24]
+  86 0020 A168     		ldr	r1, [r4, #8]
+  87 0022 84F82420 		strb	r2, [r4, #36]
+  88              	.L9:
+  89 0026 1B68     		ldr	r3, [r3]
+  90 0028 9A68     		ldr	r2, [r3, #8]
+  91 002a 8A42     		cmp	r2, r1
+  92 002c FBD2     		bcs	.L9
+  93 002e 5A68     		ldr	r2, [r3, #4]
+  94 0030 2146     		mov	r1, r4
+  95 0032 C4E90032 		strd	r3, r2, [r4]
+  96 0036 2846     		mov	r0, r5
+  97 0038 1460     		str	r4, [r2]
+  98 003a 5C60     		str	r4, [r3, #4]
+  99 003c FFF7FEFF 		bl	__stats_ctxswc
+ 100 0040 2146     		mov	r1, r4
+ 101 0042 2846     		mov	r0, r5
+ 102 0044 BDE83840 		pop	{r3, r4, r5, lr}
+ 103 0048 FFF7FEBF 		b	__port_switch
+ 104              	.L13:
+ 105              		.align	2
+ 106              	.L12:
+ 107 004c 00000000 		.word	ch0
+ 108              		.size	__sch_reschedule_behind, .-__sch_reschedule_behind
+ 109              		.section	.text.__sch_wakeup,"ax",%progbits
+ 110              		.align	1
+ 111              		.p2align 4,,15
+ 112              		.syntax unified
+ 113              		.thumb
+ 114              		.thumb_func
+ARM GAS  /tmp/ccLOC4OR.s 			page 3
+
+
+ 115              		.fpu fpv4-sp-d16
+ 116              		.type	__sch_wakeup, %function
+ 117              	__sch_wakeup:
+ 118              		@ args = 0, pretend = 0, frame = 0
+ 119              		@ frame_needed = 0, uses_anonymous_args = 0
+ 120 0000 10B5     		push	{r4, lr}
+ 121 0002 3023     		movs	r3, #48
+ 122 0004 0C46     		mov	r4, r1
+ 123              		.syntax unified
+ 124              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 125 0006 83F31188 		MSR basepri, r3
+ 126              	@ 0 "" 2
+ 127              		.thumb
+ 128              		.syntax unified
+ 129 000a FFF7FEFF 		bl	__stats_start_measure_crit_isr
+ 130 000e 94F82430 		ldrb	r3, [r4, #36]	@ zero_extendqisi2
+ 131 0012 0C2B     		cmp	r3, #12
+ 132 0014 10D8     		bhi	.L15
+ 133 0016 DFE803F0 		tbb	[pc, r3]
+ 134              	.L17:
+ 135 001a 20       		.byte	(.L25-.L17)/2
+ 136 001b 0F       		.byte	(.L15-.L17)/2
+ 137 001c 0F       		.byte	(.L15-.L17)/2
+ 138 001d 26       		.byte	(.L19-.L17)/2
+ 139 001e 0B       		.byte	(.L16-.L17)/2
+ 140 001f 07       		.byte	(.L18-.L17)/2
+ 141 0020 0F       		.byte	(.L15-.L17)/2
+ 142 0021 0B       		.byte	(.L16-.L17)/2
+ 143 0022 0F       		.byte	(.L15-.L17)/2
+ 144 0023 0F       		.byte	(.L15-.L17)/2
+ 145 0024 0F       		.byte	(.L15-.L17)/2
+ 146 0025 0F       		.byte	(.L15-.L17)/2
+ 147 0026 0B       		.byte	(.L16-.L17)/2
+ 148 0027 00       		.p2align 1
+ 149              	.L18:
+ 150 0028 A26A     		ldr	r2, [r4, #40]
+ 151 002a 9368     		ldr	r3, [r2, #8]
+ 152 002c 0133     		adds	r3, r3, #1
+ 153 002e 9360     		str	r3, [r2, #8]
+ 154              	.L16:
+ 155 0030 D4E90032 		ldrd	r3, r2, [r4]
+ 156 0034 1360     		str	r3, [r2]
+ 157 0036 5A60     		str	r2, [r3, #4]
+ 158              	.L15:
+ 159 0038 4FF0FF30 		mov	r0, #-1
+ 160 003c 0022     		movs	r2, #0
+ 161 003e A369     		ldr	r3, [r4, #24]
+ 162 0040 A168     		ldr	r1, [r4, #8]
+ 163 0042 A062     		str	r0, [r4, #40]
+ 164 0044 84F82420 		strb	r2, [r4, #36]
+ 165              	.L22:
+ 166 0048 1B68     		ldr	r3, [r3]
+ 167 004a 9A68     		ldr	r2, [r3, #8]
+ 168 004c 8A42     		cmp	r2, r1
+ 169 004e FBD2     		bcs	.L22
+ 170 0050 5A68     		ldr	r2, [r3, #4]
+ 171 0052 C4E90032 		strd	r3, r2, [r4]
+ARM GAS  /tmp/ccLOC4OR.s 			page 4
+
+
+ 172 0056 1460     		str	r4, [r2]
+ 173 0058 5C60     		str	r4, [r3, #4]
+ 174              	.L25:
+ 175 005a FFF7FEFF 		bl	__stats_stop_measure_crit_isr
+ 176 005e 0023     		movs	r3, #0
+ 177              		.syntax unified
+ 178              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 179 0060 83F31188 		MSR basepri, r3
+ 180              	@ 0 "" 2
+ 181              		.thumb
+ 182              		.syntax unified
+ 183 0064 10BD     		pop	{r4, pc}
+ 184              	.L19:
+ 185 0066 A36A     		ldr	r3, [r4, #40]
+ 186 0068 0022     		movs	r2, #0
+ 187 006a 1A60     		str	r2, [r3]
+ 188 006c E4E7     		b	.L15
+ 189              		.size	__sch_wakeup, .-__sch_wakeup
+ 190 006e 00BF     		.section	.text.chSchReadyI,"ax",%progbits
+ 191              		.align	1
+ 192              		.p2align 4,,15
+ 193              		.global	chSchReadyI
+ 194              		.syntax unified
+ 195              		.thumb
+ 196              		.thumb_func
+ 197              		.fpu fpv4-sp-d16
+ 198              		.type	chSchReadyI, %function
+ 199              	chSchReadyI:
+ 200              		@ args = 0, pretend = 0, frame = 0
+ 201              		@ frame_needed = 0, uses_anonymous_args = 0
+ 202              		@ link register save eliminated.
+ 203 0000 0022     		movs	r2, #0
+ 204 0002 8369     		ldr	r3, [r0, #24]
+ 205 0004 8168     		ldr	r1, [r0, #8]
+ 206 0006 80F82420 		strb	r2, [r0, #36]
+ 207              	.L27:
+ 208 000a 1B68     		ldr	r3, [r3]
+ 209 000c 9A68     		ldr	r2, [r3, #8]
+ 210 000e 8A42     		cmp	r2, r1
+ 211 0010 FBD2     		bcs	.L27
+ 212 0012 5A68     		ldr	r2, [r3, #4]
+ 213 0014 C0E90032 		strd	r3, r2, [r0]
+ 214 0018 1060     		str	r0, [r2]
+ 215 001a 5860     		str	r0, [r3, #4]
+ 216 001c 7047     		bx	lr
+ 217              		.size	chSchReadyI, .-chSchReadyI
+ 218 001e 00BF     		.section	.text.chSchGoSleepS,"ax",%progbits
+ 219              		.align	1
+ 220              		.p2align 4,,15
+ 221              		.global	chSchGoSleepS
+ 222              		.syntax unified
+ 223              		.thumb
+ 224              		.thumb_func
+ 225              		.fpu fpv4-sp-d16
+ 226              		.type	chSchGoSleepS, %function
+ 227              	chSchGoSleepS:
+ 228              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  /tmp/ccLOC4OR.s 			page 5
+
+
+ 229              		@ frame_needed = 0, uses_anonymous_args = 0
+ 230 0000 38B5     		push	{r3, r4, r5, lr}
+ 231 0002 0C4B     		ldr	r3, .L31
+ 232 0004 DD68     		ldr	r5, [r3, #12]
+ 233 0006 1C68     		ldr	r4, [r3]
+ 234 0008 85F82400 		strb	r0, [r5, #36]
+ 235 000c 0A22     		movs	r2, #10
+ 236 000e 85F82720 		strb	r2, [r5, #39]
+ 237 0012 2268     		ldr	r2, [r4]
+ 238 0014 1A60     		str	r2, [r3]
+ 239 0016 0121     		movs	r1, #1
+ 240 0018 5360     		str	r3, [r2, #4]
+ 241 001a 2046     		mov	r0, r4
+ 242 001c 84F82410 		strb	r1, [r4, #36]
+ 243 0020 2946     		mov	r1, r5
+ 244 0022 DC60     		str	r4, [r3, #12]
+ 245 0024 FFF7FEFF 		bl	__stats_ctxswc
+ 246 0028 2946     		mov	r1, r5
+ 247 002a 2046     		mov	r0, r4
+ 248 002c BDE83840 		pop	{r3, r4, r5, lr}
+ 249 0030 FFF7FEBF 		b	__port_switch
+ 250              	.L32:
+ 251              		.align	2
+ 252              	.L31:
+ 253 0034 00000000 		.word	ch0
+ 254              		.size	chSchGoSleepS, .-chSchGoSleepS
+ 255              		.section	.text.chSchGoSleepTimeoutS,"ax",%progbits
+ 256              		.align	1
+ 257              		.p2align 4,,15
+ 258              		.global	chSchGoSleepTimeoutS
+ 259              		.syntax unified
+ 260              		.thumb
+ 261              		.thumb_func
+ 262              		.fpu fpv4-sp-d16
+ 263              		.type	chSchGoSleepTimeoutS, %function
+ 264              	chSchGoSleepTimeoutS:
+ 265              		@ args = 0, pretend = 0, frame = 24
+ 266              		@ frame_needed = 0, uses_anonymous_args = 0
+ 267 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 268 0002 204C     		ldr	r4, .L41
+ 269 0004 4B1C     		adds	r3, r1, #1
+ 270 0006 E568     		ldr	r5, [r4, #12]
+ 271 0008 87B0     		sub	sp, sp, #28
+ 272 000a 0646     		mov	r6, r0
+ 273 000c 22D0     		beq	.L34
+ 274 000e 1E4A     		ldr	r2, .L41+4
+ 275 0010 2B46     		mov	r3, r5
+ 276 0012 6846     		mov	r0, sp
+ 277 0014 FFF7FEFF 		bl	chVTDoSetI
+ 278 0018 E768     		ldr	r7, [r4, #12]
+ 279 001a 0A23     		movs	r3, #10
+ 280 001c 87F82460 		strb	r6, [r7, #36]
+ 281 0020 2668     		ldr	r6, [r4]
+ 282 0022 87F82730 		strb	r3, [r7, #39]
+ 283 0026 3368     		ldr	r3, [r6]
+ 284 0028 2360     		str	r3, [r4]
+ 285 002a 0122     		movs	r2, #1
+ARM GAS  /tmp/ccLOC4OR.s 			page 6
+
+
+ 286 002c 5C60     		str	r4, [r3, #4]
+ 287 002e 3946     		mov	r1, r7
+ 288 0030 86F82420 		strb	r2, [r6, #36]
+ 289 0034 3046     		mov	r0, r6
+ 290 0036 E660     		str	r6, [r4, #12]
+ 291 0038 FFF7FEFF 		bl	__stats_ctxswc
+ 292 003c 3946     		mov	r1, r7
+ 293 003e 3046     		mov	r0, r6
+ 294 0040 FFF7FEFF 		bl	__port_switch
+ 295 0044 009B     		ldr	r3, [sp]
+ 296 0046 13B1     		cbz	r3, .L36
+ 297 0048 6846     		mov	r0, sp
+ 298 004a FFF7FEFF 		bl	chVTDoResetI
+ 299              	.L36:
+ 300 004e A86A     		ldr	r0, [r5, #40]
+ 301 0050 07B0     		add	sp, sp, #28
+ 302              		@ sp needed
+ 303 0052 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 304              	.L34:
+ 305 0054 2768     		ldr	r7, [r4]
+ 306 0056 85F82400 		strb	r0, [r5, #36]
+ 307 005a 0A23     		movs	r3, #10
+ 308 005c 85F82730 		strb	r3, [r5, #39]
+ 309 0060 3B68     		ldr	r3, [r7]
+ 310 0062 2360     		str	r3, [r4]
+ 311 0064 0122     		movs	r2, #1
+ 312 0066 5C60     		str	r4, [r3, #4]
+ 313 0068 2946     		mov	r1, r5
+ 314 006a 87F82420 		strb	r2, [r7, #36]
+ 315 006e 3846     		mov	r0, r7
+ 316 0070 E760     		str	r7, [r4, #12]
+ 317 0072 FFF7FEFF 		bl	__stats_ctxswc
+ 318 0076 3846     		mov	r0, r7
+ 319 0078 2946     		mov	r1, r5
+ 320 007a FFF7FEFF 		bl	__port_switch
+ 321 007e A86A     		ldr	r0, [r5, #40]
+ 322 0080 07B0     		add	sp, sp, #28
+ 323              		@ sp needed
+ 324 0082 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 325              	.L42:
+ 326              		.align	2
+ 327              	.L41:
+ 328 0084 00000000 		.word	ch0
+ 329 0088 00000000 		.word	__sch_wakeup
+ 330              		.size	chSchGoSleepTimeoutS, .-chSchGoSleepTimeoutS
+ 331              		.section	.text.chSchWakeupS,"ax",%progbits
+ 332              		.align	1
+ 333              		.p2align 4,,15
+ 334              		.global	chSchWakeupS
+ 335              		.syntax unified
+ 336              		.thumb
+ 337              		.thumb_func
+ 338              		.fpu fpv4-sp-d16
+ 339              		.type	chSchWakeupS, %function
+ 340              	chSchWakeupS:
+ 341              		@ args = 0, pretend = 0, frame = 0
+ 342              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccLOC4OR.s 			page 7
+
+
+ 343 0000 70B5     		push	{r4, r5, r6, lr}
+ 344 0002 184D     		ldr	r5, .L53
+ 345 0004 8368     		ldr	r3, [r0, #8]
+ 346 0006 EE68     		ldr	r6, [r5, #12]
+ 347 0008 8162     		str	r1, [r0, #40]
+ 348 000a B268     		ldr	r2, [r6, #8]
+ 349 000c 9342     		cmp	r3, r2
+ 350 000e 0446     		mov	r4, r0
+ 351 0010 1AD9     		bls	.L52
+ 352 0012 0023     		movs	r3, #0
+ 353 0014 86F82430 		strb	r3, [r6, #36]
+ 354 0018 B369     		ldr	r3, [r6, #24]
+ 355              	.L47:
+ 356 001a 1B68     		ldr	r3, [r3]
+ 357 001c 9968     		ldr	r1, [r3, #8]
+ 358 001e 8A42     		cmp	r2, r1
+ 359 0020 FBD3     		bcc	.L47
+ 360 0022 5A68     		ldr	r2, [r3, #4]
+ 361 0024 C6E90032 		strd	r3, r2, [r6]
+ 362 0028 1660     		str	r6, [r2]
+ 363 002a 0122     		movs	r2, #1
+ 364 002c 5E60     		str	r6, [r3, #4]
+ 365 002e 3146     		mov	r1, r6
+ 366 0030 2046     		mov	r0, r4
+ 367 0032 84F82420 		strb	r2, [r4, #36]
+ 368 0036 EC60     		str	r4, [r5, #12]
+ 369 0038 FFF7FEFF 		bl	__stats_ctxswc
+ 370 003c 3146     		mov	r1, r6
+ 371 003e 2046     		mov	r0, r4
+ 372 0040 BDE87040 		pop	{r4, r5, r6, lr}
+ 373 0044 FFF7FEBF 		b	__port_switch
+ 374              	.L52:
+ 375 0048 0021     		movs	r1, #0
+ 376 004a 8269     		ldr	r2, [r0, #24]
+ 377 004c 80F82410 		strb	r1, [r0, #36]
+ 378              	.L45:
+ 379 0050 1268     		ldr	r2, [r2]
+ 380 0052 9168     		ldr	r1, [r2, #8]
+ 381 0054 8B42     		cmp	r3, r1
+ 382 0056 FBD9     		bls	.L45
+ 383 0058 5368     		ldr	r3, [r2, #4]
+ 384 005a C4E90023 		strd	r2, r3, [r4]
+ 385 005e 1C60     		str	r4, [r3]
+ 386 0060 5460     		str	r4, [r2, #4]
+ 387 0062 70BD     		pop	{r4, r5, r6, pc}
+ 388              	.L54:
+ 389              		.align	2
+ 390              	.L53:
+ 391 0064 00000000 		.word	ch0
+ 392              		.size	chSchWakeupS, .-chSchWakeupS
+ 393              		.section	.text.chSchRescheduleS,"ax",%progbits
+ 394              		.align	1
+ 395              		.p2align 4,,15
+ 396              		.global	chSchRescheduleS
+ 397              		.syntax unified
+ 398              		.thumb
+ 399              		.thumb_func
+ARM GAS  /tmp/ccLOC4OR.s 			page 8
+
+
+ 400              		.fpu fpv4-sp-d16
+ 401              		.type	chSchRescheduleS, %function
+ 402              	chSchRescheduleS:
+ 403              		@ args = 0, pretend = 0, frame = 0
+ 404              		@ frame_needed = 0, uses_anonymous_args = 0
+ 405              		@ link register save eliminated.
+ 406 0000 044B     		ldr	r3, .L57
+ 407 0002 1A68     		ldr	r2, [r3]
+ 408 0004 DB68     		ldr	r3, [r3, #12]
+ 409 0006 9268     		ldr	r2, [r2, #8]
+ 410 0008 9B68     		ldr	r3, [r3, #8]
+ 411 000a 9A42     		cmp	r2, r3
+ 412 000c 01D9     		bls	.L55
+ 413 000e FFF7FEBF 		b	__sch_reschedule_ahead
+ 414              	.L55:
+ 415 0012 7047     		bx	lr
+ 416              	.L58:
+ 417              		.align	2
+ 418              	.L57:
+ 419 0014 00000000 		.word	ch0
+ 420              		.size	chSchRescheduleS, .-chSchRescheduleS
+ 421              		.section	.text.chSchIsPreemptionRequired,"ax",%progbits
+ 422              		.align	1
+ 423              		.p2align 4,,15
+ 424              		.global	chSchIsPreemptionRequired
+ 425              		.syntax unified
+ 426              		.thumb
+ 427              		.thumb_func
+ 428              		.fpu fpv4-sp-d16
+ 429              		.type	chSchIsPreemptionRequired, %function
+ 430              	chSchIsPreemptionRequired:
+ 431              		@ args = 0, pretend = 0, frame = 0
+ 432              		@ frame_needed = 0, uses_anonymous_args = 0
+ 433              		@ link register save eliminated.
+ 434 0000 084A     		ldr	r2, .L62
+ 435 0002 D368     		ldr	r3, [r2, #12]
+ 436 0004 1168     		ldr	r1, [r2]
+ 437 0006 93F82720 		ldrb	r2, [r3, #39]	@ zero_extendqisi2
+ 438 000a 8868     		ldr	r0, [r1, #8]
+ 439 000c 9B68     		ldr	r3, [r3, #8]
+ 440 000e 22B1     		cbz	r2, .L60
+ 441 0010 9842     		cmp	r0, r3
+ 442 0012 94BF     		ite	ls
+ 443 0014 0020     		movls	r0, #0
+ 444 0016 0120     		movhi	r0, #1
+ 445 0018 7047     		bx	lr
+ 446              	.L60:
+ 447 001a 9842     		cmp	r0, r3
+ 448 001c 34BF     		ite	cc
+ 449 001e 0020     		movcc	r0, #0
+ 450 0020 0120     		movcs	r0, #1
+ 451 0022 7047     		bx	lr
+ 452              	.L63:
+ 453              		.align	2
+ 454              	.L62:
+ 455 0024 00000000 		.word	ch0
+ 456              		.size	chSchIsPreemptionRequired, .-chSchIsPreemptionRequired
+ARM GAS  /tmp/ccLOC4OR.s 			page 9
+
+
+ 457              		.section	.text.chSchDoPreemption,"ax",%progbits
+ 458              		.align	1
+ 459              		.p2align 4,,15
+ 460              		.global	chSchDoPreemption
+ 461              		.syntax unified
+ 462              		.thumb
+ 463              		.thumb_func
+ 464              		.fpu fpv4-sp-d16
+ 465              		.type	chSchDoPreemption, %function
+ 466              	chSchDoPreemption:
+ 467              		@ args = 0, pretend = 0, frame = 0
+ 468              		@ frame_needed = 0, uses_anonymous_args = 0
+ 469 0000 38B5     		push	{r3, r4, r5, lr}
+ 470 0002 1B4B     		ldr	r3, .L72
+ 471 0004 1D68     		ldr	r5, [r3]
+ 472 0006 DC68     		ldr	r4, [r3, #12]
+ 473 0008 2A68     		ldr	r2, [r5]
+ 474 000a 1A60     		str	r2, [r3]
+ 475 000c 0121     		movs	r1, #1
+ 476 000e 5360     		str	r3, [r2, #4]
+ 477 0010 85F82410 		strb	r1, [r5, #36]
+ 478 0014 94F82720 		ldrb	r2, [r4, #39]	@ zero_extendqisi2
+ 479 0018 DD60     		str	r5, [r3, #12]
+ 480 001a CAB9     		cbnz	r2, .L65
+ 481 001c A369     		ldr	r3, [r4, #24]
+ 482 001e A168     		ldr	r1, [r4, #8]
+ 483 0020 84F82420 		strb	r2, [r4, #36]
+ 484              	.L66:
+ 485 0024 1B68     		ldr	r3, [r3]
+ 486 0026 9A68     		ldr	r2, [r3, #8]
+ 487 0028 8A42     		cmp	r2, r1
+ 488 002a FBD2     		bcs	.L66
+ 489 002c 5A68     		ldr	r2, [r3, #4]
+ 490 002e 0A21     		movs	r1, #10
+ 491 0030 C4E90032 		strd	r3, r2, [r4]
+ 492 0034 1460     		str	r4, [r2]
+ 493 0036 5C60     		str	r4, [r3, #4]
+ 494 0038 84F82710 		strb	r1, [r4, #39]
+ 495              	.L67:
+ 496 003c 2146     		mov	r1, r4
+ 497 003e 2846     		mov	r0, r5
+ 498 0040 FFF7FEFF 		bl	__stats_ctxswc
+ 499 0044 2146     		mov	r1, r4
+ 500 0046 2846     		mov	r0, r5
+ 501 0048 BDE83840 		pop	{r3, r4, r5, lr}
+ 502 004c FFF7FEBF 		b	__port_switch
+ 503              	.L65:
+ 504 0050 0022     		movs	r2, #0
+ 505 0052 A369     		ldr	r3, [r4, #24]
+ 506 0054 A168     		ldr	r1, [r4, #8]
+ 507 0056 84F82420 		strb	r2, [r4, #36]
+ 508              	.L68:
+ 509 005a 1B68     		ldr	r3, [r3]
+ 510 005c 9A68     		ldr	r2, [r3, #8]
+ 511 005e 8A42     		cmp	r2, r1
+ 512 0060 FBD8     		bhi	.L68
+ 513 0062 5A68     		ldr	r2, [r3, #4]
+ARM GAS  /tmp/ccLOC4OR.s 			page 10
+
+
+ 514 0064 C4E90032 		strd	r3, r2, [r4]
+ 515 0068 1460     		str	r4, [r2]
+ 516 006a 5C60     		str	r4, [r3, #4]
+ 517 006c E6E7     		b	.L67
+ 518              	.L73:
+ 519 006e 00BF     		.align	2
+ 520              	.L72:
+ 521 0070 00000000 		.word	ch0
+ 522              		.size	chSchDoPreemption, .-chSchDoPreemption
+ 523              		.section	.text.chSchPreemption,"ax",%progbits
+ 524              		.align	1
+ 525              		.p2align 4,,15
+ 526              		.global	chSchPreemption
+ 527              		.syntax unified
+ 528              		.thumb
+ 529              		.thumb_func
+ 530              		.fpu fpv4-sp-d16
+ 531              		.type	chSchPreemption, %function
+ 532              	chSchPreemption:
+ 533              		@ args = 0, pretend = 0, frame = 0
+ 534              		@ frame_needed = 0, uses_anonymous_args = 0
+ 535              		@ link register save eliminated.
+ 536 0000 084A     		ldr	r2, .L77
+ 537 0002 D368     		ldr	r3, [r2, #12]
+ 538 0004 1268     		ldr	r2, [r2]
+ 539 0006 93F82710 		ldrb	r1, [r3, #39]	@ zero_extendqisi2
+ 540 000a 9268     		ldr	r2, [r2, #8]
+ 541 000c 9B68     		ldr	r3, [r3, #8]
+ 542 000e 19B1     		cbz	r1, .L75
+ 543 0010 9A42     		cmp	r2, r3
+ 544 0012 05D9     		bls	.L74
+ 545 0014 FFF7FEBF 		b	__sch_reschedule_ahead
+ 546              	.L75:
+ 547 0018 9A42     		cmp	r2, r3
+ 548 001a 01D3     		bcc	.L74
+ 549 001c FFF7FEBF 		b	__sch_reschedule_behind
+ 550              	.L74:
+ 551 0020 7047     		bx	lr
+ 552              	.L78:
+ 553 0022 00BF     		.align	2
+ 554              	.L77:
+ 555 0024 00000000 		.word	ch0
+ 556              		.size	chSchPreemption, .-chSchPreemption
+ 557              		.section	.text.chSchDoYieldS,"ax",%progbits
+ 558              		.align	1
+ 559              		.p2align 4,,15
+ 560              		.global	chSchDoYieldS
+ 561              		.syntax unified
+ 562              		.thumb
+ 563              		.thumb_func
+ 564              		.fpu fpv4-sp-d16
+ 565              		.type	chSchDoYieldS, %function
+ 566              	chSchDoYieldS:
+ 567              		@ args = 0, pretend = 0, frame = 0
+ 568              		@ frame_needed = 0, uses_anonymous_args = 0
+ 569              		@ link register save eliminated.
+ 570 0000 044B     		ldr	r3, .L81
+ARM GAS  /tmp/ccLOC4OR.s 			page 11
+
+
+ 571 0002 1A68     		ldr	r2, [r3]
+ 572 0004 DB68     		ldr	r3, [r3, #12]
+ 573 0006 9268     		ldr	r2, [r2, #8]
+ 574 0008 9B68     		ldr	r3, [r3, #8]
+ 575 000a 9A42     		cmp	r2, r3
+ 576 000c 01D3     		bcc	.L79
+ 577 000e FFF7FEBF 		b	__sch_reschedule_behind
+ 578              	.L79:
+ 579 0012 7047     		bx	lr
+ 580              	.L82:
+ 581              		.align	2
+ 582              	.L81:
+ 583 0014 00000000 		.word	ch0
+ 584              		.size	chSchDoYieldS, .-chSchDoYieldS
+ 585              		.section	.text.chSchSelectFirst,"ax",%progbits
+ 586              		.align	1
+ 587              		.p2align 4,,15
+ 588              		.global	chSchSelectFirst
+ 589              		.syntax unified
+ 590              		.thumb
+ 591              		.thumb_func
+ 592              		.fpu fpv4-sp-d16
+ 593              		.type	chSchSelectFirst, %function
+ 594              	chSchSelectFirst:
+ 595              		@ args = 0, pretend = 0, frame = 0
+ 596              		@ frame_needed = 0, uses_anonymous_args = 0
+ 597              		@ link register save eliminated.
+ 598 0000 0D49     		ldr	r1, .L87
+ 599 0002 0868     		ldr	r0, [r1]
+ 600 0004 CB68     		ldr	r3, [r1, #12]
+ 601 0006 0268     		ldr	r2, [r0]
+ 602 0008 10B4     		push	{r4}
+ 603 000a 0124     		movs	r4, #1
+ 604 000c 5160     		str	r1, [r2, #4]
+ 605 000e 80F82440 		strb	r4, [r0, #36]
+ 606 0012 0024     		movs	r4, #0
+ 607 0014 0A60     		str	r2, [r1]
+ 608 0016 83F82440 		strb	r4, [r3, #36]
+ 609 001a 9A69     		ldr	r2, [r3, #24]
+ 610 001c 9C68     		ldr	r4, [r3, #8]
+ 611 001e C860     		str	r0, [r1, #12]
+ 612              	.L84:
+ 613 0020 1268     		ldr	r2, [r2]
+ 614 0022 9168     		ldr	r1, [r2, #8]
+ 615 0024 A142     		cmp	r1, r4
+ 616 0026 FBD8     		bhi	.L84
+ 617 0028 5168     		ldr	r1, [r2, #4]
+ 618 002a 5DF8044B 		ldr	r4, [sp], #4
+ 619 002e C3E90021 		strd	r2, r1, [r3]
+ 620 0032 0B60     		str	r3, [r1]
+ 621 0034 5360     		str	r3, [r2, #4]
+ 622 0036 7047     		bx	lr
+ 623              	.L88:
+ 624              		.align	2
+ 625              	.L87:
+ 626 0038 00000000 		.word	ch0
+ 627              		.size	chSchSelectFirst, .-chSchSelectFirst
+ARM GAS  /tmp/ccLOC4OR.s 			page 12
+
+
+ 628              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccLOC4OR.s 			page 13
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 chschd.c
+     /tmp/ccLOC4OR.s:15     .text.__sch_reschedule_ahead:0000000000000000 $t
+     /tmp/ccLOC4OR.s:23     .text.__sch_reschedule_ahead:0000000000000000 __sch_reschedule_ahead
+     /tmp/ccLOC4OR.s:59     .text.__sch_reschedule_ahead:0000000000000048 $d
+     /tmp/ccLOC4OR.s:62     .text.__sch_reschedule_behind:0000000000000000 $t
+     /tmp/ccLOC4OR.s:69     .text.__sch_reschedule_behind:0000000000000000 __sch_reschedule_behind
+     /tmp/ccLOC4OR.s:107    .text.__sch_reschedule_behind:000000000000004c $d
+     /tmp/ccLOC4OR.s:110    .text.__sch_wakeup:0000000000000000 $t
+     /tmp/ccLOC4OR.s:117    .text.__sch_wakeup:0000000000000000 __sch_wakeup
+     /tmp/ccLOC4OR.s:135    .text.__sch_wakeup:000000000000001a $d
+     /tmp/ccLOC4OR.s:191    .text.chSchReadyI:0000000000000000 $t
+     /tmp/ccLOC4OR.s:199    .text.chSchReadyI:0000000000000000 chSchReadyI
+     /tmp/ccLOC4OR.s:219    .text.chSchGoSleepS:0000000000000000 $t
+     /tmp/ccLOC4OR.s:227    .text.chSchGoSleepS:0000000000000000 chSchGoSleepS
+     /tmp/ccLOC4OR.s:253    .text.chSchGoSleepS:0000000000000034 $d
+     /tmp/ccLOC4OR.s:256    .text.chSchGoSleepTimeoutS:0000000000000000 $t
+     /tmp/ccLOC4OR.s:264    .text.chSchGoSleepTimeoutS:0000000000000000 chSchGoSleepTimeoutS
+     /tmp/ccLOC4OR.s:328    .text.chSchGoSleepTimeoutS:0000000000000084 $d
+     /tmp/ccLOC4OR.s:332    .text.chSchWakeupS:0000000000000000 $t
+     /tmp/ccLOC4OR.s:340    .text.chSchWakeupS:0000000000000000 chSchWakeupS
+     /tmp/ccLOC4OR.s:391    .text.chSchWakeupS:0000000000000064 $d
+     /tmp/ccLOC4OR.s:394    .text.chSchRescheduleS:0000000000000000 $t
+     /tmp/ccLOC4OR.s:402    .text.chSchRescheduleS:0000000000000000 chSchRescheduleS
+     /tmp/ccLOC4OR.s:419    .text.chSchRescheduleS:0000000000000014 $d
+     /tmp/ccLOC4OR.s:422    .text.chSchIsPreemptionRequired:0000000000000000 $t
+     /tmp/ccLOC4OR.s:430    .text.chSchIsPreemptionRequired:0000000000000000 chSchIsPreemptionRequired
+     /tmp/ccLOC4OR.s:455    .text.chSchIsPreemptionRequired:0000000000000024 $d
+     /tmp/ccLOC4OR.s:458    .text.chSchDoPreemption:0000000000000000 $t
+     /tmp/ccLOC4OR.s:466    .text.chSchDoPreemption:0000000000000000 chSchDoPreemption
+     /tmp/ccLOC4OR.s:521    .text.chSchDoPreemption:0000000000000070 $d
+     /tmp/ccLOC4OR.s:524    .text.chSchPreemption:0000000000000000 $t
+     /tmp/ccLOC4OR.s:532    .text.chSchPreemption:0000000000000000 chSchPreemption
+     /tmp/ccLOC4OR.s:555    .text.chSchPreemption:0000000000000024 $d
+     /tmp/ccLOC4OR.s:558    .text.chSchDoYieldS:0000000000000000 $t
+     /tmp/ccLOC4OR.s:566    .text.chSchDoYieldS:0000000000000000 chSchDoYieldS
+     /tmp/ccLOC4OR.s:583    .text.chSchDoYieldS:0000000000000014 $d
+     /tmp/ccLOC4OR.s:586    .text.chSchSelectFirst:0000000000000000 $t
+     /tmp/ccLOC4OR.s:594    .text.chSchSelectFirst:0000000000000000 chSchSelectFirst
+     /tmp/ccLOC4OR.s:626    .text.chSchSelectFirst:0000000000000038 $d
+     /tmp/ccLOC4OR.s:148    .text.__sch_wakeup:0000000000000027 $d
+     /tmp/ccLOC4OR.s:148    .text.__sch_wakeup:0000000000000028 $t
+
+UNDEFINED SYMBOLS
+__stats_ctxswc
+__port_switch
+ch0
+__stats_start_measure_crit_isr
+__stats_stop_measure_crit_isr
+chVTDoSetI
+chVTDoResetI

@@ -1,0 +1,380 @@
+ARM GAS  /tmp/cc9QktzT.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"rc_datalink.c"
+  13              		.text
+  14              		.section	.text.rc_datalink_init,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	rc_datalink_init
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	rc_datalink_init, %function
+  24              	rc_datalink_init:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27              		@ link register save eliminated.
+  28 0000 0349     		ldr	r1, .L3
+  29 0002 044B     		ldr	r3, .L3+4
+  30 0004 0520     		movs	r0, #5
+  31 0006 0022     		movs	r2, #0
+  32 0008 4871     		strb	r0, [r1, #5]
+  33 000a 1A70     		strb	r2, [r3]
+  34 000c 7047     		bx	lr
+  35              	.L4:
+  36 000e 00BF     		.align	2
+  37              	.L3:
+  38 0010 00000000 		.word	radio_control
+  39 0014 00000000 		.word	.LANCHOR0
+  40              		.size	rc_datalink_init, .-rc_datalink_init
+  41              		.section	.text.rc_datalink_parse_RC_3CH,"ax",%progbits
+  42              		.align	1
+  43              		.p2align 4,,15
+  44              		.global	rc_datalink_parse_RC_3CH
+  45              		.syntax unified
+  46              		.thumb
+  47              		.thumb_func
+  48              		.fpu fpv4-sp-d16
+  49              		.type	rc_datalink_parse_RC_3CH, %function
+  50              	rc_datalink_parse_RC_3CH:
+  51              		@ args = 0, pretend = 0, frame = 0
+  52              		@ frame_needed = 0, uses_anonymous_args = 0
+  53              		@ link register save eliminated.
+  54 0000 0A4B     		ldr	r3, .L6
+  55 0002 0279     		ldrb	r2, [r0, #4]	@ zero_extendqisi2
+  56 0004 4179     		ldrb	r1, [r0, #5]	@ zero_extendqisi2
+  57 0006 1970     		strb	r1, [r3]
+ARM GAS  /tmp/cc9QktzT.s 			page 2
+
+
+  58 0008 9108     		lsrs	r1, r2, #2
+  59 000a 90F906C0 		ldrsb	ip, [r0, #6]
+  60 000e 0848     		ldr	r0, .L6+4
+  61 0010 83F801C0 		strb	ip, [r3, #1]
+  62 0014 4900     		lsls	r1, r1, #1
+  63 0016 02F00302 		and	r2, r2, #3
+  64 001a D970     		strb	r1, [r3, #3]
+  65 001c 4FF0000C 		mov	ip, #0
+  66 0020 0121     		movs	r1, #1
+  67 0022 1A71     		strb	r2, [r3, #4]
+  68 0024 83F802C0 		strb	ip, [r3, #2]
+  69 0028 0170     		strb	r1, [r0]
+  70 002a 7047     		bx	lr
+  71              	.L7:
+  72              		.align	2
+  73              	.L6:
+  74 002c 00000000 		.word	.LANCHOR1
+  75 0030 00000000 		.word	.LANCHOR0
+  76              		.size	rc_datalink_parse_RC_3CH, .-rc_datalink_parse_RC_3CH
+  77              		.section	.text.rc_datalink_parse_RC_4CH,"ax",%progbits
+  78              		.align	1
+  79              		.p2align 4,,15
+  80              		.global	rc_datalink_parse_RC_4CH
+  81              		.syntax unified
+  82              		.thumb
+  83              		.thumb_func
+  84              		.fpu fpv4-sp-d16
+  85              		.type	rc_datalink_parse_RC_4CH, %function
+  86              	rc_datalink_parse_RC_4CH:
+  87              		@ args = 0, pretend = 0, frame = 0
+  88              		@ frame_needed = 0, uses_anonymous_args = 0
+  89 0000 00B5     		push	{lr}
+  90 0002 0A4B     		ldr	r3, .L10
+  91 0004 8279     		ldrb	r2, [r0, #6]	@ zero_extendqisi2
+  92 0006 90F90810 		ldrsb	r1, [r0, #8]
+  93 000a 90F907E0 		ldrsb	lr, [r0, #7]
+  94 000e 90F909C0 		ldrsb	ip, [r0, #9]
+  95 0012 DA70     		strb	r2, [r3, #3]
+  96 0014 4079     		ldrb	r0, [r0, #5]	@ zero_extendqisi2
+  97 0016 064A     		ldr	r2, .L10+4
+  98 0018 5970     		strb	r1, [r3, #1]
+  99 001a 1871     		strb	r0, [r3, #4]
+ 100 001c 0121     		movs	r1, #1
+ 101 001e 83F800E0 		strb	lr, [r3]
+ 102 0022 83F802C0 		strb	ip, [r3, #2]
+ 103 0026 1170     		strb	r1, [r2]
+ 104 0028 5DF804FB 		ldr	pc, [sp], #4
+ 105              	.L11:
+ 106              		.align	2
+ 107              	.L10:
+ 108 002c 00000000 		.word	.LANCHOR1
+ 109 0030 00000000 		.word	.LANCHOR0
+ 110              		.size	rc_datalink_parse_RC_4CH, .-rc_datalink_parse_RC_4CH
+ 111              		.section	.text.parse_rc_3ch_datalink,"ax",%progbits
+ 112              		.align	1
+ 113              		.p2align 4,,15
+ 114              		.global	parse_rc_3ch_datalink
+ARM GAS  /tmp/cc9QktzT.s 			page 3
+
+
+ 115              		.syntax unified
+ 116              		.thumb
+ 117              		.thumb_func
+ 118              		.fpu fpv4-sp-d16
+ 119              		.type	parse_rc_3ch_datalink, %function
+ 120              	parse_rc_3ch_datalink:
+ 121              		@ args = 0, pretend = 0, frame = 0
+ 122              		@ frame_needed = 0, uses_anonymous_args = 0
+ 123              		@ link register save eliminated.
+ 124 0000 0A4B     		ldr	r3, .L14
+ 125 0002 4FEA900C 		lsr	ip, r0, #2
+ 126 0006 10B4     		push	{r4}
+ 127 0008 4FEA4C0C 		lsl	ip, ip, #1
+ 128 000c 084C     		ldr	r4, .L14+4
+ 129 000e 1970     		strb	r1, [r3]
+ 130 0010 00F00300 		and	r0, r0, #3
+ 131 0014 0021     		movs	r1, #0
+ 132 0016 5A70     		strb	r2, [r3, #1]
+ 133 0018 83F803C0 		strb	ip, [r3, #3]
+ 134 001c 0122     		movs	r2, #1
+ 135 001e 1871     		strb	r0, [r3, #4]
+ 136 0020 9970     		strb	r1, [r3, #2]
+ 137 0022 2270     		strb	r2, [r4]
+ 138 0024 5DF8044B 		ldr	r4, [sp], #4
+ 139 0028 7047     		bx	lr
+ 140              	.L15:
+ 141 002a 00BF     		.align	2
+ 142              	.L14:
+ 143 002c 00000000 		.word	.LANCHOR1
+ 144 0030 00000000 		.word	.LANCHOR0
+ 145              		.size	parse_rc_3ch_datalink, .-parse_rc_3ch_datalink
+ 146              		.section	.text.parse_rc_4ch_datalink,"ax",%progbits
+ 147              		.align	1
+ 148              		.p2align 4,,15
+ 149              		.global	parse_rc_4ch_datalink
+ 150              		.syntax unified
+ 151              		.thumb
+ 152              		.thumb_func
+ 153              		.fpu fpv4-sp-d16
+ 154              		.type	parse_rc_4ch_datalink, %function
+ 155              	parse_rc_4ch_datalink:
+ 156              		@ args = 4, pretend = 0, frame = 0
+ 157              		@ frame_needed = 0, uses_anonymous_args = 0
+ 158              		@ link register save eliminated.
+ 159 0000 10B4     		push	{r4}
+ 160 0002 074C     		ldr	r4, .L18
+ 161 0004 9DF904C0 		ldrsb	ip, [sp, #4]
+ 162 0008 E170     		strb	r1, [r4, #3]
+ 163 000a 0649     		ldr	r1, .L18+4
+ 164 000c 6370     		strb	r3, [r4, #1]
+ 165 000e 0123     		movs	r3, #1
+ 166 0010 2071     		strb	r0, [r4, #4]
+ 167 0012 2270     		strb	r2, [r4]
+ 168 0014 84F802C0 		strb	ip, [r4, #2]
+ 169 0018 0B70     		strb	r3, [r1]
+ 170 001a 5DF8044B 		ldr	r4, [sp], #4
+ 171 001e 7047     		bx	lr
+ARM GAS  /tmp/cc9QktzT.s 			page 4
+
+
+ 172              	.L19:
+ 173              		.align	2
+ 174              	.L18:
+ 175 0020 00000000 		.word	.LANCHOR1
+ 176 0024 00000000 		.word	.LANCHOR0
+ 177              		.size	parse_rc_4ch_datalink, .-parse_rc_4ch_datalink
+ 178              		.section	.text.rc_datalink_event,"ax",%progbits
+ 179              		.align	1
+ 180              		.p2align 4,,15
+ 181              		.global	rc_datalink_event
+ 182              		.syntax unified
+ 183              		.thumb
+ 184              		.thumb_func
+ 185              		.fpu fpv4-sp-d16
+ 186              		.type	rc_datalink_event, %function
+ 187              	rc_datalink_event:
+ 188              		@ args = 0, pretend = 0, frame = 0
+ 189              		@ frame_needed = 0, uses_anonymous_args = 0
+ 190 0000 70B5     		push	{r4, r5, r6, lr}
+ 191 0002 454D     		ldr	r5, .L61
+ 192 0004 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 193 0006 03B9     		cbnz	r3, .L57
+ 194 0008 70BD     		pop	{r4, r5, r6, pc}
+ 195              	.L57:
+ 196 000a 4449     		ldr	r1, .L61+4
+ 197 000c 444A     		ldr	r2, .L61+8
+ 198 000e 91F90030 		ldrsb	r3, [r1]
+ 199 0012 1079     		ldrb	r0, [r2, #4]	@ zero_extendqisi2
+ 200 0014 03EB8303 		add	r3, r3, r3, lsl #2
+ 201 0018 0130     		adds	r0, r0, #1
+ 202 001a C3EB0313 		rsb	r3, r3, r3, lsl #4
+ 203 001e 1071     		strb	r0, [r2, #4]
+ 204 0020 13F5165F 		cmn	r3, #9600
+ 205 0024 4FF00000 		mov	r0, #0
+ 206 0028 1080     		strh	r0, [r2]	@ movhi
+ 207 002a 9070     		strb	r0, [r2, #2]
+ 208 002c 51DD     		ble	.L58
+ 209 002e B3F5165F 		cmp	r3, #9600
+ 210 0032 A8BF     		it	ge
+ 211 0034 4FF41653 		movge	r3, #9600
+ 212 0038 D380     		strh	r3, [r2, #6]	@ movhi
+ 213              	.L23:
+ 214 003a 91F90130 		ldrsb	r3, [r1, #1]
+ 215 003e 03EB8303 		add	r3, r3, r3, lsl #2
+ 216 0042 C3EB0313 		rsb	r3, r3, r3, lsl #4
+ 217 0046 13F5165F 		cmn	r3, #9600
+ 218 004a 46DC     		bgt	.L25
+ 219 004c 4DF68023 		movw	r3, #55936
+ 220 0050 1381     		strh	r3, [r2, #8]	@ movhi
+ 221              	.L26:
+ 222 0052 91F90230 		ldrsb	r3, [r1, #2]
+ 223 0056 03EB8303 		add	r3, r3, r3, lsl #2
+ 224 005a C3EB0313 		rsb	r3, r3, r3, lsl #4
+ 225 005e 13F5165F 		cmn	r3, #9600
+ 226 0062 48DC     		bgt	.L28
+ 227 0064 4DF68023 		movw	r3, #55936
+ 228 0068 5381     		strh	r3, [r2, #10]	@ movhi
+ARM GAS  /tmp/cc9QktzT.s 			page 5
+
+
+ 229 006a 91F90330 		ldrsb	r3, [r1, #3]
+ 230 006e 03EB8303 		add	r3, r3, r3, lsl #2
+ 231 0072 C3EB0313 		rsb	r3, r3, r3, lsl #4
+ 232 0076 002B     		cmp	r3, #0
+ 233 0078 4BDD     		ble	.L59
+ 234              	.L31:
+ 235 007a B3F5165F 		cmp	r3, #9600
+ 236 007e A8BF     		it	ge
+ 237 0080 4FF41653 		movge	r3, #9600
+ 238 0084 9381     		strh	r3, [r2, #12]	@ movhi
+ 239              	.L32:
+ 240 0086 91F90430 		ldrsb	r3, [r1, #4]
+ 241 008a 013B     		subs	r3, r3, #1
+ 242 008c 03EB8303 		add	r3, r3, r3, lsl #2
+ 243 0090 C3EB0313 		rsb	r3, r3, r3, lsl #4
+ 244 0094 DB01     		lsls	r3, r3, #7
+ 245 0096 1BB2     		sxth	r3, r3
+ 246 0098 13F5165F 		cmn	r3, #9600
+ 247 009c 24DC     		bgt	.L34
+ 248 009e 4DF68023 		movw	r3, #55936
+ 249 00a2 D381     		strh	r3, [r2, #14]	@ movhi
+ 250              	.L35:
+ 251 00a4 1F4B     		ldr	r3, .L61+12
+ 252 00a6 9C6F     		ldr	r4, [r3, #120]
+ 253 00a8 84B1     		cbz	r4, .L37
+ 254 00aa 1D4E     		ldr	r6, .L61+8
+ 255 00ac 03E0     		b	.L40
+ 256              	.L60:
+ 257 00ae 8342     		cmp	r3, r0
+ 258 00b0 07D0     		beq	.L38
+ 259 00b2 A468     		ldr	r4, [r4, #8]
+ 260 00b4 54B1     		cbz	r4, .L37
+ 261              	.L40:
+ 262 00b6 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 263 00b8 FF2B     		cmp	r3, #255
+ 264 00ba 3146     		mov	r1, r6
+ 265 00bc 4FF00700 		mov	r0, #7
+ 266 00c0 F5D1     		bne	.L60
+ 267              	.L38:
+ 268 00c2 6368     		ldr	r3, [r4, #4]
+ 269 00c4 9847     		blx	r3
+ 270 00c6 A468     		ldr	r4, [r4, #8]
+ 271 00c8 002C     		cmp	r4, #0
+ 272 00ca F4D1     		bne	.L40
+ 273              	.L37:
+ 274 00cc 0023     		movs	r3, #0
+ 275 00ce 2B70     		strb	r3, [r5]
+ 276 00d0 70BD     		pop	{r4, r5, r6, pc}
+ 277              	.L58:
+ 278 00d2 4DF68023 		movw	r3, #55936
+ 279 00d6 D380     		strh	r3, [r2, #6]	@ movhi
+ 280 00d8 AFE7     		b	.L23
+ 281              	.L25:
+ 282 00da B3F5165F 		cmp	r3, #9600
+ 283 00de A8BF     		it	ge
+ 284 00e0 4FF41653 		movge	r3, #9600
+ 285 00e4 1381     		strh	r3, [r2, #8]	@ movhi
+ARM GAS  /tmp/cc9QktzT.s 			page 6
+
+
+ 286 00e6 B4E7     		b	.L26
+ 287              	.L34:
+ 288 00e8 B3F5165F 		cmp	r3, #9600
+ 289 00ec A8BF     		it	ge
+ 290 00ee 4FF41653 		movge	r3, #9600
+ 291 00f2 D381     		strh	r3, [r2, #14]	@ movhi
+ 292 00f4 D6E7     		b	.L35
+ 293              	.L28:
+ 294 00f6 B3F5165F 		cmp	r3, #9600
+ 295 00fa A8BF     		it	ge
+ 296 00fc 4FF41653 		movge	r3, #9600
+ 297 0100 5381     		strh	r3, [r2, #10]	@ movhi
+ 298 0102 91F90330 		ldrsb	r3, [r1, #3]
+ 299 0106 03EB8303 		add	r3, r3, r3, lsl #2
+ 300 010a C3EB0313 		rsb	r3, r3, r3, lsl #4
+ 301 010e 002B     		cmp	r3, #0
+ 302 0110 B3DC     		bgt	.L31
+ 303              	.L59:
+ 304 0112 0023     		movs	r3, #0
+ 305 0114 9381     		strh	r3, [r2, #12]	@ movhi
+ 306 0116 B6E7     		b	.L32
+ 307              	.L62:
+ 308              		.align	2
+ 309              	.L61:
+ 310 0118 00000000 		.word	.LANCHOR0
+ 311 011c 00000000 		.word	.LANCHOR1
+ 312 0120 00000000 		.word	radio_control
+ 313 0124 00000000 		.word	abi_queues
+ 314              		.size	rc_datalink_event, .-rc_datalink_event
+ 315              		.global	rc_dl_frame_available
+ 316              		.global	rc_dl_values
+ 317              		.section	.bss.rc_dl_frame_available,"aw",%nobits
+ 318              		.set	.LANCHOR0,. + 0
+ 319              		.type	rc_dl_frame_available, %object
+ 320              		.size	rc_dl_frame_available, 1
+ 321              	rc_dl_frame_available:
+ 322 0000 00       		.space	1
+ 323              		.section	.bss.rc_dl_values,"aw",%nobits
+ 324              		.align	2
+ 325              		.set	.LANCHOR1,. + 0
+ 326              		.type	rc_dl_values, %object
+ 327              		.size	rc_dl_values, 5
+ 328              	rc_dl_values:
+ 329 0000 00000000 		.space	5
+ 329      00
+ 330              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/cc9QktzT.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 rc_datalink.c
+     /tmp/cc9QktzT.s:15     .text.rc_datalink_init:0000000000000000 $t
+     /tmp/cc9QktzT.s:24     .text.rc_datalink_init:0000000000000000 rc_datalink_init
+     /tmp/cc9QktzT.s:38     .text.rc_datalink_init:0000000000000010 $d
+     /tmp/cc9QktzT.s:42     .text.rc_datalink_parse_RC_3CH:0000000000000000 $t
+     /tmp/cc9QktzT.s:50     .text.rc_datalink_parse_RC_3CH:0000000000000000 rc_datalink_parse_RC_3CH
+     /tmp/cc9QktzT.s:74     .text.rc_datalink_parse_RC_3CH:000000000000002c $d
+     /tmp/cc9QktzT.s:78     .text.rc_datalink_parse_RC_4CH:0000000000000000 $t
+     /tmp/cc9QktzT.s:86     .text.rc_datalink_parse_RC_4CH:0000000000000000 rc_datalink_parse_RC_4CH
+     /tmp/cc9QktzT.s:108    .text.rc_datalink_parse_RC_4CH:000000000000002c $d
+     /tmp/cc9QktzT.s:112    .text.parse_rc_3ch_datalink:0000000000000000 $t
+     /tmp/cc9QktzT.s:120    .text.parse_rc_3ch_datalink:0000000000000000 parse_rc_3ch_datalink
+     /tmp/cc9QktzT.s:143    .text.parse_rc_3ch_datalink:000000000000002c $d
+     /tmp/cc9QktzT.s:147    .text.parse_rc_4ch_datalink:0000000000000000 $t
+     /tmp/cc9QktzT.s:155    .text.parse_rc_4ch_datalink:0000000000000000 parse_rc_4ch_datalink
+     /tmp/cc9QktzT.s:175    .text.parse_rc_4ch_datalink:0000000000000020 $d
+     /tmp/cc9QktzT.s:179    .text.rc_datalink_event:0000000000000000 $t
+     /tmp/cc9QktzT.s:187    .text.rc_datalink_event:0000000000000000 rc_datalink_event
+     /tmp/cc9QktzT.s:310    .text.rc_datalink_event:0000000000000118 $d
+     /tmp/cc9QktzT.s:321    .bss.rc_dl_frame_available:0000000000000000 rc_dl_frame_available
+     /tmp/cc9QktzT.s:328    .bss.rc_dl_values:0000000000000000 rc_dl_values
+     /tmp/cc9QktzT.s:322    .bss.rc_dl_frame_available:0000000000000000 $d
+     /tmp/cc9QktzT.s:324    .bss.rc_dl_values:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+radio_control
+abi_queues

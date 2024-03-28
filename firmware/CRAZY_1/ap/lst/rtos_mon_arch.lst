@@ -1,0 +1,258 @@
+ARM GAS  /tmp/ccwqyGgA.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"rtos_mon_arch.c"
+  13              		.text
+  14              		.section	.text.rtos_mon_init_arch,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	rtos_mon_init_arch
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	rtos_mon_init_arch, %function
+  24              	rtos_mon_init_arch:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27              		@ link register save eliminated.
+  28 0000 7047     		bx	lr
+  29              		.size	rtos_mon_init_arch, .-rtos_mon_init_arch
+  30              		.global	__aeabi_ul2f
+  31 0002 00BF     		.section	.text.rtos_mon_periodic_arch,"ax",%progbits
+  32              		.align	1
+  33              		.p2align 4,,15
+  34              		.global	rtos_mon_periodic_arch
+  35              		.syntax unified
+  36              		.thumb
+  37              		.thumb_func
+  38              		.fpu fpv4-sp-d16
+  39              		.type	rtos_mon_periodic_arch, %function
+  40              	rtos_mon_periodic_arch:
+  41              		@ args = 0, pretend = 0, frame = 16
+  42              		@ frame_needed = 0, uses_anonymous_args = 0
+  43 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  44 0004 2DED028B 		vpush.64	{d8}
+  45 0008 85B0     		sub	sp, sp, #20
+  46 000a 01AA     		add	r2, sp, #4
+  47 000c 6946     		mov	r1, sp
+  48 000e 0020     		movs	r0, #0
+  49 0010 FFF7FEFF 		bl	chHeapStatus
+  50 0014 0546     		mov	r5, r0
+  51 0016 02A8     		add	r0, sp, #8
+  52 0018 FFF7FEFF 		bl	chCoreGetStatusX
+  53 001c 654C     		ldr	r4, .L32
+  54 001e 039B     		ldr	r3, [sp, #12]
+  55 0020 2360     		str	r3, [r4]
+  56 0022 DDE90021 		ldrd	r2, r1, [sp]
+  57 0026 0023     		movs	r3, #0
+ARM GAS  /tmp/ccwqyGgA.s 			page 2
+
+
+  58 0028 A560     		str	r5, [r4, #8]
+  59 002a E160     		str	r1, [r4, #12]
+  60 002c 6260     		str	r2, [r4, #4]
+  61 002e 6374     		strb	r3, [r4, #17]
+  62 0030 84F8C730 		strb	r3, [r4, #199]
+  63 0034 FFF7FEFF 		bl	chRegFirstThread
+  64 0038 9FED5F8A 		vldr.32	s16, .L32+4
+  65 003c 5F4E     		ldr	r6, .L32+8
+  66 003e 94F811A0 		ldrb	r10, [r4, #17]	@ zero_extendqisi2
+  67 0042 5F4D     		ldr	r5, .L32+12
+  68 0044 F0EE488A 		vmov.f32	s17, s16
+  69 0048 8146     		mov	r9, r0
+  70 004a 06F1FF38 		add	r8, r6, #-1
+  71              	.L12:
+  72 004e D9F81C00 		ldr	r0, [r9, #28]
+  73 0052 94F8C720 		ldrb	r2, [r4, #199]	@ zero_extendqisi2
+  74 0056 0138     		subs	r0, r0, #1
+  75 0058 4FF0000C 		mov	ip, #0
+  76              	.L4:
+  77 005c 10F8011F 		ldrb	r1, [r0, #1]!	@ zero_extendqisi2
+  78 0060 531C     		adds	r3, r2, #1
+  79 0062 DBB2     		uxtb	r3, r3
+  80 0064 04EB020E 		add	lr, r4, r2
+  81 0068 59B1     		cbz	r1, .L30
+  82 006a 84F8C730 		strb	r3, [r4, #199]
+  83 006e 0CF1010C 		add	ip, ip, #1
+  84 0072 0278     		ldrb	r2, [r0]	@ zero_extendqisi2
+  85 0074 8EF86220 		strb	r2, [lr, #98]
+  86 0078 BCF1040F 		cmp	ip, #4
+  87 007c 02D0     		beq	.L5
+  88 007e 1A46     		mov	r2, r3
+  89 0080 ECE7     		b	.L4
+  90              	.L30:
+  91 0082 1346     		mov	r3, r2
+  92              	.L5:
+  93 0084 E218     		adds	r2, r4, r3
+  94 0086 0133     		adds	r3, r3, #1
+  95 0088 84F8C730 		strb	r3, [r4, #199]
+  96 008c 4FF03B03 		mov	r3, #59
+  97 0090 82F86230 		strb	r3, [r2, #98]
+  98 0094 D9F82030 		ldr	r3, [r9, #32]
+  99 0098 D3E90012 		ldrd	r1, r2, [r3]
+ 100 009c 4FF05530 		mov	r0, #1431655765
+ 101 00a0 8242     		cmp	r2, r0
+ 102 00a2 08BF     		it	eq
+ 103 00a4 8142     		cmpeq	r1, r0
+ 104 00a6 75D1     		bne	.L18
+ 105 00a8 B342     		cmp	r3, r6
+ 106 00aa 73D2     		bcs	.L18
+ 107 00ac A8EB030B 		sub	fp, r8, r3
+ 108 00b0 4FEADB0B 		lsr	fp, fp, #3
+ 109 00b4 0BF1010B 		add	fp, fp, #1
+ 110 00b8 0022     		movs	r2, #0
+ 111 00ba 01E0     		b	.L9
+ 112              	.L8:
+ 113 00bc 5A45     		cmp	r2, fp
+ 114 00be 08D0     		beq	.L29
+ARM GAS  /tmp/ccwqyGgA.s 			page 3
+
+
+ 115              	.L9:
+ 116 00c0 53F8081F 		ldr	r1, [r3, #8]!
+ 117 00c4 5F68     		ldr	r7, [r3, #4]
+ 118 00c6 8742     		cmp	r7, r0
+ 119 00c8 08BF     		it	eq
+ 120 00ca 8142     		cmpeq	r1, r0
+ 121 00cc 02F10102 		add	r2, r2, #1
+ 122 00d0 F4D0     		beq	.L8
+ 123              	.L29:
+ 124 00d2 D200     		lsls	r2, r2, #3
+ 125 00d4 92B2     		uxth	r2, r2
+ 126              	.L7:
+ 127 00d6 04EB4C0C 		add	ip, r4, ip, lsl #1
+ 128 00da D9F85800 		ldr	r0, [r9, #88]
+ 129 00de D9F85C10 		ldr	r1, [r9, #92]
+ 130 00e2 ACF83A20 		strh	r2, [ip, #58]	@ movhi
+ 131 00e6 45F82A00 		str	r0, [r5, r10, lsl #2]
+ 132 00ea FFF7FEFF 		bl	__aeabi_ul2f
+ 133 00ee 07EE900A 		vmov	s15, r0
+ 134 00f2 38EE278A 		vadd.f32	s16, s16, s15
+ 135 00f6 FFF7FEFF 		bl	chSysGetIdleThreadX
+ 136 00fa 8145     		cmp	r9, r0
+ 137 00fc 43D0     		beq	.L31
+ 138              	.L10:
+ 139 00fe 4846     		mov	r0, r9
+ 140 0100 FFF7FEFF 		bl	chRegNextThread
+ 141 0104 94F811A0 		ldrb	r10, [r4, #17]	@ zero_extendqisi2
+ 142 0108 0AF1010A 		add	r10, r10, #1
+ 143 010c 5FFA8AFA 		uxtb	r10, r10
+ 144 0110 8146     		mov	r9, r0
+ 145 0112 84F811A0 		strb	r10, [r4, #17]
+ 146 0116 0028     		cmp	r0, #0
+ 147 0118 3ED0     		beq	.L11
+ 148 011a BAF1130F 		cmp	r10, #19
+ 149 011e 96D9     		bls	.L12
+ 150 0120 284B     		ldr	r3, .L32+16
+ 151 0122 D3E93601 		ldrd	r0, [r3, #216]
+ 152 0126 FFF7FEFF 		bl	__aeabi_ul2f
+ 153 012a 07EE900A 		vmov	s15, r0
+ 154 012e 37EE888A 		vadd.f32	s16, s15, s16
+ 155              	.L14:
+ 156 0132 234B     		ldr	r3, .L32+12
+ 157 0134 244A     		ldr	r2, .L32+20
+ 158 0136 DFED256A 		vldr.32	s13, .L32+24
+ 159 013a 05EB8A05 		add	r5, r5, r10, lsl #2
+ 160              	.L15:
+ 161 013e F3EC017A 		vldmia.32	r3!, {s15}	@ int
+ 162 0142 F8EE677A 		vcvt.f32.u32	s15, s15
+ 163 0146 9D42     		cmp	r5, r3
+ 164 0148 67EEA67A 		vmul.f32	s15, s15, s13
+ 165 014c 87EE887A 		vdiv.f32	s14, s15, s16
+ 166 0150 BCEEC77A 		vcvt.u32.f32	s14, s14
+ 167 0154 17EE101A 		vmov	r1, s14	@ int
+ 168 0158 22F8021F 		strh	r1, [r2, #2]!	@ movhi
+ 169 015c EFD1     		bne	.L15
+ 170              	.L16:
+ 171 015e C8EE886A 		vdiv.f32	s13, s17, s16
+ARM GAS  /tmp/ccwqyGgA.s 			page 4
+
+
+ 172 0162 F7EE007A 		vmov.f32	s15, #1.0e+0
+ 173 0166 9FED1A7A 		vldr.32	s14, .L32+28
+ 174 016a 77EEE67A 		vsub.f32	s15, s15, s13
+ 175 016e 67EE877A 		vmul.f32	s15, s15, s14
+ 176 0172 FCEEE77A 		vcvt.u32.f32	s15, s15
+ 177 0176 17EE903A 		vmov	r3, s15	@ int
+ 178 017a 2374     		strb	r3, [r4, #16]
+ 179 017c 05B0     		add	sp, sp, #20
+ 180              		@ sp needed
+ 181 017e BDEC028B 		vldm	sp!, {d8}
+ 182 0182 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 183              	.L31:
+ 184 0186 D9E91601 		ldrd	r0, [r9, #88]
+ 185 018a FFF7FEFF 		bl	__aeabi_ul2f
+ 186 018e 08EE900A 		vmov	s17, r0
+ 187 0192 B4E7     		b	.L10
+ 188              	.L18:
+ 189 0194 0022     		movs	r2, #0
+ 190 0196 9EE7     		b	.L7
+ 191              	.L11:
+ 192 0198 0A4B     		ldr	r3, .L32+16
+ 193 019a D3E93601 		ldrd	r0, [r3, #216]
+ 194 019e FFF7FEFF 		bl	__aeabi_ul2f
+ 195 01a2 07EE900A 		vmov	s15, r0
+ 196 01a6 37EE888A 		vadd.f32	s16, s15, s16
+ 197 01aa BAF1000F 		cmp	r10, #0
+ 198 01ae C0D1     		bne	.L14
+ 199 01b0 D5E7     		b	.L16
+ 200              	.L33:
+ 201 01b2 00BF     		.align	2
+ 202              	.L32:
+ 203 01b4 00000000 		.word	rtos_mon
+ 204 01b8 00000000 		.word	0
+ 205 01bc 00000000 		.word	__ram0_end__
+ 206 01c0 00000000 		.word	.LANCHOR0
+ 207 01c4 00000000 		.word	ch0
+ 208 01c8 10000000 		.word	rtos_mon+16
+ 209 01cc 00007A44 		.word	1148846080
+ 210 01d0 0000C842 		.word	1120403456
+ 211              		.size	rtos_mon_periodic_arch, .-rtos_mon_periodic_arch
+ 212              		.section	.bss.thread_p_time,"aw",%nobits
+ 213              		.align	2
+ 214              		.set	.LANCHOR0,. + 0
+ 215              		.type	thread_p_time, %object
+ 216              		.size	thread_p_time, 80
+ 217              	thread_p_time:
+ 218 0000 00000000 		.space	80
+ 218      00000000 
+ 218      00000000 
+ 218      00000000 
+ 218      00000000 
+ 219              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccwqyGgA.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 rtos_mon_arch.c
+     /tmp/ccwqyGgA.s:15     .text.rtos_mon_init_arch:0000000000000000 $t
+     /tmp/ccwqyGgA.s:24     .text.rtos_mon_init_arch:0000000000000000 rtos_mon_init_arch
+     /tmp/ccwqyGgA.s:32     .text.rtos_mon_periodic_arch:0000000000000000 $t
+     /tmp/ccwqyGgA.s:40     .text.rtos_mon_periodic_arch:0000000000000000 rtos_mon_periodic_arch
+     /tmp/ccwqyGgA.s:203    .text.rtos_mon_periodic_arch:00000000000001b4 $d
+     /tmp/ccwqyGgA.s:213    .bss.thread_p_time:0000000000000000 $d
+     /tmp/ccwqyGgA.s:217    .bss.thread_p_time:0000000000000000 thread_p_time
+
+UNDEFINED SYMBOLS
+__aeabi_ul2f
+chHeapStatus
+chCoreGetStatusX
+chRegFirstThread
+chSysGetIdleThreadX
+chRegNextThread
+rtos_mon
+__ram0_end__
+ch0

@@ -1,0 +1,196 @@
+ARM GAS  /tmp/ccXe4SFc.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"chstats.c"
+  13              		.text
+  14              		.section	.text.__stats_increase_irq,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	__stats_increase_irq
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	__stats_increase_irq, %function
+  24              	__stats_increase_irq:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27              		@ link register save eliminated.
+  28 0000 3023     		movs	r3, #48
+  29              		.syntax unified
+  30              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  31 0002 83F31188 		MSR basepri, r3
+  32              	@ 0 "" 2
+  33              		.thumb
+  34              		.syntax unified
+  35 0006 054A     		ldr	r2, .L3
+  36 0008 D2F8A830 		ldr	r3, [r2, #168]
+  37 000c 0133     		adds	r3, r3, #1
+  38 000e 0021     		movs	r1, #0
+  39 0010 C2F8A830 		str	r3, [r2, #168]
+  40              		.syntax unified
+  41              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  42 0014 81F31188 		MSR basepri, r1
+  43              	@ 0 "" 2
+  44              		.thumb
+  45              		.syntax unified
+  46 0018 7047     		bx	lr
+  47              	.L4:
+  48 001a 00BF     		.align	2
+  49              	.L3:
+  50 001c 00000000 		.word	ch0
+  51              		.size	__stats_increase_irq, .-__stats_increase_irq
+  52              		.section	.text.__stats_ctxswc,"ax",%progbits
+  53              		.align	1
+  54              		.p2align 4,,15
+  55              		.global	__stats_ctxswc
+  56              		.syntax unified
+  57              		.thumb
+ARM GAS  /tmp/ccXe4SFc.s 			page 2
+
+
+  58              		.thumb_func
+  59              		.fpu fpv4-sp-d16
+  60              		.type	__stats_ctxswc, %function
+  61              	__stats_ctxswc:
+  62              		@ args = 0, pretend = 0, frame = 0
+  63              		@ frame_needed = 0, uses_anonymous_args = 0
+  64              		@ link register save eliminated.
+  65 0000 064A     		ldr	r2, .L6
+  66 0002 D2F8AC30 		ldr	r3, [r2, #172]
+  67 0006 8C46     		mov	ip, r1
+  68 0008 0133     		adds	r3, r3, #1
+  69 000a 00F14801 		add	r1, r0, #72
+  70 000e 0CF14800 		add	r0, ip, #72
+  71 0012 C2F8AC30 		str	r3, [r2, #172]
+  72 0016 FFF7FEBF 		b	chTMChainMeasurementToX
+  73              	.L7:
+  74 001a 00BF     		.align	2
+  75              	.L6:
+  76 001c 00000000 		.word	ch0
+  77              		.size	__stats_ctxswc, .-__stats_ctxswc
+  78              		.section	.text.__stats_start_measure_crit_thd,"ax",%progbits
+  79              		.align	1
+  80              		.p2align 4,,15
+  81              		.global	__stats_start_measure_crit_thd
+  82              		.syntax unified
+  83              		.thumb
+  84              		.thumb_func
+  85              		.fpu fpv4-sp-d16
+  86              		.type	__stats_start_measure_crit_thd, %function
+  87              	__stats_start_measure_crit_thd:
+  88              		@ args = 0, pretend = 0, frame = 0
+  89              		@ frame_needed = 0, uses_anonymous_args = 0
+  90              		@ link register save eliminated.
+  91 0000 0148     		ldr	r0, .L9
+  92 0002 FFF7FEBF 		b	chTMStartMeasurementX
+  93              	.L10:
+  94 0006 00BF     		.align	2
+  95              	.L9:
+  96 0008 B0000000 		.word	ch0+176
+  97              		.size	__stats_start_measure_crit_thd, .-__stats_start_measure_crit_thd
+  98              		.section	.text.__stats_stop_measure_crit_thd,"ax",%progbits
+  99              		.align	1
+ 100              		.p2align 4,,15
+ 101              		.global	__stats_stop_measure_crit_thd
+ 102              		.syntax unified
+ 103              		.thumb
+ 104              		.thumb_func
+ 105              		.fpu fpv4-sp-d16
+ 106              		.type	__stats_stop_measure_crit_thd, %function
+ 107              	__stats_stop_measure_crit_thd:
+ 108              		@ args = 0, pretend = 0, frame = 0
+ 109              		@ frame_needed = 0, uses_anonymous_args = 0
+ 110              		@ link register save eliminated.
+ 111 0000 0148     		ldr	r0, .L12
+ 112 0002 FFF7FEBF 		b	chTMStopMeasurementX
+ 113              	.L13:
+ 114 0006 00BF     		.align	2
+ARM GAS  /tmp/ccXe4SFc.s 			page 3
+
+
+ 115              	.L12:
+ 116 0008 B0000000 		.word	ch0+176
+ 117              		.size	__stats_stop_measure_crit_thd, .-__stats_stop_measure_crit_thd
+ 118              		.section	.text.__stats_start_measure_crit_isr,"ax",%progbits
+ 119              		.align	1
+ 120              		.p2align 4,,15
+ 121              		.global	__stats_start_measure_crit_isr
+ 122              		.syntax unified
+ 123              		.thumb
+ 124              		.thumb_func
+ 125              		.fpu fpv4-sp-d16
+ 126              		.type	__stats_start_measure_crit_isr, %function
+ 127              	__stats_start_measure_crit_isr:
+ 128              		@ args = 0, pretend = 0, frame = 0
+ 129              		@ frame_needed = 0, uses_anonymous_args = 0
+ 130              		@ link register save eliminated.
+ 131 0000 0148     		ldr	r0, .L15
+ 132 0002 FFF7FEBF 		b	chTMStartMeasurementX
+ 133              	.L16:
+ 134 0006 00BF     		.align	2
+ 135              	.L15:
+ 136 0008 C8000000 		.word	ch0+200
+ 137              		.size	__stats_start_measure_crit_isr, .-__stats_start_measure_crit_isr
+ 138              		.section	.text.__stats_stop_measure_crit_isr,"ax",%progbits
+ 139              		.align	1
+ 140              		.p2align 4,,15
+ 141              		.global	__stats_stop_measure_crit_isr
+ 142              		.syntax unified
+ 143              		.thumb
+ 144              		.thumb_func
+ 145              		.fpu fpv4-sp-d16
+ 146              		.type	__stats_stop_measure_crit_isr, %function
+ 147              	__stats_stop_measure_crit_isr:
+ 148              		@ args = 0, pretend = 0, frame = 0
+ 149              		@ frame_needed = 0, uses_anonymous_args = 0
+ 150              		@ link register save eliminated.
+ 151 0000 0148     		ldr	r0, .L18
+ 152 0002 FFF7FEBF 		b	chTMStopMeasurementX
+ 153              	.L19:
+ 154 0006 00BF     		.align	2
+ 155              	.L18:
+ 156 0008 C8000000 		.word	ch0+200
+ 157              		.size	__stats_stop_measure_crit_isr, .-__stats_stop_measure_crit_isr
+ 158              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccXe4SFc.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 chstats.c
+     /tmp/ccXe4SFc.s:15     .text.__stats_increase_irq:0000000000000000 $t
+     /tmp/ccXe4SFc.s:24     .text.__stats_increase_irq:0000000000000000 __stats_increase_irq
+     /tmp/ccXe4SFc.s:50     .text.__stats_increase_irq:000000000000001c $d
+     /tmp/ccXe4SFc.s:53     .text.__stats_ctxswc:0000000000000000 $t
+     /tmp/ccXe4SFc.s:61     .text.__stats_ctxswc:0000000000000000 __stats_ctxswc
+     /tmp/ccXe4SFc.s:76     .text.__stats_ctxswc:000000000000001c $d
+     /tmp/ccXe4SFc.s:79     .text.__stats_start_measure_crit_thd:0000000000000000 $t
+     /tmp/ccXe4SFc.s:87     .text.__stats_start_measure_crit_thd:0000000000000000 __stats_start_measure_crit_thd
+     /tmp/ccXe4SFc.s:96     .text.__stats_start_measure_crit_thd:0000000000000008 $d
+     /tmp/ccXe4SFc.s:99     .text.__stats_stop_measure_crit_thd:0000000000000000 $t
+     /tmp/ccXe4SFc.s:107    .text.__stats_stop_measure_crit_thd:0000000000000000 __stats_stop_measure_crit_thd
+     /tmp/ccXe4SFc.s:116    .text.__stats_stop_measure_crit_thd:0000000000000008 $d
+     /tmp/ccXe4SFc.s:119    .text.__stats_start_measure_crit_isr:0000000000000000 $t
+     /tmp/ccXe4SFc.s:127    .text.__stats_start_measure_crit_isr:0000000000000000 __stats_start_measure_crit_isr
+     /tmp/ccXe4SFc.s:136    .text.__stats_start_measure_crit_isr:0000000000000008 $d
+     /tmp/ccXe4SFc.s:139    .text.__stats_stop_measure_crit_isr:0000000000000000 $t
+     /tmp/ccXe4SFc.s:147    .text.__stats_stop_measure_crit_isr:0000000000000000 __stats_stop_measure_crit_isr
+     /tmp/ccXe4SFc.s:156    .text.__stats_stop_measure_crit_isr:0000000000000008 $d
+
+UNDEFINED SYMBOLS
+ch0
+chTMChainMeasurementToX
+chTMStartMeasurementX
+chTMStopMeasurementX

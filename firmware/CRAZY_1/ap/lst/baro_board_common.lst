@@ -1,0 +1,79 @@
+ARM GAS  /tmp/ccL1WLmi.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"baro_board_common.c"
+  13              		.text
+  14              		.section	.text.baro_board_init,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	baro_board_init
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	baro_board_init, %function
+  24              	baro_board_init:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27              		@ link register save eliminated.
+  28 0000 7047     		bx	lr
+  29              		.size	baro_board_init, .-baro_board_init
+  30 0002 00BF     		.section	.text.baro_board_periodic,"ax",%progbits
+  31              		.align	1
+  32              		.p2align 4,,15
+  33              		.global	baro_board_periodic
+  34              		.syntax unified
+  35              		.thumb
+  36              		.thumb_func
+  37              		.fpu fpv4-sp-d16
+  38              		.type	baro_board_periodic, %function
+  39              	baro_board_periodic:
+  40              		@ args = 0, pretend = 0, frame = 0
+  41              		@ frame_needed = 0, uses_anonymous_args = 0
+  42              		@ link register save eliminated.
+  43 0000 7047     		bx	lr
+  44              		.size	baro_board_periodic, .-baro_board_periodic
+  45 0002 00BF     		.section	.text.baro_board_event,"ax",%progbits
+  46              		.align	1
+  47              		.p2align 4,,15
+  48              		.global	baro_board_event
+  49              		.syntax unified
+  50              		.thumb
+  51              		.thumb_func
+  52              		.fpu fpv4-sp-d16
+  53              		.type	baro_board_event, %function
+  54              	baro_board_event:
+  55              		@ args = 0, pretend = 0, frame = 0
+  56              		@ frame_needed = 0, uses_anonymous_args = 0
+  57              		@ link register save eliminated.
+ARM GAS  /tmp/ccL1WLmi.s 			page 2
+
+
+  58 0000 7047     		bx	lr
+  59              		.size	baro_board_event, .-baro_board_event
+  60 0002 00BF     		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccL1WLmi.s 			page 3
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 baro_board_common.c
+     /tmp/ccL1WLmi.s:15     .text.baro_board_init:0000000000000000 $t
+     /tmp/ccL1WLmi.s:24     .text.baro_board_init:0000000000000000 baro_board_init
+     /tmp/ccL1WLmi.s:31     .text.baro_board_periodic:0000000000000000 $t
+     /tmp/ccL1WLmi.s:39     .text.baro_board_periodic:0000000000000000 baro_board_periodic
+     /tmp/ccL1WLmi.s:46     .text.baro_board_event:0000000000000000 $t
+     /tmp/ccL1WLmi.s:54     .text.baro_board_event:0000000000000000 baro_board_event
+
+NO UNDEFINED SYMBOLS

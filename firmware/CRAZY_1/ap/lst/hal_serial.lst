@@ -1,0 +1,555 @@
+ARM GAS  /tmp/cc1NVViR.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"hal_serial.c"
+  13              		.text
+  14              		.section	.text._readt,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.arch armv7e-m
+  18              		.syntax unified
+  19              		.thumb
+  20              		.thumb_func
+  21              		.fpu fpv4-sp-d16
+  22              		.type	_readt, %function
+  23              	_readt:
+  24              		@ args = 0, pretend = 0, frame = 0
+  25              		@ frame_needed = 0, uses_anonymous_args = 0
+  26              		@ link register save eliminated.
+  27 0000 0C30     		adds	r0, r0, #12
+  28 0002 FFF7FEBF 		b	iqReadTimeout
+  29              		.size	_readt, .-_readt
+  30 0006 00BF     		.section	.text._read,"ax",%progbits
+  31              		.align	1
+  32              		.p2align 4,,15
+  33              		.syntax unified
+  34              		.thumb
+  35              		.thumb_func
+  36              		.fpu fpv4-sp-d16
+  37              		.type	_read, %function
+  38              	_read:
+  39              		@ args = 0, pretend = 0, frame = 0
+  40              		@ frame_needed = 0, uses_anonymous_args = 0
+  41              		@ link register save eliminated.
+  42 0000 4FF0FF33 		mov	r3, #-1
+  43 0004 0C30     		adds	r0, r0, #12
+  44 0006 FFF7FEBF 		b	iqReadTimeout
+  45              		.size	_read, .-_read
+  46 000a 00BF     		.section	.text._writet,"ax",%progbits
+  47              		.align	1
+  48              		.p2align 4,,15
+  49              		.syntax unified
+  50              		.thumb
+  51              		.thumb_func
+  52              		.fpu fpv4-sp-d16
+  53              		.type	_writet, %function
+  54              	_writet:
+  55              		@ args = 0, pretend = 0, frame = 0
+  56              		@ frame_needed = 0, uses_anonymous_args = 0
+  57              		@ link register save eliminated.
+ARM GAS  /tmp/cc1NVViR.s 			page 2
+
+
+  58 0000 3030     		adds	r0, r0, #48
+  59 0002 FFF7FEBF 		b	oqWriteTimeout
+  60              		.size	_writet, .-_writet
+  61 0006 00BF     		.section	.text._write,"ax",%progbits
+  62              		.align	1
+  63              		.p2align 4,,15
+  64              		.syntax unified
+  65              		.thumb
+  66              		.thumb_func
+  67              		.fpu fpv4-sp-d16
+  68              		.type	_write, %function
+  69              	_write:
+  70              		@ args = 0, pretend = 0, frame = 0
+  71              		@ frame_needed = 0, uses_anonymous_args = 0
+  72              		@ link register save eliminated.
+  73 0000 4FF0FF33 		mov	r3, #-1
+  74 0004 3030     		adds	r0, r0, #48
+  75 0006 FFF7FEBF 		b	oqWriteTimeout
+  76              		.size	_write, .-_write
+  77 000a 00BF     		.section	.text._gett,"ax",%progbits
+  78              		.align	1
+  79              		.p2align 4,,15
+  80              		.syntax unified
+  81              		.thumb
+  82              		.thumb_func
+  83              		.fpu fpv4-sp-d16
+  84              		.type	_gett, %function
+  85              	_gett:
+  86              		@ args = 0, pretend = 0, frame = 0
+  87              		@ frame_needed = 0, uses_anonymous_args = 0
+  88              		@ link register save eliminated.
+  89 0000 0C30     		adds	r0, r0, #12
+  90 0002 FFF7FEBF 		b	iqGetTimeout
+  91              		.size	_gett, .-_gett
+  92 0006 00BF     		.section	.text._get,"ax",%progbits
+  93              		.align	1
+  94              		.p2align 4,,15
+  95              		.syntax unified
+  96              		.thumb
+  97              		.thumb_func
+  98              		.fpu fpv4-sp-d16
+  99              		.type	_get, %function
+ 100              	_get:
+ 101              		@ args = 0, pretend = 0, frame = 0
+ 102              		@ frame_needed = 0, uses_anonymous_args = 0
+ 103              		@ link register save eliminated.
+ 104 0000 4FF0FF31 		mov	r1, #-1
+ 105 0004 0C30     		adds	r0, r0, #12
+ 106 0006 FFF7FEBF 		b	iqGetTimeout
+ 107              		.size	_get, .-_get
+ 108 000a 00BF     		.section	.text._putt,"ax",%progbits
+ 109              		.align	1
+ 110              		.p2align 4,,15
+ 111              		.syntax unified
+ 112              		.thumb
+ 113              		.thumb_func
+ 114              		.fpu fpv4-sp-d16
+ARM GAS  /tmp/cc1NVViR.s 			page 3
+
+
+ 115              		.type	_putt, %function
+ 116              	_putt:
+ 117              		@ args = 0, pretend = 0, frame = 0
+ 118              		@ frame_needed = 0, uses_anonymous_args = 0
+ 119              		@ link register save eliminated.
+ 120 0000 3030     		adds	r0, r0, #48
+ 121 0002 FFF7FEBF 		b	oqPutTimeout
+ 122              		.size	_putt, .-_putt
+ 123 0006 00BF     		.section	.text._put,"ax",%progbits
+ 124              		.align	1
+ 125              		.p2align 4,,15
+ 126              		.syntax unified
+ 127              		.thumb
+ 128              		.thumb_func
+ 129              		.fpu fpv4-sp-d16
+ 130              		.type	_put, %function
+ 131              	_put:
+ 132              		@ args = 0, pretend = 0, frame = 0
+ 133              		@ frame_needed = 0, uses_anonymous_args = 0
+ 134              		@ link register save eliminated.
+ 135 0000 4FF0FF32 		mov	r2, #-1
+ 136 0004 3030     		adds	r0, r0, #48
+ 137 0006 FFF7FEBF 		b	oqPutTimeout
+ 138              		.size	_put, .-_put
+ 139 000a 00BF     		.section	.text._ctl,"ax",%progbits
+ 140              		.align	1
+ 141              		.p2align 4,,15
+ 142              		.syntax unified
+ 143              		.thumb
+ 144              		.thumb_func
+ 145              		.fpu fpv4-sp-d16
+ 146              		.type	_ctl, %function
+ 147              	_ctl:
+ 148              		@ args = 0, pretend = 0, frame = 0
+ 149              		@ frame_needed = 0, uses_anonymous_args = 0
+ 150              		@ link register save eliminated.
+ 151 0000 0020     		movs	r0, #0
+ 152 0002 7047     		bx	lr
+ 153              		.size	_ctl, .-_ctl
+ 154              		.section	.text.sdInit,"ax",%progbits
+ 155              		.align	1
+ 156              		.p2align 4,,15
+ 157              		.global	sdInit
+ 158              		.syntax unified
+ 159              		.thumb
+ 160              		.thumb_func
+ 161              		.fpu fpv4-sp-d16
+ 162              		.type	sdInit, %function
+ 163              	sdInit:
+ 164              		@ args = 0, pretend = 0, frame = 0
+ 165              		@ frame_needed = 0, uses_anonymous_args = 0
+ 166              		@ link register save eliminated.
+ 167 0000 FFF7FEBF 		b	sd_lld_init
+ 168              		.size	sdInit, .-sdInit
+ 169              		.section	.text.sdObjectInit,"ax",%progbits
+ 170              		.align	1
+ 171              		.p2align 4,,15
+ARM GAS  /tmp/cc1NVViR.s 			page 4
+
+
+ 172              		.global	sdObjectInit
+ 173              		.syntax unified
+ 174              		.thumb
+ 175              		.thumb_func
+ 176              		.fpu fpv4-sp-d16
+ 177              		.type	sdObjectInit, %function
+ 178              	sdObjectInit:
+ 179              		@ args = 0, pretend = 0, frame = 8
+ 180              		@ frame_needed = 0, uses_anonymous_args = 0
+ 181 0000 30B5     		push	{r4, r5, lr}
+ 182 0002 104B     		ldr	r3, .L14
+ 183 0004 85B0     		sub	sp, sp, #20
+ 184 0006 0446     		mov	r4, r0
+ 185 0008 40F8043B 		str	r3, [r0], #4
+ 186 000c 1546     		mov	r5, r2
+ 187 000e 0391     		str	r1, [sp, #12]
+ 188 0010 FFF7FEFF 		bl	chEvtObjectInit
+ 189 0014 0121     		movs	r1, #1
+ 190 0016 2172     		strb	r1, [r4, #8]
+ 191 0018 039B     		ldr	r3, [sp, #12]
+ 192 001a 0094     		str	r4, [sp]
+ 193 001c 04F15401 		add	r1, r4, #84
+ 194 0020 04F10C00 		add	r0, r4, #12
+ 195 0024 4FF48062 		mov	r2, #1024
+ 196 0028 FFF7FEFF 		bl	iqObjectInit
+ 197 002c 0094     		str	r4, [sp]
+ 198 002e 2B46     		mov	r3, r5
+ 199 0030 4FF48062 		mov	r2, #1024
+ 200 0034 04F25441 		addw	r1, r4, #1108
+ 201 0038 04F13000 		add	r0, r4, #48
+ 202 003c FFF7FEFF 		bl	oqObjectInit
+ 203 0040 05B0     		add	sp, sp, #20
+ 204              		@ sp needed
+ 205 0042 30BD     		pop	{r4, r5, pc}
+ 206              	.L15:
+ 207              		.align	2
+ 208              	.L14:
+ 209 0044 00000000 		.word	.LANCHOR0
+ 210              		.size	sdObjectInit, .-sdObjectInit
+ 211              		.section	.text.sdStart,"ax",%progbits
+ 212              		.align	1
+ 213              		.p2align 4,,15
+ 214              		.global	sdStart
+ 215              		.syntax unified
+ 216              		.thumb
+ 217              		.thumb_func
+ 218              		.fpu fpv4-sp-d16
+ 219              		.type	sdStart, %function
+ 220              	sdStart:
+ 221              		@ args = 0, pretend = 0, frame = 8
+ 222              		@ frame_needed = 0, uses_anonymous_args = 0
+ 223 0000 10B5     		push	{r4, lr}
+ 224 0002 82B0     		sub	sp, sp, #8
+ 225 0004 0446     		mov	r4, r0
+ 226 0006 0191     		str	r1, [sp, #4]
+ 227 0008 3023     		movs	r3, #48
+ 228              		.syntax unified
+ARM GAS  /tmp/cc1NVViR.s 			page 5
+
+
+ 229              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 230 000a 83F31188 		MSR basepri, r3
+ 231              	@ 0 "" 2
+ 232              		.thumb
+ 233              		.syntax unified
+ 234 000e FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 235 0012 2046     		mov	r0, r4
+ 236 0014 0199     		ldr	r1, [sp, #4]
+ 237 0016 FFF7FEFF 		bl	sd_lld_start
+ 238 001a 0223     		movs	r3, #2
+ 239 001c 2372     		strb	r3, [r4, #8]
+ 240 001e FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 241 0022 0020     		movs	r0, #0
+ 242              		.syntax unified
+ 243              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 244 0024 80F31188 		MSR basepri, r0
+ 245              	@ 0 "" 2
+ 246              		.thumb
+ 247              		.syntax unified
+ 248 0028 02B0     		add	sp, sp, #8
+ 249              		@ sp needed
+ 250 002a 10BD     		pop	{r4, pc}
+ 251              		.size	sdStart, .-sdStart
+ 252              		.section	.text.sdStop,"ax",%progbits
+ 253              		.align	1
+ 254              		.p2align 4,,15
+ 255              		.global	sdStop
+ 256              		.syntax unified
+ 257              		.thumb
+ 258              		.thumb_func
+ 259              		.fpu fpv4-sp-d16
+ 260              		.type	sdStop, %function
+ 261              	sdStop:
+ 262              		@ args = 0, pretend = 0, frame = 0
+ 263              		@ frame_needed = 0, uses_anonymous_args = 0
+ 264 0000 10B5     		push	{r4, lr}
+ 265 0002 3023     		movs	r3, #48
+ 266 0004 0446     		mov	r4, r0
+ 267              		.syntax unified
+ 268              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 269 0006 83F31188 		MSR basepri, r3
+ 270              	@ 0 "" 2
+ 271              		.thumb
+ 272              		.syntax unified
+ 273 000a FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 274 000e 2046     		mov	r0, r4
+ 275 0010 FFF7FEFF 		bl	sd_lld_stop
+ 276 0014 0123     		movs	r3, #1
+ 277 0016 2372     		strb	r3, [r4, #8]
+ 278 0018 04F13000 		add	r0, r4, #48
+ 279 001c FFF7FEFF 		bl	oqResetI
+ 280 0020 04F10C00 		add	r0, r4, #12
+ 281 0024 FFF7FEFF 		bl	iqResetI
+ 282 0028 FFF7FEFF 		bl	chSchRescheduleS
+ 283 002c FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 284 0030 0023     		movs	r3, #0
+ 285              		.syntax unified
+ARM GAS  /tmp/cc1NVViR.s 			page 6
+
+
+ 286              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 287 0032 83F31188 		MSR basepri, r3
+ 288              	@ 0 "" 2
+ 289              		.thumb
+ 290              		.syntax unified
+ 291 0036 10BD     		pop	{r4, pc}
+ 292              		.size	sdStop, .-sdStop
+ 293              		.section	.text.sdIncomingDataI,"ax",%progbits
+ 294              		.align	1
+ 295              		.p2align 4,,15
+ 296              		.global	sdIncomingDataI
+ 297              		.syntax unified
+ 298              		.thumb
+ 299              		.thumb_func
+ 300              		.fpu fpv4-sp-d16
+ 301              		.type	sdIncomingDataI, %function
+ 302              	sdIncomingDataI:
+ 303              		@ args = 0, pretend = 0, frame = 0
+ 304              		@ frame_needed = 0, uses_anonymous_args = 0
+ 305 0000 38B5     		push	{r3, r4, r5, lr}
+ 306 0002 4369     		ldr	r3, [r0, #20]
+ 307 0004 0446     		mov	r4, r0
+ 308 0006 0D46     		mov	r5, r1
+ 309 0008 3BB1     		cbz	r3, .L24
+ 310 000a 2946     		mov	r1, r5
+ 311 000c 04F10C00 		add	r0, r4, #12
+ 312 0010 FFF7FEFF 		bl	iqPutI
+ 313 0014 0028     		cmp	r0, #0
+ 314 0016 0BDB     		blt	.L25
+ 315              	.L20:
+ 316 0018 38BD     		pop	{r3, r4, r5, pc}
+ 317              	.L24:
+ 318 001a 0421     		movs	r1, #4
+ 319 001c 0844     		add	r0, r0, r1
+ 320 001e FFF7FEFF 		bl	chEvtBroadcastFlagsI
+ 321 0022 2946     		mov	r1, r5
+ 322 0024 04F10C00 		add	r0, r4, #12
+ 323 0028 FFF7FEFF 		bl	iqPutI
+ 324 002c 0028     		cmp	r0, #0
+ 325 002e F3DA     		bge	.L20
+ 326              	.L25:
+ 327 0030 201D     		adds	r0, r4, #4
+ 328 0032 4FF48061 		mov	r1, #1024
+ 329 0036 BDE83840 		pop	{r3, r4, r5, lr}
+ 330 003a FFF7FEBF 		b	chEvtBroadcastFlagsI
+ 331              		.size	sdIncomingDataI, .-sdIncomingDataI
+ 332 003e 00BF     		.section	.text.sdRequestDataI,"ax",%progbits
+ 333              		.align	1
+ 334              		.p2align 4,,15
+ 335              		.global	sdRequestDataI
+ 336              		.syntax unified
+ 337              		.thumb
+ 338              		.thumb_func
+ 339              		.fpu fpv4-sp-d16
+ 340              		.type	sdRequestDataI, %function
+ 341              	sdRequestDataI:
+ 342              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  /tmp/cc1NVViR.s 			page 7
+
+
+ 343              		@ frame_needed = 0, uses_anonymous_args = 0
+ 344 0000 38B5     		push	{r3, r4, r5, lr}
+ 345 0002 0546     		mov	r5, r0
+ 346 0004 3030     		adds	r0, r0, #48
+ 347 0006 FFF7FEFF 		bl	oqGetI
+ 348 000a 041E     		subs	r4, r0, #0
+ 349 000c 01DB     		blt	.L29
+ 350 000e 2046     		mov	r0, r4
+ 351 0010 38BD     		pop	{r3, r4, r5, pc}
+ 352              	.L29:
+ 353 0012 281D     		adds	r0, r5, #4
+ 354 0014 0821     		movs	r1, #8
+ 355 0016 FFF7FEFF 		bl	chEvtBroadcastFlagsI
+ 356 001a 2046     		mov	r0, r4
+ 357 001c 38BD     		pop	{r3, r4, r5, pc}
+ 358              		.size	sdRequestDataI, .-sdRequestDataI
+ 359 001e 00BF     		.section	.text.sdPutWouldBlock,"ax",%progbits
+ 360              		.align	1
+ 361              		.p2align 4,,15
+ 362              		.global	sdPutWouldBlock
+ 363              		.syntax unified
+ 364              		.thumb
+ 365              		.thumb_func
+ 366              		.fpu fpv4-sp-d16
+ 367              		.type	sdPutWouldBlock, %function
+ 368              	sdPutWouldBlock:
+ 369              		@ args = 0, pretend = 0, frame = 0
+ 370              		@ frame_needed = 0, uses_anonymous_args = 0
+ 371 0000 10B5     		push	{r4, lr}
+ 372 0002 3023     		movs	r3, #48
+ 373 0004 0446     		mov	r4, r0
+ 374              		.syntax unified
+ 375              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 376 0006 83F31188 		MSR basepri, r3
+ 377              	@ 0 "" 2
+ 378              		.thumb
+ 379              		.syntax unified
+ 380 000a FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 381 000e A46B     		ldr	r4, [r4, #56]
+ 382 0010 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 383 0014 0023     		movs	r3, #0
+ 384              		.syntax unified
+ 385              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 386 0016 83F31188 		MSR basepri, r3
+ 387              	@ 0 "" 2
+ 388              		.thumb
+ 389              		.syntax unified
+ 390 001a B4FA84F0 		clz	r0, r4
+ 391 001e 4009     		lsrs	r0, r0, #5
+ 392 0020 10BD     		pop	{r4, pc}
+ 393              		.size	sdPutWouldBlock, .-sdPutWouldBlock
+ 394 0022 00BF     		.section	.text.sdGetWouldBlock,"ax",%progbits
+ 395              		.align	1
+ 396              		.p2align 4,,15
+ 397              		.global	sdGetWouldBlock
+ 398              		.syntax unified
+ 399              		.thumb
+ARM GAS  /tmp/cc1NVViR.s 			page 8
+
+
+ 400              		.thumb_func
+ 401              		.fpu fpv4-sp-d16
+ 402              		.type	sdGetWouldBlock, %function
+ 403              	sdGetWouldBlock:
+ 404              		@ args = 0, pretend = 0, frame = 0
+ 405              		@ frame_needed = 0, uses_anonymous_args = 0
+ 406 0000 10B5     		push	{r4, lr}
+ 407 0002 3023     		movs	r3, #48
+ 408 0004 0446     		mov	r4, r0
+ 409              		.syntax unified
+ 410              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 411 0006 83F31188 		MSR basepri, r3
+ 412              	@ 0 "" 2
+ 413              		.thumb
+ 414              		.syntax unified
+ 415 000a FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 416 000e 6469     		ldr	r4, [r4, #20]
+ 417 0010 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 418 0014 0023     		movs	r3, #0
+ 419              		.syntax unified
+ 420              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 421 0016 83F31188 		MSR basepri, r3
+ 422              	@ 0 "" 2
+ 423              		.thumb
+ 424              		.syntax unified
+ 425 001a B4FA84F0 		clz	r0, r4
+ 426 001e 4009     		lsrs	r0, r0, #5
+ 427 0020 10BD     		pop	{r4, pc}
+ 428              		.size	sdGetWouldBlock, .-sdGetWouldBlock
+ 429 0022 00BF     		.section	.text.sdControl,"ax",%progbits
+ 430              		.align	1
+ 431              		.p2align 4,,15
+ 432              		.global	sdControl
+ 433              		.syntax unified
+ 434              		.thumb
+ 435              		.thumb_func
+ 436              		.fpu fpv4-sp-d16
+ 437              		.type	sdControl, %function
+ 438              	sdControl:
+ 439              		@ args = 0, pretend = 0, frame = 0
+ 440              		@ frame_needed = 0, uses_anonymous_args = 0
+ 441              		@ link register save eliminated.
+ 442 0000 0020     		movs	r0, #0
+ 443 0002 7047     		bx	lr
+ 444              		.size	sdControl, .-sdControl
+ 445              		.section	.rodata.vmt,"a"
+ 446              		.align	2
+ 447              		.set	.LANCHOR0,. + 0
+ 448              		.type	vmt, %object
+ 449              		.size	vmt, 40
+ 450              	vmt:
+ 451 0000 00000000 		.word	0
+ 452 0004 00000000 		.word	_write
+ 453 0008 00000000 		.word	_read
+ 454 000c 00000000 		.word	_put
+ 455 0010 00000000 		.word	_get
+ 456 0014 00000000 		.word	_putt
+ARM GAS  /tmp/cc1NVViR.s 			page 9
+
+
+ 457 0018 00000000 		.word	_gett
+ 458 001c 00000000 		.word	_writet
+ 459 0020 00000000 		.word	_readt
+ 460 0024 00000000 		.word	_ctl
+ 461              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/cc1NVViR.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 hal_serial.c
+     /tmp/cc1NVViR.s:15     .text._readt:0000000000000000 $t
+     /tmp/cc1NVViR.s:23     .text._readt:0000000000000000 _readt
+     /tmp/cc1NVViR.s:31     .text._read:0000000000000000 $t
+     /tmp/cc1NVViR.s:38     .text._read:0000000000000000 _read
+     /tmp/cc1NVViR.s:47     .text._writet:0000000000000000 $t
+     /tmp/cc1NVViR.s:54     .text._writet:0000000000000000 _writet
+     /tmp/cc1NVViR.s:62     .text._write:0000000000000000 $t
+     /tmp/cc1NVViR.s:69     .text._write:0000000000000000 _write
+     /tmp/cc1NVViR.s:78     .text._gett:0000000000000000 $t
+     /tmp/cc1NVViR.s:85     .text._gett:0000000000000000 _gett
+     /tmp/cc1NVViR.s:93     .text._get:0000000000000000 $t
+     /tmp/cc1NVViR.s:100    .text._get:0000000000000000 _get
+     /tmp/cc1NVViR.s:109    .text._putt:0000000000000000 $t
+     /tmp/cc1NVViR.s:116    .text._putt:0000000000000000 _putt
+     /tmp/cc1NVViR.s:124    .text._put:0000000000000000 $t
+     /tmp/cc1NVViR.s:131    .text._put:0000000000000000 _put
+     /tmp/cc1NVViR.s:140    .text._ctl:0000000000000000 $t
+     /tmp/cc1NVViR.s:147    .text._ctl:0000000000000000 _ctl
+     /tmp/cc1NVViR.s:155    .text.sdInit:0000000000000000 $t
+     /tmp/cc1NVViR.s:163    .text.sdInit:0000000000000000 sdInit
+     /tmp/cc1NVViR.s:170    .text.sdObjectInit:0000000000000000 $t
+     /tmp/cc1NVViR.s:178    .text.sdObjectInit:0000000000000000 sdObjectInit
+     /tmp/cc1NVViR.s:209    .text.sdObjectInit:0000000000000044 $d
+     /tmp/cc1NVViR.s:212    .text.sdStart:0000000000000000 $t
+     /tmp/cc1NVViR.s:220    .text.sdStart:0000000000000000 sdStart
+     /tmp/cc1NVViR.s:253    .text.sdStop:0000000000000000 $t
+     /tmp/cc1NVViR.s:261    .text.sdStop:0000000000000000 sdStop
+     /tmp/cc1NVViR.s:294    .text.sdIncomingDataI:0000000000000000 $t
+     /tmp/cc1NVViR.s:302    .text.sdIncomingDataI:0000000000000000 sdIncomingDataI
+     /tmp/cc1NVViR.s:333    .text.sdRequestDataI:0000000000000000 $t
+     /tmp/cc1NVViR.s:341    .text.sdRequestDataI:0000000000000000 sdRequestDataI
+     /tmp/cc1NVViR.s:360    .text.sdPutWouldBlock:0000000000000000 $t
+     /tmp/cc1NVViR.s:368    .text.sdPutWouldBlock:0000000000000000 sdPutWouldBlock
+     /tmp/cc1NVViR.s:395    .text.sdGetWouldBlock:0000000000000000 $t
+     /tmp/cc1NVViR.s:403    .text.sdGetWouldBlock:0000000000000000 sdGetWouldBlock
+     /tmp/cc1NVViR.s:430    .text.sdControl:0000000000000000 $t
+     /tmp/cc1NVViR.s:438    .text.sdControl:0000000000000000 sdControl
+     /tmp/cc1NVViR.s:446    .rodata.vmt:0000000000000000 $d
+     /tmp/cc1NVViR.s:450    .rodata.vmt:0000000000000000 vmt
+
+UNDEFINED SYMBOLS
+iqReadTimeout
+oqWriteTimeout
+iqGetTimeout
+oqPutTimeout
+sd_lld_init
+chEvtObjectInit
+iqObjectInit
+oqObjectInit
+__stats_start_measure_crit_thd
+sd_lld_start
+__stats_stop_measure_crit_thd
+sd_lld_stop
+oqResetI
+iqResetI
+ARM GAS  /tmp/cc1NVViR.s 			page 11
+
+
+chSchRescheduleS
+iqPutI
+chEvtBroadcastFlagsI
+oqGetI

@@ -1,0 +1,1110 @@
+ARM GAS  /tmp/ccKAD1fd.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"stabilization.c"
+  13              		.text
+  14              		.section	.text.stab_sp_rotate_f,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.arch armv7e-m
+  18              		.syntax unified
+  19              		.thumb
+  20              		.thumb_func
+  21              		.fpu fpv4-sp-d16
+  22              		.type	stab_sp_rotate_f, %function
+  23              	stab_sp_rotate_f:
+  24              		@ args = 0, pretend = 0, frame = 0
+  25              		@ frame_needed = 0, uses_anonymous_args = 0
+  26 0000 70B5     		push	{r4, r5, r6, lr}
+  27 0002 2DED028B 		vpush.64	{d8}
+  28 0006 184E     		ldr	r6, .L6
+  29 0008 96F8B031 		ldrb	r3, [r6, #432]	@ zero_extendqisi2
+  30 000c DB06     		lsls	r3, r3, #27
+  31 000e F0EE408A 		vmov.f32	s17, s0
+  32 0012 0446     		mov	r4, r0
+  33 0014 0D46     		mov	r5, r1
+  34 0016 22D5     		bpl	.L5
+  35              	.L2:
+  36 0018 D6F80C62 		ldr	r6, [r6, #524]	@ float
+  37 001c 3046     		mov	r0, r6	@ float
+  38 001e FFF7FEFF 		bl	sinf
+  39 0022 0346     		mov	r3, r0	@ float
+  40 0024 3046     		mov	r0, r6	@ float
+  41 0026 08EE103A 		vmov	s16, r3
+  42 002a FFF7FEFF 		bl	cosf
+  43 002e D5ED017A 		vldr.32	s15, [r5, #4]
+  44 0032 95ED006A 		vldr.32	s12, [r5]
+  45 0036 C4ED028A 		vstr.32	s17, [r4, #8]
+  46 003a 07EE100A 		vmov	s14, r0
+  47 003e 67EE876A 		vmul.f32	s13, s15, s14
+  48 0042 67EE887A 		vmul.f32	s15, s15, s16
+  49 0046 E8EE466A 		vfms.f32	s13, s16, s12
+  50 004a BDEC028B 		vldm	sp!, {d8}
+  51 004e E7EE467A 		vfms.f32	s15, s14, s12
+  52 0052 2046     		mov	r0, r4
+  53 0054 C4ED006A 		vstr.32	s13, [r4]
+  54 0058 C4ED017A 		vstr.32	s15, [r4, #4]
+  55 005c 70BD     		pop	{r4, r5, r6, pc}
+  56              	.L5:
+  57 005e 06F5D870 		add	r0, r6, #432
+ARM GAS  /tmp/ccKAD1fd.s 			page 2
+
+
+  58 0062 FFF7FEFF 		bl	orientationCalcEulers_f
+  59 0066 D7E7     		b	.L2
+  60              	.L7:
+  61              		.align	2
+  62              	.L6:
+  63 0068 00000000 		.word	state
+  64              		.size	stab_sp_rotate_f, .-stab_sp_rotate_f
+  65              		.section	.text.stab_sp_rotate_i,"ax",%progbits
+  66              		.align	1
+  67              		.p2align 4,,15
+  68              		.syntax unified
+  69              		.thumb
+  70              		.thumb_func
+  71              		.fpu fpv4-sp-d16
+  72              		.type	stab_sp_rotate_i, %function
+  73              	stab_sp_rotate_i:
+  74              		@ args = 0, pretend = 0, frame = 0
+  75              		@ frame_needed = 0, uses_anonymous_args = 0
+  76 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+  77 0002 154D     		ldr	r5, .L12
+  78 0004 95F8B031 		ldrb	r3, [r5, #432]	@ zero_extendqisi2
+  79 0008 9B07     		lsls	r3, r3, #30
+  80 000a 0446     		mov	r4, r0
+  81 000c 0E46     		mov	r6, r1
+  82 000e 1746     		mov	r7, r2
+  83 0010 1CD5     		bpl	.L11
+  84              	.L9:
+  85 0012 D5F8CC51 		ldr	r5, [r5, #460]
+  86 0016 2846     		mov	r0, r5
+  87 0018 FFF7FEFF 		bl	pprz_itrig_sin
+  88 001c 0346     		mov	r3, r0
+  89 001e 2846     		mov	r0, r5
+  90 0020 1D46     		mov	r5, r3
+  91 0022 FFF7FEFF 		bl	pprz_itrig_cos
+  92 0026 D6E90062 		ldrd	r6, r2, [r6]
+  93 002a 8646     		mov	lr, r0
+  94 002c 05FB02FC 		mul	ip, r5, r2
+  95 0030 0EFB06C1 		mla	r1, lr, r6, ip
+  96 0034 0EFB02F2 		mul	r2, lr, r2
+  97 0038 05FB1623 		mls	r3, r5, r6, r2
+  98 003c 4A42     		rsbs	r2, r1, #0
+  99 003e 9B13     		asrs	r3, r3, #14
+ 100 0040 9213     		asrs	r2, r2, #14
+ 101 0042 C4E90032 		strd	r3, r2, [r4]
+ 102 0046 A760     		str	r7, [r4, #8]
+ 103 0048 2046     		mov	r0, r4
+ 104 004a F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 105              	.L11:
+ 106 004c 05F5D870 		add	r0, r5, #432
+ 107 0050 FFF7FEFF 		bl	orientationCalcEulers_i
+ 108 0054 DDE7     		b	.L9
+ 109              	.L13:
+ 110 0056 00BF     		.align	2
+ 111              	.L12:
+ 112 0058 00000000 		.word	state
+ 113              		.size	stab_sp_rotate_i, .-stab_sp_rotate_i
+ 114              		.section	.text.stabilization_init,"ax",%progbits
+ARM GAS  /tmp/ccKAD1fd.s 			page 3
+
+
+ 115              		.align	1
+ 116              		.p2align 4,,15
+ 117              		.global	stabilization_init
+ 118              		.syntax unified
+ 119              		.thumb
+ 120              		.thumb_func
+ 121              		.fpu fpv4-sp-d16
+ 122              		.type	stabilization_init, %function
+ 123              	stabilization_init:
+ 124              		@ args = 0, pretend = 0, frame = 0
+ 125              		@ frame_needed = 0, uses_anonymous_args = 0
+ 126              		@ link register save eliminated.
+ 127 0000 034B     		ldr	r3, .L15
+ 128 0002 0022     		movs	r2, #0
+ 129 0004 C3E90022 		strd	r2, r2, [r3]
+ 130 0008 C3E90222 		strd	r2, r2, [r3, #8]
+ 131 000c 7047     		bx	lr
+ 132              	.L16:
+ 133 000e 00BF     		.align	2
+ 134              	.L15:
+ 135 0010 00000000 		.word	.LANCHOR0
+ 136              		.size	stabilization_init, .-stabilization_init
+ 137              		.section	.text.stabilization_filter_commands,"ax",%progbits
+ 138              		.align	1
+ 139              		.p2align 4,,15
+ 140              		.global	stabilization_filter_commands
+ 141              		.syntax unified
+ 142              		.thumb
+ 143              		.thumb_func
+ 144              		.fpu fpv4-sp-d16
+ 145              		.type	stabilization_filter_commands, %function
+ 146              	stabilization_filter_commands:
+ 147              		@ args = 0, pretend = 0, frame = 0
+ 148              		@ frame_needed = 0, uses_anonymous_args = 0
+ 149              		@ link register save eliminated.
+ 150 0000 7047     		bx	lr
+ 151              		.size	stabilization_filter_commands, .-stabilization_filter_commands
+ 152 0002 00BF     		.section	.text.stab_sp_to_quat_i,"ax",%progbits
+ 153              		.align	1
+ 154              		.p2align 4,,15
+ 155              		.global	stab_sp_to_quat_i
+ 156              		.syntax unified
+ 157              		.thumb
+ 158              		.thumb_func
+ 159              		.fpu fpv4-sp-d16
+ 160              		.type	stab_sp_to_quat_i, %function
+ 161              	stab_sp_to_quat_i:
+ 162              		@ args = 0, pretend = 0, frame = 32
+ 163              		@ frame_needed = 0, uses_anonymous_args = 0
+ 164 0000 30B5     		push	{r4, r5, lr}
+ 165 0002 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 166 0004 13F0FB0F 		tst	r3, #251
+ 167 0008 89B0     		sub	sp, sp, #36
+ 168 000a 0446     		mov	r4, r0
+ 169 000c 11D0     		beq	.L28
+ 170 000e 012B     		cmp	r3, #1
+ 171 0010 33D0     		beq	.L29
+ARM GAS  /tmp/ccKAD1fd.s 			page 4
+
+
+ 172 0012 022B     		cmp	r3, #2
+ 173 0014 3DD1     		bne	.L24
+ 174 0016 4B78     		ldrb	r3, [r1, #1]	@ zero_extendqisi2
+ 175 0018 002B     		cmp	r3, #0
+ 176 001a 60D1     		bne	.L25
+ 177 001c 04AD     		add	r5, sp, #16
+ 178 001e CA68     		ldr	r2, [r1, #12]
+ 179 0020 2846     		mov	r0, r5
+ 180 0022 0431     		adds	r1, r1, #4
+ 181 0024 FFF7FEFF 		bl	quat_from_earth_cmd_i
+ 182 0028 95E80F00 		ldm	r5, {r0, r1, r2, r3}
+ 183 002c 84E80F00 		stm	r4, {r0, r1, r2, r3}
+ 184 0030 19E0     		b	.L18
+ 185              	.L28:
+ 186 0032 4B78     		ldrb	r3, [r1, #1]	@ zero_extendqisi2
+ 187 0034 D3B1     		cbz	r3, .L30
+ 188 0036 91ED026A 		vldr.32	s12, [r1, #8]
+ 189 003a 91ED037A 		vldr.32	s14, [r1, #12]
+ 190 003e D1ED047A 		vldr.32	s15, [r1, #16]
+ 191 0042 D1ED016A 		vldr.32	s13, [r1, #4]
+ 192              	.L27:
+ 193 0046 BEEEE86A 		vcvt.s32.f32	s12, s12, #15
+ 194 004a BEEEE87A 		vcvt.s32.f32	s14, s14, #15
+ 195 004e FEEEE87A 		vcvt.s32.f32	s15, s15, #15
+ 196 0052 FEEEE86A 		vcvt.s32.f32	s13, s13, #15
+ 197 0056 84ED016A 		vstr.32	s12, [r4, #4]	@ int
+ 198 005a C4ED006A 		vstr.32	s13, [r4]	@ int
+ 199 005e 84ED027A 		vstr.32	s14, [r4, #8]	@ int
+ 200 0062 C4ED037A 		vstr.32	s15, [r4, #12]	@ int
+ 201              	.L18:
+ 202 0066 2046     		mov	r0, r4
+ 203 0068 09B0     		add	sp, sp, #36
+ 204              		@ sp needed
+ 205 006a 30BD     		pop	{r4, r5, pc}
+ 206              	.L30:
+ 207 006c 0431     		adds	r1, r1, #4
+ 208 006e 0FC9     		ldm	r1, {r0, r1, r2, r3}
+ 209 0070 84E80F00 		stm	r4, {r0, r1, r2, r3}
+ 210 0074 2046     		mov	r0, r4
+ 211 0076 09B0     		add	sp, sp, #36
+ 212              		@ sp needed
+ 213 0078 30BD     		pop	{r4, r5, pc}
+ 214              	.L29:
+ 215 007a 4B78     		ldrb	r3, [r1, #1]	@ zero_extendqisi2
+ 216 007c 9BB9     		cbnz	r3, .L23
+ 217 007e 04AD     		add	r5, sp, #16
+ 218 0080 0431     		adds	r1, r1, #4
+ 219 0082 2846     		mov	r0, r5
+ 220 0084 FFF7FEFF 		bl	int32_quat_of_eulers
+ 221 0088 95E80F00 		ldm	r5, {r0, r1, r2, r3}
+ 222 008c 84E80F00 		stm	r4, {r0, r1, r2, r3}
+ 223 0090 E9E7     		b	.L18
+ 224              	.L24:
+ 225 0092 0023     		movs	r3, #0
+ 226 0094 4FF40042 		mov	r2, #32768
+ 227 0098 C0E90023 		strd	r2, r3, [r0]
+ 228 009c C0E90233 		strd	r3, r3, [r0, #8]
+ARM GAS  /tmp/ccKAD1fd.s 			page 5
+
+
+ 229 00a0 2046     		mov	r0, r4
+ 230 00a2 09B0     		add	sp, sp, #36
+ 231              		@ sp needed
+ 232 00a4 30BD     		pop	{r4, r5, pc}
+ 233              	.L23:
+ 234 00a6 D1ED016A 		vldr.32	s13, [r1, #4]
+ 235 00aa 91ED027A 		vldr.32	s14, [r1, #8]
+ 236 00ae D1ED037A 		vldr.32	s15, [r1, #12]
+ 237 00b2 FEEECA6A 		vcvt.s32.f32	s13, s13, #12
+ 238 00b6 BEEECA7A 		vcvt.s32.f32	s14, s14, #12
+ 239 00ba FEEECA7A 		vcvt.s32.f32	s15, s15, #12
+ 240 00be 04AD     		add	r5, sp, #16
+ 241 00c0 01A9     		add	r1, sp, #4
+ 242 00c2 2846     		mov	r0, r5
+ 243 00c4 CDED016A 		vstr.32	s13, [sp, #4]	@ int
+ 244 00c8 8DED027A 		vstr.32	s14, [sp, #8]	@ int
+ 245 00cc CDED037A 		vstr.32	s15, [sp, #12]	@ int
+ 246 00d0 FFF7FEFF 		bl	int32_quat_of_eulers
+ 247 00d4 95E80F00 		ldm	r5, {r0, r1, r2, r3}
+ 248 00d8 84E80F00 		stm	r4, {r0, r1, r2, r3}
+ 249 00dc C3E7     		b	.L18
+ 250              	.L25:
+ 251 00de CA68     		ldr	r2, [r1, #12]	@ float
+ 252 00e0 04A8     		add	r0, sp, #16
+ 253 00e2 0431     		adds	r1, r1, #4
+ 254 00e4 FFF7FEFF 		bl	quat_from_earth_cmd_f
+ 255 00e8 9DED056A 		vldr.32	s12, [sp, #20]
+ 256 00ec 9DED067A 		vldr.32	s14, [sp, #24]
+ 257 00f0 DDED077A 		vldr.32	s15, [sp, #28]
+ 258 00f4 DDED046A 		vldr.32	s13, [sp, #16]
+ 259 00f8 A5E7     		b	.L27
+ 260              		.size	stab_sp_to_quat_i, .-stab_sp_to_quat_i
+ 261 00fa 00BF     		.section	.text.stab_sp_to_quat_f,"ax",%progbits
+ 262              		.align	1
+ 263              		.p2align 4,,15
+ 264              		.global	stab_sp_to_quat_f
+ 265              		.syntax unified
+ 266              		.thumb
+ 267              		.thumb_func
+ 268              		.fpu fpv4-sp-d16
+ 269              		.type	stab_sp_to_quat_f, %function
+ 270              	stab_sp_to_quat_f:
+ 271              		@ args = 0, pretend = 0, frame = 32
+ 272              		@ frame_needed = 0, uses_anonymous_args = 0
+ 273 0000 30B5     		push	{r4, r5, lr}
+ 274 0002 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 275 0004 13F0FB0F 		tst	r3, #251
+ 276 0008 89B0     		sub	sp, sp, #36
+ 277 000a 0446     		mov	r4, r0
+ 278 000c 1CD0     		beq	.L41
+ 279 000e 012B     		cmp	r3, #1
+ 280 0010 49D0     		beq	.L42
+ 281 0012 022B     		cmp	r3, #2
+ 282 0014 6ED1     		bne	.L37
+ 283 0016 4B78     		ldrb	r3, [r1, #1]	@ zero_extendqisi2
+ 284 0018 012B     		cmp	r3, #1
+ 285 001a 7FD0     		beq	.L43
+ARM GAS  /tmp/ccKAD1fd.s 			page 6
+
+
+ 286 001c CA68     		ldr	r2, [r1, #12]
+ 287 001e 04A8     		add	r0, sp, #16
+ 288 0020 0431     		adds	r1, r1, #4
+ 289 0022 FFF7FEFF 		bl	quat_from_earth_cmd_i
+ 290 0026 DDED057A 		vldr.32	s15, [sp, #20]	@ int
+ 291 002a DFED425A 		vldr.32	s11, .L46
+ 292 002e DDED046A 		vldr.32	s13, [sp, #16]	@ int
+ 293 0032 B8EEE76A 		vcvt.f32.s32	s12, s15
+ 294 0036 DDED067A 		vldr.32	s15, [sp, #24]	@ int
+ 295 003a B8EEE77A 		vcvt.f32.s32	s14, s15
+ 296 003e DDED077A 		vldr.32	s15, [sp, #28]	@ int
+ 297 0042 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 298 0046 12E0     		b	.L40
+ 299              	.L41:
+ 300 0048 4B78     		ldrb	r3, [r1, #1]	@ zero_extendqisi2
+ 301 004a 012B     		cmp	r3, #1
+ 302 004c 24D0     		beq	.L44
+ 303 004e 91ED026A 		vldr.32	s12, [r1, #8]	@ int
+ 304 0052 91ED037A 		vldr.32	s14, [r1, #12]	@ int
+ 305 0056 D1ED047A 		vldr.32	s15, [r1, #16]	@ int
+ 306 005a D1ED016A 		vldr.32	s13, [r1, #4]	@ int
+ 307 005e DFED355A 		vldr.32	s11, .L46
+ 308 0062 B8EEC66A 		vcvt.f32.s32	s12, s12
+ 309 0066 B8EEC77A 		vcvt.f32.s32	s14, s14
+ 310 006a F8EEE77A 		vcvt.f32.s32	s15, s15
+ 311              	.L40:
+ 312 006e F8EEE66A 		vcvt.f32.s32	s13, s13
+ 313 0072 26EE256A 		vmul.f32	s12, s12, s11
+ 314 0076 27EE257A 		vmul.f32	s14, s14, s11
+ 315 007a 67EEA57A 		vmul.f32	s15, s15, s11
+ 316 007e 66EEA56A 		vmul.f32	s13, s13, s11
+ 317 0082 84ED016A 		vstr.32	s12, [r4, #4]
+ 318 0086 C4ED006A 		vstr.32	s13, [r4]
+ 319 008a 84ED027A 		vstr.32	s14, [r4, #8]
+ 320 008e C4ED037A 		vstr.32	s15, [r4, #12]
+ 321              	.L31:
+ 322 0092 2046     		mov	r0, r4
+ 323 0094 09B0     		add	sp, sp, #36
+ 324              		@ sp needed
+ 325 0096 30BD     		pop	{r4, r5, pc}
+ 326              	.L44:
+ 327 0098 0431     		adds	r1, r1, #4
+ 328 009a 0FC9     		ldm	r1, {r0, r1, r2, r3}
+ 329 009c 84E80F00 		stm	r4, {r0, r1, r2, r3}
+ 330 00a0 2046     		mov	r0, r4
+ 331 00a2 09B0     		add	sp, sp, #36
+ 332              		@ sp needed
+ 333 00a4 30BD     		pop	{r4, r5, pc}
+ 334              	.L42:
+ 335 00a6 4B78     		ldrb	r3, [r1, #1]	@ zero_extendqisi2
+ 336 00a8 012B     		cmp	r3, #1
+ 337 00aa 2DD0     		beq	.L45
+ 338 00ac D1ED016A 		vldr.32	s13, [r1, #4]	@ int
+ 339 00b0 91ED027A 		vldr.32	s14, [r1, #8]	@ int
+ 340 00b4 D1ED037A 		vldr.32	s15, [r1, #12]	@ int
+ 341 00b8 9FED1F6A 		vldr.32	s12, .L46+4
+ 342 00bc F8EEE66A 		vcvt.f32.s32	s13, s13
+ARM GAS  /tmp/ccKAD1fd.s 			page 7
+
+
+ 343 00c0 B8EEC77A 		vcvt.f32.s32	s14, s14
+ 344 00c4 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 345 00c8 66EE866A 		vmul.f32	s13, s13, s12
+ 346 00cc 27EE067A 		vmul.f32	s14, s14, s12
+ 347 00d0 67EE867A 		vmul.f32	s15, s15, s12
+ 348 00d4 04AD     		add	r5, sp, #16
+ 349 00d6 01A9     		add	r1, sp, #4
+ 350 00d8 2846     		mov	r0, r5
+ 351 00da CDED016A 		vstr.32	s13, [sp, #4]
+ 352 00de 8DED027A 		vstr.32	s14, [sp, #8]
+ 353 00e2 CDED037A 		vstr.32	s15, [sp, #12]
+ 354 00e6 FFF7FEFF 		bl	float_quat_of_eulers
+ 355 00ea 95E80F00 		ldm	r5, {r0, r1, r2, r3}
+ 356 00ee 84E80F00 		stm	r4, {r0, r1, r2, r3}
+ 357 00f2 CEE7     		b	.L31
+ 358              	.L37:
+ 359 00f4 0023     		movs	r3, #0
+ 360 00f6 4FF07E52 		mov	r2, #1065353216
+ 361 00fa 0260     		str	r2, [r0]	@ float
+ 362 00fc 4360     		str	r3, [r0, #4]	@ float
+ 363 00fe 8360     		str	r3, [r0, #8]	@ float
+ 364 0100 C360     		str	r3, [r0, #12]	@ float
+ 365 0102 2046     		mov	r0, r4
+ 366 0104 09B0     		add	sp, sp, #36
+ 367              		@ sp needed
+ 368 0106 30BD     		pop	{r4, r5, pc}
+ 369              	.L45:
+ 370 0108 04AD     		add	r5, sp, #16
+ 371 010a 0431     		adds	r1, r1, #4
+ 372 010c 2846     		mov	r0, r5
+ 373 010e FFF7FEFF 		bl	float_quat_of_eulers
+ 374 0112 95E80F00 		ldm	r5, {r0, r1, r2, r3}
+ 375 0116 84E80F00 		stm	r4, {r0, r1, r2, r3}
+ 376 011a BAE7     		b	.L31
+ 377              	.L43:
+ 378 011c 04AD     		add	r5, sp, #16
+ 379 011e CA68     		ldr	r2, [r1, #12]	@ float
+ 380 0120 2846     		mov	r0, r5
+ 381 0122 0431     		adds	r1, r1, #4
+ 382 0124 FFF7FEFF 		bl	quat_from_earth_cmd_f
+ 383 0128 95E80F00 		ldm	r5, {r0, r1, r2, r3}
+ 384 012c 84E80F00 		stm	r4, {r0, r1, r2, r3}
+ 385 0130 AFE7     		b	.L31
+ 386              	.L47:
+ 387 0132 00BF     		.align	2
+ 388              	.L46:
+ 389 0134 00000038 		.word	939524096
+ 390 0138 00008039 		.word	964689920
+ 391              		.size	stab_sp_to_quat_f, .-stab_sp_to_quat_f
+ 392              		.section	.text.stab_sp_to_eulers_i,"ax",%progbits
+ 393              		.align	1
+ 394              		.p2align 4,,15
+ 395              		.global	stab_sp_to_eulers_i
+ 396              		.syntax unified
+ 397              		.thumb
+ 398              		.thumb_func
+ 399              		.fpu fpv4-sp-d16
+ARM GAS  /tmp/ccKAD1fd.s 			page 8
+
+
+ 400              		.type	stab_sp_to_eulers_i, %function
+ 401              	stab_sp_to_eulers_i:
+ 402              		@ args = 0, pretend = 0, frame = 32
+ 403              		@ frame_needed = 0, uses_anonymous_args = 0
+ 404 0000 30B5     		push	{r4, r5, lr}
+ 405 0002 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 406 0004 012B     		cmp	r3, #1
+ 407 0006 89B0     		sub	sp, sp, #36
+ 408 0008 0446     		mov	r4, r0
+ 409 000a 20D0     		beq	.L58
+ 410 000c 13F0FB0F 		tst	r3, #251
+ 411 0010 0DD1     		bne	.L52
+ 412 0012 4B78     		ldrb	r3, [r1, #1]	@ zero_extendqisi2
+ 413 0014 93BB     		cbnz	r3, .L53
+ 414 0016 04AD     		add	r5, sp, #16
+ 415 0018 0431     		adds	r1, r1, #4
+ 416 001a 2846     		mov	r0, r5
+ 417 001c FFF7FEFF 		bl	int32_eulers_of_quat
+ 418 0020 95E80700 		ldm	r5, {r0, r1, r2}
+ 419 0024 84E80700 		stm	r4, {r0, r1, r2}
+ 420              	.L48:
+ 421 0028 2046     		mov	r0, r4
+ 422 002a 09B0     		add	sp, sp, #36
+ 423              		@ sp needed
+ 424 002c 30BD     		pop	{r4, r5, pc}
+ 425              	.L52:
+ 426 002e 022B     		cmp	r3, #2
+ 427 0030 4FD1     		bne	.L54
+ 428 0032 4B78     		ldrb	r3, [r1, #1]	@ zero_extendqisi2
+ 429 0034 002B     		cmp	r3, #0
+ 430 0036 53D1     		bne	.L55
+ 431 0038 04AD     		add	r5, sp, #16
+ 432 003a CA68     		ldr	r2, [r1, #12]
+ 433 003c 2846     		mov	r0, r5
+ 434 003e 0431     		adds	r1, r1, #4
+ 435 0040 FFF7FEFF 		bl	stab_sp_rotate_i
+ 436 0044 95E80700 		ldm	r5, {r0, r1, r2}
+ 437 0048 84E80700 		stm	r4, {r0, r1, r2}
+ 438 004c ECE7     		b	.L48
+ 439              	.L58:
+ 440 004e 4B78     		ldrb	r3, [r1, #1]	@ zero_extendqisi2
+ 441 0050 C3B3     		cbz	r3, .L59
+ 442 0052 D1ED026A 		vldr.32	s13, [r1, #8]
+ 443 0056 D1ED037A 		vldr.32	s15, [r1, #12]
+ 444 005a 91ED017A 		vldr.32	s14, [r1, #4]
+ 445              	.L57:
+ 446 005e FEEECA6A 		vcvt.s32.f32	s13, s13, #12
+ 447 0062 FEEECA7A 		vcvt.s32.f32	s15, s15, #12
+ 448 0066 BEEECA7A 		vcvt.s32.f32	s14, s14, #12
+ 449 006a 2046     		mov	r0, r4
+ 450 006c C4ED016A 		vstr.32	s13, [r4, #4]	@ int
+ 451 0070 84ED007A 		vstr.32	s14, [r4]	@ int
+ 452 0074 C4ED027A 		vstr.32	s15, [r4, #8]	@ int
+ 453 0078 09B0     		add	sp, sp, #36
+ 454              		@ sp needed
+ 455 007a 30BD     		pop	{r4, r5, pc}
+ 456              	.L53:
+ARM GAS  /tmp/ccKAD1fd.s 			page 9
+
+
+ 457 007c 91ED016A 		vldr.32	s12, [r1, #4]
+ 458 0080 D1ED026A 		vldr.32	s13, [r1, #8]
+ 459 0084 91ED037A 		vldr.32	s14, [r1, #12]
+ 460 0088 D1ED047A 		vldr.32	s15, [r1, #16]
+ 461 008c BEEEE86A 		vcvt.s32.f32	s12, s12, #15
+ 462 0090 FEEEE86A 		vcvt.s32.f32	s13, s13, #15
+ 463 0094 BEEEE87A 		vcvt.s32.f32	s14, s14, #15
+ 464 0098 FEEEE87A 		vcvt.s32.f32	s15, s15, #15
+ 465 009c 01AD     		add	r5, sp, #4
+ 466 009e 04A9     		add	r1, sp, #16
+ 467 00a0 2846     		mov	r0, r5
+ 468 00a2 8DED046A 		vstr.32	s12, [sp, #16]	@ int
+ 469 00a6 CDED056A 		vstr.32	s13, [sp, #20]	@ int
+ 470 00aa 8DED067A 		vstr.32	s14, [sp, #24]	@ int
+ 471 00ae CDED077A 		vstr.32	s15, [sp, #28]	@ int
+ 472 00b2 FFF7FEFF 		bl	int32_eulers_of_quat
+ 473 00b6 95E80700 		ldm	r5, {r0, r1, r2}
+ 474 00ba 84E80700 		stm	r4, {r0, r1, r2}
+ 475 00be 2046     		mov	r0, r4
+ 476 00c0 09B0     		add	sp, sp, #36
+ 477              		@ sp needed
+ 478 00c2 30BD     		pop	{r4, r5, pc}
+ 479              	.L59:
+ 480 00c4 0431     		adds	r1, r1, #4
+ 481 00c6 07C9     		ldm	r1, {r0, r1, r2}
+ 482 00c8 84E80700 		stm	r4, {r0, r1, r2}
+ 483 00cc 2046     		mov	r0, r4
+ 484 00ce 09B0     		add	sp, sp, #36
+ 485              		@ sp needed
+ 486 00d0 30BD     		pop	{r4, r5, pc}
+ 487              	.L54:
+ 488 00d2 0023     		movs	r3, #0
+ 489 00d4 C0E90033 		strd	r3, r3, [r0]
+ 490 00d8 8360     		str	r3, [r0, #8]
+ 491 00da 2046     		mov	r0, r4
+ 492 00dc 09B0     		add	sp, sp, #36
+ 493              		@ sp needed
+ 494 00de 30BD     		pop	{r4, r5, pc}
+ 495              	.L55:
+ 496 00e0 91ED030A 		vldr.32	s0, [r1, #12]
+ 497 00e4 04A8     		add	r0, sp, #16
+ 498 00e6 0431     		adds	r1, r1, #4
+ 499 00e8 FFF7FEFF 		bl	stab_sp_rotate_f
+ 500 00ec DDED056A 		vldr.32	s13, [sp, #20]
+ 501 00f0 DDED067A 		vldr.32	s15, [sp, #24]
+ 502 00f4 9DED047A 		vldr.32	s14, [sp, #16]
+ 503 00f8 B1E7     		b	.L57
+ 504              		.size	stab_sp_to_eulers_i, .-stab_sp_to_eulers_i
+ 505 00fa 00BF     		.section	.text.stab_sp_to_eulers_f,"ax",%progbits
+ 506              		.align	1
+ 507              		.p2align 4,,15
+ 508              		.global	stab_sp_to_eulers_f
+ 509              		.syntax unified
+ 510              		.thumb
+ 511              		.thumb_func
+ 512              		.fpu fpv4-sp-d16
+ 513              		.type	stab_sp_to_eulers_f, %function
+ARM GAS  /tmp/ccKAD1fd.s 			page 10
+
+
+ 514              	stab_sp_to_eulers_f:
+ 515              		@ args = 0, pretend = 0, frame = 32
+ 516              		@ frame_needed = 0, uses_anonymous_args = 0
+ 517 0000 30B5     		push	{r4, r5, lr}
+ 518 0002 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 519 0004 012A     		cmp	r2, #1
+ 520 0006 89B0     		sub	sp, sp, #36
+ 521 0008 0B46     		mov	r3, r1
+ 522 000a 0446     		mov	r4, r0
+ 523 000c 4AD0     		beq	.L70
+ 524 000e 12F0FB0F 		tst	r2, #251
+ 525 0012 30D1     		bne	.L64
+ 526 0014 4A78     		ldrb	r2, [r1, #1]	@ zero_extendqisi2
+ 527 0016 012A     		cmp	r2, #1
+ 528 0018 6BD0     		beq	.L71
+ 529 001a 91ED016A 		vldr.32	s12, [r1, #4]	@ int
+ 530 001e D1ED026A 		vldr.32	s13, [r1, #8]	@ int
+ 531 0022 91ED037A 		vldr.32	s14, [r1, #12]	@ int
+ 532 0026 D1ED047A 		vldr.32	s15, [r1, #16]	@ int
+ 533 002a DFED425A 		vldr.32	s11, .L74
+ 534 002e B8EEC66A 		vcvt.f32.s32	s12, s12
+ 535 0032 F8EEE66A 		vcvt.f32.s32	s13, s13
+ 536 0036 B8EEC77A 		vcvt.f32.s32	s14, s14
+ 537 003a F8EEE77A 		vcvt.f32.s32	s15, s15
+ 538 003e 26EE256A 		vmul.f32	s12, s12, s11
+ 539 0042 66EEA56A 		vmul.f32	s13, s13, s11
+ 540 0046 27EE257A 		vmul.f32	s14, s14, s11
+ 541 004a 67EEA57A 		vmul.f32	s15, s15, s11
+ 542 004e 01AD     		add	r5, sp, #4
+ 543 0050 04A9     		add	r1, sp, #16
+ 544 0052 2846     		mov	r0, r5
+ 545 0054 8DED046A 		vstr.32	s12, [sp, #16]
+ 546 0058 CDED056A 		vstr.32	s13, [sp, #20]
+ 547 005c 8DED067A 		vstr.32	s14, [sp, #24]
+ 548 0060 CDED077A 		vstr.32	s15, [sp, #28]
+ 549 0064 FFF7FEFF 		bl	float_eulers_of_quat
+ 550 0068 95E80700 		ldm	r5, {r0, r1, r2}
+ 551 006c 84E80700 		stm	r4, {r0, r1, r2}
+ 552              	.L60:
+ 553 0070 2046     		mov	r0, r4
+ 554 0072 09B0     		add	sp, sp, #36
+ 555              		@ sp needed
+ 556 0074 30BD     		pop	{r4, r5, pc}
+ 557              	.L64:
+ 558 0076 022A     		cmp	r2, #2
+ 559 0078 34D1     		bne	.L66
+ 560 007a 4A78     		ldrb	r2, [r1, #1]	@ zero_extendqisi2
+ 561 007c 012A     		cmp	r2, #1
+ 562 007e 4CD0     		beq	.L72
+ 563 0080 CA68     		ldr	r2, [r1, #12]
+ 564 0082 04A8     		add	r0, sp, #16
+ 565 0084 0431     		adds	r1, r1, #4
+ 566 0086 FFF7FEFF 		bl	stab_sp_rotate_i
+ 567 008a DDED057A 		vldr.32	s15, [sp, #20]	@ int
+ 568 008e 9FED2A6A 		vldr.32	s12, .L74+4
+ 569 0092 9DED047A 		vldr.32	s14, [sp, #16]	@ int
+ 570 0096 F8EEE76A 		vcvt.f32.s32	s13, s15
+ARM GAS  /tmp/ccKAD1fd.s 			page 11
+
+
+ 571 009a DDED067A 		vldr.32	s15, [sp, #24]	@ int
+ 572 009e F8EEE77A 		vcvt.f32.s32	s15, s15
+ 573 00a2 0EE0     		b	.L69
+ 574              	.L70:
+ 575 00a4 4A78     		ldrb	r2, [r1, #1]	@ zero_extendqisi2
+ 576 00a6 012A     		cmp	r2, #1
+ 577 00a8 2FD0     		beq	.L73
+ 578 00aa D1ED026A 		vldr.32	s13, [r1, #8]	@ int
+ 579 00ae D1ED037A 		vldr.32	s15, [r1, #12]	@ int
+ 580 00b2 91ED017A 		vldr.32	s14, [r1, #4]	@ int
+ 581 00b6 9FED206A 		vldr.32	s12, .L74+4
+ 582 00ba F8EEE66A 		vcvt.f32.s32	s13, s13
+ 583 00be F8EEE77A 		vcvt.f32.s32	s15, s15
+ 584              	.L69:
+ 585 00c2 B8EEC77A 		vcvt.f32.s32	s14, s14
+ 586 00c6 66EE866A 		vmul.f32	s13, s13, s12
+ 587 00ca 67EE867A 		vmul.f32	s15, s15, s12
+ 588 00ce 27EE067A 		vmul.f32	s14, s14, s12
+ 589 00d2 2046     		mov	r0, r4
+ 590 00d4 C4ED016A 		vstr.32	s13, [r4, #4]
+ 591 00d8 84ED007A 		vstr.32	s14, [r4]
+ 592 00dc C4ED027A 		vstr.32	s15, [r4, #8]
+ 593 00e0 09B0     		add	sp, sp, #36
+ 594              		@ sp needed
+ 595 00e2 30BD     		pop	{r4, r5, pc}
+ 596              	.L66:
+ 597 00e4 0023     		movs	r3, #0
+ 598 00e6 0360     		str	r3, [r0]	@ float
+ 599 00e8 4360     		str	r3, [r0, #4]	@ float
+ 600 00ea 8360     		str	r3, [r0, #8]	@ float
+ 601 00ec 2046     		mov	r0, r4
+ 602 00ee 09B0     		add	sp, sp, #36
+ 603              		@ sp needed
+ 604 00f0 30BD     		pop	{r4, r5, pc}
+ 605              	.L71:
+ 606 00f2 04AD     		add	r5, sp, #16
+ 607 00f4 2846     		mov	r0, r5
+ 608 00f6 0431     		adds	r1, r1, #4
+ 609 00f8 FFF7FEFF 		bl	float_eulers_of_quat
+ 610 00fc 95E80700 		ldm	r5, {r0, r1, r2}
+ 611 0100 84E80700 		stm	r4, {r0, r1, r2}
+ 612 0104 2046     		mov	r0, r4
+ 613 0106 09B0     		add	sp, sp, #36
+ 614              		@ sp needed
+ 615 0108 30BD     		pop	{r4, r5, pc}
+ 616              	.L73:
+ 617 010a 0433     		adds	r3, r3, #4
+ 618 010c 93E80700 		ldm	r3, {r0, r1, r2}
+ 619 0110 84E80700 		stm	r4, {r0, r1, r2}
+ 620 0114 2046     		mov	r0, r4
+ 621 0116 09B0     		add	sp, sp, #36
+ 622              		@ sp needed
+ 623 0118 30BD     		pop	{r4, r5, pc}
+ 624              	.L72:
+ 625 011a 04AD     		add	r5, sp, #16
+ 626 011c 0431     		adds	r1, r1, #4
+ 627 011e 2846     		mov	r0, r5
+ARM GAS  /tmp/ccKAD1fd.s 			page 12
+
+
+ 628 0120 93ED030A 		vldr.32	s0, [r3, #12]
+ 629 0124 FFF7FEFF 		bl	stab_sp_rotate_f
+ 630 0128 95E80700 		ldm	r5, {r0, r1, r2}
+ 631 012c 84E80700 		stm	r4, {r0, r1, r2}
+ 632 0130 9EE7     		b	.L60
+ 633              	.L75:
+ 634 0132 00BF     		.align	2
+ 635              	.L74:
+ 636 0134 00000038 		.word	939524096
+ 637 0138 00008039 		.word	964689920
+ 638              		.size	stab_sp_to_eulers_f, .-stab_sp_to_eulers_f
+ 639              		.section	.text.stab_sp_to_rates_i,"ax",%progbits
+ 640              		.align	1
+ 641              		.p2align 4,,15
+ 642              		.global	stab_sp_to_rates_i
+ 643              		.syntax unified
+ 644              		.thumb
+ 645              		.thumb_func
+ 646              		.fpu fpv4-sp-d16
+ 647              		.type	stab_sp_to_rates_i, %function
+ 648              	stab_sp_to_rates_i:
+ 649              		@ args = 0, pretend = 0, frame = 0
+ 650              		@ frame_needed = 0, uses_anonymous_args = 0
+ 651              		@ link register save eliminated.
+ 652 0000 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 653 0002 033A     		subs	r2, r2, #3
+ 654 0004 012A     		cmp	r2, #1
+ 655 0006 0346     		mov	r3, r0
+ 656 0008 1BD8     		bhi	.L77
+ 657 000a 4A78     		ldrb	r2, [r1, #1]	@ zero_extendqisi2
+ 658 000c 9AB1     		cbz	r2, .L80
+ 659 000e D1ED066A 		vldr.32	s13, [r1, #24]
+ 660 0012 D1ED077A 		vldr.32	s15, [r1, #28]
+ 661 0016 91ED057A 		vldr.32	s14, [r1, #20]
+ 662 001a FEEECA6A 		vcvt.s32.f32	s13, s13, #12
+ 663 001e FEEECA7A 		vcvt.s32.f32	s15, s15, #12
+ 664 0022 BEEECA7A 		vcvt.s32.f32	s14, s14, #12
+ 665 0026 C0ED016A 		vstr.32	s13, [r0, #4]	@ int
+ 666 002a 80ED007A 		vstr.32	s14, [r0]	@ int
+ 667 002e C0ED027A 		vstr.32	s15, [r0, #8]	@ int
+ 668 0032 1846     		mov	r0, r3
+ 669 0034 7047     		bx	lr
+ 670              	.L80:
+ 671 0036 1431     		adds	r1, r1, #20
+ 672 0038 07C9     		ldm	r1, {r0, r1, r2}
+ 673 003a 83E80700 		stm	r3, {r0, r1, r2}
+ 674 003e 1846     		mov	r0, r3
+ 675 0040 7047     		bx	lr
+ 676              	.L77:
+ 677 0042 0022     		movs	r2, #0
+ 678 0044 C0E90022 		strd	r2, r2, [r0]
+ 679 0048 8260     		str	r2, [r0, #8]
+ 680 004a 1846     		mov	r0, r3
+ 681 004c 7047     		bx	lr
+ 682              		.size	stab_sp_to_rates_i, .-stab_sp_to_rates_i
+ 683 004e 00BF     		.section	.text.stab_sp_to_rates_f,"ax",%progbits
+ 684              		.align	1
+ARM GAS  /tmp/ccKAD1fd.s 			page 13
+
+
+ 685              		.p2align 4,,15
+ 686              		.global	stab_sp_to_rates_f
+ 687              		.syntax unified
+ 688              		.thumb
+ 689              		.thumb_func
+ 690              		.fpu fpv4-sp-d16
+ 691              		.type	stab_sp_to_rates_f, %function
+ 692              	stab_sp_to_rates_f:
+ 693              		@ args = 0, pretend = 0, frame = 0
+ 694              		@ frame_needed = 0, uses_anonymous_args = 0
+ 695              		@ link register save eliminated.
+ 696 0000 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 697 0002 033A     		subs	r2, r2, #3
+ 698 0004 012A     		cmp	r2, #1
+ 699 0006 0346     		mov	r3, r0
+ 700 0008 1ED8     		bhi	.L82
+ 701 000a 4A78     		ldrb	r2, [r1, #1]	@ zero_extendqisi2
+ 702 000c 012A     		cmp	r2, #1
+ 703 000e 21D0     		beq	.L85
+ 704 0010 D1ED066A 		vldr.32	s13, [r1, #24]	@ int
+ 705 0014 D1ED077A 		vldr.32	s15, [r1, #28]	@ int
+ 706 0018 91ED057A 		vldr.32	s14, [r1, #20]	@ int
+ 707 001c 9FED106A 		vldr.32	s12, .L86
+ 708 0020 F8EEE66A 		vcvt.f32.s32	s13, s13
+ 709 0024 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 710 0028 B8EEC77A 		vcvt.f32.s32	s14, s14
+ 711 002c 66EE866A 		vmul.f32	s13, s13, s12
+ 712 0030 67EE867A 		vmul.f32	s15, s15, s12
+ 713 0034 27EE067A 		vmul.f32	s14, s14, s12
+ 714 0038 C0ED016A 		vstr.32	s13, [r0, #4]
+ 715 003c 80ED007A 		vstr.32	s14, [r0]
+ 716 0040 C0ED027A 		vstr.32	s15, [r0, #8]
+ 717 0044 1846     		mov	r0, r3
+ 718 0046 7047     		bx	lr
+ 719              	.L82:
+ 720 0048 0022     		movs	r2, #0
+ 721 004a 0260     		str	r2, [r0]	@ float
+ 722 004c 4260     		str	r2, [r0, #4]	@ float
+ 723 004e 8260     		str	r2, [r0, #8]	@ float
+ 724 0050 1846     		mov	r0, r3
+ 725 0052 7047     		bx	lr
+ 726              	.L85:
+ 727 0054 1431     		adds	r1, r1, #20
+ 728 0056 07C9     		ldm	r1, {r0, r1, r2}
+ 729 0058 83E80700 		stm	r3, {r0, r1, r2}
+ 730 005c 1846     		mov	r0, r3
+ 731 005e 7047     		bx	lr
+ 732              	.L87:
+ 733              		.align	2
+ 734              	.L86:
+ 735 0060 00008039 		.word	964689920
+ 736              		.size	stab_sp_to_rates_f, .-stab_sp_to_rates_f
+ 737              		.section	.text.stab_sp_from_quat_i,"ax",%progbits
+ 738              		.align	1
+ 739              		.p2align 4,,15
+ 740              		.global	stab_sp_from_quat_i
+ 741              		.syntax unified
+ARM GAS  /tmp/ccKAD1fd.s 			page 14
+
+
+ 742              		.thumb
+ 743              		.thumb_func
+ 744              		.fpu fpv4-sp-d16
+ 745              		.type	stab_sp_from_quat_i, %function
+ 746              	stab_sp_from_quat_i:
+ 747              		@ args = 0, pretend = 0, frame = 0
+ 748              		@ frame_needed = 0, uses_anonymous_args = 0
+ 749 0000 38B5     		push	{r3, r4, r5, lr}
+ 750 0002 2022     		movs	r2, #32
+ 751 0004 0C46     		mov	r4, r1
+ 752 0006 0021     		movs	r1, #0
+ 753 0008 0546     		mov	r5, r0
+ 754 000a FFF7FEFF 		bl	memset
+ 755 000e 94E80F00 		ldm	r4, {r0, r1, r2, r3}
+ 756 0012 05F1040C 		add	ip, r5, #4
+ 757 0016 8CE80F00 		stm	ip, {r0, r1, r2, r3}
+ 758 001a 2846     		mov	r0, r5
+ 759 001c 38BD     		pop	{r3, r4, r5, pc}
+ 760              		.size	stab_sp_from_quat_i, .-stab_sp_from_quat_i
+ 761 001e 00BF     		.section	.text.stab_sp_from_quat_f,"ax",%progbits
+ 762              		.align	1
+ 763              		.p2align 4,,15
+ 764              		.global	stab_sp_from_quat_f
+ 765              		.syntax unified
+ 766              		.thumb
+ 767              		.thumb_func
+ 768              		.fpu fpv4-sp-d16
+ 769              		.type	stab_sp_from_quat_f, %function
+ 770              	stab_sp_from_quat_f:
+ 771              		@ args = 0, pretend = 0, frame = 0
+ 772              		@ frame_needed = 0, uses_anonymous_args = 0
+ 773 0000 38B5     		push	{r3, r4, r5, lr}
+ 774 0002 2022     		movs	r2, #32
+ 775 0004 0C46     		mov	r4, r1
+ 776 0006 0021     		movs	r1, #0
+ 777 0008 0546     		mov	r5, r0
+ 778 000a FFF7FEFF 		bl	memset
+ 779 000e 94E80F00 		ldm	r4, {r0, r1, r2, r3}
+ 780 0012 05F1040C 		add	ip, r5, #4
+ 781 0016 8CE80F00 		stm	ip, {r0, r1, r2, r3}
+ 782 001a 0123     		movs	r3, #1
+ 783 001c 6B70     		strb	r3, [r5, #1]
+ 784 001e 2846     		mov	r0, r5
+ 785 0020 38BD     		pop	{r3, r4, r5, pc}
+ 786              		.size	stab_sp_from_quat_f, .-stab_sp_from_quat_f
+ 787 0022 00BF     		.section	.text.stab_sp_from_quat_ff_rates_f,"ax",%progbits
+ 788              		.align	1
+ 789              		.p2align 4,,15
+ 790              		.global	stab_sp_from_quat_ff_rates_f
+ 791              		.syntax unified
+ 792              		.thumb
+ 793              		.thumb_func
+ 794              		.fpu fpv4-sp-d16
+ 795              		.type	stab_sp_from_quat_ff_rates_f, %function
+ 796              	stab_sp_from_quat_ff_rates_f:
+ 797              		@ args = 0, pretend = 0, frame = 0
+ 798              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccKAD1fd.s 			page 15
+
+
+ 799 0000 4FF48273 		mov	r3, #260
+ 800 0004 30B5     		push	{r4, r5, lr}
+ 801 0006 8446     		mov	ip, r0
+ 802 0008 1546     		mov	r5, r2
+ 803 000a 00F1040E 		add	lr, r0, #4
+ 804 000e 00F11404 		add	r4, r0, #20
+ 805 0012 0380     		strh	r3, [r0]	@ movhi
+ 806 0014 0FC9     		ldm	r1, {r0, r1, r2, r3}
+ 807 0016 8EE80F00 		stm	lr, {r0, r1, r2, r3}
+ 808 001a 95E80700 		ldm	r5, {r0, r1, r2}
+ 809 001e 84E80700 		stm	r4, {r0, r1, r2}
+ 810 0022 6046     		mov	r0, ip
+ 811 0024 30BD     		pop	{r4, r5, pc}
+ 812              		.size	stab_sp_from_quat_ff_rates_f, .-stab_sp_from_quat_ff_rates_f
+ 813 0026 00BF     		.section	.text.stab_sp_from_eulers_i,"ax",%progbits
+ 814              		.align	1
+ 815              		.p2align 4,,15
+ 816              		.global	stab_sp_from_eulers_i
+ 817              		.syntax unified
+ 818              		.thumb
+ 819              		.thumb_func
+ 820              		.fpu fpv4-sp-d16
+ 821              		.type	stab_sp_from_eulers_i, %function
+ 822              	stab_sp_from_eulers_i:
+ 823              		@ args = 0, pretend = 0, frame = 0
+ 824              		@ frame_needed = 0, uses_anonymous_args = 0
+ 825 0000 38B5     		push	{r3, r4, r5, lr}
+ 826 0002 2022     		movs	r2, #32
+ 827 0004 0D46     		mov	r5, r1
+ 828 0006 0021     		movs	r1, #0
+ 829 0008 0446     		mov	r4, r0
+ 830 000a FFF7FEFF 		bl	memset
+ 831 000e 95E80700 		ldm	r5, {r0, r1, r2}
+ 832 0012 231D     		adds	r3, r4, #4
+ 833 0014 83E80700 		stm	r3, {r0, r1, r2}
+ 834 0018 0123     		movs	r3, #1
+ 835 001a 2370     		strb	r3, [r4]
+ 836 001c 2046     		mov	r0, r4
+ 837 001e 38BD     		pop	{r3, r4, r5, pc}
+ 838              		.size	stab_sp_from_eulers_i, .-stab_sp_from_eulers_i
+ 839              		.section	.text.stab_sp_from_eulers_f,"ax",%progbits
+ 840              		.align	1
+ 841              		.p2align 4,,15
+ 842              		.global	stab_sp_from_eulers_f
+ 843              		.syntax unified
+ 844              		.thumb
+ 845              		.thumb_func
+ 846              		.fpu fpv4-sp-d16
+ 847              		.type	stab_sp_from_eulers_f, %function
+ 848              	stab_sp_from_eulers_f:
+ 849              		@ args = 0, pretend = 0, frame = 0
+ 850              		@ frame_needed = 0, uses_anonymous_args = 0
+ 851 0000 38B5     		push	{r3, r4, r5, lr}
+ 852 0002 2022     		movs	r2, #32
+ 853 0004 0D46     		mov	r5, r1
+ 854 0006 0021     		movs	r1, #0
+ 855 0008 0446     		mov	r4, r0
+ARM GAS  /tmp/ccKAD1fd.s 			page 16
+
+
+ 856 000a FFF7FEFF 		bl	memset
+ 857 000e 95E80700 		ldm	r5, {r0, r1, r2}
+ 858 0012 231D     		adds	r3, r4, #4
+ 859 0014 83E80700 		stm	r3, {r0, r1, r2}
+ 860 0018 40F20113 		movw	r3, #257
+ 861 001c 2380     		strh	r3, [r4]	@ movhi
+ 862 001e 2046     		mov	r0, r4
+ 863 0020 38BD     		pop	{r3, r4, r5, pc}
+ 864              		.size	stab_sp_from_eulers_f, .-stab_sp_from_eulers_f
+ 865 0022 00BF     		.section	.text.stab_sp_from_ltp_i,"ax",%progbits
+ 866              		.align	1
+ 867              		.p2align 4,,15
+ 868              		.global	stab_sp_from_ltp_i
+ 869              		.syntax unified
+ 870              		.thumb
+ 871              		.thumb_func
+ 872              		.fpu fpv4-sp-d16
+ 873              		.type	stab_sp_from_ltp_i, %function
+ 874              	stab_sp_from_ltp_i:
+ 875              		@ args = 0, pretend = 0, frame = 0
+ 876              		@ frame_needed = 0, uses_anonymous_args = 0
+ 877 0000 70B5     		push	{r4, r5, r6, lr}
+ 878 0002 0D46     		mov	r5, r1
+ 879 0004 1646     		mov	r6, r2
+ 880 0006 0021     		movs	r1, #0
+ 881 0008 2022     		movs	r2, #32
+ 882 000a 0446     		mov	r4, r0
+ 883 000c FFF7FEFF 		bl	memset
+ 884 0010 95E80300 		ldm	r5, {r0, r1}
+ 885 0014 231D     		adds	r3, r4, #4
+ 886 0016 83E80300 		stm	r3, {r0, r1}
+ 887 001a 0223     		movs	r3, #2
+ 888 001c E660     		str	r6, [r4, #12]
+ 889 001e 2370     		strb	r3, [r4]
+ 890 0020 2046     		mov	r0, r4
+ 891 0022 70BD     		pop	{r4, r5, r6, pc}
+ 892              		.size	stab_sp_from_ltp_i, .-stab_sp_from_ltp_i
+ 893              		.section	.text.stab_sp_from_ltp_f,"ax",%progbits
+ 894              		.align	1
+ 895              		.p2align 4,,15
+ 896              		.global	stab_sp_from_ltp_f
+ 897              		.syntax unified
+ 898              		.thumb
+ 899              		.thumb_func
+ 900              		.fpu fpv4-sp-d16
+ 901              		.type	stab_sp_from_ltp_f, %function
+ 902              	stab_sp_from_ltp_f:
+ 903              		@ args = 0, pretend = 0, frame = 0
+ 904              		@ frame_needed = 0, uses_anonymous_args = 0
+ 905 0000 70B5     		push	{r4, r5, r6, lr}
+ 906 0002 1646     		mov	r6, r2	@ float
+ 907 0004 0D46     		mov	r5, r1
+ 908 0006 2022     		movs	r2, #32
+ 909 0008 0021     		movs	r1, #0
+ 910 000a 0446     		mov	r4, r0
+ 911 000c FFF7FEFF 		bl	memset
+ 912 0010 95E80300 		ldm	r5, {r0, r1}
+ARM GAS  /tmp/ccKAD1fd.s 			page 17
+
+
+ 913 0014 231D     		adds	r3, r4, #4
+ 914 0016 83E80300 		stm	r3, {r0, r1}
+ 915 001a 4FF48173 		mov	r3, #258
+ 916 001e E660     		str	r6, [r4, #12]	@ float
+ 917 0020 2380     		strh	r3, [r4]	@ movhi
+ 918 0022 2046     		mov	r0, r4
+ 919 0024 70BD     		pop	{r4, r5, r6, pc}
+ 920              		.size	stab_sp_from_ltp_f, .-stab_sp_from_ltp_f
+ 921 0026 00BF     		.section	.text.stab_sp_from_rates_i,"ax",%progbits
+ 922              		.align	1
+ 923              		.p2align 4,,15
+ 924              		.global	stab_sp_from_rates_i
+ 925              		.syntax unified
+ 926              		.thumb
+ 927              		.thumb_func
+ 928              		.fpu fpv4-sp-d16
+ 929              		.type	stab_sp_from_rates_i, %function
+ 930              	stab_sp_from_rates_i:
+ 931              		@ args = 0, pretend = 0, frame = 0
+ 932              		@ frame_needed = 0, uses_anonymous_args = 0
+ 933              		@ link register save eliminated.
+ 934 0000 0022     		movs	r2, #0
+ 935 0002 C0E90022 		strd	r2, r2, [r0]
+ 936 0006 0346     		mov	r3, r0
+ 937 0008 C0E90222 		strd	r2, r2, [r0, #8]
+ 938 000c 00F1140C 		add	ip, r0, #20
+ 939 0010 0261     		str	r2, [r0, #16]
+ 940 0012 07C9     		ldm	r1, {r0, r1, r2}
+ 941 0014 8CE80700 		stm	ip, {r0, r1, r2}
+ 942 0018 0322     		movs	r2, #3
+ 943 001a 1A70     		strb	r2, [r3]
+ 944 001c 1846     		mov	r0, r3
+ 945 001e 7047     		bx	lr
+ 946              		.size	stab_sp_from_rates_i, .-stab_sp_from_rates_i
+ 947              		.section	.text.stab_sp_from_rates_f,"ax",%progbits
+ 948              		.align	1
+ 949              		.p2align 4,,15
+ 950              		.global	stab_sp_from_rates_f
+ 951              		.syntax unified
+ 952              		.thumb
+ 953              		.thumb_func
+ 954              		.fpu fpv4-sp-d16
+ 955              		.type	stab_sp_from_rates_f, %function
+ 956              	stab_sp_from_rates_f:
+ 957              		@ args = 0, pretend = 0, frame = 0
+ 958              		@ frame_needed = 0, uses_anonymous_args = 0
+ 959              		@ link register save eliminated.
+ 960 0000 0346     		mov	r3, r0
+ 961 0002 07C9     		ldm	r1, {r0, r1, r2}
+ 962 0004 03F1140C 		add	ip, r3, #20
+ 963 0008 10B4     		push	{r4}
+ 964 000a 8CE80700 		stm	ip, {r0, r1, r2}
+ 965 000e 0024     		movs	r4, #0
+ 966 0010 40F20312 		movw	r2, #259
+ 967 0014 C3E90044 		strd	r4, r4, [r3]
+ 968 0018 C3E90244 		strd	r4, r4, [r3, #8]
+ 969 001c 1C61     		str	r4, [r3, #16]
+ARM GAS  /tmp/ccKAD1fd.s 			page 18
+
+
+ 970 001e 1846     		mov	r0, r3
+ 971 0020 5DF8044B 		ldr	r4, [sp], #4
+ 972 0024 1A80     		strh	r2, [r3]	@ movhi
+ 973 0026 7047     		bx	lr
+ 974              		.size	stab_sp_from_rates_f, .-stab_sp_from_rates_f
+ 975              		.global	stabilization_cmd
+ 976              		.section	.bss.stabilization_cmd,"aw",%nobits
+ 977              		.align	2
+ 978              		.set	.LANCHOR0,. + 0
+ 979              		.type	stabilization_cmd, %object
+ 980              		.size	stabilization_cmd, 16
+ 981              	stabilization_cmd:
+ 982 0000 00000000 		.space	16
+ 982      00000000 
+ 982      00000000 
+ 982      00000000 
+ 983              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccKAD1fd.s 			page 19
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 stabilization.c
+     /tmp/ccKAD1fd.s:15     .text.stab_sp_rotate_f:0000000000000000 $t
+     /tmp/ccKAD1fd.s:23     .text.stab_sp_rotate_f:0000000000000000 stab_sp_rotate_f
+     /tmp/ccKAD1fd.s:63     .text.stab_sp_rotate_f:0000000000000068 $d
+     /tmp/ccKAD1fd.s:66     .text.stab_sp_rotate_i:0000000000000000 $t
+     /tmp/ccKAD1fd.s:73     .text.stab_sp_rotate_i:0000000000000000 stab_sp_rotate_i
+     /tmp/ccKAD1fd.s:112    .text.stab_sp_rotate_i:0000000000000058 $d
+     /tmp/ccKAD1fd.s:115    .text.stabilization_init:0000000000000000 $t
+     /tmp/ccKAD1fd.s:123    .text.stabilization_init:0000000000000000 stabilization_init
+     /tmp/ccKAD1fd.s:135    .text.stabilization_init:0000000000000010 $d
+     /tmp/ccKAD1fd.s:138    .text.stabilization_filter_commands:0000000000000000 $t
+     /tmp/ccKAD1fd.s:146    .text.stabilization_filter_commands:0000000000000000 stabilization_filter_commands
+     /tmp/ccKAD1fd.s:153    .text.stab_sp_to_quat_i:0000000000000000 $t
+     /tmp/ccKAD1fd.s:161    .text.stab_sp_to_quat_i:0000000000000000 stab_sp_to_quat_i
+     /tmp/ccKAD1fd.s:262    .text.stab_sp_to_quat_f:0000000000000000 $t
+     /tmp/ccKAD1fd.s:270    .text.stab_sp_to_quat_f:0000000000000000 stab_sp_to_quat_f
+     /tmp/ccKAD1fd.s:389    .text.stab_sp_to_quat_f:0000000000000134 $d
+     /tmp/ccKAD1fd.s:393    .text.stab_sp_to_eulers_i:0000000000000000 $t
+     /tmp/ccKAD1fd.s:401    .text.stab_sp_to_eulers_i:0000000000000000 stab_sp_to_eulers_i
+     /tmp/ccKAD1fd.s:506    .text.stab_sp_to_eulers_f:0000000000000000 $t
+     /tmp/ccKAD1fd.s:514    .text.stab_sp_to_eulers_f:0000000000000000 stab_sp_to_eulers_f
+     /tmp/ccKAD1fd.s:636    .text.stab_sp_to_eulers_f:0000000000000134 $d
+     /tmp/ccKAD1fd.s:640    .text.stab_sp_to_rates_i:0000000000000000 $t
+     /tmp/ccKAD1fd.s:648    .text.stab_sp_to_rates_i:0000000000000000 stab_sp_to_rates_i
+     /tmp/ccKAD1fd.s:684    .text.stab_sp_to_rates_f:0000000000000000 $t
+     /tmp/ccKAD1fd.s:692    .text.stab_sp_to_rates_f:0000000000000000 stab_sp_to_rates_f
+     /tmp/ccKAD1fd.s:735    .text.stab_sp_to_rates_f:0000000000000060 $d
+     /tmp/ccKAD1fd.s:738    .text.stab_sp_from_quat_i:0000000000000000 $t
+     /tmp/ccKAD1fd.s:746    .text.stab_sp_from_quat_i:0000000000000000 stab_sp_from_quat_i
+     /tmp/ccKAD1fd.s:762    .text.stab_sp_from_quat_f:0000000000000000 $t
+     /tmp/ccKAD1fd.s:770    .text.stab_sp_from_quat_f:0000000000000000 stab_sp_from_quat_f
+     /tmp/ccKAD1fd.s:788    .text.stab_sp_from_quat_ff_rates_f:0000000000000000 $t
+     /tmp/ccKAD1fd.s:796    .text.stab_sp_from_quat_ff_rates_f:0000000000000000 stab_sp_from_quat_ff_rates_f
+     /tmp/ccKAD1fd.s:814    .text.stab_sp_from_eulers_i:0000000000000000 $t
+     /tmp/ccKAD1fd.s:822    .text.stab_sp_from_eulers_i:0000000000000000 stab_sp_from_eulers_i
+     /tmp/ccKAD1fd.s:840    .text.stab_sp_from_eulers_f:0000000000000000 $t
+     /tmp/ccKAD1fd.s:848    .text.stab_sp_from_eulers_f:0000000000000000 stab_sp_from_eulers_f
+     /tmp/ccKAD1fd.s:866    .text.stab_sp_from_ltp_i:0000000000000000 $t
+     /tmp/ccKAD1fd.s:874    .text.stab_sp_from_ltp_i:0000000000000000 stab_sp_from_ltp_i
+     /tmp/ccKAD1fd.s:894    .text.stab_sp_from_ltp_f:0000000000000000 $t
+     /tmp/ccKAD1fd.s:902    .text.stab_sp_from_ltp_f:0000000000000000 stab_sp_from_ltp_f
+     /tmp/ccKAD1fd.s:922    .text.stab_sp_from_rates_i:0000000000000000 $t
+     /tmp/ccKAD1fd.s:930    .text.stab_sp_from_rates_i:0000000000000000 stab_sp_from_rates_i
+     /tmp/ccKAD1fd.s:948    .text.stab_sp_from_rates_f:0000000000000000 $t
+     /tmp/ccKAD1fd.s:956    .text.stab_sp_from_rates_f:0000000000000000 stab_sp_from_rates_f
+     /tmp/ccKAD1fd.s:981    .bss.stabilization_cmd:0000000000000000 stabilization_cmd
+     /tmp/ccKAD1fd.s:977    .bss.stabilization_cmd:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+sinf
+cosf
+orientationCalcEulers_f
+state
+pprz_itrig_sin
+pprz_itrig_cos
+orientationCalcEulers_i
+ARM GAS  /tmp/ccKAD1fd.s 			page 20
+
+
+quat_from_earth_cmd_i
+int32_quat_of_eulers
+quat_from_earth_cmd_f
+float_quat_of_eulers
+int32_eulers_of_quat
+float_eulers_of_quat
+memset

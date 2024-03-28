@@ -1,0 +1,718 @@
+ARM GAS  /tmp/ccL2UkPQ.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"guidance_h_ref.c"
+  13              		.text
+  14              		.section	.text.gh_ref_init,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	gh_ref_init
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	gh_ref_init, %function
+  24              	gh_ref_init:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27              		@ link register save eliminated.
+  28 0000 0A4B     		ldr	r3, .L3
+  29 0002 0B49     		ldr	r1, .L3+4
+  30 0004 0B4A     		ldr	r2, .L3+8
+  31 0006 0C48     		ldr	r0, .L3+12
+  32 0008 5962     		str	r1, [r3, #36]	@ float
+  33 000a 4FF07C51 		mov	r1, #1056964608
+  34 000e DFF834C0 		ldr	ip, .L3+24
+  35 0012 9A62     		str	r2, [r3, #40]	@ float
+  36 0014 1863     		str	r0, [r3, #48]	@ float
+  37 0016 094A     		ldr	r2, .L3+16
+  38 0018 1962     		str	r1, [r3, #32]	@ float
+  39 001a 4FF08040 		mov	r0, #1073741824
+  40 001e 0849     		ldr	r1, .L3+20
+  41 0020 C3F834C0 		str	ip, [r3, #52]	@ float
+  42 0024 9863     		str	r0, [r3, #56]	@ float
+  43 0026 D962     		str	r1, [r3, #44]	@ float
+  44 0028 DA63     		str	r2, [r3, #60]	@ float
+  45 002a 7047     		bx	lr
+  46              	.L4:
+  47              		.align	2
+  48              	.L3:
+  49 002c 00000000 		.word	.LANCHOR0
+  50 0030 F0AD953F 		.word	1066774000
+  51 0034 9A99593F 		.word	1062836634
+  52 0038 7E747E3F 		.word	1065251966
+  53 003c 6F12833A 		.word	981668463
+  54 0040 0000A040 		.word	1084227584
+  55 0044 DE07AF3F 		.word	1068435422
+  56              		.size	gh_ref_init, .-gh_ref_init
+  57              		.section	.text.gh_set_max_speed,"ax",%progbits
+ARM GAS  /tmp/ccL2UkPQ.s 			page 2
+
+
+  58              		.align	1
+  59              		.p2align 4,,15
+  60              		.global	gh_set_max_speed
+  61              		.syntax unified
+  62              		.thumb
+  63              		.thumb_func
+  64              		.fpu fpv4-sp-d16
+  65              		.type	gh_set_max_speed, %function
+  66              	gh_set_max_speed:
+  67              		@ args = 0, pretend = 0, frame = 0
+  68              		@ frame_needed = 0, uses_anonymous_args = 0
+  69              		@ link register save eliminated.
+  70 0000 07EE900A 		vmov	s15, r0
+  71 0004 9FED087A 		vldr.32	s14, .L9
+  72 0008 084B     		ldr	r3, .L9+4
+  73 000a F0EEE77A 		vabs.f32	s15, s15
+  74 000e F4EEC77A 		vcmpe.f32	s15, s14
+  75 0012 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+  76 0016 58BF     		it	pl
+  77 0018 F0EE477A 		vmovpl.f32	s15, s14
+  78 001c 17EE900A 		vmov	r0, s15
+  79 0020 C3ED0B7A 		vstr.32	s15, [r3, #44]
+  80 0024 7047     		bx	lr
+  81              	.L10:
+  82 0026 00BF     		.align	2
+  83              	.L9:
+  84 0028 0000C842 		.word	1120403456
+  85 002c 00000000 		.word	.LANCHOR0
+  86              		.size	gh_set_max_speed, .-gh_set_max_speed
+  87              		.section	.text.gh_set_tau,"ax",%progbits
+  88              		.align	1
+  89              		.p2align 4,,15
+  90              		.global	gh_set_tau
+  91              		.syntax unified
+  92              		.thumb
+  93              		.thumb_func
+  94              		.fpu fpv4-sp-d16
+  95              		.type	gh_set_tau, %function
+  96              	gh_set_tau:
+  97              		@ args = 0, pretend = 0, frame = 0
+  98              		@ frame_needed = 0, uses_anonymous_args = 0
+  99              		@ link register save eliminated.
+ 100 0000 9FED157A 		vldr.32	s14, .L18
+ 101 0004 07EE900A 		vmov	s15, r0
+ 102 0008 F4EEC77A 		vcmpe.f32	s15, s14
+ 103 000c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 104 0010 09DC     		bgt	.L12
+ 105 0012 124B     		ldr	r3, .L18+4
+ 106 0014 DFED126A 		vldr.32	s13, .L18+8
+ 107 0018 83ED087A 		vstr.32	s14, [r3, #32]
+ 108 001c 17EE100A 		vmov	r0, s14
+ 109 0020 C3ED0E6A 		vstr.32	s13, [r3, #56]
+ 110 0024 7047     		bx	lr
+ 111              	.L12:
+ 112 0026 B0EE007A 		vmov.f32	s14, #2.0e+0
+ 113 002a F4EEC77A 		vcmpe.f32	s15, s14
+ 114 002e F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ARM GAS  /tmp/ccL2UkPQ.s 			page 3
+
+
+ 115 0032 0A4B     		ldr	r3, .L18+4
+ 116 0034 07D5     		bpl	.L17
+ 117 0036 B7EE007A 		vmov.f32	s14, #1.0e+0
+ 118 003a C7EE276A 		vdiv.f32	s13, s14, s15
+ 119 003e 1862     		str	r0, [r3, #32]	@ float
+ 120 0040 C3ED0E6A 		vstr.32	s13, [r3, #56]
+ 121 0044 7047     		bx	lr
+ 122              	.L17:
+ 123 0046 F6EE006A 		vmov.f32	s13, #5.0e-1
+ 124 004a 17EE100A 		vmov	r0, s14
+ 125 004e 83ED087A 		vstr.32	s14, [r3, #32]
+ 126 0052 C3ED0E6A 		vstr.32	s13, [r3, #56]
+ 127 0056 7047     		bx	lr
+ 128              	.L19:
+ 129              		.align	2
+ 130              	.L18:
+ 131 0058 0AD7233C 		.word	1008981770
+ 132 005c 00000000 		.word	.LANCHOR0
+ 133 0060 0000C842 		.word	1120403456
+ 134              		.size	gh_set_tau, .-gh_set_tau
+ 135              		.section	.text.gh_set_omega,"ax",%progbits
+ 136              		.align	1
+ 137              		.p2align 4,,15
+ 138              		.global	gh_set_omega
+ 139              		.syntax unified
+ 140              		.thumb
+ 141              		.thumb_func
+ 142              		.fpu fpv4-sp-d16
+ 143              		.type	gh_set_omega, %function
+ 144              	gh_set_omega:
+ 145              		@ args = 0, pretend = 0, frame = 0
+ 146              		@ frame_needed = 0, uses_anonymous_args = 0
+ 147              		@ link register save eliminated.
+ 148 0000 DFED176A 		vldr.32	s13, .L27
+ 149 0004 07EE900A 		vmov	s15, r0
+ 150 0008 F4EEE67A 		vcmpe.f32	s15, s13
+ 151 000c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 152 0010 11DC     		bgt	.L21
+ 153 0012 144B     		ldr	r3, .L27+4
+ 154 0014 9FED146A 		vldr.32	s12, .L27+8
+ 155 0018 C3ED096A 		vstr.32	s13, [r3, #36]
+ 156 001c B0EE667A 		vmov.f32	s14, s13
+ 157              	.L22:
+ 158 0020 D3ED0A7A 		vldr.32	s15, [r3, #40]
+ 159 0024 83ED0D6A 		vstr.32	s12, [r3, #52]
+ 160 0028 67EE877A 		vmul.f32	s15, s15, s14
+ 161 002c 17EE100A 		vmov	r0, s14
+ 162 0030 C3ED0C7A 		vstr.32	s15, [r3, #48]
+ 163 0034 7047     		bx	lr
+ 164              	.L21:
+ 165 0036 F1EE046A 		vmov.f32	s13, #5.0e+0
+ 166 003a F4EEE67A 		vcmpe.f32	s15, s13
+ 167 003e F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 168 0042 084B     		ldr	r3, .L27+4
+ 169 0044 05D5     		bpl	.L26
+ 170 0046 27EEA76A 		vmul.f32	s12, s15, s15
+ 171 004a 07EE100A 		vmov	s14, r0
+ARM GAS  /tmp/ccL2UkPQ.s 			page 4
+
+
+ 172 004e 5862     		str	r0, [r3, #36]	@ float
+ 173 0050 E6E7     		b	.L22
+ 174              	.L26:
+ 175 0052 B0EE667A 		vmov.f32	s14, s13
+ 176 0056 C3ED096A 		vstr.32	s13, [r3, #36]
+ 177 005a B3EE096A 		vmov.f32	s12, #2.5e+1
+ 178 005e DFE7     		b	.L22
+ 179              	.L28:
+ 180              		.align	2
+ 181              	.L27:
+ 182 0060 CDCCCC3D 		.word	1036831949
+ 183 0064 00000000 		.word	.LANCHOR0
+ 184 0068 0BD7233C 		.word	1008981771
+ 185              		.size	gh_set_omega, .-gh_set_omega
+ 186              		.section	.text.gh_set_zeta,"ax",%progbits
+ 187              		.align	1
+ 188              		.p2align 4,,15
+ 189              		.global	gh_set_zeta
+ 190              		.syntax unified
+ 191              		.thumb
+ 192              		.thumb_func
+ 193              		.fpu fpv4-sp-d16
+ 194              		.type	gh_set_zeta, %function
+ 195              	gh_set_zeta:
+ 196              		@ args = 0, pretend = 0, frame = 0
+ 197              		@ frame_needed = 0, uses_anonymous_args = 0
+ 198              		@ link register save eliminated.
+ 199 0000 DFED136A 		vldr.32	s13, .L36
+ 200 0004 07EE900A 		vmov	s15, r0
+ 201 0008 F4EEE67A 		vcmpe.f32	s15, s13
+ 202 000c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 203 0010 0DDC     		bgt	.L30
+ 204 0012 104B     		ldr	r3, .L36+4
+ 205 0014 B0EE667A 		vmov.f32	s14, s13
+ 206 0018 C3ED0A6A 		vstr.32	s13, [r3, #40]
+ 207              	.L31:
+ 208 001c D3ED097A 		vldr.32	s15, [r3, #36]
+ 209 0020 67EE877A 		vmul.f32	s15, s15, s14
+ 210 0024 17EE100A 		vmov	r0, s14
+ 211 0028 C3ED0C7A 		vstr.32	s15, [r3, #48]
+ 212 002c 7047     		bx	lr
+ 213              	.L30:
+ 214 002e DFED0A6A 		vldr.32	s13, .L36+8
+ 215 0032 084B     		ldr	r3, .L36+4
+ 216 0034 F4EEE67A 		vcmpe.f32	s15, s13
+ 217 0038 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 218 003c 47BF     		ittee	mi
+ 219 003e B0EE677A 		vmovmi.f32	s14, s15
+ 220 0042 C3ED0A7A 		vstrmi.32	s15, [r3, #40]
+ 221 0046 B0EE667A 		vmovpl.f32	s14, s13
+ 222 004a C3ED0A6A 		vstrpl.32	s13, [r3, #40]
+ 223 004e E5E7     		b	.L31
+ 224              	.L37:
+ 225              		.align	2
+ 226              	.L36:
+ 227 0050 3333333F 		.word	1060320051
+ 228 0054 00000000 		.word	.LANCHOR0
+ARM GAS  /tmp/ccL2UkPQ.s 			page 5
+
+
+ 229 0058 9A99993F 		.word	1067030938
+ 230              		.size	gh_set_zeta, .-gh_set_zeta
+ 231              		.section	.text.gh_set_ref,"ax",%progbits
+ 232              		.align	1
+ 233              		.p2align 4,,15
+ 234              		.global	gh_set_ref
+ 235              		.syntax unified
+ 236              		.thumb
+ 237              		.thumb_func
+ 238              		.fpu fpv4-sp-d16
+ 239              		.type	gh_set_ref, %function
+ 240              	gh_set_ref:
+ 241              		@ args = 8, pretend = 0, frame = 16
+ 242              		@ frame_needed = 0, uses_anonymous_args = 0
+ 243              		@ link register save eliminated.
+ 244 0000 10B4     		push	{r4}
+ 245 0002 85B0     		sub	sp, sp, #20
+ 246 0004 04AC     		add	r4, sp, #16
+ 247 0006 04E90300 		stmdb	r4, {r0, r1}
+ 248 000a 6946     		mov	r1, sp
+ 249 000c 81E80C00 		stm	r1, {r2, r3}
+ 250 0010 0246     		mov	r2, r0
+ 251 0012 D117     		asrs	r1, r2, #31
+ 252 0014 0398     		ldr	r0, [sp, #12]
+ 253 0016 0C4B     		ldr	r3, .L40
+ 254 0018 DDF800C0 		ldr	ip, [sp]	@ float
+ 255 001c C3F808C0 		str	ip, [r3, #8]	@ float
+ 256 0020 4907     		lsls	r1, r1, #29
+ 257 0022 C410     		asrs	r4, r0, #3
+ 258 0024 41EAD201 		orr	r1, r1, r2, lsr #3
+ 259 0028 4007     		lsls	r0, r0, #29
+ 260 002a 5207     		lsls	r2, r2, #29
+ 261 002c 9861     		str	r0, [r3, #24]
+ 262 002e 5961     		str	r1, [r3, #20]
+ 263 0030 0198     		ldr	r0, [sp, #4]	@ float
+ 264 0032 0699     		ldr	r1, [sp, #24]	@ float
+ 265 0034 1A61     		str	r2, [r3, #16]
+ 266 0036 079A     		ldr	r2, [sp, #28]	@ float
+ 267 0038 DC61     		str	r4, [r3, #28]
+ 268 003a D860     		str	r0, [r3, #12]	@ float
+ 269 003c 1960     		str	r1, [r3]	@ float
+ 270 003e 5A60     		str	r2, [r3, #4]	@ float
+ 271 0040 05B0     		add	sp, sp, #20
+ 272              		@ sp needed
+ 273 0042 5DF8044B 		ldr	r4, [sp], #4
+ 274 0046 7047     		bx	lr
+ 275              	.L41:
+ 276              		.align	2
+ 277              	.L40:
+ 278 0048 00000000 		.word	.LANCHOR0
+ 279              		.size	gh_set_ref, .-gh_set_ref
+ 280              		.global	__aeabi_f2lz
+ 281              		.global	__aeabi_f2d
+ 282              		.global	__aeabi_dmul
+ 283              		.global	__aeabi_ddiv
+ 284              		.global	__aeabi_l2f
+ 285              		.global	__aeabi_d2f
+ARM GAS  /tmp/ccL2UkPQ.s 			page 6
+
+
+ 286              		.section	.text.gh_update_ref_from_pos_sp,"ax",%progbits
+ 287              		.align	1
+ 288              		.p2align 4,,15
+ 289              		.global	gh_update_ref_from_pos_sp
+ 290              		.syntax unified
+ 291              		.thumb
+ 292              		.thumb_func
+ 293              		.fpu fpv4-sp-d16
+ 294              		.type	gh_update_ref_from_pos_sp, %function
+ 295              	gh_update_ref_from_pos_sp:
+ 296              		@ args = 0, pretend = 0, frame = 8
+ 297              		@ frame_needed = 0, uses_anonymous_args = 0
+ 298 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 299 0004 734C     		ldr	r4, .L62
+ 300 0006 2DED068B 		vpush.64	{d8, d9, d10}
+ 301 000a 94ED0FAA 		vldr.32	s20, [r4, #60]
+ 302 000e D4ED028A 		vldr.32	s17, [r4, #8]
+ 303 0012 9FED719A 		vldr.32	s18, .L62+4
+ 304 0016 D4ED039A 		vldr.32	s19, [r4, #12]
+ 305 001a 9FED708A 		vldr.32	s16, .L62+8
+ 306 001e 68EE8A7A 		vmul.f32	s15, s17, s20
+ 307 0022 82B0     		sub	sp, sp, #8
+ 308 0024 67EE897A 		vmul.f32	s15, s15, s18
+ 309 0028 02AB     		add	r3, sp, #8
+ 310 002a 03E90300 		stmdb	r3, {r0, r1}
+ 311 002e 17EE900A 		vmov	r0, s15
+ 312 0032 FFF7FEFF 		bl	__aeabi_f2lz
+ 313 0036 D4E90432 		ldrd	r3, r2, [r4, #16]
+ 314 003a 6AEE296A 		vmul.f32	s13, s20, s19
+ 315 003e 94ED007A 		vldr.32	s14, [r4]
+ 316 0042 D4ED017A 		vldr.32	s15, [r4, #4]
+ 317 0046 66EE896A 		vmul.f32	s13, s13, s18
+ 318 004a 10EB030A 		adds	r10, r0, r3
+ 319 004e 42EB0109 		adc	r9, r2, r1
+ 320 0052 16EE900A 		vmov	r0, s13
+ 321 0056 EAEE078A 		vfma.f32	s17, s20, s14
+ 322 005a C4E904A9 		strd	r10, r9, [r4, #16]
+ 323 005e EAEE279A 		vfma.f32	s19, s20, s15
+ 324 0062 FFF7FEFF 		bl	__aeabi_f2lz
+ 325 0066 A369     		ldr	r3, [r4, #24]
+ 326 0068 C4ED028A 		vstr.32	s17, [r4, #8]
+ 327 006c C518     		adds	r5, r0, r3
+ 328 006e E369     		ldr	r3, [r4, #28]
+ 329 0070 606A     		ldr	r0, [r4, #36]	@ float
+ 330 0072 C4ED039A 		vstr.32	s19, [r4, #12]
+ 331 0076 43EB0108 		adc	r8, r3, r1
+ 332 007a A561     		str	r5, [r4, #24]
+ 333 007c C4F81C80 		str	r8, [r4, #28]
+ 334 0080 FFF7FEFF 		bl	__aeabi_f2d
+ 335 0084 564B     		ldr	r3, .L62+12
+ 336 0086 0022     		movs	r2, #0
+ 337 0088 FFF7FEFF 		bl	__aeabi_dmul
+ 338 008c 0646     		mov	r6, r0
+ 339 008e A06A     		ldr	r0, [r4, #40]	@ float
+ 340 0090 0F46     		mov	r7, r1
+ 341 0092 FFF7FEFF 		bl	__aeabi_f2d
+ 342 0096 0246     		mov	r2, r0
+ARM GAS  /tmp/ccL2UkPQ.s 			page 7
+
+
+ 343 0098 0B46     		mov	r3, r1
+ 344 009a 3046     		mov	r0, r6
+ 345 009c 3946     		mov	r1, r7
+ 346 009e FFF7FEFF 		bl	__aeabi_ddiv
+ 347 00a2 4FEA5A73 		lsr	r3, r10, #29
+ 348 00a6 0F46     		mov	r7, r1
+ 349 00a8 0099     		ldr	r1, [sp]
+ 350 00aa 43EAC903 		orr	r3, r3, r9, lsl #3
+ 351 00ae 0646     		mov	r6, r0
+ 352 00b0 C81A     		subs	r0, r1, r3
+ 353 00b2 4FEAE171 		asr	r1, r1, #31
+ 354 00b6 61EB6971 		sbc	r1, r1, r9, asr #29
+ 355 00ba FFF7FEFF 		bl	__aeabi_l2f
+ 356 00be 07EE900A 		vmov	s15, r0
+ 357 00c2 67EE887A 		vmul.f32	s15, s15, s16
+ 358 00c6 B0EE689A 		vmov.f32	s18, s17
+ 359 00ca 17EE900A 		vmov	r0, s15
+ 360 00ce FFF7FEFF 		bl	__aeabi_f2d
+ 361 00d2 3246     		mov	r2, r6
+ 362 00d4 3B46     		mov	r3, r7
+ 363 00d6 FFF7FEFF 		bl	__aeabi_dmul
+ 364 00da FFF7FEFF 		bl	__aeabi_d2f
+ 365 00de 0199     		ldr	r1, [sp, #4]
+ 366 00e0 6B0F     		lsrs	r3, r5, #29
+ 367 00e2 43EAC803 		orr	r3, r3, r8, lsl #3
+ 368 00e6 08EE900A 		vmov	s17, r0
+ 369 00ea C81A     		subs	r0, r1, r3
+ 370 00ec 4FEAE171 		asr	r1, r1, #31
+ 371 00f0 61EB6871 		sbc	r1, r1, r8, asr #29
+ 372 00f4 FFF7FEFF 		bl	__aeabi_l2f
+ 373 00f8 07EE900A 		vmov	s15, r0
+ 374 00fc 67EE887A 		vmul.f32	s15, s15, s16
+ 375 0100 17EE900A 		vmov	r0, s15
+ 376 0104 FFF7FEFF 		bl	__aeabi_f2d
+ 377 0108 3246     		mov	r2, r6
+ 378 010a 3B46     		mov	r3, r7
+ 379 010c FFF7FEFF 		bl	__aeabi_dmul
+ 380 0110 FFF7FEFF 		bl	__aeabi_d2f
+ 381 0114 08EE100A 		vmov	s16, r0
+ 382 0118 68EE087A 		vmul.f32	s15, s16, s16
+ 383 011c 94ED0BAA 		vldr.32	s20, [r4, #44]
+ 384 0120 E8EEA87A 		vfma.f32	s15, s17, s17
+ 385 0124 2AEE0A7A 		vmul.f32	s14, s20, s20
+ 386 0128 F4EEC77A 		vcmpe.f32	s15, s14
+ 387 012c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 388 0130 1FDC     		bgt	.L60
+ 389              	.L43:
+ 390 0132 D4ED0C7A 		vldr.32	s15, [r4, #48]
+ 391 0136 9FED2B7A 		vldr.32	s14, .L62+16
+ 392 013a 77EEA77A 		vadd.f32	s15, s15, s15
+ 393 013e 38EE698A 		vsub.f32	s16, s16, s19
+ 394 0142 78EEC98A 		vsub.f32	s17, s17, s18
+ 395 0146 28EE278A 		vmul.f32	s16, s16, s15
+ 396 014a 68EEA78A 		vmul.f32	s17, s17, s15
+ 397 014e 68EE087A 		vmul.f32	s15, s16, s16
+ 398 0152 E8EEA87A 		vfma.f32	s15, s17, s17
+ 399 0156 F4EEC77A 		vcmpe.f32	s15, s14
+ARM GAS  /tmp/ccL2UkPQ.s 			page 8
+
+
+ 400 015a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 401 015e 16DC     		bgt	.L61
+ 402              	.L48:
+ 403 0160 C4ED008A 		vstr.32	s17, [r4]
+ 404 0164 84ED018A 		vstr.32	s16, [r4, #4]
+ 405 0168 02B0     		add	sp, sp, #8
+ 406              		@ sp needed
+ 407 016a BDEC068B 		vldm	sp!, {d8-d10}
+ 408 016e BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 409              	.L60:
+ 410 0172 F5EE407A 		vcmp.f32	s15, #0
+ 411 0176 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 412 017a 18D4     		bmi	.L57
+ 413 017c B1EEE77A 		vsqrt.f32	s14, s15
+ 414              	.L47:
+ 415 0180 CAEE077A 		vdiv.f32	s15, s20, s14
+ 416 0184 68EEA78A 		vmul.f32	s17, s17, s15
+ 417 0188 28EE278A 		vmul.f32	s16, s16, s15
+ 418 018c D1E7     		b	.L43
+ 419              	.L61:
+ 420 018e F5EE407A 		vcmp.f32	s15, #0
+ 421 0192 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 422 0196 15D4     		bmi	.L58
+ 423 0198 B1EEE77A 		vsqrt.f32	s14, s15
+ 424              	.L52:
+ 425 019c DFED126A 		vldr.32	s13, .L62+20
+ 426 01a0 C6EE877A 		vdiv.f32	s15, s13, s14
+ 427 01a4 68EEA78A 		vmul.f32	s17, s17, s15
+ 428 01a8 28EE278A 		vmul.f32	s16, s16, s15
+ 429 01ac D8E7     		b	.L48
+ 430              	.L57:
+ 431 01ae 17EE900A 		vmov	r0, s15
+ 432 01b2 FFF7FEFF 		bl	sqrtf
+ 433 01b6 94ED029A 		vldr.32	s18, [r4, #8]
+ 434 01ba D4ED039A 		vldr.32	s19, [r4, #12]
+ 435 01be 07EE100A 		vmov	s14, r0
+ 436 01c2 DDE7     		b	.L47
+ 437              	.L58:
+ 438 01c4 17EE900A 		vmov	r0, s15
+ 439 01c8 FFF7FEFF 		bl	sqrtf
+ 440 01cc 07EE100A 		vmov	s14, r0
+ 441 01d0 E4E7     		b	.L52
+ 442              	.L63:
+ 443 01d2 00BF     		.align	2
+ 444              	.L62:
+ 445 01d4 00000000 		.word	.LANCHOR0
+ 446 01d8 00000052 		.word	1375731712
+ 447 01dc 0000803B 		.word	998244352
+ 448 01e0 0000E03F 		.word	1071644672
+ 449 01e4 74240042 		.word	1107305588
+ 450 01e8 B81EB540 		.word	1085611704
+ 451              		.size	gh_update_ref_from_pos_sp, .-gh_update_ref_from_pos_sp
+ 452              		.section	.text.gh_update_ref_from_speed_sp,"ax",%progbits
+ 453              		.align	1
+ 454              		.p2align 4,,15
+ 455              		.global	gh_update_ref_from_speed_sp
+ 456              		.syntax unified
+ARM GAS  /tmp/ccL2UkPQ.s 			page 9
+
+
+ 457              		.thumb
+ 458              		.thumb_func
+ 459              		.fpu fpv4-sp-d16
+ 460              		.type	gh_update_ref_from_speed_sp, %function
+ 461              	gh_update_ref_from_speed_sp:
+ 462              		@ args = 0, pretend = 0, frame = 8
+ 463              		@ frame_needed = 0, uses_anonymous_args = 0
+ 464 0000 10B5     		push	{r4, lr}
+ 465 0002 3A4C     		ldr	r4, .L75
+ 466 0004 2DED068B 		vpush.64	{d8, d9, d10}
+ 467 0008 94ED0F9A 		vldr.32	s18, [r4, #60]
+ 468 000c D4ED028A 		vldr.32	s17, [r4, #8]
+ 469 0010 DFED379A 		vldr.32	s19, .L75+4
+ 470 0014 94ED038A 		vldr.32	s16, [r4, #12]
+ 471 0018 68EE897A 		vmul.f32	s15, s17, s18
+ 472 001c 82B0     		sub	sp, sp, #8
+ 473 001e 67EEA97A 		vmul.f32	s15, s15, s19
+ 474 0022 02AB     		add	r3, sp, #8
+ 475 0024 03E90300 		stmdb	r3, {r0, r1}
+ 476 0028 17EE900A 		vmov	r0, s15
+ 477 002c FFF7FEFF 		bl	__aeabi_f2lz
+ 478 0030 D4E90432 		ldrd	r3, r2, [r4, #16]
+ 479 0034 69EE087A 		vmul.f32	s15, s18, s16
+ 480 0038 C318     		adds	r3, r0, r3
+ 481 003a 67EEA97A 		vmul.f32	s15, s15, s19
+ 482 003e 42EB0101 		adc	r1, r2, r1
+ 483 0042 17EE900A 		vmov	r0, s15
+ 484 0046 94ED01AA 		vldr.32	s20, [r4, #4]
+ 485 004a D4ED009A 		vldr.32	s19, [r4]
+ 486 004e C4E90431 		strd	r3, r1, [r4, #16]
+ 487 0052 FFF7FEFF 		bl	__aeabi_f2lz
+ 488 0056 F0EE487A 		vmov.f32	s15, s16
+ 489 005a E9EE0A7A 		vfma.f32	s15, s18, s20
+ 490 005e A269     		ldr	r2, [r4, #24]
+ 491 0060 E369     		ldr	r3, [r4, #28]
+ 492 0062 9DED018A 		vldr.32	s16, [sp, #4]
+ 493 0066 DDED006A 		vldr.32	s13, [sp]
+ 494 006a 9FED226A 		vldr.32	s12, .L75+8
+ 495 006e C4ED037A 		vstr.32	s15, [r4, #12]
+ 496 0072 B0EE687A 		vmov.f32	s14, s17
+ 497 0076 A9EE297A 		vfma.f32	s14, s18, s19
+ 498 007a 8018     		adds	r0, r0, r2
+ 499 007c 43EB0101 		adc	r1, r3, r1
+ 500 0080 D4ED0E8A 		vldr.32	s17, [r4, #56]
+ 501 0084 84ED027A 		vstr.32	s14, [r4, #8]
+ 502 0088 37EEC88A 		vsub.f32	s16, s15, s16
+ 503 008c 77EE666A 		vsub.f32	s13, s14, s13
+ 504 0090 28EEC88A 		vnmul.f32	s16, s17, s16
+ 505 0094 68EEE68A 		vnmul.f32	s17, s17, s13
+ 506 0098 68EE086A 		vmul.f32	s13, s16, s16
+ 507 009c C4E90601 		strd	r0, r1, [r4, #24]
+ 508 00a0 E8EEA86A 		vfma.f32	s13, s17, s17
+ 509 00a4 F4EEC66A 		vcmpe.f32	s13, s12
+ 510 00a8 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 511 00ac 07DC     		bgt	.L74
+ 512              	.L65:
+ 513 00ae C4ED008A 		vstr.32	s17, [r4]
+ARM GAS  /tmp/ccL2UkPQ.s 			page 10
+
+
+ 514 00b2 84ED018A 		vstr.32	s16, [r4, #4]
+ 515 00b6 02B0     		add	sp, sp, #8
+ 516              		@ sp needed
+ 517 00b8 BDEC068B 		vldm	sp!, {d8-d10}
+ 518 00bc 10BD     		pop	{r4, pc}
+ 519              	.L74:
+ 520 00be F5EE406A 		vcmp.f32	s13, #0
+ 521 00c2 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 522 00c6 0AD4     		bmi	.L72
+ 523 00c8 B1EEE67A 		vsqrt.f32	s14, s13
+ 524              	.L69:
+ 525 00cc DFED0A6A 		vldr.32	s13, .L75+12
+ 526 00d0 C6EE877A 		vdiv.f32	s15, s13, s14
+ 527 00d4 68EEA78A 		vmul.f32	s17, s17, s15
+ 528 00d8 28EE278A 		vmul.f32	s16, s16, s15
+ 529 00dc E7E7     		b	.L65
+ 530              	.L72:
+ 531 00de 16EE900A 		vmov	r0, s13
+ 532 00e2 FFF7FEFF 		bl	sqrtf
+ 533 00e6 07EE100A 		vmov	s14, r0
+ 534 00ea EFE7     		b	.L69
+ 535              	.L76:
+ 536              		.align	2
+ 537              	.L75:
+ 538 00ec 00000000 		.word	.LANCHOR0
+ 539 00f0 00000052 		.word	1375731712
+ 540 00f4 74240042 		.word	1107305588
+ 541 00f8 B81EB540 		.word	1085611704
+ 542              		.size	gh_update_ref_from_speed_sp, .-gh_update_ref_from_speed_sp
+ 543              		.section	.text.gh_update_ref_from_accel_sp,"ax",%progbits
+ 544              		.align	1
+ 545              		.p2align 4,,15
+ 546              		.global	gh_update_ref_from_accel_sp
+ 547              		.syntax unified
+ 548              		.thumb
+ 549              		.thumb_func
+ 550              		.fpu fpv4-sp-d16
+ 551              		.type	gh_update_ref_from_accel_sp, %function
+ 552              	gh_update_ref_from_accel_sp:
+ 553              		@ args = 0, pretend = 0, frame = 8
+ 554              		@ frame_needed = 0, uses_anonymous_args = 0
+ 555 0000 10B5     		push	{r4, lr}
+ 556 0002 334C     		ldr	r4, .L88
+ 557 0004 2DED088B 		vpush.64	{d8, d9, d10, d11}
+ 558 0008 94ED0F9A 		vldr.32	s18, [r4, #60]
+ 559 000c D4ED028A 		vldr.32	s17, [r4, #8]
+ 560 0010 9FED30AA 		vldr.32	s20, .L88+4
+ 561 0014 94ED038A 		vldr.32	s16, [r4, #12]
+ 562 0018 68EE897A 		vmul.f32	s15, s17, s18
+ 563 001c 82B0     		sub	sp, sp, #8
+ 564 001e 67EE8A7A 		vmul.f32	s15, s15, s20
+ 565 0022 02AB     		add	r3, sp, #8
+ 566 0024 03E90300 		stmdb	r3, {r0, r1}
+ 567 0028 17EE900A 		vmov	r0, s15
+ 568 002c FFF7FEFF 		bl	__aeabi_f2lz
+ 569 0030 D4E90432 		ldrd	r3, r2, [r4, #16]
+ 570 0034 69EE087A 		vmul.f32	s15, s18, s16
+ARM GAS  /tmp/ccL2UkPQ.s 			page 11
+
+
+ 571 0038 C318     		adds	r3, r0, r3
+ 572 003a 67EE8A7A 		vmul.f32	s15, s15, s20
+ 573 003e DDED019A 		vldr.32	s19, [sp, #4]
+ 574 0042 9DED00AA 		vldr.32	s20, [sp]
+ 575 0046 94ED00BA 		vldr.32	s22, [r4]
+ 576 004a D4ED01AA 		vldr.32	s21, [r4, #4]
+ 577 004e 42EB0101 		adc	r1, r2, r1
+ 578 0052 17EE900A 		vmov	r0, s15
+ 579 0056 C4E90431 		strd	r3, r1, [r4, #16]
+ 580 005a FFF7FEFF 		bl	__aeabi_f2lz
+ 581 005e 69EEA97A 		vmul.f32	s15, s19, s19
+ 582 0062 A269     		ldr	r2, [r4, #24]
+ 583 0064 9FED1C7A 		vldr.32	s14, .L88+8
+ 584 0068 E369     		ldr	r3, [r4, #28]
+ 585 006a EAEE0A7A 		vfma.f32	s15, s20, s20
+ 586 006e 8018     		adds	r0, r0, r2
+ 587 0070 43EB0101 		adc	r1, r3, r1
+ 588 0074 E9EE0B8A 		vfma.f32	s17, s18, s22
+ 589 0078 C4E90601 		strd	r0, r1, [r4, #24]
+ 590 007c A9EE2A8A 		vfma.f32	s16, s18, s21
+ 591 0080 F4EEC77A 		vcmpe.f32	s15, s14
+ 592 0084 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 593 0088 C4ED028A 		vstr.32	s17, [r4, #8]
+ 594 008c 84ED038A 		vstr.32	s16, [r4, #12]
+ 595 0090 07DC     		bgt	.L87
+ 596              	.L78:
+ 597 0092 84ED00AA 		vstr.32	s20, [r4]
+ 598 0096 C4ED019A 		vstr.32	s19, [r4, #4]
+ 599 009a 02B0     		add	sp, sp, #8
+ 600              		@ sp needed
+ 601 009c BDEC088B 		vldm	sp!, {d8-d11}
+ 602 00a0 10BD     		pop	{r4, pc}
+ 603              	.L87:
+ 604 00a2 F5EE407A 		vcmp.f32	s15, #0
+ 605 00a6 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 606 00aa 0AD4     		bmi	.L85
+ 607 00ac B1EEE77A 		vsqrt.f32	s14, s15
+ 608              	.L82:
+ 609 00b0 DFED0A6A 		vldr.32	s13, .L88+12
+ 610 00b4 C6EE877A 		vdiv.f32	s15, s13, s14
+ 611 00b8 2AEE27AA 		vmul.f32	s20, s20, s15
+ 612 00bc 69EEA79A 		vmul.f32	s19, s19, s15
+ 613 00c0 E7E7     		b	.L78
+ 614              	.L85:
+ 615 00c2 17EE900A 		vmov	r0, s15
+ 616 00c6 FFF7FEFF 		bl	sqrtf
+ 617 00ca 07EE100A 		vmov	s14, r0
+ 618 00ce EFE7     		b	.L82
+ 619              	.L89:
+ 620              		.align	2
+ 621              	.L88:
+ 622 00d0 00000000 		.word	.LANCHOR0
+ 623 00d4 00000052 		.word	1375731712
+ 624 00d8 74240042 		.word	1107305588
+ 625 00dc B81EB540 		.word	1085611704
+ 626              		.size	gh_update_ref_from_accel_sp, .-gh_update_ref_from_accel_sp
+ 627              		.global	gh_ref
+ARM GAS  /tmp/ccL2UkPQ.s 			page 12
+
+
+ 628              		.section	.bss.gh_ref,"aw",%nobits
+ 629              		.align	3
+ 630              		.set	.LANCHOR0,. + 0
+ 631              		.type	gh_ref, %object
+ 632              		.size	gh_ref, 64
+ 633              	gh_ref:
+ 634 0000 00000000 		.space	64
+ 634      00000000 
+ 634      00000000 
+ 634      00000000 
+ 634      00000000 
+ 635              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccL2UkPQ.s 			page 13
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 guidance_h_ref.c
+     /tmp/ccL2UkPQ.s:15     .text.gh_ref_init:0000000000000000 $t
+     /tmp/ccL2UkPQ.s:24     .text.gh_ref_init:0000000000000000 gh_ref_init
+     /tmp/ccL2UkPQ.s:49     .text.gh_ref_init:000000000000002c $d
+     /tmp/ccL2UkPQ.s:58     .text.gh_set_max_speed:0000000000000000 $t
+     /tmp/ccL2UkPQ.s:66     .text.gh_set_max_speed:0000000000000000 gh_set_max_speed
+     /tmp/ccL2UkPQ.s:84     .text.gh_set_max_speed:0000000000000028 $d
+     /tmp/ccL2UkPQ.s:88     .text.gh_set_tau:0000000000000000 $t
+     /tmp/ccL2UkPQ.s:96     .text.gh_set_tau:0000000000000000 gh_set_tau
+     /tmp/ccL2UkPQ.s:131    .text.gh_set_tau:0000000000000058 $d
+     /tmp/ccL2UkPQ.s:136    .text.gh_set_omega:0000000000000000 $t
+     /tmp/ccL2UkPQ.s:144    .text.gh_set_omega:0000000000000000 gh_set_omega
+     /tmp/ccL2UkPQ.s:182    .text.gh_set_omega:0000000000000060 $d
+     /tmp/ccL2UkPQ.s:187    .text.gh_set_zeta:0000000000000000 $t
+     /tmp/ccL2UkPQ.s:195    .text.gh_set_zeta:0000000000000000 gh_set_zeta
+     /tmp/ccL2UkPQ.s:227    .text.gh_set_zeta:0000000000000050 $d
+     /tmp/ccL2UkPQ.s:232    .text.gh_set_ref:0000000000000000 $t
+     /tmp/ccL2UkPQ.s:240    .text.gh_set_ref:0000000000000000 gh_set_ref
+     /tmp/ccL2UkPQ.s:278    .text.gh_set_ref:0000000000000048 $d
+     /tmp/ccL2UkPQ.s:287    .text.gh_update_ref_from_pos_sp:0000000000000000 $t
+     /tmp/ccL2UkPQ.s:295    .text.gh_update_ref_from_pos_sp:0000000000000000 gh_update_ref_from_pos_sp
+     /tmp/ccL2UkPQ.s:445    .text.gh_update_ref_from_pos_sp:00000000000001d4 $d
+     /tmp/ccL2UkPQ.s:453    .text.gh_update_ref_from_speed_sp:0000000000000000 $t
+     /tmp/ccL2UkPQ.s:461    .text.gh_update_ref_from_speed_sp:0000000000000000 gh_update_ref_from_speed_sp
+     /tmp/ccL2UkPQ.s:538    .text.gh_update_ref_from_speed_sp:00000000000000ec $d
+     /tmp/ccL2UkPQ.s:544    .text.gh_update_ref_from_accel_sp:0000000000000000 $t
+     /tmp/ccL2UkPQ.s:552    .text.gh_update_ref_from_accel_sp:0000000000000000 gh_update_ref_from_accel_sp
+     /tmp/ccL2UkPQ.s:622    .text.gh_update_ref_from_accel_sp:00000000000000d0 $d
+     /tmp/ccL2UkPQ.s:633    .bss.gh_ref:0000000000000000 gh_ref
+     /tmp/ccL2UkPQ.s:629    .bss.gh_ref:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+__aeabi_f2lz
+__aeabi_f2d
+__aeabi_dmul
+__aeabi_ddiv
+__aeabi_l2f
+__aeabi_d2f
+sqrtf

@@ -1,0 +1,247 @@
+ARM GAS  /tmp/ccvyPRzS.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"electrical.c"
+  13              		.text
+  14              		.section	.text.electrical_init,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	electrical_init
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	electrical_init, %function
+  24              	electrical_init:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27              		@ link register save eliminated.
+  28 0000 054B     		ldr	r3, .L3
+  29 0002 0022     		movs	r2, #0
+  30 0004 0021     		movs	r1, #0
+  31 0006 C3E90611 		strd	r1, r1, [r3, #24]
+  32 000a 1A60     		str	r2, [r3]	@ float
+  33 000c 5A60     		str	r2, [r3, #4]	@ float
+  34 000e 9A60     		str	r2, [r3, #8]	@ float
+  35 0010 DA60     		str	r2, [r3, #12]	@ float
+  36 0012 1A61     		str	r2, [r3, #16]	@ float
+  37 0014 9982     		strh	r1, [r3, #20]	@ movhi
+  38 0016 7047     		bx	lr
+  39              	.L4:
+  40              		.align	2
+  41              	.L3:
+  42 0018 00000000 		.word	.LANCHOR0
+  43              		.size	electrical_init, .-electrical_init
+  44              		.global	__aeabi_f2d
+  45              		.global	__aeabi_dcmplt
+  46              		.section	.text.electrical_periodic,"ax",%progbits
+  47              		.align	1
+  48              		.p2align 4,,15
+  49              		.global	electrical_periodic
+  50              		.syntax unified
+  51              		.thumb
+  52              		.thumb_func
+  53              		.fpu fpv4-sp-d16
+  54              		.type	electrical_periodic, %function
+  55              	electrical_periodic:
+  56              		@ args = 0, pretend = 0, frame = 0
+  57              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccvyPRzS.s 			page 2
+
+
+  58 0000 D0B5     		push	{r4, r6, r7, lr}
+  59 0002 374C     		ldr	r4, .L34+16
+  60 0004 DFED377A 		vldr.32	s15, .L34+20
+  61 0008 94ED047A 		vldr.32	s14, [r4, #16]
+  62 000c D4ED036A 		vldr.32	s13, [r4, #12]
+  63 0010 354B     		ldr	r3, .L34+24
+  64 0012 2DED028B 		vpush.64	{d8}
+  65 0016 D4ED028A 		vldr.32	s17, [r4, #8]
+  66 001a 94ED008A 		vldr.32	s16, [r4]
+  67 001e 68EEA77A 		vmul.f32	s15, s17, s15
+  68 0022 A8EE277A 		vfma.f32	s14, s16, s15
+  69 0026 76EEA77A 		vadd.f32	s15, s13, s15
+  70 002a F0EE086A 		vmov.f32	s13, #3.0e+0
+  71 002e B4EEE68A 		vcmpe.f32	s16, s13
+  72 0032 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+  73 0036 C4ED037A 		vstr.32	s15, [r4, #12]
+  74 003a 84ED047A 		vstr.32	s14, [r4, #16]
+  75 003e 22DB     		blt	.L29
+  76 0040 0122     		movs	r2, #1
+  77 0042 1A70     		strb	r2, [r3]
+  78              	.L8:
+  79 0044 18EE100A 		vmov	r0, s16
+  80 0048 FFF7FEFF 		bl	__aeabi_f2d
+  81 004c 20A3     		adr	r3, .L34
+  82 004e D3E90023 		ldrd	r2, [r3]
+  83 0052 0646     		mov	r6, r0
+  84 0054 0F46     		mov	r7, r1
+  85 0056 FFF7FEFF 		bl	__aeabi_dcmplt
+  86 005a 38BB     		cbnz	r0, .L33
+  87 005c 234B     		ldr	r3, .L34+28
+  88 005e 2075     		strb	r0, [r4, #20]
+  89 0060 3222     		movs	r2, #50
+  90 0062 1A60     		str	r2, [r3]
+  91              	.L13:
+  92 0064 1CA3     		adr	r3, .L34+8
+  93 0066 D3E90023 		ldrd	r2, [r3]
+  94 006a 3046     		mov	r0, r6
+  95 006c 3946     		mov	r1, r7
+  96 006e FFF7FEFF 		bl	__aeabi_dcmplt
+  97 0072 28B3     		cbz	r0, .L31
+  98 0074 1E4A     		ldr	r2, .L34+32
+  99 0076 1368     		ldr	r3, [r2]
+ 100 0078 13B1     		cbz	r3, .L18
+ 101 007a 013B     		subs	r3, r3, #1
+ 102 007c 1360     		str	r3, [r2]
+ 103 007e 2BB9     		cbnz	r3, .L9
+ 104              	.L18:
+ 105 0080 0123     		movs	r3, #1
+ 106 0082 6375     		strb	r3, [r4, #21]
+ 107 0084 02E0     		b	.L9
+ 108              	.L29:
+ 109 0086 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 110 0088 002B     		cmp	r3, #0
+ 111 008a DBD1     		bne	.L8
+ 112              	.L9:
+ 113 008c D4ED067A 		vldr.32	s15, [r4, #24]	@ int
+ 114 0090 E369     		ldr	r3, [r4, #28]
+ARM GAS  /tmp/ccvyPRzS.s 			page 3
+
+
+ 115 0092 F8EE677A 		vcvt.f32.u32	s15, s15
+ 116 0096 0133     		adds	r3, r3, #1
+ 117 0098 E8EE887A 		vfma.f32	s15, s17, s16
+ 118 009c BDEC028B 		vldm	sp!, {d8}
+ 119 00a0 FCEEE77A 		vcvt.u32.f32	s15, s15
+ 120 00a4 E361     		str	r3, [r4, #28]
+ 121 00a6 C4ED067A 		vstr.32	s15, [r4, #24]	@ int
+ 122 00aa D0BD     		pop	{r4, r6, r7, pc}
+ 123              	.L33:
+ 124 00ac 0F4A     		ldr	r2, .L34+28
+ 125 00ae 1368     		ldr	r3, [r2]
+ 126 00b0 1BB1     		cbz	r3, .L14
+ 127 00b2 013B     		subs	r3, r3, #1
+ 128 00b4 1360     		str	r3, [r2]
+ 129 00b6 002B     		cmp	r3, #0
+ 130 00b8 D4D1     		bne	.L13
+ 131              	.L14:
+ 132 00ba 0123     		movs	r3, #1
+ 133 00bc 2375     		strb	r3, [r4, #20]
+ 134 00be D1E7     		b	.L13
+ 135              	.L31:
+ 136 00c0 0B4B     		ldr	r3, .L34+32
+ 137 00c2 6075     		strb	r0, [r4, #21]
+ 138 00c4 3222     		movs	r2, #50
+ 139 00c6 1A60     		str	r2, [r3]
+ 140 00c8 E0E7     		b	.L9
+ 141              	.L35:
+ 142 00ca 00BFAFF3 		.align	3
+ 142      0080
+ 143              	.L34:
+ 144 00d0 CDCCCCCC 		.word	-858993459
+ 145 00d4 CCCC0C40 		.word	1074580684
+ 146 00d8 66666666 		.word	1717986918
+ 147 00dc 66660A40 		.word	1074423398
+ 148 00e0 00000000 		.word	.LANCHOR0
+ 149 00e4 5304E937 		.word	938017875
+ 150 00e8 00000000 		.word	.LANCHOR1
+ 151 00ec 00000000 		.word	.LANCHOR2
+ 152 00f0 00000000 		.word	.LANCHOR3
+ 153              		.size	electrical_periodic, .-electrical_periodic
+ 154              		.section	.text.electrical_avg_reset,"ax",%progbits
+ 155              		.align	1
+ 156              		.p2align 4,,15
+ 157              		.global	electrical_avg_reset
+ 158              		.syntax unified
+ 159              		.thumb
+ 160              		.thumb_func
+ 161              		.fpu fpv4-sp-d16
+ 162              		.type	electrical_avg_reset, %function
+ 163              	electrical_avg_reset:
+ 164              		@ args = 0, pretend = 0, frame = 0
+ 165              		@ frame_needed = 0, uses_anonymous_args = 0
+ 166              		@ link register save eliminated.
+ 167 0000 024B     		ldr	r3, .L37
+ 168 0002 0022     		movs	r2, #0
+ 169 0004 C3E90622 		strd	r2, r2, [r3, #24]
+ 170 0008 7047     		bx	lr
+ARM GAS  /tmp/ccvyPRzS.s 			page 4
+
+
+ 171              	.L38:
+ 172 000a 00BF     		.align	2
+ 173              	.L37:
+ 174 000c 00000000 		.word	.LANCHOR0
+ 175              		.size	electrical_avg_reset, .-electrical_avg_reset
+ 176              		.global	electrical
+ 177              		.section	.bss.bat_critical_counter.0,"aw",%nobits
+ 178              		.align	2
+ 179              		.set	.LANCHOR3,. + 0
+ 180              		.type	bat_critical_counter.0, %object
+ 181              		.size	bat_critical_counter.0, 4
+ 182              	bat_critical_counter.0:
+ 183 0000 00000000 		.space	4
+ 184              		.section	.bss.bat_low_counter.1,"aw",%nobits
+ 185              		.align	2
+ 186              		.set	.LANCHOR2,. + 0
+ 187              		.type	bat_low_counter.1, %object
+ 188              		.size	bat_low_counter.1, 4
+ 189              	bat_low_counter.1:
+ 190 0000 00000000 		.space	4
+ 191              		.section	.bss.electrical,"aw",%nobits
+ 192              		.align	2
+ 193              		.set	.LANCHOR0,. + 0
+ 194              		.type	electrical, %object
+ 195              		.size	electrical, 32
+ 196              	electrical:
+ 197 0000 00000000 		.space	32
+ 197      00000000 
+ 197      00000000 
+ 197      00000000 
+ 197      00000000 
+ 198              		.section	.bss.vsupply_check_started.2,"aw",%nobits
+ 199              		.set	.LANCHOR1,. + 0
+ 200              		.type	vsupply_check_started.2, %object
+ 201              		.size	vsupply_check_started.2, 1
+ 202              	vsupply_check_started.2:
+ 203 0000 00       		.space	1
+ 204              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccvyPRzS.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 electrical.c
+     /tmp/ccvyPRzS.s:15     .text.electrical_init:0000000000000000 $t
+     /tmp/ccvyPRzS.s:24     .text.electrical_init:0000000000000000 electrical_init
+     /tmp/ccvyPRzS.s:42     .text.electrical_init:0000000000000018 $d
+     /tmp/ccvyPRzS.s:47     .text.electrical_periodic:0000000000000000 $t
+     /tmp/ccvyPRzS.s:55     .text.electrical_periodic:0000000000000000 electrical_periodic
+     /tmp/ccvyPRzS.s:144    .text.electrical_periodic:00000000000000d0 $d
+     /tmp/ccvyPRzS.s:155    .text.electrical_avg_reset:0000000000000000 $t
+     /tmp/ccvyPRzS.s:163    .text.electrical_avg_reset:0000000000000000 electrical_avg_reset
+     /tmp/ccvyPRzS.s:174    .text.electrical_avg_reset:000000000000000c $d
+     /tmp/ccvyPRzS.s:196    .bss.electrical:0000000000000000 electrical
+     /tmp/ccvyPRzS.s:178    .bss.bat_critical_counter.0:0000000000000000 $d
+     /tmp/ccvyPRzS.s:182    .bss.bat_critical_counter.0:0000000000000000 bat_critical_counter.0
+     /tmp/ccvyPRzS.s:185    .bss.bat_low_counter.1:0000000000000000 $d
+     /tmp/ccvyPRzS.s:189    .bss.bat_low_counter.1:0000000000000000 bat_low_counter.1
+     /tmp/ccvyPRzS.s:192    .bss.electrical:0000000000000000 $d
+     /tmp/ccvyPRzS.s:202    .bss.vsupply_check_started.2:0000000000000000 vsupply_check_started.2
+     /tmp/ccvyPRzS.s:203    .bss.vsupply_check_started.2:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+__aeabi_f2d
+__aeabi_dcmplt

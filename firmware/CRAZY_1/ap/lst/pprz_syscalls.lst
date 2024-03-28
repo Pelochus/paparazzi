@@ -1,0 +1,70 @@
+ARM GAS  /tmp/ccgf6giD.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"pprz_syscalls.c"
+  13              		.text
+  14              		.section	.text._fini,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	_fini
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	_fini, %function
+  24              	_fini:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27              		@ link register save eliminated.
+  28 0000 7047     		bx	lr
+  29              		.size	_fini, .-_fini
+  30 0002 00BF     		.section	.text.__cxa_pure_virtual,"ax",%progbits
+  31              		.align	1
+  32              		.p2align 4,,15
+  33              		.global	__cxa_pure_virtual
+  34              		.syntax unified
+  35              		.thumb
+  36              		.thumb_func
+  37              		.fpu fpv4-sp-d16
+  38              		.type	__cxa_pure_virtual, %function
+  39              	__cxa_pure_virtual:
+  40              		@ Volatile: function does not return.
+  41              		@ args = 0, pretend = 0, frame = 0
+  42              		@ frame_needed = 0, uses_anonymous_args = 0
+  43              		@ link register save eliminated.
+  44              	.L4:
+  45 0000 FEE7     		b	.L4
+  46              		.size	__cxa_pure_virtual, .-__cxa_pure_virtual
+  47              		.global	__dso_handle
+  48 0002 00BF     		.section	.bss.__dso_handle,"aw",%nobits
+  49              		.align	2
+  50              		.type	__dso_handle, %object
+  51              		.size	__dso_handle, 4
+  52              	__dso_handle:
+  53 0000 00000000 		.space	4
+  54              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccgf6giD.s 			page 2
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 pprz_syscalls.c
+     /tmp/ccgf6giD.s:15     .text._fini:0000000000000000 $t
+     /tmp/ccgf6giD.s:24     .text._fini:0000000000000000 _fini
+     /tmp/ccgf6giD.s:31     .text.__cxa_pure_virtual:0000000000000000 $t
+     /tmp/ccgf6giD.s:39     .text.__cxa_pure_virtual:0000000000000000 __cxa_pure_virtual
+     /tmp/ccgf6giD.s:52     .bss.__dso_handle:0000000000000000 __dso_handle
+     /tmp/ccgf6giD.s:49     .bss.__dso_handle:0000000000000000 $d
+
+NO UNDEFINED SYMBOLS

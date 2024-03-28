@@ -1,0 +1,838 @@
+ARM GAS  /tmp/ccR5HjH1.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"pprz_orientation_conversion.c"
+  13              		.text
+  14              		.section	.text.orientationCalcQuat_i,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	orientationCalcQuat_i
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	orientationCalcQuat_i, %function
+  24              	orientationCalcQuat_i:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27 0000 0378     		ldrb	r3, [r0]	@ zero_extendqisi2
+  28 0002 DA07     		lsls	r2, r3, #31
+  29 0004 43D4     		bmi	.L12
+  30 0006 1907     		lsls	r1, r3, #28
+  31 0008 10B5     		push	{r4, lr}
+  32 000a 0446     		mov	r4, r0
+  33 000c 1BD5     		bpl	.L3
+  34 000e 90ED116A 		vldr.32	s12, [r0, #68]
+  35 0012 D0ED126A 		vldr.32	s13, [r0, #72]
+  36 0016 90ED137A 		vldr.32	s14, [r0, #76]
+  37 001a D0ED147A 		vldr.32	s15, [r0, #80]
+  38 001e BEEEE86A 		vcvt.s32.f32	s12, s12, #15
+  39 0022 FEEEE86A 		vcvt.s32.f32	s13, s13, #15
+  40 0026 BEEEE87A 		vcvt.s32.f32	s14, s14, #15
+  41 002a FEEEE87A 		vcvt.s32.f32	s15, s15, #15
+  42 002e 80ED016A 		vstr.32	s12, [r0, #4]	@ int
+  43 0032 C0ED026A 		vstr.32	s13, [r0, #8]	@ int
+  44 0036 80ED037A 		vstr.32	s14, [r0, #12]	@ int
+  45 003a C0ED047A 		vstr.32	s15, [r0, #16]	@ int
+  46              	.L4:
+  47 003e 43F00103 		orr	r3, r3, #1
+  48 0042 2370     		strb	r3, [r4]
+  49 0044 10BD     		pop	{r4, pc}
+  50              	.L3:
+  51 0046 5A07     		lsls	r2, r3, #29
+  52 0048 29D4     		bmi	.L16
+  53 004a 9807     		lsls	r0, r3, #30
+  54 004c 20D4     		bmi	.L17
+  55 004e 9906     		lsls	r1, r3, #26
+  56 0050 2FD4     		bmi	.L18
+  57 0052 DA06     		lsls	r2, r3, #27
+ARM GAS  /tmp/ccR5HjH1.s 			page 2
+
+
+  58 0054 F3D5     		bpl	.L4
+  59 0056 D4ED156A 		vldr.32	s13, [r4, #84]
+  60 005a 94ED167A 		vldr.32	s14, [r4, #88]
+  61 005e D4ED177A 		vldr.32	s15, [r4, #92]
+  62 0062 FEEECA6A 		vcvt.s32.f32	s13, s13, #12
+  63 0066 BEEECA7A 		vcvt.s32.f32	s14, s14, #12
+  64 006a FEEECA7A 		vcvt.s32.f32	s15, s15, #12
+  65 006e 2146     		mov	r1, r4
+  66 0070 43F00203 		orr	r3, r3, #2
+  67 0074 C4ED056A 		vstr.32	s13, [r4, #20]	@ int
+  68 0078 84ED067A 		vstr.32	s14, [r4, #24]	@ int
+  69 007c C4ED077A 		vstr.32	s15, [r4, #28]	@ int
+  70 0080 201D     		adds	r0, r4, #4
+  71 0082 01F8143B 		strb	r3, [r1], #20
+  72 0086 FFF7FEFF 		bl	int32_quat_of_eulers
+  73 008a 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+  74 008c D7E7     		b	.L4
+  75              	.L12:
+  76 008e 7047     		bx	lr
+  77              	.L17:
+  78 0090 04F11401 		add	r1, r4, #20
+  79 0094 201D     		adds	r0, r4, #4
+  80 0096 FFF7FEFF 		bl	int32_quat_of_eulers
+  81 009a 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+  82 009c CFE7     		b	.L4
+  83              	.L16:
+  84 009e 00F12001 		add	r1, r0, #32
+  85 00a2 0430     		adds	r0, r0, #4
+  86 00a4 FFF7FEFF 		bl	int32_quat_of_rmat
+  87 00a8 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+  88 00aa 43F00103 		orr	r3, r3, #1
+  89 00ae 2370     		strb	r3, [r4]
+  90 00b0 10BD     		pop	{r4, pc}
+  91              	.L18:
+  92 00b2 D4ED183A 		vldr.32	s7, [r4, #96]
+  93 00b6 94ED194A 		vldr.32	s8, [r4, #100]
+  94 00ba D4ED1A4A 		vldr.32	s9, [r4, #104]
+  95 00be 94ED1B5A 		vldr.32	s10, [r4, #108]
+  96 00c2 D4ED1C5A 		vldr.32	s11, [r4, #112]
+  97 00c6 94ED1D6A 		vldr.32	s12, [r4, #116]
+  98 00ca D4ED1E6A 		vldr.32	s13, [r4, #120]
+  99 00ce 94ED1F7A 		vldr.32	s14, [r4, #124]
+ 100 00d2 D4ED207A 		vldr.32	s15, [r4, #128]
+ 101 00d6 FEEEC93A 		vcvt.s32.f32	s7, s7, #14
+ 102 00da BEEEC94A 		vcvt.s32.f32	s8, s8, #14
+ 103 00de FEEEC94A 		vcvt.s32.f32	s9, s9, #14
+ 104 00e2 BEEEC95A 		vcvt.s32.f32	s10, s10, #14
+ 105 00e6 FEEEC95A 		vcvt.s32.f32	s11, s11, #14
+ 106 00ea BEEEC96A 		vcvt.s32.f32	s12, s12, #14
+ 107 00ee FEEEC96A 		vcvt.s32.f32	s13, s13, #14
+ 108 00f2 BEEEC97A 		vcvt.s32.f32	s14, s14, #14
+ 109 00f6 FEEEC97A 		vcvt.s32.f32	s15, s15, #14
+ 110 00fa 2146     		mov	r1, r4
+ 111 00fc 43F00403 		orr	r3, r3, #4
+ 112 0100 C4ED083A 		vstr.32	s7, [r4, #32]	@ int
+ 113 0104 84ED094A 		vstr.32	s8, [r4, #36]	@ int
+ 114 0108 C4ED0A4A 		vstr.32	s9, [r4, #40]	@ int
+ARM GAS  /tmp/ccR5HjH1.s 			page 3
+
+
+ 115 010c 84ED0B5A 		vstr.32	s10, [r4, #44]	@ int
+ 116 0110 C4ED0C5A 		vstr.32	s11, [r4, #48]	@ int
+ 117 0114 84ED0D6A 		vstr.32	s12, [r4, #52]	@ int
+ 118 0118 C4ED0E6A 		vstr.32	s13, [r4, #56]	@ int
+ 119 011c 84ED0F7A 		vstr.32	s14, [r4, #60]	@ int
+ 120 0120 C4ED107A 		vstr.32	s15, [r4, #64]	@ int
+ 121 0124 201D     		adds	r0, r4, #4
+ 122 0126 01F8203B 		strb	r3, [r1], #32
+ 123 012a FFF7FEFF 		bl	int32_quat_of_rmat
+ 124 012e 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 125 0130 85E7     		b	.L4
+ 126              		.size	orientationCalcQuat_i, .-orientationCalcQuat_i
+ 127 0132 00BF     		.section	.text.orientationCalcRMat_i,"ax",%progbits
+ 128              		.align	1
+ 129              		.p2align 4,,15
+ 130              		.global	orientationCalcRMat_i
+ 131              		.syntax unified
+ 132              		.thumb
+ 133              		.thumb_func
+ 134              		.fpu fpv4-sp-d16
+ 135              		.type	orientationCalcRMat_i, %function
+ 136              	orientationCalcRMat_i:
+ 137              		@ args = 0, pretend = 0, frame = 0
+ 138              		@ frame_needed = 0, uses_anonymous_args = 0
+ 139 0000 0378     		ldrb	r3, [r0]	@ zero_extendqisi2
+ 140 0002 5A07     		lsls	r2, r3, #29
+ 141 0004 62D4     		bmi	.L30
+ 142 0006 9906     		lsls	r1, r3, #26
+ 143 0008 10B5     		push	{r4, lr}
+ 144 000a 0446     		mov	r4, r0
+ 145 000c 39D5     		bpl	.L21
+ 146 000e D0ED183A 		vldr.32	s7, [r0, #96]
+ 147 0012 90ED194A 		vldr.32	s8, [r0, #100]
+ 148 0016 D0ED1A4A 		vldr.32	s9, [r0, #104]
+ 149 001a 90ED1B5A 		vldr.32	s10, [r0, #108]
+ 150 001e D0ED1C5A 		vldr.32	s11, [r0, #112]
+ 151 0022 90ED1D6A 		vldr.32	s12, [r0, #116]
+ 152 0026 D0ED1E6A 		vldr.32	s13, [r0, #120]
+ 153 002a 90ED1F7A 		vldr.32	s14, [r0, #124]
+ 154 002e D0ED207A 		vldr.32	s15, [r0, #128]
+ 155 0032 FEEEC93A 		vcvt.s32.f32	s7, s7, #14
+ 156 0036 BEEEC94A 		vcvt.s32.f32	s8, s8, #14
+ 157 003a FEEEC94A 		vcvt.s32.f32	s9, s9, #14
+ 158 003e BEEEC95A 		vcvt.s32.f32	s10, s10, #14
+ 159 0042 FEEEC95A 		vcvt.s32.f32	s11, s11, #14
+ 160 0046 BEEEC96A 		vcvt.s32.f32	s12, s12, #14
+ 161 004a FEEEC96A 		vcvt.s32.f32	s13, s13, #14
+ 162 004e BEEEC97A 		vcvt.s32.f32	s14, s14, #14
+ 163 0052 FEEEC97A 		vcvt.s32.f32	s15, s15, #14
+ 164 0056 C0ED083A 		vstr.32	s7, [r0, #32]	@ int
+ 165 005a 80ED094A 		vstr.32	s8, [r0, #36]	@ int
+ 166 005e C0ED0A4A 		vstr.32	s9, [r0, #40]	@ int
+ 167 0062 80ED0B5A 		vstr.32	s10, [r0, #44]	@ int
+ 168 0066 C0ED0C5A 		vstr.32	s11, [r0, #48]	@ int
+ 169 006a 80ED0D6A 		vstr.32	s12, [r0, #52]	@ int
+ 170 006e C0ED0E6A 		vstr.32	s13, [r0, #56]	@ int
+ 171 0072 80ED0F7A 		vstr.32	s14, [r0, #60]	@ int
+ARM GAS  /tmp/ccR5HjH1.s 			page 4
+
+
+ 172 0076 C0ED107A 		vstr.32	s15, [r0, #64]	@ int
+ 173              	.L22:
+ 174 007a 43F00403 		orr	r3, r3, #4
+ 175 007e 2370     		strb	r3, [r4]
+ 176 0080 10BD     		pop	{r4, pc}
+ 177              	.L21:
+ 178 0082 DA07     		lsls	r2, r3, #31
+ 179 0084 2BD4     		bmi	.L33
+ 180 0086 9807     		lsls	r0, r3, #30
+ 181 0088 21D4     		bmi	.L34
+ 182 008a 1907     		lsls	r1, r3, #28
+ 183 008c 30D4     		bmi	.L35
+ 184 008e DA06     		lsls	r2, r3, #27
+ 185 0090 F3D5     		bpl	.L22
+ 186 0092 D4ED156A 		vldr.32	s13, [r4, #84]
+ 187 0096 94ED167A 		vldr.32	s14, [r4, #88]
+ 188 009a D4ED177A 		vldr.32	s15, [r4, #92]
+ 189 009e FEEECA6A 		vcvt.s32.f32	s13, s13, #12
+ 190 00a2 BEEECA7A 		vcvt.s32.f32	s14, s14, #12
+ 191 00a6 FEEECA7A 		vcvt.s32.f32	s15, s15, #12
+ 192 00aa 2146     		mov	r1, r4
+ 193 00ac 43F00203 		orr	r3, r3, #2
+ 194 00b0 C4ED056A 		vstr.32	s13, [r4, #20]	@ int
+ 195 00b4 84ED067A 		vstr.32	s14, [r4, #24]	@ int
+ 196 00b8 C4ED077A 		vstr.32	s15, [r4, #28]	@ int
+ 197 00bc 04F12000 		add	r0, r4, #32
+ 198 00c0 01F8143B 		strb	r3, [r1], #20
+ 199 00c4 FFF7FEFF 		bl	int32_rmat_of_eulers_321
+ 200 00c8 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 201 00ca D6E7     		b	.L22
+ 202              	.L30:
+ 203 00cc 7047     		bx	lr
+ 204              	.L34:
+ 205 00ce 04F11401 		add	r1, r4, #20
+ 206 00d2 04F12000 		add	r0, r4, #32
+ 207 00d6 FFF7FEFF 		bl	int32_rmat_of_eulers_321
+ 208 00da 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 209 00dc CDE7     		b	.L22
+ 210              	.L33:
+ 211 00de 011D     		adds	r1, r0, #4
+ 212 00e0 2030     		adds	r0, r0, #32
+ 213 00e2 FFF7FEFF 		bl	int32_rmat_of_quat
+ 214 00e6 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 215 00e8 43F00403 		orr	r3, r3, #4
+ 216 00ec 2370     		strb	r3, [r4]
+ 217 00ee 10BD     		pop	{r4, pc}
+ 218              	.L35:
+ 219 00f0 94ED116A 		vldr.32	s12, [r4, #68]
+ 220 00f4 D4ED126A 		vldr.32	s13, [r4, #72]
+ 221 00f8 94ED137A 		vldr.32	s14, [r4, #76]
+ 222 00fc D4ED147A 		vldr.32	s15, [r4, #80]
+ 223 0100 BEEEE86A 		vcvt.s32.f32	s12, s12, #15
+ 224 0104 FEEEE86A 		vcvt.s32.f32	s13, s13, #15
+ 225 0108 BEEEE87A 		vcvt.s32.f32	s14, s14, #15
+ 226 010c FEEEE87A 		vcvt.s32.f32	s15, s15, #15
+ 227 0110 2146     		mov	r1, r4
+ 228 0112 43F00103 		orr	r3, r3, #1
+ARM GAS  /tmp/ccR5HjH1.s 			page 5
+
+
+ 229 0116 84ED016A 		vstr.32	s12, [r4, #4]	@ int
+ 230 011a C4ED026A 		vstr.32	s13, [r4, #8]	@ int
+ 231 011e 84ED037A 		vstr.32	s14, [r4, #12]	@ int
+ 232 0122 C4ED047A 		vstr.32	s15, [r4, #16]	@ int
+ 233 0126 04F12000 		add	r0, r4, #32
+ 234 012a 01F8043B 		strb	r3, [r1], #4
+ 235 012e FFF7FEFF 		bl	int32_rmat_of_quat
+ 236 0132 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 237 0134 A1E7     		b	.L22
+ 238              		.size	orientationCalcRMat_i, .-orientationCalcRMat_i
+ 239 0136 00BF     		.section	.text.orientationCalcEulers_i,"ax",%progbits
+ 240              		.align	1
+ 241              		.p2align 4,,15
+ 242              		.global	orientationCalcEulers_i
+ 243              		.syntax unified
+ 244              		.thumb
+ 245              		.thumb_func
+ 246              		.fpu fpv4-sp-d16
+ 247              		.type	orientationCalcEulers_i, %function
+ 248              	orientationCalcEulers_i:
+ 249              		@ args = 0, pretend = 0, frame = 0
+ 250              		@ frame_needed = 0, uses_anonymous_args = 0
+ 251 0000 0378     		ldrb	r3, [r0]	@ zero_extendqisi2
+ 252 0002 9A07     		lsls	r2, r3, #30
+ 253 0004 44D4     		bmi	.L47
+ 254 0006 D906     		lsls	r1, r3, #27
+ 255 0008 10B5     		push	{r4, lr}
+ 256 000a 0446     		mov	r4, r0
+ 257 000c 15D5     		bpl	.L38
+ 258 000e D0ED156A 		vldr.32	s13, [r0, #84]
+ 259 0012 90ED167A 		vldr.32	s14, [r0, #88]
+ 260 0016 D0ED177A 		vldr.32	s15, [r0, #92]
+ 261 001a FEEECA6A 		vcvt.s32.f32	s13, s13, #12
+ 262 001e BEEECA7A 		vcvt.s32.f32	s14, s14, #12
+ 263 0022 FEEECA7A 		vcvt.s32.f32	s15, s15, #12
+ 264 0026 C0ED056A 		vstr.32	s13, [r0, #20]	@ int
+ 265 002a 80ED067A 		vstr.32	s14, [r0, #24]	@ int
+ 266 002e C0ED077A 		vstr.32	s15, [r0, #28]	@ int
+ 267              	.L39:
+ 268 0032 43F00203 		orr	r3, r3, #2
+ 269 0036 2370     		strb	r3, [r4]
+ 270 0038 10BD     		pop	{r4, pc}
+ 271              	.L38:
+ 272 003a 5A07     		lsls	r2, r3, #29
+ 273 003c 30D4     		bmi	.L50
+ 274 003e D807     		lsls	r0, r3, #31
+ 275 0040 27D4     		bmi	.L51
+ 276 0042 9906     		lsls	r1, r3, #26
+ 277 0044 36D4     		bmi	.L52
+ 278 0046 1A07     		lsls	r2, r3, #28
+ 279 0048 F3D5     		bpl	.L39
+ 280 004a 94ED116A 		vldr.32	s12, [r4, #68]
+ 281 004e D4ED126A 		vldr.32	s13, [r4, #72]
+ 282 0052 94ED137A 		vldr.32	s14, [r4, #76]
+ 283 0056 D4ED147A 		vldr.32	s15, [r4, #80]
+ 284 005a BEEEE86A 		vcvt.s32.f32	s12, s12, #15
+ 285 005e FEEEE86A 		vcvt.s32.f32	s13, s13, #15
+ARM GAS  /tmp/ccR5HjH1.s 			page 6
+
+
+ 286 0062 BEEEE87A 		vcvt.s32.f32	s14, s14, #15
+ 287 0066 FEEEE87A 		vcvt.s32.f32	s15, s15, #15
+ 288 006a 2146     		mov	r1, r4
+ 289 006c 43F00103 		orr	r3, r3, #1
+ 290 0070 84ED016A 		vstr.32	s12, [r4, #4]	@ int
+ 291 0074 C4ED026A 		vstr.32	s13, [r4, #8]	@ int
+ 292 0078 84ED037A 		vstr.32	s14, [r4, #12]	@ int
+ 293 007c C4ED047A 		vstr.32	s15, [r4, #16]	@ int
+ 294 0080 04F11400 		add	r0, r4, #20
+ 295 0084 01F8043B 		strb	r3, [r1], #4
+ 296 0088 FFF7FEFF 		bl	int32_eulers_of_quat
+ 297 008c 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 298 008e D0E7     		b	.L39
+ 299              	.L47:
+ 300 0090 7047     		bx	lr
+ 301              	.L51:
+ 302 0092 211D     		adds	r1, r4, #4
+ 303 0094 04F11400 		add	r0, r4, #20
+ 304 0098 FFF7FEFF 		bl	int32_eulers_of_quat
+ 305 009c 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 306 009e C8E7     		b	.L39
+ 307              	.L50:
+ 308 00a0 00F12001 		add	r1, r0, #32
+ 309 00a4 1430     		adds	r0, r0, #20
+ 310 00a6 FFF7FEFF 		bl	int32_eulers_of_rmat
+ 311 00aa 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 312 00ac 43F00203 		orr	r3, r3, #2
+ 313 00b0 2370     		strb	r3, [r4]
+ 314 00b2 10BD     		pop	{r4, pc}
+ 315              	.L52:
+ 316 00b4 D4ED183A 		vldr.32	s7, [r4, #96]
+ 317 00b8 94ED194A 		vldr.32	s8, [r4, #100]
+ 318 00bc D4ED1A4A 		vldr.32	s9, [r4, #104]
+ 319 00c0 94ED1B5A 		vldr.32	s10, [r4, #108]
+ 320 00c4 D4ED1C5A 		vldr.32	s11, [r4, #112]
+ 321 00c8 94ED1D6A 		vldr.32	s12, [r4, #116]
+ 322 00cc D4ED1E6A 		vldr.32	s13, [r4, #120]
+ 323 00d0 94ED1F7A 		vldr.32	s14, [r4, #124]
+ 324 00d4 D4ED207A 		vldr.32	s15, [r4, #128]
+ 325 00d8 FEEEC93A 		vcvt.s32.f32	s7, s7, #14
+ 326 00dc BEEEC94A 		vcvt.s32.f32	s8, s8, #14
+ 327 00e0 FEEEC94A 		vcvt.s32.f32	s9, s9, #14
+ 328 00e4 BEEEC95A 		vcvt.s32.f32	s10, s10, #14
+ 329 00e8 FEEEC95A 		vcvt.s32.f32	s11, s11, #14
+ 330 00ec BEEEC96A 		vcvt.s32.f32	s12, s12, #14
+ 331 00f0 FEEEC96A 		vcvt.s32.f32	s13, s13, #14
+ 332 00f4 BEEEC97A 		vcvt.s32.f32	s14, s14, #14
+ 333 00f8 FEEEC97A 		vcvt.s32.f32	s15, s15, #14
+ 334 00fc 2146     		mov	r1, r4
+ 335 00fe 43F00403 		orr	r3, r3, #4
+ 336 0102 C4ED083A 		vstr.32	s7, [r4, #32]	@ int
+ 337 0106 84ED094A 		vstr.32	s8, [r4, #36]	@ int
+ 338 010a C4ED0A4A 		vstr.32	s9, [r4, #40]	@ int
+ 339 010e 84ED0B5A 		vstr.32	s10, [r4, #44]	@ int
+ 340 0112 C4ED0C5A 		vstr.32	s11, [r4, #48]	@ int
+ 341 0116 84ED0D6A 		vstr.32	s12, [r4, #52]	@ int
+ 342 011a C4ED0E6A 		vstr.32	s13, [r4, #56]	@ int
+ARM GAS  /tmp/ccR5HjH1.s 			page 7
+
+
+ 343 011e 84ED0F7A 		vstr.32	s14, [r4, #60]	@ int
+ 344 0122 C4ED107A 		vstr.32	s15, [r4, #64]	@ int
+ 345 0126 04F11400 		add	r0, r4, #20
+ 346 012a 01F8203B 		strb	r3, [r1], #32
+ 347 012e FFF7FEFF 		bl	int32_eulers_of_rmat
+ 348 0132 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 349 0134 7DE7     		b	.L39
+ 350              		.size	orientationCalcEulers_i, .-orientationCalcEulers_i
+ 351 0136 00BF     		.section	.text.orientationCalcQuat_f,"ax",%progbits
+ 352              		.align	1
+ 353              		.p2align 4,,15
+ 354              		.global	orientationCalcQuat_f
+ 355              		.syntax unified
+ 356              		.thumb
+ 357              		.thumb_func
+ 358              		.fpu fpv4-sp-d16
+ 359              		.type	orientationCalcQuat_f, %function
+ 360              	orientationCalcQuat_f:
+ 361              		@ args = 0, pretend = 0, frame = 0
+ 362              		@ frame_needed = 0, uses_anonymous_args = 0
+ 363 0000 0378     		ldrb	r3, [r0]	@ zero_extendqisi2
+ 364 0002 1A07     		lsls	r2, r3, #28
+ 365 0004 56D4     		bmi	.L64
+ 366 0006 D907     		lsls	r1, r3, #31
+ 367 0008 10B5     		push	{r4, lr}
+ 368 000a 0446     		mov	r4, r0
+ 369 000c 25D5     		bpl	.L55
+ 370 000e D0ED017A 		vldr.32	s15, [r0, #4]	@ int
+ 371 0012 DFED5C5A 		vldr.32	s11, .L70
+ 372 0016 B8EEE76A 		vcvt.f32.s32	s12, s15
+ 373 001a D0ED027A 		vldr.32	s15, [r0, #8]	@ int
+ 374 001e F8EEE76A 		vcvt.f32.s32	s13, s15
+ 375 0022 D0ED037A 		vldr.32	s15, [r0, #12]	@ int
+ 376 0026 B8EEE77A 		vcvt.f32.s32	s14, s15
+ 377 002a D0ED047A 		vldr.32	s15, [r0, #16]	@ int
+ 378 002e F8EEE77A 		vcvt.f32.s32	s15, s15
+ 379 0032 26EE256A 		vmul.f32	s12, s12, s11
+ 380 0036 66EEA56A 		vmul.f32	s13, s13, s11
+ 381 003a 27EE257A 		vmul.f32	s14, s14, s11
+ 382 003e 67EEA57A 		vmul.f32	s15, s15, s11
+ 383 0042 80ED116A 		vstr.32	s12, [r0, #68]
+ 384 0046 C0ED126A 		vstr.32	s13, [r0, #72]
+ 385 004a 80ED137A 		vstr.32	s14, [r0, #76]
+ 386 004e C0ED147A 		vstr.32	s15, [r0, #80]
+ 387              	.L56:
+ 388 0052 43F00803 		orr	r3, r3, #8
+ 389 0056 2370     		strb	r3, [r4]
+ 390 0058 10BD     		pop	{r4, pc}
+ 391              	.L55:
+ 392 005a 9A06     		lsls	r2, r3, #26
+ 393 005c 33D4     		bmi	.L67
+ 394 005e D806     		lsls	r0, r3, #27
+ 395 0060 29D4     		bmi	.L68
+ 396 0062 5907     		lsls	r1, r3, #29
+ 397 0064 39D4     		bmi	.L69
+ 398 0066 9A07     		lsls	r2, r3, #30
+ 399 0068 F3D5     		bpl	.L56
+ARM GAS  /tmp/ccR5HjH1.s 			page 8
+
+
+ 400 006a D4ED057A 		vldr.32	s15, [r4, #20]	@ int
+ 401 006e 9FED466A 		vldr.32	s12, .L70+4
+ 402 0072 F8EEE76A 		vcvt.f32.s32	s13, s15
+ 403 0076 D4ED067A 		vldr.32	s15, [r4, #24]	@ int
+ 404 007a B8EEE77A 		vcvt.f32.s32	s14, s15
+ 405 007e D4ED077A 		vldr.32	s15, [r4, #28]	@ int
+ 406 0082 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 407 0086 66EE866A 		vmul.f32	s13, s13, s12
+ 408 008a 27EE067A 		vmul.f32	s14, s14, s12
+ 409 008e 67EE867A 		vmul.f32	s15, s15, s12
+ 410 0092 2146     		mov	r1, r4
+ 411 0094 43F01003 		orr	r3, r3, #16
+ 412 0098 C4ED156A 		vstr.32	s13, [r4, #84]
+ 413 009c 84ED167A 		vstr.32	s14, [r4, #88]
+ 414 00a0 C4ED177A 		vstr.32	s15, [r4, #92]
+ 415 00a4 04F14400 		add	r0, r4, #68
+ 416 00a8 01F8543B 		strb	r3, [r1], #84
+ 417 00ac FFF7FEFF 		bl	float_quat_of_eulers
+ 418 00b0 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 419 00b2 CEE7     		b	.L56
+ 420              	.L64:
+ 421 00b4 7047     		bx	lr
+ 422              	.L68:
+ 423 00b6 04F15401 		add	r1, r4, #84
+ 424 00ba 04F14400 		add	r0, r4, #68
+ 425 00be FFF7FEFF 		bl	float_quat_of_eulers
+ 426 00c2 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 427 00c4 C5E7     		b	.L56
+ 428              	.L67:
+ 429 00c6 00F16001 		add	r1, r0, #96
+ 430 00ca 4430     		adds	r0, r0, #68
+ 431 00cc FFF7FEFF 		bl	float_quat_of_rmat
+ 432 00d0 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 433 00d2 43F00803 		orr	r3, r3, #8
+ 434 00d6 2370     		strb	r3, [r4]
+ 435 00d8 10BD     		pop	{r4, pc}
+ 436              	.L69:
+ 437 00da 94ED087A 		vldr.32	s14, [r4, #32]	@ int
+ 438 00de DFED2B7A 		vldr.32	s15, .L70+8
+ 439 00e2 B8EEC73A 		vcvt.f32.s32	s6, s14
+ 440 00e6 94ED097A 		vldr.32	s14, [r4, #36]	@ int
+ 441 00ea F8EEC73A 		vcvt.f32.s32	s7, s14
+ 442 00ee 94ED0A7A 		vldr.32	s14, [r4, #40]	@ int
+ 443 00f2 B8EEC74A 		vcvt.f32.s32	s8, s14
+ 444 00f6 94ED0B7A 		vldr.32	s14, [r4, #44]	@ int
+ 445 00fa F8EEC74A 		vcvt.f32.s32	s9, s14
+ 446 00fe 94ED0C7A 		vldr.32	s14, [r4, #48]	@ int
+ 447 0102 B8EEC75A 		vcvt.f32.s32	s10, s14
+ 448 0106 94ED0D7A 		vldr.32	s14, [r4, #52]	@ int
+ 449 010a F8EEC75A 		vcvt.f32.s32	s11, s14
+ 450 010e 94ED0E7A 		vldr.32	s14, [r4, #56]	@ int
+ 451 0112 B8EEC76A 		vcvt.f32.s32	s12, s14
+ 452 0116 94ED0F7A 		vldr.32	s14, [r4, #60]	@ int
+ 453 011a F8EEC76A 		vcvt.f32.s32	s13, s14
+ 454 011e 94ED107A 		vldr.32	s14, [r4, #64]	@ int
+ 455 0122 B8EEC77A 		vcvt.f32.s32	s14, s14
+ 456 0126 23EE273A 		vmul.f32	s6, s6, s15
+ARM GAS  /tmp/ccR5HjH1.s 			page 9
+
+
+ 457 012a 63EEA73A 		vmul.f32	s7, s7, s15
+ 458 012e 24EE274A 		vmul.f32	s8, s8, s15
+ 459 0132 64EEA74A 		vmul.f32	s9, s9, s15
+ 460 0136 25EE275A 		vmul.f32	s10, s10, s15
+ 461 013a 65EEA75A 		vmul.f32	s11, s11, s15
+ 462 013e 26EE276A 		vmul.f32	s12, s12, s15
+ 463 0142 66EEA76A 		vmul.f32	s13, s13, s15
+ 464 0146 2146     		mov	r1, r4
+ 465 0148 67EE277A 		vmul.f32	s15, s14, s15
+ 466 014c 43F02003 		orr	r3, r3, #32
+ 467 0150 84ED183A 		vstr.32	s6, [r4, #96]
+ 468 0154 C4ED193A 		vstr.32	s7, [r4, #100]
+ 469 0158 84ED1A4A 		vstr.32	s8, [r4, #104]
+ 470 015c C4ED1B4A 		vstr.32	s9, [r4, #108]
+ 471 0160 84ED1C5A 		vstr.32	s10, [r4, #112]
+ 472 0164 C4ED1D5A 		vstr.32	s11, [r4, #116]
+ 473 0168 84ED1E6A 		vstr.32	s12, [r4, #120]
+ 474 016c C4ED1F6A 		vstr.32	s13, [r4, #124]
+ 475 0170 C4ED207A 		vstr.32	s15, [r4, #128]
+ 476 0174 04F14400 		add	r0, r4, #68
+ 477 0178 01F8603B 		strb	r3, [r1], #96
+ 478 017c FFF7FEFF 		bl	float_quat_of_rmat
+ 479 0180 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 480 0182 66E7     		b	.L56
+ 481              	.L71:
+ 482              		.align	2
+ 483              	.L70:
+ 484 0184 00000038 		.word	939524096
+ 485 0188 00008039 		.word	964689920
+ 486 018c 00008038 		.word	947912704
+ 487              		.size	orientationCalcQuat_f, .-orientationCalcQuat_f
+ 488              		.section	.text.orientationCalcRMat_f,"ax",%progbits
+ 489              		.align	1
+ 490              		.p2align 4,,15
+ 491              		.global	orientationCalcRMat_f
+ 492              		.syntax unified
+ 493              		.thumb
+ 494              		.thumb_func
+ 495              		.fpu fpv4-sp-d16
+ 496              		.type	orientationCalcRMat_f, %function
+ 497              	orientationCalcRMat_f:
+ 498              		@ args = 0, pretend = 0, frame = 0
+ 499              		@ frame_needed = 0, uses_anonymous_args = 0
+ 500 0000 0378     		ldrb	r3, [r0]	@ zero_extendqisi2
+ 501 0002 9A06     		lsls	r2, r3, #26
+ 502 0004 7ED4     		bmi	.L83
+ 503 0006 5907     		lsls	r1, r3, #29
+ 504 0008 10B5     		push	{r4, lr}
+ 505 000a 0446     		mov	r4, r0
+ 506 000c 4DD5     		bpl	.L74
+ 507 000e 90ED087A 		vldr.32	s14, [r0, #32]	@ int
+ 508 0012 DFED5C7A 		vldr.32	s15, .L89
+ 509 0016 B8EEC73A 		vcvt.f32.s32	s6, s14
+ 510 001a 90ED097A 		vldr.32	s14, [r0, #36]	@ int
+ 511 001e F8EEC73A 		vcvt.f32.s32	s7, s14
+ 512 0022 90ED0A7A 		vldr.32	s14, [r0, #40]	@ int
+ 513 0026 B8EEC74A 		vcvt.f32.s32	s8, s14
+ARM GAS  /tmp/ccR5HjH1.s 			page 10
+
+
+ 514 002a 90ED0B7A 		vldr.32	s14, [r0, #44]	@ int
+ 515 002e F8EEC74A 		vcvt.f32.s32	s9, s14
+ 516 0032 90ED0C7A 		vldr.32	s14, [r0, #48]	@ int
+ 517 0036 B8EEC75A 		vcvt.f32.s32	s10, s14
+ 518 003a 90ED0D7A 		vldr.32	s14, [r0, #52]	@ int
+ 519 003e F8EEC75A 		vcvt.f32.s32	s11, s14
+ 520 0042 90ED0E7A 		vldr.32	s14, [r0, #56]	@ int
+ 521 0046 B8EEC76A 		vcvt.f32.s32	s12, s14
+ 522 004a 90ED0F7A 		vldr.32	s14, [r0, #60]	@ int
+ 523 004e F8EEC76A 		vcvt.f32.s32	s13, s14
+ 524 0052 90ED107A 		vldr.32	s14, [r0, #64]	@ int
+ 525 0056 B8EEC77A 		vcvt.f32.s32	s14, s14
+ 526 005a 23EE273A 		vmul.f32	s6, s6, s15
+ 527 005e 63EEA73A 		vmul.f32	s7, s7, s15
+ 528 0062 24EE274A 		vmul.f32	s8, s8, s15
+ 529 0066 64EEA74A 		vmul.f32	s9, s9, s15
+ 530 006a 25EE275A 		vmul.f32	s10, s10, s15
+ 531 006e 65EEA75A 		vmul.f32	s11, s11, s15
+ 532 0072 26EE276A 		vmul.f32	s12, s12, s15
+ 533 0076 66EEA76A 		vmul.f32	s13, s13, s15
+ 534 007a 67EE277A 		vmul.f32	s15, s14, s15
+ 535 007e 80ED183A 		vstr.32	s6, [r0, #96]
+ 536 0082 C0ED193A 		vstr.32	s7, [r0, #100]
+ 537 0086 80ED1A4A 		vstr.32	s8, [r0, #104]
+ 538 008a C0ED1B4A 		vstr.32	s9, [r0, #108]
+ 539 008e 80ED1C5A 		vstr.32	s10, [r0, #112]
+ 540 0092 C0ED1D5A 		vstr.32	s11, [r0, #116]
+ 541 0096 80ED1E6A 		vstr.32	s12, [r0, #120]
+ 542 009a C0ED1F6A 		vstr.32	s13, [r0, #124]
+ 543 009e C0ED207A 		vstr.32	s15, [r0, #128]
+ 544              	.L75:
+ 545 00a2 43F02003 		orr	r3, r3, #32
+ 546 00a6 2370     		strb	r3, [r4]
+ 547 00a8 10BD     		pop	{r4, pc}
+ 548              	.L74:
+ 549 00aa 1A07     		lsls	r2, r3, #28
+ 550 00ac 33D4     		bmi	.L86
+ 551 00ae D806     		lsls	r0, r3, #27
+ 552 00b0 29D4     		bmi	.L87
+ 553 00b2 D907     		lsls	r1, r3, #31
+ 554 00b4 39D4     		bmi	.L88
+ 555 00b6 9A07     		lsls	r2, r3, #30
+ 556 00b8 F3D5     		bpl	.L75
+ 557 00ba D4ED057A 		vldr.32	s15, [r4, #20]	@ int
+ 558 00be 9FED326A 		vldr.32	s12, .L89+4
+ 559 00c2 F8EEE76A 		vcvt.f32.s32	s13, s15
+ 560 00c6 D4ED067A 		vldr.32	s15, [r4, #24]	@ int
+ 561 00ca B8EEE77A 		vcvt.f32.s32	s14, s15
+ 562 00ce D4ED077A 		vldr.32	s15, [r4, #28]	@ int
+ 563 00d2 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 564 00d6 66EE866A 		vmul.f32	s13, s13, s12
+ 565 00da 27EE067A 		vmul.f32	s14, s14, s12
+ 566 00de 67EE867A 		vmul.f32	s15, s15, s12
+ 567 00e2 2146     		mov	r1, r4
+ 568 00e4 43F01003 		orr	r3, r3, #16
+ 569 00e8 C4ED156A 		vstr.32	s13, [r4, #84]
+ 570 00ec 84ED167A 		vstr.32	s14, [r4, #88]
+ARM GAS  /tmp/ccR5HjH1.s 			page 11
+
+
+ 571 00f0 C4ED177A 		vstr.32	s15, [r4, #92]
+ 572 00f4 04F16000 		add	r0, r4, #96
+ 573 00f8 01F8543B 		strb	r3, [r1], #84
+ 574 00fc FFF7FEFF 		bl	float_rmat_of_eulers_321
+ 575 0100 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 576 0102 CEE7     		b	.L75
+ 577              	.L83:
+ 578 0104 7047     		bx	lr
+ 579              	.L87:
+ 580 0106 04F15401 		add	r1, r4, #84
+ 581 010a 04F16000 		add	r0, r4, #96
+ 582 010e FFF7FEFF 		bl	float_rmat_of_eulers_321
+ 583 0112 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 584 0114 C5E7     		b	.L75
+ 585              	.L86:
+ 586 0116 00F14401 		add	r1, r0, #68
+ 587 011a 6030     		adds	r0, r0, #96
+ 588 011c FFF7FEFF 		bl	float_rmat_of_quat
+ 589 0120 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 590 0122 43F02003 		orr	r3, r3, #32
+ 591 0126 2370     		strb	r3, [r4]
+ 592 0128 10BD     		pop	{r4, pc}
+ 593              	.L88:
+ 594 012a D4ED017A 		vldr.32	s15, [r4, #4]	@ int
+ 595 012e DFED175A 		vldr.32	s11, .L89+8
+ 596 0132 B8EEE76A 		vcvt.f32.s32	s12, s15
+ 597 0136 D4ED027A 		vldr.32	s15, [r4, #8]	@ int
+ 598 013a F8EEE76A 		vcvt.f32.s32	s13, s15
+ 599 013e D4ED037A 		vldr.32	s15, [r4, #12]	@ int
+ 600 0142 B8EEE77A 		vcvt.f32.s32	s14, s15
+ 601 0146 D4ED047A 		vldr.32	s15, [r4, #16]	@ int
+ 602 014a F8EEE77A 		vcvt.f32.s32	s15, s15
+ 603 014e 26EE256A 		vmul.f32	s12, s12, s11
+ 604 0152 66EEA56A 		vmul.f32	s13, s13, s11
+ 605 0156 27EE257A 		vmul.f32	s14, s14, s11
+ 606 015a 67EEA57A 		vmul.f32	s15, s15, s11
+ 607 015e 2146     		mov	r1, r4
+ 608 0160 43F00803 		orr	r3, r3, #8
+ 609 0164 84ED116A 		vstr.32	s12, [r4, #68]
+ 610 0168 C4ED126A 		vstr.32	s13, [r4, #72]
+ 611 016c 84ED137A 		vstr.32	s14, [r4, #76]
+ 612 0170 C4ED147A 		vstr.32	s15, [r4, #80]
+ 613 0174 04F16000 		add	r0, r4, #96
+ 614 0178 01F8443B 		strb	r3, [r1], #68
+ 615 017c FFF7FEFF 		bl	float_rmat_of_quat
+ 616 0180 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 617 0182 8EE7     		b	.L75
+ 618              	.L90:
+ 619              		.align	2
+ 620              	.L89:
+ 621 0184 00008038 		.word	947912704
+ 622 0188 00008039 		.word	964689920
+ 623 018c 00000038 		.word	939524096
+ 624              		.size	orientationCalcRMat_f, .-orientationCalcRMat_f
+ 625              		.section	.text.orientationCalcEulers_f,"ax",%progbits
+ 626              		.align	1
+ 627              		.p2align 4,,15
+ARM GAS  /tmp/ccR5HjH1.s 			page 12
+
+
+ 628              		.global	orientationCalcEulers_f
+ 629              		.syntax unified
+ 630              		.thumb
+ 631              		.thumb_func
+ 632              		.fpu fpv4-sp-d16
+ 633              		.type	orientationCalcEulers_f, %function
+ 634              	orientationCalcEulers_f:
+ 635              		@ args = 0, pretend = 0, frame = 0
+ 636              		@ frame_needed = 0, uses_anonymous_args = 0
+ 637 0000 0378     		ldrb	r3, [r0]	@ zero_extendqisi2
+ 638 0002 DA06     		lsls	r2, r3, #27
+ 639 0004 56D4     		bmi	.L102
+ 640 0006 9907     		lsls	r1, r3, #30
+ 641 0008 10B5     		push	{r4, lr}
+ 642 000a 0446     		mov	r4, r0
+ 643 000c 1DD5     		bpl	.L93
+ 644 000e D0ED057A 		vldr.32	s15, [r0, #20]	@ int
+ 645 0012 9FED5C6A 		vldr.32	s12, .L108
+ 646 0016 F8EEE76A 		vcvt.f32.s32	s13, s15
+ 647 001a D0ED067A 		vldr.32	s15, [r0, #24]	@ int
+ 648 001e B8EEE77A 		vcvt.f32.s32	s14, s15
+ 649 0022 D0ED077A 		vldr.32	s15, [r0, #28]	@ int
+ 650 0026 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 651 002a 66EE866A 		vmul.f32	s13, s13, s12
+ 652 002e 27EE067A 		vmul.f32	s14, s14, s12
+ 653 0032 67EE867A 		vmul.f32	s15, s15, s12
+ 654 0036 C0ED156A 		vstr.32	s13, [r0, #84]
+ 655 003a 80ED167A 		vstr.32	s14, [r0, #88]
+ 656 003e C0ED177A 		vstr.32	s15, [r0, #92]
+ 657              	.L94:
+ 658 0042 43F01003 		orr	r3, r3, #16
+ 659 0046 2370     		strb	r3, [r4]
+ 660 0048 10BD     		pop	{r4, pc}
+ 661              	.L93:
+ 662 004a 9A06     		lsls	r2, r3, #26
+ 663 004c 3BD4     		bmi	.L105
+ 664 004e 1807     		lsls	r0, r3, #28
+ 665 0050 31D4     		bmi	.L106
+ 666 0052 5907     		lsls	r1, r3, #29
+ 667 0054 41D4     		bmi	.L107
+ 668 0056 DA07     		lsls	r2, r3, #31
+ 669 0058 F3D5     		bpl	.L94
+ 670 005a D4ED017A 		vldr.32	s15, [r4, #4]	@ int
+ 671 005e DFED4A5A 		vldr.32	s11, .L108+4
+ 672 0062 B8EEE76A 		vcvt.f32.s32	s12, s15
+ 673 0066 D4ED027A 		vldr.32	s15, [r4, #8]	@ int
+ 674 006a F8EEE76A 		vcvt.f32.s32	s13, s15
+ 675 006e D4ED037A 		vldr.32	s15, [r4, #12]	@ int
+ 676 0072 B8EEE77A 		vcvt.f32.s32	s14, s15
+ 677 0076 D4ED047A 		vldr.32	s15, [r4, #16]	@ int
+ 678 007a F8EEE77A 		vcvt.f32.s32	s15, s15
+ 679 007e 26EE256A 		vmul.f32	s12, s12, s11
+ 680 0082 66EEA56A 		vmul.f32	s13, s13, s11
+ 681 0086 27EE257A 		vmul.f32	s14, s14, s11
+ 682 008a 67EEA57A 		vmul.f32	s15, s15, s11
+ 683 008e 2146     		mov	r1, r4
+ 684 0090 43F00803 		orr	r3, r3, #8
+ARM GAS  /tmp/ccR5HjH1.s 			page 13
+
+
+ 685 0094 84ED116A 		vstr.32	s12, [r4, #68]
+ 686 0098 C4ED126A 		vstr.32	s13, [r4, #72]
+ 687 009c 84ED137A 		vstr.32	s14, [r4, #76]
+ 688 00a0 C4ED147A 		vstr.32	s15, [r4, #80]
+ 689 00a4 04F15400 		add	r0, r4, #84
+ 690 00a8 01F8443B 		strb	r3, [r1], #68
+ 691 00ac FFF7FEFF 		bl	float_eulers_of_quat
+ 692 00b0 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 693 00b2 C6E7     		b	.L94
+ 694              	.L102:
+ 695 00b4 7047     		bx	lr
+ 696              	.L106:
+ 697 00b6 04F14401 		add	r1, r4, #68
+ 698 00ba 04F15400 		add	r0, r4, #84
+ 699 00be FFF7FEFF 		bl	float_eulers_of_quat
+ 700 00c2 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 701 00c4 BDE7     		b	.L94
+ 702              	.L105:
+ 703 00c6 00F16001 		add	r1, r0, #96
+ 704 00ca 5430     		adds	r0, r0, #84
+ 705 00cc FFF7FEFF 		bl	float_eulers_of_rmat
+ 706 00d0 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 707 00d2 43F01003 		orr	r3, r3, #16
+ 708 00d6 2370     		strb	r3, [r4]
+ 709 00d8 10BD     		pop	{r4, pc}
+ 710              	.L107:
+ 711 00da 94ED087A 		vldr.32	s14, [r4, #32]	@ int
+ 712 00de DFED2B7A 		vldr.32	s15, .L108+8
+ 713 00e2 B8EEC73A 		vcvt.f32.s32	s6, s14
+ 714 00e6 94ED097A 		vldr.32	s14, [r4, #36]	@ int
+ 715 00ea F8EEC73A 		vcvt.f32.s32	s7, s14
+ 716 00ee 94ED0A7A 		vldr.32	s14, [r4, #40]	@ int
+ 717 00f2 B8EEC74A 		vcvt.f32.s32	s8, s14
+ 718 00f6 94ED0B7A 		vldr.32	s14, [r4, #44]	@ int
+ 719 00fa F8EEC74A 		vcvt.f32.s32	s9, s14
+ 720 00fe 94ED0C7A 		vldr.32	s14, [r4, #48]	@ int
+ 721 0102 B8EEC75A 		vcvt.f32.s32	s10, s14
+ 722 0106 94ED0D7A 		vldr.32	s14, [r4, #52]	@ int
+ 723 010a F8EEC75A 		vcvt.f32.s32	s11, s14
+ 724 010e 94ED0E7A 		vldr.32	s14, [r4, #56]	@ int
+ 725 0112 B8EEC76A 		vcvt.f32.s32	s12, s14
+ 726 0116 94ED0F7A 		vldr.32	s14, [r4, #60]	@ int
+ 727 011a F8EEC76A 		vcvt.f32.s32	s13, s14
+ 728 011e 94ED107A 		vldr.32	s14, [r4, #64]	@ int
+ 729 0122 B8EEC77A 		vcvt.f32.s32	s14, s14
+ 730 0126 23EE273A 		vmul.f32	s6, s6, s15
+ 731 012a 63EEA73A 		vmul.f32	s7, s7, s15
+ 732 012e 24EE274A 		vmul.f32	s8, s8, s15
+ 733 0132 64EEA74A 		vmul.f32	s9, s9, s15
+ 734 0136 25EE275A 		vmul.f32	s10, s10, s15
+ 735 013a 65EEA75A 		vmul.f32	s11, s11, s15
+ 736 013e 26EE276A 		vmul.f32	s12, s12, s15
+ 737 0142 66EEA76A 		vmul.f32	s13, s13, s15
+ 738 0146 2146     		mov	r1, r4
+ 739 0148 67EE277A 		vmul.f32	s15, s14, s15
+ 740 014c 43F02003 		orr	r3, r3, #32
+ 741 0150 84ED183A 		vstr.32	s6, [r4, #96]
+ARM GAS  /tmp/ccR5HjH1.s 			page 14
+
+
+ 742 0154 C4ED193A 		vstr.32	s7, [r4, #100]
+ 743 0158 84ED1A4A 		vstr.32	s8, [r4, #104]
+ 744 015c C4ED1B4A 		vstr.32	s9, [r4, #108]
+ 745 0160 84ED1C5A 		vstr.32	s10, [r4, #112]
+ 746 0164 C4ED1D5A 		vstr.32	s11, [r4, #116]
+ 747 0168 84ED1E6A 		vstr.32	s12, [r4, #120]
+ 748 016c C4ED1F6A 		vstr.32	s13, [r4, #124]
+ 749 0170 C4ED207A 		vstr.32	s15, [r4, #128]
+ 750 0174 04F15400 		add	r0, r4, #84
+ 751 0178 01F8603B 		strb	r3, [r1], #96
+ 752 017c FFF7FEFF 		bl	float_eulers_of_rmat
+ 753 0180 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 754 0182 5EE7     		b	.L94
+ 755              	.L109:
+ 756              		.align	2
+ 757              	.L108:
+ 758 0184 00008039 		.word	964689920
+ 759 0188 00000038 		.word	939524096
+ 760 018c 00008038 		.word	947912704
+ 761              		.size	orientationCalcEulers_f, .-orientationCalcEulers_f
+ 762              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccR5HjH1.s 			page 15
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 pprz_orientation_conversion.c
+     /tmp/ccR5HjH1.s:15     .text.orientationCalcQuat_i:0000000000000000 $t
+     /tmp/ccR5HjH1.s:24     .text.orientationCalcQuat_i:0000000000000000 orientationCalcQuat_i
+     /tmp/ccR5HjH1.s:128    .text.orientationCalcRMat_i:0000000000000000 $t
+     /tmp/ccR5HjH1.s:136    .text.orientationCalcRMat_i:0000000000000000 orientationCalcRMat_i
+     /tmp/ccR5HjH1.s:240    .text.orientationCalcEulers_i:0000000000000000 $t
+     /tmp/ccR5HjH1.s:248    .text.orientationCalcEulers_i:0000000000000000 orientationCalcEulers_i
+     /tmp/ccR5HjH1.s:352    .text.orientationCalcQuat_f:0000000000000000 $t
+     /tmp/ccR5HjH1.s:360    .text.orientationCalcQuat_f:0000000000000000 orientationCalcQuat_f
+     /tmp/ccR5HjH1.s:484    .text.orientationCalcQuat_f:0000000000000184 $d
+     /tmp/ccR5HjH1.s:489    .text.orientationCalcRMat_f:0000000000000000 $t
+     /tmp/ccR5HjH1.s:497    .text.orientationCalcRMat_f:0000000000000000 orientationCalcRMat_f
+     /tmp/ccR5HjH1.s:621    .text.orientationCalcRMat_f:0000000000000184 $d
+     /tmp/ccR5HjH1.s:626    .text.orientationCalcEulers_f:0000000000000000 $t
+     /tmp/ccR5HjH1.s:634    .text.orientationCalcEulers_f:0000000000000000 orientationCalcEulers_f
+     /tmp/ccR5HjH1.s:758    .text.orientationCalcEulers_f:0000000000000184 $d
+
+UNDEFINED SYMBOLS
+int32_quat_of_eulers
+int32_quat_of_rmat
+int32_rmat_of_eulers_321
+int32_rmat_of_quat
+int32_eulers_of_quat
+int32_eulers_of_rmat
+float_quat_of_eulers
+float_quat_of_rmat
+float_rmat_of_eulers_321
+float_rmat_of_quat
+float_eulers_of_quat
+float_eulers_of_rmat

@@ -1,0 +1,241 @@
+ARM GAS  /tmp/ccawrE0b.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"crt1.c"
+  13              		.text
+  14              		.section	.text.__cpu_init,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.weak	__cpu_init
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	__cpu_init, %function
+  24              	__cpu_init:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27              		@ link register save eliminated.
+  28 0000 7047     		bx	lr
+  29              		.size	__cpu_init, .-__cpu_init
+  30 0002 00BF     		.section	.text.__early_init,"ax",%progbits
+  31              		.align	1
+  32              		.p2align 4,,15
+  33              		.weak	__early_init
+  34              		.syntax unified
+  35              		.thumb
+  36              		.thumb_func
+  37              		.fpu fpv4-sp-d16
+  38              		.type	__early_init, %function
+  39              	__early_init:
+  40              		@ args = 0, pretend = 0, frame = 0
+  41              		@ frame_needed = 0, uses_anonymous_args = 0
+  42              		@ link register save eliminated.
+  43 0000 7047     		bx	lr
+  44              		.size	__early_init, .-__early_init
+  45 0002 00BF     		.section	.text.__late_init,"ax",%progbits
+  46              		.align	1
+  47              		.p2align 4,,15
+  48              		.weak	__late_init
+  49              		.syntax unified
+  50              		.thumb
+  51              		.thumb_func
+  52              		.fpu fpv4-sp-d16
+  53              		.type	__late_init, %function
+  54              	__late_init:
+  55              		@ args = 0, pretend = 0, frame = 0
+  56              		@ frame_needed = 0, uses_anonymous_args = 0
+  57              		@ link register save eliminated.
+ARM GAS  /tmp/ccawrE0b.s 			page 2
+
+
+  58 0000 7047     		bx	lr
+  59              		.size	__late_init, .-__late_init
+  60 0002 00BF     		.section	.text.__default_exit,"ax",%progbits
+  61              		.align	1
+  62              		.p2align 4,,15
+  63              		.weak	__default_exit
+  64              		.syntax unified
+  65              		.thumb
+  66              		.thumb_func
+  67              		.fpu fpv4-sp-d16
+  68              		.type	__default_exit, %function
+  69              	__default_exit:
+  70              		@ Volatile: function does not return.
+  71              		@ args = 0, pretend = 0, frame = 0
+  72              		@ frame_needed = 0, uses_anonymous_args = 0
+  73              		@ link register save eliminated.
+  74              	.L6:
+  75 0000 FEE7     		b	.L6
+  76              		.size	__default_exit, .-__default_exit
+  77 0002 00BF     		.section	.text.__init_ram_areas,"ax",%progbits
+  78              		.align	1
+  79              		.p2align 4,,15
+  80              		.global	__init_ram_areas
+  81              		.syntax unified
+  82              		.thumb
+  83              		.thumb_func
+  84              		.fpu fpv4-sp-d16
+  85              		.type	__init_ram_areas, %function
+  86              	__init_ram_areas:
+  87              		@ args = 0, pretend = 0, frame = 0
+  88              		@ frame_needed = 0, uses_anonymous_args = 0
+  89 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+  90 0002 154D     		ldr	r5, .L19
+  91 0004 154F     		ldr	r7, .L19+4
+  92 0006 1649     		ldr	r1, .L19+8
+  93 0008 1648     		ldr	r0, .L19+12
+  94 000a 174A     		ldr	r2, .L19+16
+  95 000c 05F17004 		add	r4, r5, #112
+  96              	.L14:
+  97 0010 8142     		cmp	r1, r0
+  98 0012 0DD9     		bls	.L8
+  99 0014 043A     		subs	r2, r2, #4
+ 100 0016 0346     		mov	r3, r0
+ 101              	.L9:
+ 102 0018 52F8046F 		ldr	r6, [r2, #4]!
+ 103 001c 43F8046B 		str	r6, [r3], #4
+ 104 0020 9942     		cmp	r1, r3
+ 105 0022 F9D8     		bhi	.L9
+ 106 0024 4B1E     		subs	r3, r1, #1
+ 107 0026 1B1A     		subs	r3, r3, r0
+ 108 0028 23F00303 		bic	r3, r3, #3
+ 109 002c 0433     		adds	r3, r3, #4
+ 110 002e 1844     		add	r0, r0, r3
+ 111              	.L8:
+ 112 0030 8742     		cmp	r7, r0
+ 113 0032 07D9     		bls	.L13
+ 114 0034 7A1E     		subs	r2, r7, #1
+ARM GAS  /tmp/ccawrE0b.s 			page 3
+
+
+ 115 0036 121A     		subs	r2, r2, r0
+ 116 0038 22F00302 		bic	r2, r2, #3
+ 117 003c 0432     		adds	r2, r2, #4
+ 118 003e 0021     		movs	r1, #0
+ 119 0040 FFF7FEFF 		bl	memset
+ 120              	.L13:
+ 121 0044 A542     		cmp	r5, r4
+ 122 0046 05D0     		beq	.L18
+ 123 0048 D5E90420 		ldrd	r2, r0, [r5, #16]
+ 124 004c D5E90617 		ldrd	r1, r7, [r5, #24]
+ 125 0050 1035     		adds	r5, r5, #16
+ 126 0052 DDE7     		b	.L14
+ 127              	.L18:
+ 128 0054 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 129              	.L20:
+ 130 0056 00BF     		.align	2
+ 131              	.L19:
+ 132 0058 00000000 		.word	.LANCHOR0
+ 133 005c 00000000 		.word	__ram0_noinit__
+ 134 0060 00000000 		.word	__ram0_clear__
+ 135 0064 00000000 		.word	__ram0_init__
+ 136 0068 00000000 		.word	__ram0_init_text__
+ 137              		.size	__init_ram_areas, .-__init_ram_areas
+ 138              		.section	.rodata.ram_areas,"a"
+ 139              		.align	2
+ 140              		.set	.LANCHOR0,. + 0
+ 141              		.type	ram_areas, %object
+ 142              		.size	ram_areas, 128
+ 143              	ram_areas:
+ 144 0000 00000000 		.word	__ram0_init_text__
+ 145 0004 00000000 		.word	__ram0_init__
+ 146 0008 00000000 		.word	__ram0_clear__
+ 147 000c 00000000 		.word	__ram0_noinit__
+ 148 0010 00000000 		.word	__ram1_init_text__
+ 149 0014 00000000 		.word	__ram1_init__
+ 150 0018 00000000 		.word	__ram1_clear__
+ 151 001c 00000000 		.word	__ram1_noinit__
+ 152 0020 00000000 		.word	__ram2_init_text__
+ 153 0024 00000000 		.word	__ram2_init__
+ 154 0028 00000000 		.word	__ram2_clear__
+ 155 002c 00000000 		.word	__ram2_noinit__
+ 156 0030 00000000 		.word	__ram3_init_text__
+ 157 0034 00000000 		.word	__ram3_init__
+ 158 0038 00000000 		.word	__ram3_clear__
+ 159 003c 00000000 		.word	__ram3_noinit__
+ 160 0040 00000000 		.word	__ram4_init_text__
+ 161 0044 00000000 		.word	__ram4_init__
+ 162 0048 00000000 		.word	__ram4_clear__
+ 163 004c 00000000 		.word	__ram4_noinit__
+ 164 0050 00000000 		.word	__ram5_init_text__
+ 165 0054 00000000 		.word	__ram5_init__
+ 166 0058 00000000 		.word	__ram5_clear__
+ 167 005c 00000000 		.word	__ram5_noinit__
+ 168 0060 00000000 		.word	__ram6_init_text__
+ 169 0064 00000000 		.word	__ram6_init__
+ 170 0068 00000000 		.word	__ram6_clear__
+ 171 006c 00000000 		.word	__ram6_noinit__
+ARM GAS  /tmp/ccawrE0b.s 			page 4
+
+
+ 172 0070 00000000 		.word	__ram7_init_text__
+ 173 0074 00000000 		.word	__ram7_init__
+ 174 0078 00000000 		.word	__ram7_clear__
+ 175 007c 00000000 		.word	__ram7_noinit__
+ 176              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccawrE0b.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 crt1.c
+     /tmp/ccawrE0b.s:15     .text.__cpu_init:0000000000000000 $t
+     /tmp/ccawrE0b.s:24     .text.__cpu_init:0000000000000000 __cpu_init
+     /tmp/ccawrE0b.s:31     .text.__early_init:0000000000000000 $t
+     /tmp/ccawrE0b.s:39     .text.__early_init:0000000000000000 __early_init
+     /tmp/ccawrE0b.s:46     .text.__late_init:0000000000000000 $t
+     /tmp/ccawrE0b.s:54     .text.__late_init:0000000000000000 __late_init
+     /tmp/ccawrE0b.s:61     .text.__default_exit:0000000000000000 $t
+     /tmp/ccawrE0b.s:69     .text.__default_exit:0000000000000000 __default_exit
+     /tmp/ccawrE0b.s:78     .text.__init_ram_areas:0000000000000000 $t
+     /tmp/ccawrE0b.s:86     .text.__init_ram_areas:0000000000000000 __init_ram_areas
+     /tmp/ccawrE0b.s:132    .text.__init_ram_areas:0000000000000058 $d
+     /tmp/ccawrE0b.s:139    .rodata.ram_areas:0000000000000000 $d
+     /tmp/ccawrE0b.s:143    .rodata.ram_areas:0000000000000000 ram_areas
+
+UNDEFINED SYMBOLS
+memset
+__ram0_noinit__
+__ram0_clear__
+__ram0_init__
+__ram0_init_text__
+__ram1_init_text__
+__ram1_init__
+__ram1_clear__
+__ram1_noinit__
+__ram2_init_text__
+__ram2_init__
+__ram2_clear__
+__ram2_noinit__
+__ram3_init_text__
+__ram3_init__
+__ram3_clear__
+__ram3_noinit__
+__ram4_init_text__
+__ram4_init__
+__ram4_clear__
+__ram4_noinit__
+__ram5_init_text__
+__ram5_init__
+__ram5_clear__
+__ram5_noinit__
+__ram6_init_text__
+__ram6_init__
+__ram6_clear__
+__ram6_noinit__
+__ram7_init_text__
+__ram7_init__
+__ram7_clear__
+__ram7_noinit__

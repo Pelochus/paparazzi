@@ -1,0 +1,263 @@
+ARM GAS  /tmp/ccdX13gt.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"hal_pal.c"
+  13              		.text
+  14              		.section	.text.palReadBus,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	palReadBus
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	palReadBus, %function
+  24              	palReadBus:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27              		@ link register save eliminated.
+  28 0000 0368     		ldr	r3, [r0]
+  29 0002 8268     		ldr	r2, [r0, #8]
+  30 0004 1B69     		ldr	r3, [r3, #16]
+  31 0006 4068     		ldr	r0, [r0, #4]
+  32 0008 D340     		lsrs	r3, r3, r2
+  33 000a 1840     		ands	r0, r0, r3
+  34 000c 7047     		bx	lr
+  35              		.size	palReadBus, .-palReadBus
+  36 000e 00BF     		.section	.text.palWriteBus,"ax",%progbits
+  37              		.align	1
+  38              		.p2align 4,,15
+  39              		.global	palWriteBus
+  40              		.syntax unified
+  41              		.thumb
+  42              		.thumb_func
+  43              		.fpu fpv4-sp-d16
+  44              		.type	palWriteBus, %function
+  45              	palWriteBus:
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              		@ link register save eliminated.
+  49 0000 10B4     		push	{r4}
+  50 0002 D0E90142 		ldrd	r4, r2, [r0, #4]
+  51 0006 24EA0103 		bic	r3, r4, r1
+  52 000a 2140     		ands	r1, r1, r4
+  53 000c 9140     		lsls	r1, r1, r2
+  54 000e 1032     		adds	r2, r2, #16
+  55 0010 0068     		ldr	r0, [r0]
+  56 0012 5DF8044B 		ldr	r4, [sp], #4
+  57 0016 9340     		lsls	r3, r3, r2
+ARM GAS  /tmp/ccdX13gt.s 			page 2
+
+
+  58 0018 1943     		orrs	r1, r1, r3
+  59 001a 8161     		str	r1, [r0, #24]
+  60 001c 7047     		bx	lr
+  61              		.size	palWriteBus, .-palWriteBus
+  62 001e 00BF     		.section	.text.palSetBusMode,"ax",%progbits
+  63              		.align	1
+  64              		.p2align 4,,15
+  65              		.global	palSetBusMode
+  66              		.syntax unified
+  67              		.thumb
+  68              		.thumb_func
+  69              		.fpu fpv4-sp-d16
+  70              		.type	palSetBusMode, %function
+  71              	palSetBusMode:
+  72              		@ args = 0, pretend = 0, frame = 0
+  73              		@ frame_needed = 0, uses_anonymous_args = 0
+  74              		@ link register save eliminated.
+  75 0000 10B4     		push	{r4}
+  76 0002 0A46     		mov	r2, r1
+  77 0004 D0E90141 		ldrd	r4, r1, [r0, #4]
+  78 0008 0068     		ldr	r0, [r0]
+  79 000a 04FA01F1 		lsl	r1, r4, r1
+  80 000e 5DF8044B 		ldr	r4, [sp], #4
+  81 0012 FFF7FEBF 		b	_pal_lld_setgroupmode
+  82              		.size	palSetBusMode, .-palSetBusMode
+  83 0016 00BF     		.section	.text.palWaitPadTimeoutS,"ax",%progbits
+  84              		.align	1
+  85              		.p2align 4,,15
+  86              		.global	palWaitPadTimeoutS
+  87              		.syntax unified
+  88              		.thumb
+  89              		.thumb_func
+  90              		.fpu fpv4-sp-d16
+  91              		.type	palWaitPadTimeoutS, %function
+  92              	palWaitPadTimeoutS:
+  93              		@ args = 0, pretend = 0, frame = 0
+  94              		@ frame_needed = 0, uses_anonymous_args = 0
+  95              		@ link register save eliminated.
+  96 0000 034B     		ldr	r3, .L8
+  97 0002 0846     		mov	r0, r1
+  98 0004 03EBC000 		add	r0, r3, r0, lsl #3
+  99 0008 1146     		mov	r1, r2
+ 100 000a FFF7FEBF 		b	chThdEnqueueTimeoutS
+ 101              	.L9:
+ 102 000e 00BF     		.align	2
+ 103              	.L8:
+ 104 0010 00000000 		.word	_pal_events
+ 105              		.size	palWaitPadTimeoutS, .-palWaitPadTimeoutS
+ 106              		.section	.text.palWaitPadTimeout,"ax",%progbits
+ 107              		.align	1
+ 108              		.p2align 4,,15
+ 109              		.global	palWaitPadTimeout
+ 110              		.syntax unified
+ 111              		.thumb
+ 112              		.thumb_func
+ 113              		.fpu fpv4-sp-d16
+ 114              		.type	palWaitPadTimeout, %function
+ARM GAS  /tmp/ccdX13gt.s 			page 3
+
+
+ 115              	palWaitPadTimeout:
+ 116              		@ args = 0, pretend = 0, frame = 8
+ 117              		@ frame_needed = 0, uses_anonymous_args = 0
+ 118 0000 10B5     		push	{r4, lr}
+ 119 0002 82B0     		sub	sp, sp, #8
+ 120 0004 0C46     		mov	r4, r1
+ 121 0006 0192     		str	r2, [sp, #4]
+ 122 0008 3023     		movs	r3, #48
+ 123              		.syntax unified
+ 124              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 125 000a 83F31188 		MSR basepri, r3
+ 126              	@ 0 "" 2
+ 127              		.thumb
+ 128              		.syntax unified
+ 129 000e FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 130 0012 0748     		ldr	r0, .L12
+ 131 0014 0199     		ldr	r1, [sp, #4]
+ 132 0016 00EBC400 		add	r0, r0, r4, lsl #3
+ 133 001a FFF7FEFF 		bl	chThdEnqueueTimeoutS
+ 134 001e 0190     		str	r0, [sp, #4]
+ 135 0020 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 136 0024 0023     		movs	r3, #0
+ 137              		.syntax unified
+ 138              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 139 0026 83F31188 		MSR basepri, r3
+ 140              	@ 0 "" 2
+ 141              		.thumb
+ 142              		.syntax unified
+ 143 002a 0198     		ldr	r0, [sp, #4]
+ 144 002c 02B0     		add	sp, sp, #8
+ 145              		@ sp needed
+ 146 002e 10BD     		pop	{r4, pc}
+ 147              	.L13:
+ 148              		.align	2
+ 149              	.L12:
+ 150 0030 00000000 		.word	_pal_events
+ 151              		.size	palWaitPadTimeout, .-palWaitPadTimeout
+ 152              		.section	.text.palWaitLineTimeoutS,"ax",%progbits
+ 153              		.align	1
+ 154              		.p2align 4,,15
+ 155              		.global	palWaitLineTimeoutS
+ 156              		.syntax unified
+ 157              		.thumb
+ 158              		.thumb_func
+ 159              		.fpu fpv4-sp-d16
+ 160              		.type	palWaitLineTimeoutS, %function
+ 161              	palWaitLineTimeoutS:
+ 162              		@ args = 0, pretend = 0, frame = 0
+ 163              		@ frame_needed = 0, uses_anonymous_args = 0
+ 164              		@ link register save eliminated.
+ 165 0000 034B     		ldr	r3, .L15
+ 166 0002 00F00F00 		and	r0, r0, #15
+ 167 0006 03EBC000 		add	r0, r3, r0, lsl #3
+ 168 000a FFF7FEBF 		b	chThdEnqueueTimeoutS
+ 169              	.L16:
+ 170 000e 00BF     		.align	2
+ 171              	.L15:
+ARM GAS  /tmp/ccdX13gt.s 			page 4
+
+
+ 172 0010 00000000 		.word	_pal_events
+ 173              		.size	palWaitLineTimeoutS, .-palWaitLineTimeoutS
+ 174              		.section	.text.palWaitLineTimeout,"ax",%progbits
+ 175              		.align	1
+ 176              		.p2align 4,,15
+ 177              		.global	palWaitLineTimeout
+ 178              		.syntax unified
+ 179              		.thumb
+ 180              		.thumb_func
+ 181              		.fpu fpv4-sp-d16
+ 182              		.type	palWaitLineTimeout, %function
+ 183              	palWaitLineTimeout:
+ 184              		@ args = 0, pretend = 0, frame = 8
+ 185              		@ frame_needed = 0, uses_anonymous_args = 0
+ 186 0000 10B5     		push	{r4, lr}
+ 187 0002 82B0     		sub	sp, sp, #8
+ 188 0004 0446     		mov	r4, r0
+ 189 0006 0191     		str	r1, [sp, #4]
+ 190 0008 3023     		movs	r3, #48
+ 191              		.syntax unified
+ 192              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 193 000a 83F31188 		MSR basepri, r3
+ 194              	@ 0 "" 2
+ 195              		.thumb
+ 196              		.syntax unified
+ 197 000e FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 198 0012 0848     		ldr	r0, .L19
+ 199 0014 0199     		ldr	r1, [sp, #4]
+ 200 0016 04F00F04 		and	r4, r4, #15
+ 201 001a 00EBC400 		add	r0, r0, r4, lsl #3
+ 202 001e FFF7FEFF 		bl	chThdEnqueueTimeoutS
+ 203 0022 0190     		str	r0, [sp, #4]
+ 204 0024 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 205 0028 0023     		movs	r3, #0
+ 206              		.syntax unified
+ 207              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 208 002a 83F31188 		MSR basepri, r3
+ 209              	@ 0 "" 2
+ 210              		.thumb
+ 211              		.syntax unified
+ 212 002e 0198     		ldr	r0, [sp, #4]
+ 213 0030 02B0     		add	sp, sp, #8
+ 214              		@ sp needed
+ 215 0032 10BD     		pop	{r4, pc}
+ 216              	.L20:
+ 217              		.align	2
+ 218              	.L19:
+ 219 0034 00000000 		.word	_pal_events
+ 220              		.size	palWaitLineTimeout, .-palWaitLineTimeout
+ 221              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccdX13gt.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 hal_pal.c
+     /tmp/ccdX13gt.s:15     .text.palReadBus:0000000000000000 $t
+     /tmp/ccdX13gt.s:24     .text.palReadBus:0000000000000000 palReadBus
+     /tmp/ccdX13gt.s:37     .text.palWriteBus:0000000000000000 $t
+     /tmp/ccdX13gt.s:45     .text.palWriteBus:0000000000000000 palWriteBus
+     /tmp/ccdX13gt.s:63     .text.palSetBusMode:0000000000000000 $t
+     /tmp/ccdX13gt.s:71     .text.palSetBusMode:0000000000000000 palSetBusMode
+     /tmp/ccdX13gt.s:84     .text.palWaitPadTimeoutS:0000000000000000 $t
+     /tmp/ccdX13gt.s:92     .text.palWaitPadTimeoutS:0000000000000000 palWaitPadTimeoutS
+     /tmp/ccdX13gt.s:104    .text.palWaitPadTimeoutS:0000000000000010 $d
+     /tmp/ccdX13gt.s:107    .text.palWaitPadTimeout:0000000000000000 $t
+     /tmp/ccdX13gt.s:115    .text.palWaitPadTimeout:0000000000000000 palWaitPadTimeout
+     /tmp/ccdX13gt.s:150    .text.palWaitPadTimeout:0000000000000030 $d
+     /tmp/ccdX13gt.s:153    .text.palWaitLineTimeoutS:0000000000000000 $t
+     /tmp/ccdX13gt.s:161    .text.palWaitLineTimeoutS:0000000000000000 palWaitLineTimeoutS
+     /tmp/ccdX13gt.s:172    .text.palWaitLineTimeoutS:0000000000000010 $d
+     /tmp/ccdX13gt.s:175    .text.palWaitLineTimeout:0000000000000000 $t
+     /tmp/ccdX13gt.s:183    .text.palWaitLineTimeout:0000000000000000 palWaitLineTimeout
+     /tmp/ccdX13gt.s:219    .text.palWaitLineTimeout:0000000000000034 $d
+
+UNDEFINED SYMBOLS
+_pal_lld_setgroupmode
+chThdEnqueueTimeoutS
+_pal_events
+__stats_start_measure_crit_thd
+__stats_stop_measure_crit_thd

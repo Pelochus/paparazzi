@@ -1,0 +1,612 @@
+ARM GAS  /tmp/ccOqsMWl.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"autopilot_guided.c"
+  13              		.text
+  14              		.section	.text.autopilot_guided_goto_ned,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	autopilot_guided_goto_ned
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	autopilot_guided_goto_ned, %function
+  24              	autopilot_guided_goto_ned:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+  28 0002 0646     		mov	r6, r0	@ float
+  29 0004 0F46     		mov	r7, r1	@ float
+  30 0006 1446     		mov	r4, r2	@ float
+  31 0008 1D46     		mov	r5, r3	@ float
+  32 000a FFF7FEFF 		bl	autopilot_get_mode
+  33 000e 1328     		cmp	r0, #19
+  34 0010 18BF     		it	ne
+  35 0012 0020     		movne	r0, #0
+  36 0014 00D0     		beq	.L6
+  37 0016 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+  38              	.L6:
+  39 0018 3946     		mov	r1, r7	@ float
+  40 001a 3046     		mov	r0, r6	@ float
+  41 001c FFF7FEFF 		bl	guidance_h_set_pos
+  42 0020 2846     		mov	r0, r5	@ float
+  43 0022 FFF7FEFF 		bl	guidance_h_set_heading
+  44 0026 2046     		mov	r0, r4	@ float
+  45 0028 FFF7FEFF 		bl	guidance_v_set_z
+  46 002c 0120     		movs	r0, #1
+  47 002e F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+  48              		.size	autopilot_guided_goto_ned, .-autopilot_guided_goto_ned
+  49              		.section	.text.autopilot_guided_goto_ned_relative,"ax",%progbits
+  50              		.align	1
+  51              		.p2align 4,,15
+  52              		.global	autopilot_guided_goto_ned_relative
+  53              		.syntax unified
+  54              		.thumb
+  55              		.thumb_func
+  56              		.fpu fpv4-sp-d16
+  57              		.type	autopilot_guided_goto_ned_relative, %function
+ARM GAS  /tmp/ccOqsMWl.s 			page 2
+
+
+  58              	autopilot_guided_goto_ned_relative:
+  59              		@ args = 0, pretend = 0, frame = 0
+  60              		@ frame_needed = 0, uses_anonymous_args = 0
+  61 0000 10B5     		push	{r4, lr}
+  62 0002 2DED068B 		vpush.64	{d8, d9, d10}
+  63 0006 08EE100A 		vmov	s16, r0
+  64 000a 08EE901A 		vmov	s17, r1
+  65 000e 09EE102A 		vmov	s18, r2
+  66 0012 09EE903A 		vmov	s19, r3
+  67 0016 FFF7FEFF 		bl	autopilot_get_mode
+  68 001a 1328     		cmp	r0, #19
+  69 001c 03D0     		beq	.L8
+  70              	.L11:
+  71 001e 0020     		movs	r0, #0
+  72              	.L21:
+  73 0020 BDEC068B 		vldm	sp!, {d8-d10}
+  74 0024 10BD     		pop	{r4, pc}
+  75              	.L8:
+  76 0026 294C     		ldr	r4, .L26
+  77 0028 94F85C30 		ldrb	r3, [r4, #92]	@ zero_extendqisi2
+  78 002c 33B9     		cbnz	r3, .L10
+  79 002e 94F8E430 		ldrb	r3, [r4, #228]	@ zero_extendqisi2
+  80 0032 1BB9     		cbnz	r3, .L10
+  81 0034 94F8F830 		ldrb	r3, [r4, #248]	@ zero_extendqisi2
+  82 0038 002B     		cmp	r3, #0
+  83 003a F0D0     		beq	.L11
+  84              	.L10:
+  85 003c 2388     		ldrh	r3, [r4]
+  86 003e 13F0C60F 		tst	r3, #198
+  87 0042 ECD0     		beq	.L11
+  88 0044 5B06     		lsls	r3, r3, #25
+  89 0046 27D5     		bpl	.L24
+  90 0048 D4ED3F7A 		vldr.32	s15, [r4, #252]
+  91 004c 38EE278A 		vadd.f32	s16, s16, s15
+  92              	.L13:
+  93 0050 D4ED407A 		vldr.32	s15, [r4, #256]
+  94 0054 78EEA78A 		vadd.f32	s17, s17, s15
+  95              	.L14:
+  96 0058 94F8B031 		ldrb	r3, [r4, #432]	@ zero_extendqisi2
+  97 005c 94ED41AA 		vldr.32	s20, [r4, #260]
+  98 0060 DA06     		lsls	r2, r3, #27
+  99 0062 2ED5     		bpl	.L25
+ 100              	.L15:
+ 101 0064 D4ED83AA 		vldr.32	s21, [r4, #524]
+ 102 0068 FFF7FEFF 		bl	autopilot_get_mode
+ 103 006c 1328     		cmp	r0, #19
+ 104 006e D6D1     		bne	.L11
+ 105 0070 18EE901A 		vmov	r1, s17
+ 106 0074 18EE100A 		vmov	r0, s16
+ 107 0078 FFF7FEFF 		bl	guidance_h_set_pos
+ 108 007c 7AEEA97A 		vadd.f32	s15, s21, s19
+ 109 0080 17EE900A 		vmov	r0, s15
+ 110 0084 FFF7FEFF 		bl	guidance_h_set_heading
+ 111 0088 7AEE097A 		vadd.f32	s15, s20, s18
+ 112 008c 17EE900A 		vmov	r0, s15
+ 113 0090 FFF7FEFF 		bl	guidance_v_set_z
+ 114 0094 0120     		movs	r0, #1
+ARM GAS  /tmp/ccOqsMWl.s 			page 3
+
+
+ 115 0096 C3E7     		b	.L21
+ 116              	.L24:
+ 117 0098 FFF7FEFF 		bl	stateCalcPositionNed_f
+ 118 009c 2388     		ldrh	r3, [r4]
+ 119 009e D4ED3F7A 		vldr.32	s15, [r4, #252]
+ 120 00a2 5806     		lsls	r0, r3, #25
+ 121 00a4 38EE278A 		vadd.f32	s16, s16, s15
+ 122 00a8 D2D4     		bmi	.L13
+ 123 00aa FFF7FEFF 		bl	stateCalcPositionNed_f
+ 124 00ae 2388     		ldrh	r3, [r4]
+ 125 00b0 D4ED407A 		vldr.32	s15, [r4, #256]
+ 126 00b4 5906     		lsls	r1, r3, #25
+ 127 00b6 78EEA78A 		vadd.f32	s17, s17, s15
+ 128 00ba CDD4     		bmi	.L14
+ 129 00bc FFF7FEFF 		bl	stateCalcPositionNed_f
+ 130 00c0 CAE7     		b	.L14
+ 131              	.L25:
+ 132 00c2 0348     		ldr	r0, .L26+4
+ 133 00c4 FFF7FEFF 		bl	orientationCalcEulers_f
+ 134 00c8 CCE7     		b	.L15
+ 135              	.L27:
+ 136 00ca 00BF     		.align	2
+ 137              	.L26:
+ 138 00cc 00000000 		.word	state
+ 139 00d0 B0010000 		.word	state+432
+ 140              		.size	autopilot_guided_goto_ned_relative, .-autopilot_guided_goto_ned_relative
+ 141              		.section	.text.autopilot_guided_goto_body_relative,"ax",%progbits
+ 142              		.align	1
+ 143              		.p2align 4,,15
+ 144              		.global	autopilot_guided_goto_body_relative
+ 145              		.syntax unified
+ 146              		.thumb
+ 147              		.thumb_func
+ 148              		.fpu fpv4-sp-d16
+ 149              		.type	autopilot_guided_goto_body_relative, %function
+ 150              	autopilot_guided_goto_body_relative:
+ 151              		@ args = 0, pretend = 0, frame = 0
+ 152              		@ frame_needed = 0, uses_anonymous_args = 0
+ 153 0000 38B5     		push	{r3, r4, r5, lr}
+ 154 0002 2DED068B 		vpush.64	{d8, d9, d10}
+ 155 0006 08EE900A 		vmov	s17, r0
+ 156 000a 08EE101A 		vmov	s16, r1
+ 157 000e 09EE102A 		vmov	s18, r2
+ 158 0012 09EE903A 		vmov	s19, r3
+ 159 0016 FFF7FEFF 		bl	autopilot_get_mode
+ 160 001a 1328     		cmp	r0, #19
+ 161 001c 03D0     		beq	.L29
+ 162              	.L32:
+ 163 001e 0020     		movs	r0, #0
+ 164              	.L42:
+ 165 0020 BDEC068B 		vldm	sp!, {d8-d10}
+ 166 0024 38BD     		pop	{r3, r4, r5, pc}
+ 167              	.L29:
+ 168 0026 404C     		ldr	r4, .L46
+ 169 0028 94F85C30 		ldrb	r3, [r4, #92]	@ zero_extendqisi2
+ 170 002c 33B9     		cbnz	r3, .L31
+ 171 002e 94F8E430 		ldrb	r3, [r4, #228]	@ zero_extendqisi2
+ARM GAS  /tmp/ccOqsMWl.s 			page 4
+
+
+ 172 0032 1BB9     		cbnz	r3, .L31
+ 173 0034 94F8F830 		ldrb	r3, [r4, #248]	@ zero_extendqisi2
+ 174 0038 002B     		cmp	r3, #0
+ 175 003a F0D0     		beq	.L32
+ 176              	.L31:
+ 177 003c 2388     		ldrh	r3, [r4]
+ 178 003e 13F0C60F 		tst	r3, #198
+ 179 0042 ECD0     		beq	.L32
+ 180 0044 94F8B021 		ldrb	r2, [r4, #432]	@ zero_extendqisi2
+ 181 0048 D206     		lsls	r2, r2, #27
+ 182 004a 68D5     		bpl	.L44
+ 183              	.L38:
+ 184 004c 5B06     		lsls	r3, r3, #25
+ 185 004e D4F80C52 		ldr	r5, [r4, #524]	@ float
+ 186 0052 39D5     		bpl	.L45
+ 187 0054 2846     		mov	r0, r5	@ float
+ 188 0056 FFF7FEFF 		bl	cosf
+ 189 005a 94ED3FAA 		vldr.32	s20, [r4, #252]
+ 190 005e 0AEE900A 		vmov	s21, r0
+ 191 0062 85F00040 		eor	r0, r5, #-2147483648
+ 192 0066 FFF7FEFF 		bl	sinf
+ 193 006a A8EEAAAA 		vfma.f32	s20, s17, s21
+ 194 006e 07EE900A 		vmov	s15, r0
+ 195 0072 A8EE27AA 		vfma.f32	s20, s16, s15
+ 196              	.L35:
+ 197 0076 2846     		mov	r0, r5	@ float
+ 198 0078 FFF7FEFF 		bl	sinf
+ 199 007c D4ED407A 		vldr.32	s15, [r4, #256]
+ 200 0080 07EE100A 		vmov	s14, r0
+ 201 0084 E8EE877A 		vfma.f32	s15, s17, s14
+ 202 0088 E8EE2A7A 		vfma.f32	s15, s16, s21
+ 203 008c F0EE678A 		vmov.f32	s17, s15
+ 204              	.L36:
+ 205 0090 94ED418A 		vldr.32	s16, [r4, #260]
+ 206 0094 FFF7FEFF 		bl	autopilot_get_mode
+ 207 0098 1328     		cmp	r0, #19
+ 208 009a C0D1     		bne	.L32
+ 209 009c 18EE901A 		vmov	r1, s17
+ 210 00a0 1AEE100A 		vmov	r0, s20
+ 211 00a4 FFF7FEFF 		bl	guidance_h_set_pos
+ 212 00a8 07EE905A 		vmov	s15, r5
+ 213 00ac 77EEA97A 		vadd.f32	s15, s15, s19
+ 214 00b0 17EE900A 		vmov	r0, s15
+ 215 00b4 FFF7FEFF 		bl	guidance_h_set_heading
+ 216 00b8 78EE097A 		vadd.f32	s15, s16, s18
+ 217 00bc 17EE900A 		vmov	r0, s15
+ 218 00c0 FFF7FEFF 		bl	guidance_v_set_z
+ 219 00c4 0120     		movs	r0, #1
+ 220 00c6 ABE7     		b	.L42
+ 221              	.L45:
+ 222 00c8 FFF7FEFF 		bl	stateCalcPositionNed_f
+ 223 00cc 2846     		mov	r0, r5	@ float
+ 224 00ce FFF7FEFF 		bl	cosf
+ 225 00d2 94ED3FAA 		vldr.32	s20, [r4, #252]
+ 226 00d6 0AEE900A 		vmov	s21, r0
+ 227 00da 85F00040 		eor	r0, r5, #-2147483648
+ 228 00de FFF7FEFF 		bl	sinf
+ARM GAS  /tmp/ccOqsMWl.s 			page 5
+
+
+ 229 00e2 AAEEA8AA 		vfma.f32	s20, s21, s17
+ 230 00e6 2388     		ldrh	r3, [r4]
+ 231 00e8 07EE900A 		vmov	s15, r0
+ 232 00ec 5806     		lsls	r0, r3, #25
+ 233 00ee A7EE88AA 		vfma.f32	s20, s15, s16
+ 234 00f2 C0D4     		bmi	.L35
+ 235 00f4 FFF7FEFF 		bl	stateCalcPositionNed_f
+ 236 00f8 2846     		mov	r0, r5	@ float
+ 237 00fa FFF7FEFF 		bl	sinf
+ 238 00fe D4ED407A 		vldr.32	s15, [r4, #256]
+ 239 0102 2388     		ldrh	r3, [r4]
+ 240 0104 07EE100A 		vmov	s14, r0
+ 241 0108 E7EE287A 		vfma.f32	s15, s14, s17
+ 242 010c 5906     		lsls	r1, r3, #25
+ 243 010e EAEE887A 		vfma.f32	s15, s21, s16
+ 244 0112 F0EE678A 		vmov.f32	s17, s15
+ 245 0116 BBD4     		bmi	.L36
+ 246 0118 FFF7FEFF 		bl	stateCalcPositionNed_f
+ 247 011c B8E7     		b	.L36
+ 248              	.L44:
+ 249 011e 0348     		ldr	r0, .L46+4
+ 250 0120 FFF7FEFF 		bl	orientationCalcEulers_f
+ 251 0124 2388     		ldrh	r3, [r4]
+ 252 0126 91E7     		b	.L38
+ 253              	.L47:
+ 254              		.align	2
+ 255              	.L46:
+ 256 0128 00000000 		.word	state
+ 257 012c B0010000 		.word	state+432
+ 258              		.size	autopilot_guided_goto_body_relative, .-autopilot_guided_goto_body_relative
+ 259              		.section	.text.autopilot_guided_move_ned,"ax",%progbits
+ 260              		.align	1
+ 261              		.p2align 4,,15
+ 262              		.global	autopilot_guided_move_ned
+ 263              		.syntax unified
+ 264              		.thumb
+ 265              		.thumb_func
+ 266              		.fpu fpv4-sp-d16
+ 267              		.type	autopilot_guided_move_ned, %function
+ 268              	autopilot_guided_move_ned:
+ 269              		@ args = 0, pretend = 0, frame = 0
+ 270              		@ frame_needed = 0, uses_anonymous_args = 0
+ 271 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 272 0002 0646     		mov	r6, r0	@ float
+ 273 0004 0F46     		mov	r7, r1	@ float
+ 274 0006 1446     		mov	r4, r2	@ float
+ 275 0008 1D46     		mov	r5, r3	@ float
+ 276 000a FFF7FEFF 		bl	autopilot_get_mode
+ 277 000e 1328     		cmp	r0, #19
+ 278 0010 18BF     		it	ne
+ 279 0012 0020     		movne	r0, #0
+ 280 0014 00D0     		beq	.L52
+ 281 0016 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 282              	.L52:
+ 283 0018 3946     		mov	r1, r7	@ float
+ 284 001a 3046     		mov	r0, r6	@ float
+ 285 001c FFF7FEFF 		bl	guidance_h_set_vel
+ARM GAS  /tmp/ccOqsMWl.s 			page 6
+
+
+ 286 0020 2846     		mov	r0, r5	@ float
+ 287 0022 FFF7FEFF 		bl	guidance_h_set_heading
+ 288 0026 2046     		mov	r0, r4	@ float
+ 289 0028 FFF7FEFF 		bl	guidance_v_set_vz
+ 290 002c 0120     		movs	r0, #1
+ 291 002e F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 292              		.size	autopilot_guided_move_ned, .-autopilot_guided_move_ned
+ 293              		.section	.text.autopilot_guided_update,"ax",%progbits
+ 294              		.align	1
+ 295              		.p2align 4,,15
+ 296              		.global	autopilot_guided_update
+ 297              		.syntax unified
+ 298              		.thumb
+ 299              		.thumb_func
+ 300              		.fpu fpv4-sp-d16
+ 301              		.type	autopilot_guided_update, %function
+ 302              	autopilot_guided_update:
+ 303              		@ args = 4, pretend = 0, frame = 0
+ 304              		@ frame_needed = 0, uses_anonymous_args = 0
+ 305 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 306 0004 1F46     		mov	r7, r3	@ float
+ 307 0006 2DED028B 		vpush.64	{d8}
+ 308 000a 8306     		lsls	r3, r0, #26
+ 309 000c DDF82880 		ldr	r8, [sp, #40]	@ float
+ 310 0010 0446     		mov	r4, r0
+ 311 0012 8946     		mov	r9, r1	@ float
+ 312 0014 1646     		mov	r6, r2	@ float
+ 313 0016 32D5     		bpl	.L54
+ 314 0018 A507     		lsls	r5, r4, #30
+ 315 001a 1146     		mov	r1, r2	@ float
+ 316 001c 4846     		mov	r0, r9	@ float
+ 317 001e 1ED4     		bmi	.L89
+ 318 0020 FFF7FEFF 		bl	guidance_h_set_vel
+ 319              	.L56:
+ 320 0024 6606     		lsls	r6, r4, #25
+ 321 0026 1ED4     		bmi	.L90
+ 322              	.L66:
+ 323 0028 6507     		lsls	r5, r4, #29
+ 324 002a 40F18180 		bpl	.L68
+ 325 002e 784D     		ldr	r5, .L102
+ 326 0030 95F85C30 		ldrb	r3, [r5, #92]	@ zero_extendqisi2
+ 327 0034 23B9     		cbnz	r3, .L69
+ 328 0036 95F8E430 		ldrb	r3, [r5, #228]	@ zero_extendqisi2
+ 329 003a 002B     		cmp	r3, #0
+ 330 003c 00F08980 		beq	.L91
+ 331              	.L69:
+ 332 0040 2B88     		ldrh	r3, [r5]
+ 333 0042 13F0C60F 		tst	r3, #198
+ 334 0046 77D1     		bne	.L70
+ 335              	.L67:
+ 336 0048 E309     		lsrs	r3, r4, #7
+ 337 004a 11D1     		bne	.L92
+ 338              	.L71:
+ 339 004c 2407     		lsls	r4, r4, #28
+ 340 004e 5BD4     		bmi	.L93
+ 341 0050 BDEC028B 		vldm	sp!, {d8}
+ 342 0054 4046     		mov	r0, r8	@ float
+ARM GAS  /tmp/ccOqsMWl.s 			page 7
+
+
+ 343 0056 BDE8F047 		pop	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 344 005a FFF7FEBF 		b	guidance_h_set_heading
+ 345              	.L89:
+ 346 005e FFF7FEFF 		bl	guidance_h_set_body_vel
+ 347 0062 6606     		lsls	r6, r4, #25
+ 348 0064 E0D5     		bpl	.L66
+ 349              	.L90:
+ 350 0066 3846     		mov	r0, r7	@ float
+ 351 0068 FFF7FEFF 		bl	guidance_v_set_vz
+ 352 006c E309     		lsrs	r3, r4, #7
+ 353 006e EDD0     		beq	.L71
+ 354              	.L92:
+ 355 0070 BDEC028B 		vldm	sp!, {d8}
+ 356 0074 4046     		mov	r0, r8	@ float
+ 357 0076 BDE8F047 		pop	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 358 007a FFF7FEBF 		b	guidance_h_set_heading_rate
+ 359              	.L54:
+ 360 007e 40EA5005 		orr	r5, r0, r0, lsr #1
+ 361 0082 E907     		lsls	r1, r5, #31
+ 362 0084 4FEA5002 		lsr	r2, r0, #1
+ 363 0088 40F18980 		bpl	.L94
+ 364 008c 604D     		ldr	r5, .L102
+ 365 008e 95F85C30 		ldrb	r3, [r5, #92]	@ zero_extendqisi2
+ 366 0092 1BB9     		cbnz	r3, .L58
+ 367 0094 95F8E430 		ldrb	r3, [r5, #228]	@ zero_extendqisi2
+ 368 0098 002B     		cmp	r3, #0
+ 369 009a 75D0     		beq	.L95
+ 370              	.L58:
+ 371 009c 2B88     		ldrh	r3, [r5]
+ 372 009e 13F0C60F 		tst	r3, #198
+ 373 00a2 BFD0     		beq	.L56
+ 374 00a4 D207     		lsls	r2, r2, #31
+ 375 00a6 5AD5     		bpl	.L96
+ 376 00a8 95F8B021 		ldrb	r2, [r5, #432]	@ zero_extendqisi2
+ 377 00ac D206     		lsls	r2, r2, #27
+ 378 00ae 40F19B80 		bpl	.L97
+ 379              	.L60:
+ 380 00b2 5806     		lsls	r0, r3, #25
+ 381 00b4 D5F80CA2 		ldr	r10, [r5, #524]	@ float
+ 382 00b8 79D5     		bpl	.L98
+ 383 00ba 5046     		mov	r0, r10	@ float
+ 384 00bc FFF7FEFF 		bl	cosf
+ 385 00c0 07EE909A 		vmov	s15, r9
+ 386 00c4 08EE900A 		vmov	s17, r0
+ 387 00c8 95ED3F8A 		vldr.32	s16, [r5, #252]
+ 388 00cc 8AF00040 		eor	r0, r10, #-2147483648
+ 389 00d0 A8EEA78A 		vfma.f32	s16, s17, s15
+ 390 00d4 FFF7FEFF 		bl	sinf
+ 391 00d8 07EE906A 		vmov	s15, r6
+ 392 00dc 07EE100A 		vmov	s14, r0
+ 393 00e0 A7EE878A 		vfma.f32	s16, s15, s14
+ 394              	.L62:
+ 395 00e4 5046     		mov	r0, r10	@ float
+ 396 00e6 FFF7FEFF 		bl	sinf
+ 397 00ea D5ED407A 		vldr.32	s15, [r5, #256]
+ 398 00ee 07EE100A 		vmov	s14, r0
+ 399 00f2 06EE909A 		vmov	s13, r9
+ARM GAS  /tmp/ccOqsMWl.s 			page 8
+
+
+ 400 00f6 E7EE267A 		vfma.f32	s15, s14, s13
+ 401 00fa 07EE106A 		vmov	s14, r6
+ 402 00fe E8EE877A 		vfma.f32	s15, s17, s14
+ 403 0102 17EE901A 		vmov	r1, s15
+ 404 0106 3AE0     		b	.L63
+ 405              	.L93:
+ 406 0108 414D     		ldr	r5, .L102
+ 407 010a 95F8B031 		ldrb	r3, [r5, #432]	@ zero_extendqisi2
+ 408 010e D806     		lsls	r0, r3, #27
+ 409 0110 40D5     		bpl	.L99
+ 410              	.L73:
+ 411 0112 D5ED837A 		vldr.32	s15, [r5, #524]
+ 412 0116 07EE108A 		vmov	s14, r8
+ 413 011a BDEC028B 		vldm	sp!, {d8}
+ 414 011e 77EE277A 		vadd.f32	s15, s14, s15
+ 415 0122 17EE908A 		vmov	r8, s15
+ 416 0126 4046     		mov	r0, r8	@ float
+ 417 0128 BDE8F047 		pop	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 418 012c FFF7FEBF 		b	guidance_h_set_heading
+ 419              	.L68:
+ 420 0130 3846     		mov	r0, r7	@ float
+ 421 0132 FFF7FEFF 		bl	guidance_v_set_z
+ 422 0136 87E7     		b	.L67
+ 423              	.L70:
+ 424 0138 5906     		lsls	r1, r3, #25
+ 425 013a 35D5     		bpl	.L100
+ 426              	.L75:
+ 427 013c D5ED417A 		vldr.32	s15, [r5, #260]
+ 428 0140 07EE107A 		vmov	s14, r7
+ 429 0144 77EE277A 		vadd.f32	s15, s14, s15
+ 430 0148 17EE900A 		vmov	r0, s15
+ 431 014c FFF7FEFF 		bl	guidance_v_set_z
+ 432 0150 7AE7     		b	.L67
+ 433              	.L91:
+ 434 0152 95F8F830 		ldrb	r3, [r5, #248]	@ zero_extendqisi2
+ 435 0156 002B     		cmp	r3, #0
+ 436 0158 3FF476AF 		beq	.L67
+ 437 015c 70E7     		b	.L69
+ 438              	.L96:
+ 439 015e 5A06     		lsls	r2, r3, #25
+ 440 0160 47D5     		bpl	.L101
+ 441 0162 95ED3F8A 		vldr.32	s16, [r5, #252]
+ 442 0166 07EE909A 		vmov	s15, r9
+ 443 016a 37EE888A 		vadd.f32	s16, s15, s16
+ 444              	.L65:
+ 445 016e D5ED407A 		vldr.32	s15, [r5, #256]
+ 446 0172 07EE106A 		vmov	s14, r6
+ 447 0176 77EE277A 		vadd.f32	s15, s14, s15
+ 448 017a 17EE901A 		vmov	r1, s15
+ 449              	.L63:
+ 450 017e 18EE100A 		vmov	r0, s16
+ 451 0182 FFF7FEFF 		bl	guidance_h_set_pos
+ 452 0186 4DE7     		b	.L56
+ 453              	.L95:
+ 454 0188 95F8F830 		ldrb	r3, [r5, #248]	@ zero_extendqisi2
+ 455 018c 002B     		cmp	r3, #0
+ 456 018e 3FF449AF 		beq	.L56
+ARM GAS  /tmp/ccOqsMWl.s 			page 9
+
+
+ 457 0192 83E7     		b	.L58
+ 458              	.L99:
+ 459 0194 05F5D870 		add	r0, r5, #432
+ 460 0198 FFF7FEFF 		bl	orientationCalcEulers_f
+ 461 019c B9E7     		b	.L73
+ 462              	.L94:
+ 463 019e 3146     		mov	r1, r6	@ float
+ 464 01a0 4846     		mov	r0, r9	@ float
+ 465 01a2 FFF7FEFF 		bl	guidance_h_set_pos
+ 466 01a6 3DE7     		b	.L56
+ 467              	.L100:
+ 468 01a8 FFF7FEFF 		bl	stateCalcPositionNed_f
+ 469 01ac C6E7     		b	.L75
+ 470              	.L98:
+ 471 01ae FFF7FEFF 		bl	stateCalcPositionNed_f
+ 472 01b2 5046     		mov	r0, r10	@ float
+ 473 01b4 FFF7FEFF 		bl	cosf
+ 474 01b8 07EE909A 		vmov	s15, r9
+ 475 01bc 08EE900A 		vmov	s17, r0
+ 476 01c0 95ED3F8A 		vldr.32	s16, [r5, #252]
+ 477 01c4 8AF00040 		eor	r0, r10, #-2147483648
+ 478 01c8 A8EEA78A 		vfma.f32	s16, s17, s15
+ 479 01cc FFF7FEFF 		bl	sinf
+ 480 01d0 2B88     		ldrh	r3, [r5]
+ 481 01d2 07EE900A 		vmov	s15, r0
+ 482 01d6 07EE106A 		vmov	s14, r6
+ 483 01da 5906     		lsls	r1, r3, #25
+ 484 01dc A7EE878A 		vfma.f32	s16, s15, s14
+ 485 01e0 80D4     		bmi	.L62
+ 486 01e2 FFF7FEFF 		bl	stateCalcPositionNed_f
+ 487 01e6 7DE7     		b	.L62
+ 488              	.L97:
+ 489 01e8 0A48     		ldr	r0, .L102+4
+ 490 01ea FFF7FEFF 		bl	orientationCalcEulers_f
+ 491 01ee 2B88     		ldrh	r3, [r5]
+ 492 01f0 5FE7     		b	.L60
+ 493              	.L101:
+ 494 01f2 FFF7FEFF 		bl	stateCalcPositionNed_f
+ 495 01f6 2B88     		ldrh	r3, [r5]
+ 496 01f8 95ED3F8A 		vldr.32	s16, [r5, #252]
+ 497 01fc 07EE909A 		vmov	s15, r9
+ 498 0200 5B06     		lsls	r3, r3, #25
+ 499 0202 37EE888A 		vadd.f32	s16, s15, s16
+ 500 0206 B2D4     		bmi	.L65
+ 501 0208 FFF7FEFF 		bl	stateCalcPositionNed_f
+ 502 020c AFE7     		b	.L65
+ 503              	.L103:
+ 504 020e 00BF     		.align	2
+ 505              	.L102:
+ 506 0210 00000000 		.word	state
+ 507 0214 B0010000 		.word	state+432
+ 508              		.size	autopilot_guided_update, .-autopilot_guided_update
+ 509              		.section	.text.autopilot_guided_parse_GUIDED,"ax",%progbits
+ 510              		.align	1
+ 511              		.p2align 4,,15
+ 512              		.global	autopilot_guided_parse_GUIDED
+ 513              		.syntax unified
+ARM GAS  /tmp/ccOqsMWl.s 			page 10
+
+
+ 514              		.thumb
+ 515              		.thumb_func
+ 516              		.fpu fpv4-sp-d16
+ 517              		.type	autopilot_guided_parse_GUIDED, %function
+ 518              	autopilot_guided_parse_GUIDED:
+ 519              		@ args = 0, pretend = 0, frame = 0
+ 520              		@ frame_needed = 0, uses_anonymous_args = 0
+ 521 0000 0379     		ldrb	r3, [r0, #4]	@ zero_extendqisi2
+ 522 0002 1F2B     		cmp	r3, #31
+ 523 0004 00D0     		beq	.L112
+ 524 0006 7047     		bx	lr
+ 525              	.L112:
+ 526 0008 10B5     		push	{r4, lr}
+ 527 000a 82B0     		sub	sp, sp, #8
+ 528 000c 0446     		mov	r4, r0
+ 529 000e FFF7FEFF 		bl	autopilot_get_mode
+ 530 0012 1328     		cmp	r0, #19
+ 531 0014 01D0     		beq	.L113
+ 532 0016 02B0     		add	sp, sp, #8
+ 533              		@ sp needed
+ 534 0018 10BD     		pop	{r4, pc}
+ 535              	.L113:
+ 536 001a D4F812C0 		ldr	ip, [r4, #18]	@ unaligned
+ 537 001e D4F80E30 		ldr	r3, [r4, #14]	@ unaligned
+ 538 0022 D4F80A20 		ldr	r2, [r4, #10]	@ unaligned
+ 539 0026 D4F80610 		ldr	r1, [r4, #6]	@ unaligned
+ 540 002a 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 541 002c CDF800C0 		str	ip, [sp]	@ float
+ 542 0030 FFF7FEFF 		bl	autopilot_guided_update
+ 543 0034 02B0     		add	sp, sp, #8
+ 544              		@ sp needed
+ 545 0036 10BD     		pop	{r4, pc}
+ 546              		.size	autopilot_guided_parse_GUIDED, .-autopilot_guided_parse_GUIDED
+ 547              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccOqsMWl.s 			page 11
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 autopilot_guided.c
+     /tmp/ccOqsMWl.s:15     .text.autopilot_guided_goto_ned:0000000000000000 $t
+     /tmp/ccOqsMWl.s:24     .text.autopilot_guided_goto_ned:0000000000000000 autopilot_guided_goto_ned
+     /tmp/ccOqsMWl.s:50     .text.autopilot_guided_goto_ned_relative:0000000000000000 $t
+     /tmp/ccOqsMWl.s:58     .text.autopilot_guided_goto_ned_relative:0000000000000000 autopilot_guided_goto_ned_relative
+     /tmp/ccOqsMWl.s:138    .text.autopilot_guided_goto_ned_relative:00000000000000cc $d
+     /tmp/ccOqsMWl.s:142    .text.autopilot_guided_goto_body_relative:0000000000000000 $t
+     /tmp/ccOqsMWl.s:150    .text.autopilot_guided_goto_body_relative:0000000000000000 autopilot_guided_goto_body_relative
+     /tmp/ccOqsMWl.s:256    .text.autopilot_guided_goto_body_relative:0000000000000128 $d
+     /tmp/ccOqsMWl.s:260    .text.autopilot_guided_move_ned:0000000000000000 $t
+     /tmp/ccOqsMWl.s:268    .text.autopilot_guided_move_ned:0000000000000000 autopilot_guided_move_ned
+     /tmp/ccOqsMWl.s:294    .text.autopilot_guided_update:0000000000000000 $t
+     /tmp/ccOqsMWl.s:302    .text.autopilot_guided_update:0000000000000000 autopilot_guided_update
+     /tmp/ccOqsMWl.s:506    .text.autopilot_guided_update:0000000000000210 $d
+     /tmp/ccOqsMWl.s:510    .text.autopilot_guided_parse_GUIDED:0000000000000000 $t
+     /tmp/ccOqsMWl.s:518    .text.autopilot_guided_parse_GUIDED:0000000000000000 autopilot_guided_parse_GUIDED
+
+UNDEFINED SYMBOLS
+autopilot_get_mode
+guidance_h_set_pos
+guidance_h_set_heading
+guidance_v_set_z
+stateCalcPositionNed_f
+orientationCalcEulers_f
+state
+cosf
+sinf
+guidance_h_set_vel
+guidance_v_set_vz
+guidance_h_set_body_vel
+guidance_h_set_heading_rate

@@ -1,0 +1,122 @@
+ARM GAS  /tmp/ccYvR5VM.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"pprz_dl.c"
+  13              		.text
+  14              		.section	.text.pprz_dl_init,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	pprz_dl_init
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	pprz_dl_init, %function
+  24              	pprz_dl_init:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27              		@ link register save eliminated.
+  28 0000 0148     		ldr	r0, .L3
+  29 0002 FFF7FEBF 		b	pprz_transport_init
+  30              	.L4:
+  31 0006 00BF     		.align	2
+  32              	.L3:
+  33 0008 00000000 		.word	.LANCHOR0
+  34              		.size	pprz_dl_init, .-pprz_dl_init
+  35              		.section	.text.pprz_dl_event,"ax",%progbits
+  36              		.align	1
+  37              		.p2align 4,,15
+  38              		.global	pprz_dl_event
+  39              		.syntax unified
+  40              		.thumb
+  41              		.thumb_func
+  42              		.fpu fpv4-sp-d16
+  43              		.type	pprz_dl_event, %function
+  44              	pprz_dl_event:
+  45              		@ args = 0, pretend = 0, frame = 0
+  46              		@ frame_needed = 0, uses_anonymous_args = 0
+  47 0000 38B5     		push	{r3, r4, r5, lr}
+  48 0002 0B4C     		ldr	r4, .L11
+  49 0004 0B4A     		ldr	r2, .L11+4
+  50 0006 0C49     		ldr	r1, .L11+8
+  51 0008 0C48     		ldr	r0, .L11+12
+  52 000a 2346     		mov	r3, r4
+  53 000c FFF7FEFF 		bl	pprz_check_and_parse
+  54 0010 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+  55 0012 63B1     		cbz	r3, .L5
+  56 0014 0A4A     		ldr	r2, .L11+16
+  57 0016 0B49     		ldr	r1, .L11+20
+ARM GAS  /tmp/ccYvR5VM.s 			page 2
+
+
+  58 0018 1388     		ldrh	r3, [r2]
+  59 001a 0848     		ldr	r0, .L11+12
+  60 001c 0025     		movs	r5, #0
+  61 001e 0133     		adds	r3, r3, #1
+  62 0020 0D80     		strh	r5, [r1]	@ movhi
+  63 0022 1380     		strh	r3, [r2]	@ movhi
+  64 0024 0849     		ldr	r1, .L11+24
+  65 0026 034A     		ldr	r2, .L11+4
+  66 0028 FFF7FEFF 		bl	dl_parse_msg
+  67 002c 2570     		strb	r5, [r4]
+  68              	.L5:
+  69 002e 38BD     		pop	{r3, r4, r5, pc}
+  70              	.L12:
+  71              		.align	2
+  72              	.L11:
+  73 0030 00000000 		.word	dl_msg_available
+  74 0034 00000000 		.word	dl_buffer
+  75 0038 00000000 		.word	.LANCHOR0
+  76 003c 40030000 		.word	syslink+832
+  77 0040 00000000 		.word	datalink_nb_msgs
+  78 0044 00000000 		.word	datalink_time
+  79 0048 08010000 		.word	.LANCHOR0+264
+  80              		.size	pprz_dl_event, .-pprz_dl_event
+  81              		.global	pprz_tp
+  82              		.section	.bss.pprz_tp,"aw",%nobits
+  83              		.align	2
+  84              		.set	.LANCHOR0,. + 0
+  85              		.type	pprz_tp, %object
+  86              		.size	pprz_tp, 304
+  87              	pprz_tp:
+  88 0000 00000000 		.space	304
+  88      00000000 
+  88      00000000 
+  88      00000000 
+  88      00000000 
+  89              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccYvR5VM.s 			page 3
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 pprz_dl.c
+     /tmp/ccYvR5VM.s:15     .text.pprz_dl_init:0000000000000000 $t
+     /tmp/ccYvR5VM.s:24     .text.pprz_dl_init:0000000000000000 pprz_dl_init
+     /tmp/ccYvR5VM.s:33     .text.pprz_dl_init:0000000000000008 $d
+     /tmp/ccYvR5VM.s:36     .text.pprz_dl_event:0000000000000000 $t
+     /tmp/ccYvR5VM.s:44     .text.pprz_dl_event:0000000000000000 pprz_dl_event
+     /tmp/ccYvR5VM.s:73     .text.pprz_dl_event:0000000000000030 $d
+     /tmp/ccYvR5VM.s:87     .bss.pprz_tp:0000000000000000 pprz_tp
+     /tmp/ccYvR5VM.s:83     .bss.pprz_tp:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+pprz_transport_init
+pprz_check_and_parse
+dl_parse_msg
+dl_msg_available
+dl_buffer
+syslink
+datalink_nb_msgs
+datalink_time

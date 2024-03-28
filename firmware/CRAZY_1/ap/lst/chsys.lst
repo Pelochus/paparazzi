@@ -1,0 +1,559 @@
+ARM GAS  /tmp/ccg1Hg47.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"chsys.c"
+  13              		.text
+  14              		.section	.text.chSysWaitSystemState,"ax",%progbits
+  15              		.align	1
+  16              		.p2align 4,,15
+  17              		.global	chSysWaitSystemState
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  23              		.type	chSysWaitSystemState, %function
+  24              	chSysWaitSystemState:
+  25              		@ args = 0, pretend = 0, frame = 0
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27              		@ link register save eliminated.
+  28 0000 024B     		ldr	r3, .L5
+  29 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  30              	.L2:
+  31 0004 8342     		cmp	r3, r0
+  32 0006 FDD1     		bne	.L2
+  33 0008 7047     		bx	lr
+  34              	.L6:
+  35 000a 00BF     		.align	2
+  36              	.L5:
+  37 000c 00000000 		.word	.LANCHOR0
+  38              		.size	chSysWaitSystemState, .-chSysWaitSystemState
+  39              		.section	.text.chSysInit,"ax",%progbits
+  40              		.align	1
+  41              		.p2align 4,,15
+  42              		.global	chSysInit
+  43              		.syntax unified
+  44              		.thumb
+  45              		.thumb_func
+  46              		.fpu fpv4-sp-d16
+  47              		.type	chSysInit, %function
+  48              	chSysInit:
+  49              		@ args = 0, pretend = 0, frame = 24
+  50              		@ frame_needed = 0, uses_anonymous_args = 0
+  51 0000 30B5     		push	{r4, r5, lr}
+  52 0002 134D     		ldr	r5, .L11
+  53 0004 87B0     		sub	sp, sp, #28
+  54 0006 0023     		movs	r3, #0
+  55 0008 0122     		movs	r2, #1
+  56 000a 6846     		mov	r0, sp
+  57 000c C5E90133 		strd	r3, r3, [r5, #4]
+ARM GAS  /tmp/ccg1Hg47.s 			page 2
+
+
+  58 0010 2A70     		strb	r2, [r5]
+  59 0012 FFF7FEFF 		bl	chTMObjectInit
+  60 0016 0424     		movs	r4, #4
+  61              	.L8:
+  62 0018 6846     		mov	r0, sp
+  63 001a FFF7FEFF 		bl	chTMStartMeasurementX
+  64 001e 6846     		mov	r0, sp
+  65 0020 FFF7FEFF 		bl	chTMStopMeasurementX
+  66 0024 013C     		subs	r4, r4, #1
+  67 0026 F7D1     		bne	.L8
+  68 0028 009B     		ldr	r3, [sp]
+  69 002a AB60     		str	r3, [r5, #8]
+  70 002c FFF7FEFF 		bl	__core_init
+  71 0030 FFF7FEFF 		bl	__heap_init
+  72 0034 FFF7FEFF 		bl	__factory_init
+  73 0038 0649     		ldr	r1, .L11+4
+  74 003a 0748     		ldr	r0, .L11+8
+  75 003c FFF7FEFF 		bl	chInstanceObjectInit
+  76 0040 0223     		movs	r3, #2
+  77 0042 2B70     		strb	r3, [r5]
+  78 0044 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+  79              		.syntax unified
+  80              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+  81 0048 84F31188 		MSR basepri, r4
+  82              	@ 0 "" 2
+  83              		.thumb
+  84              		.syntax unified
+  85 004c 07B0     		add	sp, sp, #28
+  86              		@ sp needed
+  87 004e 30BD     		pop	{r4, r5, pc}
+  88              	.L12:
+  89              		.align	2
+  90              	.L11:
+  91 0050 00000000 		.word	.LANCHOR0
+  92 0054 00000000 		.word	.LANCHOR1
+  93 0058 00000000 		.word	.LANCHOR2
+  94              		.size	chSysInit, .-chSysInit
+  95              		.section	.text.chSysHalt,"ax",%progbits
+  96              		.align	1
+  97              		.p2align 4,,15
+  98              		.global	chSysHalt
+  99              		.syntax unified
+ 100              		.thumb
+ 101              		.thumb_func
+ 102              		.fpu fpv4-sp-d16
+ 103              		.type	chSysHalt, %function
+ 104              	chSysHalt:
+ 105              		@ Volatile: function does not return.
+ 106              		@ args = 0, pretend = 0, frame = 0
+ 107              		@ frame_needed = 0, uses_anonymous_args = 0
+ 108              		@ link register save eliminated.
+ 109              		.syntax unified
+ 110              	@ 142 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 111 0000 72B6     		cpsid i
+ 112              	@ 0 "" 2
+ 113              		.thumb
+ 114              		.syntax unified
+ARM GAS  /tmp/ccg1Hg47.s 			page 3
+
+
+ 115 0002 0349     		ldr	r1, .L15
+ 116 0004 034B     		ldr	r3, .L15+4
+ 117 0006 C1F8A000 		str	r0, [r1, #160]
+ 118 000a 0322     		movs	r2, #3
+ 119 000c 1A70     		strb	r2, [r3]
+ 120              	.L14:
+ 121 000e FEE7     		b	.L14
+ 122              	.L16:
+ 123              		.align	2
+ 124              	.L15:
+ 125 0010 00000000 		.word	.LANCHOR2
+ 126 0014 00000000 		.word	.LANCHOR0
+ 127              		.size	chSysHalt, .-chSysHalt
+ 128              		.section	.text.chSysGetIdleThreadX,"ax",%progbits
+ 129              		.align	1
+ 130              		.p2align 4,,15
+ 131              		.global	chSysGetIdleThreadX
+ 132              		.syntax unified
+ 133              		.thumb
+ 134              		.thumb_func
+ 135              		.fpu fpv4-sp-d16
+ 136              		.type	chSysGetIdleThreadX, %function
+ 137              	chSysGetIdleThreadX:
+ 138              		@ args = 0, pretend = 0, frame = 0
+ 139              		@ frame_needed = 0, uses_anonymous_args = 0
+ 140              		@ link register save eliminated.
+ 141 0000 014B     		ldr	r3, .L18
+ 142 0002 5868     		ldr	r0, [r3, #4]
+ 143 0004 7047     		bx	lr
+ 144              	.L19:
+ 145 0006 00BF     		.align	2
+ 146              	.L18:
+ 147 0008 00000000 		.word	.LANCHOR2
+ 148              		.size	chSysGetIdleThreadX, .-chSysGetIdleThreadX
+ 149              		.section	.text.chSysIntegrityCheckI,"ax",%progbits
+ 150              		.align	1
+ 151              		.p2align 4,,15
+ 152              		.global	chSysIntegrityCheckI
+ 153              		.syntax unified
+ 154              		.thumb
+ 155              		.thumb_func
+ 156              		.fpu fpv4-sp-d16
+ 157              		.type	chSysIntegrityCheckI, %function
+ 158              	chSysIntegrityCheckI:
+ 159              		@ args = 0, pretend = 0, frame = 0
+ 160              		@ frame_needed = 0, uses_anonymous_args = 0
+ 161              		@ link register save eliminated.
+ 162 0000 C207     		lsls	r2, r0, #31
+ 163 0002 10B4     		push	{r4}
+ 164 0004 12D5     		bpl	.L21
+ 165 0006 2B4C     		ldr	r4, .L61
+ 166 0008 2268     		ldr	r2, [r4]
+ 167 000a A242     		cmp	r2, r4
+ 168 000c 46D0     		beq	.L22
+ 169 000e 0023     		movs	r3, #0
+ 170              	.L23:
+ 171 0010 1268     		ldr	r2, [r2]
+ARM GAS  /tmp/ccg1Hg47.s 			page 4
+
+
+ 172 0012 A242     		cmp	r2, r4
+ 173 0014 03F10103 		add	r3, r3, #1
+ 174 0018 FAD1     		bne	.L23
+ 175 001a 5168     		ldr	r1, [r2, #4]
+ 176 001c 9142     		cmp	r1, r2
+ 177 001e 39D0     		beq	.L43
+ 178              	.L27:
+ 179 0020 4968     		ldr	r1, [r1, #4]
+ 180 0022 A142     		cmp	r1, r4
+ 181 0024 03F1FF33 		add	r3, r3, #-1
+ 182 0028 FAD1     		bne	.L27
+ 183 002a 9BBB     		cbnz	r3, .L43
+ 184              	.L21:
+ 185 002c 8307     		lsls	r3, r0, #30
+ 186 002e 14D5     		bpl	.L28
+ 187 0030 204C     		ldr	r4, .L61
+ 188 0032 A446     		mov	ip, r4
+ 189 0034 5CF8102F 		ldr	r2, [ip, #16]!
+ 190 0038 6245     		cmp	r2, ip
+ 191 003a 35D0     		beq	.L29
+ 192 003c 0023     		movs	r3, #0
+ 193              	.L30:
+ 194 003e 1268     		ldr	r2, [r2]
+ 195 0040 6245     		cmp	r2, ip
+ 196 0042 03F10103 		add	r3, r3, #1
+ 197 0046 FAD1     		bne	.L30
+ 198 0048 6169     		ldr	r1, [r4, #20]
+ 199 004a 9142     		cmp	r1, r2
+ 200 004c 22D0     		beq	.L43
+ 201              	.L33:
+ 202 004e 4968     		ldr	r1, [r1, #4]
+ 203 0050 6145     		cmp	r1, ip
+ 204 0052 03F1FF33 		add	r3, r3, #-1
+ 205 0056 FAD1     		bne	.L33
+ 206 0058 E3B9     		cbnz	r3, .L43
+ 207              	.L28:
+ 208 005a 10F00400 		ands	r0, r0, #4
+ 209 005e 16D0     		beq	.L26
+ 210 0060 144C     		ldr	r4, .L61
+ 211 0062 2246     		mov	r2, r4
+ 212 0064 0020     		movs	r0, #0
+ 213 0066 52F8283F 		ldr	r3, [r2, #40]!
+ 214 006a 9342     		cmp	r3, r2
+ 215 006c 04D0     		beq	.L34
+ 216              	.L35:
+ 217 006e 1B68     		ldr	r3, [r3]
+ 218 0070 9342     		cmp	r3, r2
+ 219 0072 00F10100 		add	r0, r0, #1
+ 220 0076 FAD1     		bne	.L35
+ 221              	.L34:
+ 222 0078 E36A     		ldr	r3, [r4, #44]
+ 223 007a 9342     		cmp	r3, r2
+ 224 007c 04D0     		beq	.L36
+ 225              	.L37:
+ 226 007e 5B68     		ldr	r3, [r3, #4]
+ 227 0080 9342     		cmp	r3, r2
+ 228 0082 00F1FF30 		add	r0, r0, #-1
+ARM GAS  /tmp/ccg1Hg47.s 			page 5
+
+
+ 229 0086 FAD1     		bne	.L37
+ 230              	.L36:
+ 231 0088 0038     		subs	r0, r0, #0
+ 232 008a 18BF     		it	ne
+ 233 008c 0120     		movne	r0, #1
+ 234              	.L26:
+ 235 008e 5DF8044B 		ldr	r4, [sp], #4
+ 236 0092 7047     		bx	lr
+ 237              	.L43:
+ 238 0094 0120     		movs	r0, #1
+ 239 0096 5DF8044B 		ldr	r4, [sp], #4
+ 240 009a 7047     		bx	lr
+ 241              	.L22:
+ 242 009c 6168     		ldr	r1, [r4, #4]
+ 243 009e A142     		cmp	r1, r4
+ 244 00a0 18BF     		it	ne
+ 245 00a2 0023     		movne	r3, #0
+ 246 00a4 BCD1     		bne	.L27
+ 247 00a6 C1E7     		b	.L21
+ 248              	.L29:
+ 249 00a8 6169     		ldr	r1, [r4, #20]
+ 250 00aa 6145     		cmp	r1, ip
+ 251 00ac 18BF     		it	ne
+ 252 00ae 0023     		movne	r3, #0
+ 253 00b0 CDD1     		bne	.L33
+ 254 00b2 D2E7     		b	.L28
+ 255              	.L62:
+ 256              		.align	2
+ 257              	.L61:
+ 258 00b4 00000000 		.word	.LANCHOR2
+ 259              		.size	chSysIntegrityCheckI, .-chSysIntegrityCheckI
+ 260              		.section	.text.chSysTimerHandlerI,"ax",%progbits
+ 261              		.align	1
+ 262              		.p2align 4,,15
+ 263              		.global	chSysTimerHandlerI
+ 264              		.syntax unified
+ 265              		.thumb
+ 266              		.thumb_func
+ 267              		.fpu fpv4-sp-d16
+ 268              		.type	chSysTimerHandlerI, %function
+ 269              	chSysTimerHandlerI:
+ 270              		@ args = 0, pretend = 0, frame = 0
+ 271              		@ frame_needed = 0, uses_anonymous_args = 0
+ 272              		@ link register save eliminated.
+ 273 0000 044B     		ldr	r3, .L68
+ 274 0002 DA68     		ldr	r2, [r3, #12]
+ 275 0004 92F82730 		ldrb	r3, [r2, #39]	@ zero_extendqisi2
+ 276 0008 13B1     		cbz	r3, .L64
+ 277 000a 013B     		subs	r3, r3, #1
+ 278 000c 82F82730 		strb	r3, [r2, #39]
+ 279              	.L64:
+ 280 0010 FFF7FEBF 		b	chVTDoTickI
+ 281              	.L69:
+ 282              		.align	2
+ 283              	.L68:
+ 284 0014 00000000 		.word	.LANCHOR2
+ 285              		.size	chSysTimerHandlerI, .-chSysTimerHandlerI
+ARM GAS  /tmp/ccg1Hg47.s 			page 6
+
+
+ 286              		.section	.text.chSysGetStatusAndLockX,"ax",%progbits
+ 287              		.align	1
+ 288              		.p2align 4,,15
+ 289              		.global	chSysGetStatusAndLockX
+ 290              		.syntax unified
+ 291              		.thumb
+ 292              		.thumb_func
+ 293              		.fpu fpv4-sp-d16
+ 294              		.type	chSysGetStatusAndLockX, %function
+ 295              	chSysGetStatusAndLockX:
+ 296              		@ args = 0, pretend = 0, frame = 0
+ 297              		@ frame_needed = 0, uses_anonymous_args = 0
+ 298 0000 10B5     		push	{r4, lr}
+ 299              		.syntax unified
+ 300              	@ 465 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 301 0002 EFF31184 		MRS r4, basepri
+ 302              	@ 0 "" 2
+ 303              		.thumb
+ 304              		.syntax unified
+ 305 0006 4CB9     		cbnz	r4, .L70
+ 306              		.syntax unified
+ 307              	@ 209 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 308 0008 EFF30583 		MRS r3, ipsr
+ 309              	@ 0 "" 2
+ 310              		.thumb
+ 311              		.syntax unified
+ 312 000c C3F30803 		ubfx	r3, r3, #0, #9
+ 313 0010 33B1     		cbz	r3, .L72
+ 314 0012 3023     		movs	r3, #48
+ 315              		.syntax unified
+ 316              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 317 0014 83F31188 		MSR basepri, r3
+ 318              	@ 0 "" 2
+ 319              		.thumb
+ 320              		.syntax unified
+ 321 0018 FFF7FEFF 		bl	__stats_start_measure_crit_isr
+ 322              	.L70:
+ 323 001c 2046     		mov	r0, r4
+ 324 001e 10BD     		pop	{r4, pc}
+ 325              	.L72:
+ 326 0020 3023     		movs	r3, #48
+ 327              		.syntax unified
+ 328              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 329 0022 83F31188 		MSR basepri, r3
+ 330              	@ 0 "" 2
+ 331              		.thumb
+ 332              		.syntax unified
+ 333 0026 FFF7FEFF 		bl	__stats_start_measure_crit_thd
+ 334 002a 2046     		mov	r0, r4
+ 335 002c 10BD     		pop	{r4, pc}
+ 336              		.size	chSysGetStatusAndLockX, .-chSysGetStatusAndLockX
+ 337 002e 00BF     		.section	.text.chSysRestoreStatusX,"ax",%progbits
+ 338              		.align	1
+ 339              		.p2align 4,,15
+ 340              		.global	chSysRestoreStatusX
+ 341              		.syntax unified
+ 342              		.thumb
+ARM GAS  /tmp/ccg1Hg47.s 			page 7
+
+
+ 343              		.thumb_func
+ 344              		.fpu fpv4-sp-d16
+ 345              		.type	chSysRestoreStatusX, %function
+ 346              	chSysRestoreStatusX:
+ 347              		@ args = 0, pretend = 0, frame = 0
+ 348              		@ frame_needed = 0, uses_anonymous_args = 0
+ 349 0000 58B9     		cbnz	r0, .L78
+ 350 0002 38B5     		push	{r3, r4, r5, lr}
+ 351              		.syntax unified
+ 352              	@ 209 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 353 0004 EFF30585 		MRS r5, ipsr
+ 354              	@ 0 "" 2
+ 355              		.thumb
+ 356              		.syntax unified
+ 357 0008 C5F30805 		ubfx	r5, r5, #0, #9
+ 358 000c 35B1     		cbz	r5, .L76
+ 359 000e 0446     		mov	r4, r0
+ 360 0010 FFF7FEFF 		bl	__stats_stop_measure_crit_isr
+ 361              		.syntax unified
+ 362              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 363 0014 84F31188 		MSR basepri, r4
+ 364              	@ 0 "" 2
+ 365              		.thumb
+ 366              		.syntax unified
+ 367 0018 38BD     		pop	{r3, r4, r5, pc}
+ 368              	.L78:
+ 369 001a 7047     		bx	lr
+ 370              	.L76:
+ 371 001c FFF7FEFF 		bl	chSchRescheduleS
+ 372 0020 FFF7FEFF 		bl	__stats_stop_measure_crit_thd
+ 373              		.syntax unified
+ 374              	@ 493 "/home/gautier/dev/paparazzi/sw/ext/chibios/os/common/ext/ARM/CMSIS/Core/Include/cmsis_gcc.h"
+ 375 0024 85F31188 		MSR basepri, r5
+ 376              	@ 0 "" 2
+ 377              		.thumb
+ 378              		.syntax unified
+ 379 0028 38BD     		pop	{r3, r4, r5, pc}
+ 380              		.size	chSysRestoreStatusX, .-chSysRestoreStatusX
+ 381 002a 00BF     		.section	.text.chSysIsCounterWithinX,"ax",%progbits
+ 382              		.align	1
+ 383              		.p2align 4,,15
+ 384              		.global	chSysIsCounterWithinX
+ 385              		.syntax unified
+ 386              		.thumb
+ 387              		.thumb_func
+ 388              		.fpu fpv4-sp-d16
+ 389              		.type	chSysIsCounterWithinX, %function
+ 390              	chSysIsCounterWithinX:
+ 391              		@ args = 0, pretend = 0, frame = 0
+ 392              		@ frame_needed = 0, uses_anonymous_args = 0
+ 393              		@ link register save eliminated.
+ 394 0000 401A     		subs	r0, r0, r1
+ 395 0002 511A     		subs	r1, r2, r1
+ 396 0004 8842     		cmp	r0, r1
+ 397 0006 2CBF     		ite	cs
+ 398 0008 0020     		movcs	r0, #0
+ 399 000a 0120     		movcc	r0, #1
+ARM GAS  /tmp/ccg1Hg47.s 			page 8
+
+
+ 400 000c 7047     		bx	lr
+ 401              		.size	chSysIsCounterWithinX, .-chSysIsCounterWithinX
+ 402 000e 00BF     		.section	.text.chSysPolledDelayX,"ax",%progbits
+ 403              		.align	1
+ 404              		.p2align 4,,15
+ 405              		.global	chSysPolledDelayX
+ 406              		.syntax unified
+ 407              		.thumb
+ 408              		.thumb_func
+ 409              		.fpu fpv4-sp-d16
+ 410              		.type	chSysPolledDelayX, %function
+ 411              	chSysPolledDelayX:
+ 412              		@ args = 0, pretend = 0, frame = 0
+ 413              		@ frame_needed = 0, uses_anonymous_args = 0
+ 414              		@ link register save eliminated.
+ 415 0000 034A     		ldr	r2, .L85
+ 416 0002 5168     		ldr	r1, [r2, #4]
+ 417              	.L83:
+ 418 0004 5368     		ldr	r3, [r2, #4]
+ 419 0006 5B1A     		subs	r3, r3, r1
+ 420 0008 9842     		cmp	r0, r3
+ 421 000a FBD8     		bhi	.L83
+ 422 000c 7047     		bx	lr
+ 423              	.L86:
+ 424 000e 00BF     		.align	2
+ 425              	.L85:
+ 426 0010 001000E0 		.word	-536866816
+ 427              		.size	chSysPolledDelayX, .-chSysPolledDelayX
+ 428              		.global	ch_core0_cfg
+ 429              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 430              		.align	2
+ 431              	.LC0:
+ 432 0000 633000   		.ascii	"c0\000"
+ 433              		.global	ch0
+ 434              		.global	ch_system
+ 435              		.section	.bss.ch0,"aw",%nobits
+ 436              		.align	3
+ 437              		.set	.LANCHOR2,. + 0
+ 438              		.type	ch0, %object
+ 439              		.size	ch0, 224
+ 440              	ch0:
+ 441 0000 00000000 		.space	224
+ 441      00000000 
+ 441      00000000 
+ 441      00000000 
+ 441      00000000 
+ 442              		.section	.bss.ch_c0_idle_thread_wa,"aw",%nobits
+ 443              		.align	3
+ 444              		.type	ch_c0_idle_thread_wa, %object
+ 445              		.size	ch_c0_idle_thread_wa, 536
+ 446              	ch_c0_idle_thread_wa:
+ 447 0000 00000000 		.space	536
+ 447      00000000 
+ 447      00000000 
+ 447      00000000 
+ 447      00000000 
+ 448              		.section	.bss.ch_system,"aw",%nobits
+ARM GAS  /tmp/ccg1Hg47.s 			page 9
+
+
+ 449              		.align	2
+ 450              		.set	.LANCHOR0,. + 0
+ 451              		.type	ch_system, %object
+ 452              		.size	ch_system, 12
+ 453              	ch_system:
+ 454 0000 00000000 		.space	12
+ 454      00000000 
+ 454      00000000 
+ 455              		.section	.rodata.ch_core0_cfg,"a"
+ 456              		.align	2
+ 457              		.set	.LANCHOR1,. + 0
+ 458              		.type	ch_core0_cfg, %object
+ 459              		.size	ch_core0_cfg, 20
+ 460              	ch_core0_cfg:
+ 461 0000 00000000 		.word	.LC0
+ 462 0004 00000000 		.word	0
+ 463 0008 00000000 		.word	0
+ 464 000c 00000000 		.word	ch_c0_idle_thread_wa
+ 465 0010 18020000 		.word	ch_c0_idle_thread_wa+536
+ 466              		.ident	"GCC: (15:10.3-2021.07-4) 10.3.1 20210621 (release)"
+ARM GAS  /tmp/ccg1Hg47.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 chsys.c
+     /tmp/ccg1Hg47.s:15     .text.chSysWaitSystemState:0000000000000000 $t
+     /tmp/ccg1Hg47.s:24     .text.chSysWaitSystemState:0000000000000000 chSysWaitSystemState
+     /tmp/ccg1Hg47.s:37     .text.chSysWaitSystemState:000000000000000c $d
+     /tmp/ccg1Hg47.s:40     .text.chSysInit:0000000000000000 $t
+     /tmp/ccg1Hg47.s:48     .text.chSysInit:0000000000000000 chSysInit
+     /tmp/ccg1Hg47.s:91     .text.chSysInit:0000000000000050 $d
+     /tmp/ccg1Hg47.s:96     .text.chSysHalt:0000000000000000 $t
+     /tmp/ccg1Hg47.s:104    .text.chSysHalt:0000000000000000 chSysHalt
+     /tmp/ccg1Hg47.s:125    .text.chSysHalt:0000000000000010 $d
+     /tmp/ccg1Hg47.s:129    .text.chSysGetIdleThreadX:0000000000000000 $t
+     /tmp/ccg1Hg47.s:137    .text.chSysGetIdleThreadX:0000000000000000 chSysGetIdleThreadX
+     /tmp/ccg1Hg47.s:147    .text.chSysGetIdleThreadX:0000000000000008 $d
+     /tmp/ccg1Hg47.s:150    .text.chSysIntegrityCheckI:0000000000000000 $t
+     /tmp/ccg1Hg47.s:158    .text.chSysIntegrityCheckI:0000000000000000 chSysIntegrityCheckI
+     /tmp/ccg1Hg47.s:258    .text.chSysIntegrityCheckI:00000000000000b4 $d
+     /tmp/ccg1Hg47.s:261    .text.chSysTimerHandlerI:0000000000000000 $t
+     /tmp/ccg1Hg47.s:269    .text.chSysTimerHandlerI:0000000000000000 chSysTimerHandlerI
+     /tmp/ccg1Hg47.s:284    .text.chSysTimerHandlerI:0000000000000014 $d
+     /tmp/ccg1Hg47.s:287    .text.chSysGetStatusAndLockX:0000000000000000 $t
+     /tmp/ccg1Hg47.s:295    .text.chSysGetStatusAndLockX:0000000000000000 chSysGetStatusAndLockX
+     /tmp/ccg1Hg47.s:338    .text.chSysRestoreStatusX:0000000000000000 $t
+     /tmp/ccg1Hg47.s:346    .text.chSysRestoreStatusX:0000000000000000 chSysRestoreStatusX
+     /tmp/ccg1Hg47.s:382    .text.chSysIsCounterWithinX:0000000000000000 $t
+     /tmp/ccg1Hg47.s:390    .text.chSysIsCounterWithinX:0000000000000000 chSysIsCounterWithinX
+     /tmp/ccg1Hg47.s:403    .text.chSysPolledDelayX:0000000000000000 $t
+     /tmp/ccg1Hg47.s:411    .text.chSysPolledDelayX:0000000000000000 chSysPolledDelayX
+     /tmp/ccg1Hg47.s:426    .text.chSysPolledDelayX:0000000000000010 $d
+     /tmp/ccg1Hg47.s:460    .rodata.ch_core0_cfg:0000000000000000 ch_core0_cfg
+     /tmp/ccg1Hg47.s:430    .rodata.str1.4:0000000000000000 $d
+     /tmp/ccg1Hg47.s:440    .bss.ch0:0000000000000000 ch0
+     /tmp/ccg1Hg47.s:453    .bss.ch_system:0000000000000000 ch_system
+     /tmp/ccg1Hg47.s:436    .bss.ch0:0000000000000000 $d
+     /tmp/ccg1Hg47.s:443    .bss.ch_c0_idle_thread_wa:0000000000000000 $d
+     /tmp/ccg1Hg47.s:446    .bss.ch_c0_idle_thread_wa:0000000000000000 ch_c0_idle_thread_wa
+     /tmp/ccg1Hg47.s:449    .bss.ch_system:0000000000000000 $d
+     /tmp/ccg1Hg47.s:456    .rodata.ch_core0_cfg:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+chTMObjectInit
+chTMStartMeasurementX
+chTMStopMeasurementX
+__core_init
+__heap_init
+__factory_init
+chInstanceObjectInit
+__stats_stop_measure_crit_thd
+chVTDoTickI
+__stats_start_measure_crit_isr
+__stats_start_measure_crit_thd
+__stats_stop_measure_crit_isr
+chSchRescheduleS
