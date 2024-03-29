@@ -71,10 +71,11 @@ class RadioBridge:
             except:
                 if self.verbose:
                     print('Forward error for', ac_id)
+
         messages_datalink = messages_xml_map.get_msgs("datalink")
+        
         for msg in messages_datalink:
             self._ivy.subscribe(_forward_to_cf, PprzMessage("datalink", msg))
-
 
     def shutdown(self):
         if self.verbose:

@@ -9,7 +9,8 @@ There is also some useful scripts that install dependencies needed for the addit
 # What's included in this fork
 The following sections are what is included in this fork that is (currently) not included in the main repo of Paparazzi
 
-## Debugging with OpenOCD for Crazyflie 2.1
+## Debugging
+### OpenOCD for Crazyflie 2.1
 Added a Makefile for easy debugging with OpenOCD. This Makefile assumes you have Bash, Konsole and other dependencies installed.
 Run:
 
@@ -23,12 +24,23 @@ It is also very recommended (easier and works better) to follow this
 from Bitcraze (the official debugging guide for Crazyflie).
 Use the updated file ```.vscode/launch.json``` from this repo.
 
-# TODO INCLUDE DEBUGGING SETUP PHOTO HERE, COULD BE USEFUL
+### Python with VSCode
+In the file ```.vscode/launch.json``` from this repo, there is also configuration for debugging the current Python file.
+This was used for debugging the ```crazyradio2ivy.py``` file
 
-### Useful links and docs
-- https://www.bitcraze.io/documentation/repository/crazyflie-firmware/master/development/openocd_gdb_debugging/
-- https://openocd.org/pages/documentation.html
+## TODO INCLUDE DEBUGGING HARDWARE SETUP PHOTO HERE, COULD BE USEFUL
+![PhotoHere]()
 
 ## Extra modules and config for Crazyflie 2.1
-- Added firmware configuration XML in TODO
-- Added module blah blah TODO
+### GVF for rotorcrafts
+
+### Relative positioning with Loco System (Crazyflie)
+
+### Other
+- Added initial bare-metal implementation for Crazyflie 2.1
+- Added firmware configuration XML in UGR/...
+- blah blah
+
+### Useful links, docs and related to this repo
+- https://www.bitcraze.io/documentation/repository/crazyflie-firmware/master/development/openocd_gdb_debugging/
+- https://openocd.org/pages/documentation.html

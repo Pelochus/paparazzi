@@ -1,3 +1,7 @@
+# This was extracted from:
+# https://www.bitcraze.io/documentation/repository/crazyflie-lib-python/master/user-guides/sbs_connect_log_param/
+# It is recommended to read all examples
+
 import logging
 import time
 
