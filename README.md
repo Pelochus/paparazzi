@@ -29,7 +29,7 @@ Use the updated file ```.vscode/launch.json``` from this repo.
 In the file ```.vscode/launch.json``` from this repo, there is also configuration for debugging the current Python file.
 This was used for debugging the ```crazyradio2ivy.py``` file
 
-## TODO INCLUDE DEBUGGING HARDWARE SETUP PHOTO HERE, COULD BE USEFUL
+### Debug Setup photos
 ![DebugSetup](https://github.com/Pelochus/paparazzi/blob/master/img/DebugSetup.jpg)
 ![DebugSetup2](https://github.com/Pelochus/paparazzi/blob/master/img/DebugSetup2.jpg)
 
