@@ -11,6 +11,7 @@ The following sections are what is included in this fork that is (currently) not
 
 ## Debugging
 ### OpenOCD for Crazyflie 2.1
+**Remember to set ```RTOS_DEBUG``` to 1 in ```conf/airframes/UGR/crazyflie_2.1.xml``` for debugging ChibiOS**.
 Added a Makefile for easy debugging with OpenOCD. This Makefile assumes you have Bash, Konsole and other dependencies installed.
 Run:
 
