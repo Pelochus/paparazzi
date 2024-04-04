@@ -1,7 +1,7 @@
 <!DOCTYPE airframe SYSTEM "../airframe.dtd">
 
 <!-- 
-  Minor variation by Ángel Hurtado (Pelochus on GitHub) 
+  Minor variation by Ángel Hurtado Flores (Pelochus on GitHub)
   Disables unneeded modules for the stock hardware configuration of the Crazyflie 2.1
 -->
 

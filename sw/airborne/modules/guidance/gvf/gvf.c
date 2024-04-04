@@ -178,37 +178,10 @@ void gvf_control_2D(float ke, float kn, float e,
   float md_dot_y = -md_x * md_dot_const;
 
 
+  // TODO: Move this to wherever Gautier says
   #ifdef ROTORCRAFT_FIRMWARE
 
-  // Set nav for command
-
-  // Use parameter kn as the speed command
-  nav.speed.x = md_x * kn;
-  nav.speed.y = md_y * kn;
-
-
-  // Acceleration induced by the field with speed set to kn (!WIP!)
-#warning "Using GVF for rotorcraft is still experimental, proceed with caution"
-  float n_norm = sqrtf(nx*nx+ny*ny);
-  float hess_px_dot = px_dot * H11 + py_dot * H12;
-  float hess_py_dot = px_dot * H21 + py_dot * H22;
-
-  float hess_pdx_dot = pdx_dot * H11 + pdy_dot * H12;
-  float hess_pdy_dot = pdx_dot * H21 + pdy_dot * H22;
-
-  float curvature_correction = tx * hess_px_dot + ty * hess_py_dot / (n_norm * n_norm);
-  float accel_correction_x = kn * hess_py_dot / n_norm;
-  float accel_correction_y = - kn * hess_px_dot / n_norm;
-  float accel_cmd_x = accel_correction_x + px_dot * curvature_correction;
-  float accel_cmd_y = accel_correction_y + py_dot * curvature_correction;
-
-  float speed_cmd_x = kn*tx / n_norm - ke * e * nx / (n_norm);
-  float speed_cmd_y = kn*ty / n_norm - ke * e * ny / (n_norm);
-
-  // TODO don't change nav struct directly
-  nav.accel.x = accel_cmd_x + (speed_cmd_x - px_dot);
-  nav.accel.y = accel_cmd_y + (speed_cmd_y - py_dot);
-  nav.heading = atan2f(md_x,md_y);
+  // TODO: Call here INDI acceleration function
 
   #else
 
@@ -435,7 +408,6 @@ bool gvf_ellipse_XY(float x, float y, float a, float b, float alpha)
   return true;
 }
 
-
 bool gvf_ellipse_wp(uint8_t wp, float a, float b, float alpha)
 {
   gvf_trajectory.p[5] = wp;
@@ -444,6 +416,17 @@ bool gvf_ellipse_wp(uint8_t wp, float a, float b, float alpha)
   gvf_ellipse_XY(WaypointX(wp),  WaypointY(wp), a, b, alpha);
   return true;
 }
+
+/* // TODO: New implementation for doing GVF with constant speed on rotorcraft
+bool gvf_ellipse_wp_rotor(uint8_t wp, float a, float b, float alpha, float speed)
+{
+  gvf_trajectory.p[5] = wp;
+  gvf_plen_wps = 1;
+
+  gvf_ellipse_XY(WaypointX(wp),  WaypointY(wp), a, b, alpha);
+  return true;
+}
+*/
 
 // SINUSOIDAL (if w = 0 and off = 0, then we just have the straight line case)
 
