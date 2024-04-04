@@ -42,6 +42,7 @@ This was used for debugging the ```crazyradio2ivy.py``` file
 - Added initial bare-metal implementation for Crazyflie 2.1
 - Added firmware configuration for Crazyflie in `conf/airframes/UGR/`
 - Added new flightplan for Crazyflie in `conf/flight_plans/UGR/`
+- Added new telemetry option for Crazyflie GVF in `conf/telemetry/GVF`
 - Added Crazyflie 2.1 GVF in `conf/conf_ugr.xml`
 - blah blah
 
