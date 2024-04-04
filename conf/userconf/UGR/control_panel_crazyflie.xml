@@ -18,14 +18,16 @@
 
     <session name="Crazyflie Standard Flight">
       <program name="Server"/>
-      <program name="PprgGCS"/>
-      <program name="Messages">
-      <program name="Crazyradio/IVY bridge">
+      <program name="PprzGCS"/>
+      <program name="Messages"/>
+      <program name="Crazyradio/IVY bridge"/>
     </session>
 
     <session name="Crazyflie Messages">
-      <program name="Messages">
-      <program name="Crazyradio/IVY bridge">
+      <program name="Messages"/>
+      <program name="Crazyradio/IVY bridge"/>
     </session>
+
+  </section>
 
 </control_panel>

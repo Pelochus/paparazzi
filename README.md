@@ -44,6 +44,7 @@ This was used for debugging the ```crazyradio2ivy.py``` file
 - Added new flightplan for Crazyflie in `conf/flight_plans/UGR/`
 - Added new telemetry option for Crazyflie GVF in `conf/telemetry/GVF`
 - Added Crazyflie 2.1 GVF in `conf/conf_ugr.xml`
+- Addec Control Panel for Crazyflie in `conf/userconf/UGR/`
 - blah blah
 
 ### Useful links, docs and related to this repo
