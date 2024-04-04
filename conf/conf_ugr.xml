@@ -66,7 +66,18 @@
    gui_color="#ed0033003b00"
   />
   <aircraft
-   name="crazyflie"
+   name="Crazyflie 2.1 GVF"
+   ac_id="7"
+   airframe="airframes/UGR/crazyflie_2.1.xml"
+   radio="radios/cockpitSX.xml"
+   telemetry="telemetry/gvf_default_rotorcraft.xml"
+   flight_plan="flight_plans/ENAC/crazyflie_multi_ranger_test.xml"
+   settings="settings/rotorcraft_basic.xml"
+   settings_modules="modules/ahrs_madgwick.xml modules/air_data.xml modules/electrical.xml modules/gps.xml modules/gps_ublox.xml modules/guidance_pid_rotorcraft.xml modules/guidance_rotorcraft.xml modules/imu_common.xml modules/ins_extended.xml modules/nav_rotorcraft.xml modules/stabilization_int_quat.xml"
+   gui_color="blue"
+  />
+  <aircraft
+   name="crazyflie-bare"
    ac_id="10"
    airframe="airframes/UGR/crazyflie_2.1_test.xml"
    radio="radios/dummy.xml"
