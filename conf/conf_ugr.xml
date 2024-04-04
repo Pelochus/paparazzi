@@ -69,7 +69,7 @@
    name="gvf_crazyflie"
    ac_id="7"
    airframe="airframes/UGR/crazyflie_2.1.xml"
-   radio="radios/cockpitSX.xml"
+   radio="radios/dummy.xml"
    telemetry="telemetry/GVF/gvf_default_rotorcraft.xml"
    flight_plan="flight_plans/UGR/crazyflie_gvf.xml"
    settings="settings/rotorcraft_basic.xml"

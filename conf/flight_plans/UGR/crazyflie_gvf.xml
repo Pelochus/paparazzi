@@ -60,12 +60,12 @@ static inline void obstacle_detection_cb(uint8_t sender_id __attribute__((unused
   <blocks>
     <block name="FPInit">
       <call_once fun="NavKillThrottle()"/>
-      <set var = "obstacle_dist" value="10.0"/><!--Or else it will turn everytime if the abi message is not received-->
+      <set var = "obstacle_dist" value="10.0"/> <!--Or else it will turn everytime if the abi message is not received-->
       <set var = "vel_body_x_FF" value="0."/>
       <set var = "vel_body_y_FF" value="0."/>
       <set var = "vel_body_z_FF" value="0."/>
       <!--while cond="!GpsFixValid()"/-->
-      <while cond="TRUE"/>
+      <!-- while cond="TRUE" --> <!-- TODO: Check if this is needed -->
     </block>
     <block name="Holding point">
       <call_once fun="NavKillThrottle()"/>
@@ -93,14 +93,17 @@ static inline void obstacle_detection_cb(uint8_t sender_id __attribute__((unused
       </while>
     </block>
 
-    <!-- This is my addition -->
+    <!-- These are my additions -->
 
     <!-- Function found in ./sw/airborne/firmwares/rotorcraft/guidance/guidance_h.h -->
     <block name="Prueba UGR">
+      <call_once fun="NavResurrect()"/>
       <while cond="1">
         <call_once fun="guidance_h_set_vel(1.0, 2.0)"/>
       </while>
     </block>
+
+    <!-- End of my additions -->
 
     <block name="Land here" strip_button="Land Here" strip_icon="land-right.png">
       <call_once fun="NavSetWaypointHere(WP_TD)"/>
