@@ -5,7 +5,7 @@
   Disables unneeded modules for the stock hardware configuration of the Crazyflie 2.1
 -->
 
-<airframe name="Crazyflie2">
+<airframe name="CrazyflieGVF">
 
   <description>
     Crazyflie 2.1
@@ -18,12 +18,6 @@
 
     <target name="ap" board="crazyflie_2.1">
       <module name="gps" type="datalink"/>
-      <!-- comment next two modules if not used, init is blocking
-      <module name="cf_deck" type="multi_ranger"/>
-      <module name="range_forcefield">
-        <define name="RANGE_FORCEFIELD_MAX_VEL" value="0.1"/>
-      </module>
-      -->
     </target>
 
     <target name="nps" board="pc">
@@ -56,20 +50,13 @@
       <configure name="BMP3_I2C_DEV" value="i2c3"/>
       <define name="AIR_DATA_BARO_ABS_ID" value="BARO_BMP3_SENDER_ID"/>
       <define name="BMP3_SLAVE_ADDR" value="BMP3_I2C_ADDR_ALT"/>
-    </module>
+    </module> 
 
-    <!-- comment next two modules if not used, init is blocking
-    <module name="sonar" type="vl53l1x">
-      <define name="SENSOR_SYNC_SEND_SONAR"/>
-    </module>
-    <module name="opticflow" type="pmw3901">
-      <configure name="OPTICFLOW_PMW3901_SPI_DEV" value="spi1"/>
-      <define name="SENSOR_SYNC_SEND_OPTICFLOW_PMW3901"/>
-      <define name="PMW3901_SPI_CDIV" value="SPIDiv32"/>
-    </module>
-    -->
+    <!-- New addition -->
+    <module name="gvf_module"/>
+    <module name="gvf_parametric"/>
+
     <define name="NO_GPS_NEEDED_FOR_NAV" value="TRUE"/>
-
   </firmware>
 
   <firmware name="test_chibios">
