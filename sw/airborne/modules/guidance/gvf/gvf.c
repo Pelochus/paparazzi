@@ -177,11 +177,18 @@ void gvf_control_2D(float ke, float kn, float e,
   float md_dot_x =  md_y * md_dot_const;
   float md_dot_y = -md_x * md_dot_const;
 
-
   // TODO: Move this to wherever Gautier says
-  #ifdef ROTORCRAFT_FIRMWARE
+  #if defined(ROTORCRAFT_FIRMWARE)
 
-  // TODO: Call here INDI acceleration function
+  // From sw/airborne/firmware/rotorcraft/navigation.h
+  // nav.horizontal_mode = NAV_HORIZONTAL_MODE_ATTITUDE;
+  nav.setpoint_mode = NAV_SETPOINT_MODE_SPEED;
+
+  // md_x and md_y are normalized
+  nav.speed.x = 4 * md_x;
+  nav.speed.y = 4 * md_y;
+  // From sw/airborne/firmware/rotorcraft/guidance/guidance_h.h
+  // guidance_h_set_vel(pd_dot_dot_x, pd_dot_dot_y);
 
   #else
 
@@ -429,7 +436,6 @@ bool gvf_ellipse_wp_rotor(uint8_t wp, float a, float b, float alpha, float speed
 */
 
 // SINUSOIDAL (if w = 0 and off = 0, then we just have the straight line case)
-
 bool gvf_sin_XY_alpha(float a, float b, float alpha, float w, float off, float A)
 {
   float e;

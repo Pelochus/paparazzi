@@ -1,6 +1,6 @@
 <!DOCTYPE flight_plan SYSTEM "../flight_plan.dtd">
 
-<flight_plan alt="750" ground_alt="720" lat0="37.29745306" lon0="-3.68272961" max_dist_from_home="20" name="Crazyflie GVF (UGR)" security_height="0.3">
+<flight_plan alt="750" ground_alt="720" lat0="37.29745306" lon0="-3.68272961" max_dist_from_home="250" name="Crazyflie GVF (UGR)" security_height="0.3">
   <header>
 #include "autopilot_guided.h"
 
@@ -26,7 +26,7 @@ static inline void obstacle_detection_cb(uint8_t sender_id __attribute__((unused
   <waypoints>
     <waypoint name="HOME" x="0.0" y="0.0"/>
     <waypoint name="STDBY" x="-0.7" y="-0.8"/>
-    <waypoint name="TD" x="0.8" y="-1.7"/>
+    <waypoint name="TD" x="-20" y="30.0"/>
     <waypoint name="S1" x="2" y="3.5"/>
     <waypoint name="S2" x="2" y="-3.5"/>
     <waypoint name="S3" x="-3" y="-3.5"/>
@@ -98,11 +98,9 @@ static inline void obstacle_detection_cb(uint8_t sender_id __attribute__((unused
 
     <!-- These are my additions -->
 
-    <!-- Function found in ./sw/airborne/firmwares/rotorcraft/guidance/guidance_h.h -->
-    <block name="Prueba GVF">
-      <while cond="1">
-        <call_once fun="guidance_h_set_vel(1.0, 2.0)"/>
-      </while>
+    <!-- Function found in ./sw/airborne/modules/guidance/gfv/gvf.h -->
+    <block name="ellipse">
+      <call fun="gvf_ellipse_wp(WP_TD, gvf_ellipse_par.a, gvf_ellipse_par.b, gvf_ellipse_par.alpha)"/>
     </block>
 
     <!-- Function found in ./sw/airborne/firmwares/rotorcraft/guidance/guidance_h.h -->
