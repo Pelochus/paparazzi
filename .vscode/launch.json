@@ -7,7 +7,7 @@
         {
             "name": "STM32 Debug",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/var/aircrafts/CRAZYFLIE/ap/obj/ap.elf",
+            "executable": "${workspaceRoot}/var/aircrafts/gvf_crazyflie/ap/obj/ap.elf",
             "request": "launch",
             "type": "cortex-debug",
             "device": "STM32F405",

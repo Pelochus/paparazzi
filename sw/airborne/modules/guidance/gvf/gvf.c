@@ -181,12 +181,13 @@ void gvf_control_2D(float ke, float kn, float e,
   #if defined(ROTORCRAFT_FIRMWARE)
 
   // From sw/airborne/firmware/rotorcraft/navigation.h
-  // nav.horizontal_mode = NAV_HORIZONTAL_MODE_ATTITUDE;
   nav.setpoint_mode = NAV_SETPOINT_MODE_SPEED;
 
   // md_x and md_y are normalized
   nav.speed.x = 4 * md_x;
   nav.speed.y = 4 * md_y;
+
+  // Doesnt work, left here if needed in the future
   // From sw/airborne/firmware/rotorcraft/guidance/guidance_h.h
   // guidance_h_set_vel(pd_dot_dot_x, pd_dot_dot_y);
 

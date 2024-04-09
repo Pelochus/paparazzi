@@ -68,21 +68,25 @@ static inline void obstacle_detection_cb(uint8_t sender_id __attribute__((unused
       <set var = "vel_body_y_FF" value="0."/>
       <set var = "vel_body_z_FF" value="0."/>
       <!--while cond="!GpsFixValid()"/-->
-      <!-- while cond="TRUE" --> <!-- TODO: Check if this is needed -->
+      <while cond="TRUE"/>
     </block>
+    
     <block name="Holding point">
       <call_once fun="NavKillThrottle()"/>
       <attitude pitch="0" roll="0" throttle="0" until="FALSE" vmode="throttle"/>
     </block>
+
     <block name="Start Engine" strip_button="Start Engine" strip_icon="resurrect.png" group="home">
       <call_once fun="NavResurrect()"/>
       <attitude pitch="0" roll="0" throttle="0" until="FALSE" vmode="throttle"/>
     </block>
+
     <block name="Take off" strip_button="Takeoff" strip_icon="takeoff.png" group="home">
       <exception cond="GetPosHeight() @GT 0.6" deroute="Standby"/>
       <call_once fun="NavSetWaypointHere(WP_STDBY)"/>
       <stay climb="nav.climb_vspeed" vmode="climb" wp="STDBY"/>
     </block>
+
     <block name="Standby" strip_button="Standby" strip_icon="home.png" group="home">
       <stay wp="STDBY"/>
     </block>
@@ -98,13 +102,19 @@ static inline void obstacle_detection_cb(uint8_t sender_id __attribute__((unused
 
     <!-- These are my additions -->
 
+    <!-- From ./sw/airborne/firmware/rotorcraft/autopilot_static.h -->
+    <block name="Set Nav Mode">
+      <call_once fun="autopilot_static_set_mode(AP_MODE_NAV)"/>
+    </block>
+
     <!-- Function found in ./sw/airborne/modules/guidance/gfv/gvf.h -->
-    <block name="ellipse">
+    <block name="GVF Ellipse">
       <call fun="gvf_ellipse_wp(WP_TD, gvf_ellipse_par.a, gvf_ellipse_par.b, gvf_ellipse_par.alpha)"/>
     </block>
 
     <!-- Function found in ./sw/airborne/firmwares/rotorcraft/guidance/guidance_h.h -->
-    <block name="Prueba UGR">
+    <!-- TODO: Set nav.speed.x and nav.speed.y to something -->
+    <block name="Move North">
       <while cond="1">
         <call_once fun="guidance_h_set_vel(1.0, 2.0)"/>
       </while>
@@ -115,19 +125,23 @@ static inline void obstacle_detection_cb(uint8_t sender_id __attribute__((unused
     <block name="Land here" strip_button="Land Here" strip_icon="land-right.png">
       <call_once fun="NavSetWaypointHere(WP_TD)"/>
     </block>
+
     <block name="Land">
       <go wp="TD"/>
     </block>
+
     <block name="Land Target" strip_button="Land Target" group="target">
       <exception cond="GetPosHeight() @LT 0.3" deroute="Ramp down"/>
       <exception cond="!nav_is_in_flight()" deroute="Kill Engine"/>
       <stay climb="nav.descend_vspeed" vmode="climb" wp="TD"/>
     </block>
+
     <block name="Ramp down">
       <exception cond="guidance_v.delta_t @LT 0.1*9600." deroute="Kill Engine"/>
       <set var="fp_throttle" value="guidance_v.delta_t/9600."/>
       <stay throttle="fp_throttle-0.1*stage_time" vmode="throttle" wp="TD"/>
     </block>
+
     <block name="Kill Engine">
       <call_once fun="NavKillThrottle()"/>
       <while cond="1"/>
