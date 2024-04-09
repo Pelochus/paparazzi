@@ -33,20 +33,20 @@ This was used for debugging the ```crazyradio2ivy.py``` file
 ![DebugSetup](https://github.com/Pelochus/paparazzi/blob/master/img/DebugSetup.jpg)
 ![DebugSetup2](https://github.com/Pelochus/paparazzi/blob/master/img/DebugSetup2.jpg)
 
-## Extra modules and config for Crazyflie 2.1
+## New modules for Crazyflie 2.1
 ### GVF for rotorcrafts
 
 ### Relative positioning with Loco System (Crazyflie)
 
-### Other
+## Other
 - Added initial bare-metal implementation for Crazyflie 2.1
 - Added firmware configuration for Crazyflie in `conf/airframes/UGR/`
 - Added new flightplan for Crazyflie in `conf/flight_plans/UGR/`
 - Added new telemetry option for Crazyflie GVF in `conf/telemetry/GVF`
 - Added Crazyflie 2.1 GVF in `conf/conf_ugr.xml`
-- Addec Control Panel for Crazyflie in `conf/userconf/UGR/`
+- Added Control Panel for Crazyflie in `conf/userconf/UGR/`
 - blah blah
 
-### Useful links, docs and related to this repo
+## Useful links, docs and related to this repo
 - https://www.bitcraze.io/documentation/repository/crazyflie-firmware/master/development/openocd_gdb_debugging/
 - https://openocd.org/pages/documentation.html

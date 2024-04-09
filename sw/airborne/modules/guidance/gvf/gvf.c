@@ -186,6 +186,8 @@ void gvf_control_2D(float ke, float kn, float e,
   // md_x and md_y are normalized
   nav.speed.x = 4 * md_x;
   nav.speed.y = 4 * md_y;
+  // nav.accel.x = pd_dot_dot_x;
+  // nav.accel.x = pd_dot_dot_y;y
 
   // Doesnt work, left here if needed in the future
   // From sw/airborne/firmware/rotorcraft/guidance/guidance_h.h

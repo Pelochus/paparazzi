@@ -94,6 +94,7 @@ static inline void obstacle_detection_cb(uint8_t sender_id __attribute__((unused
     <block name="Stay and avoid" strip_button="Avoid">
       <attitude roll="DegOfRad(vel_body_y_FF)" pitch="-DegOfRad(vel_body_x_FF)" alt="WaypointAlt(WP_STDBY)" vmode="alt" until="FALSE"/>
     </block>
+    
     <block name="Guided avoid">
       <while cond="1">
         <call_once fun="autopilot_guided_update(GUIDED_FLAG_XY_VEL_BODY,vel_body_x_FF,vel_body_y_FF,-nominal_alt,desired_heading)"/>
@@ -113,10 +114,11 @@ static inline void obstacle_detection_cb(uint8_t sender_id __attribute__((unused
     </block>
 
     <!-- Function found in ./sw/airborne/firmwares/rotorcraft/guidance/guidance_h.h -->
-    <!-- TODO: Set nav.speed.x and nav.speed.y to something -->
-    <block name="Move North">
+    <block name="Move East">
       <while cond="1">
-        <call_once fun="guidance_h_set_vel(1.0, 2.0)"/>
+        <set var="nav.setpoint_mode" value="NAV_SETPOINT_MODE_SPEED"/>
+        <set var="nav.speed.x" value="3.0"/>
+        <set var="nav.speed.y" value="0.0"/>
       </while>
     </block>
 
