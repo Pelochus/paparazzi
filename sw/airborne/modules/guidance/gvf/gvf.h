@@ -42,6 +42,7 @@
 * @param ke Gain defining how agressive is the vector field
 * @param kn Gain for making converge the vehile to the vector field
 * @param error Error signal. It does not have any specific units. It depends on how the trajectory has been implemented. Check the specific wiki entry for each trajectory.
+* @param speed Desired speed of the vehicle. This can allow, for example, to follow an ellipse with constant speed.
 * @param s Defines the direction to be tracked. Its meaning depends on the trajectory and its implementation. Check the wiki entry of the GVF. It takes the values -1 or 1.
 */
 typedef struct {
@@ -49,6 +50,7 @@ typedef struct {
   float kn;
   float error;
   float omega;
+  float speed;
   int8_t s;
 } gvf_con;
 
@@ -111,11 +113,11 @@ struct gvf_Hess {
 };
 
 extern void gvf_init(void);
-void gvf_control_2D(float ke, float kn, float e,
-                    struct gvf_grad *, struct gvf_Hess *);
+void gvf_control_2D(float ke, float kn, float e, struct gvf_grad *, struct gvf_Hess *);
+extern void gvf_set_speed(float speed); // TODO: New for rotorcraft only (currently) 
 extern void gvf_set_direction(int8_t s);
 
-// Straigh line
+// Straight line
 extern bool gvf_line_XY_heading(float x, float y, float heading);
 extern bool gvf_line_XY1_XY2(float x1, float y1, float x2, float y2);
 extern bool gvf_line_wp1_wp2(uint8_t wp1, uint8_t wp2);
@@ -124,7 +126,6 @@ extern bool gvf_segment_loop_wp1_wp2(uint8_t wp1, uint8_t wp2, float d1, float d
 extern bool gvf_segment_XY1_XY2(float x1, float y1, float x2, float y2);
 extern bool gvf_segment_wp1_wp2(uint8_t wp1, uint8_t wp2);
 extern bool gvf_line_wp_heading(uint8_t wp, float heading);
-
 
 // Ellipse
 extern bool gvf_ellipse_wp(uint8_t wp, float a, float b, float alpha);

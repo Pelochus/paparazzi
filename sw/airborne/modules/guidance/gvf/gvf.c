@@ -118,6 +118,7 @@ void gvf_init(void)
   gvf_control.ke = 1;
   gvf_control.kn = 1;
   gvf_control.s = 1;
+  gvf_control.speed = 1.0; // TODO: Currently used for rotorcrafts only
   gvf_trajectory.type = NONE;
 
 #if PERIODIC_TELEMETRY
@@ -126,8 +127,7 @@ void gvf_init(void)
 }
 
 // GENERIC TRAJECTORY CONTROLLER
-void gvf_control_2D(float ke, float kn, float e,
-                    struct gvf_grad *grad, struct gvf_Hess *hess)
+void gvf_control_2D(float ke, float kn, float e, struct gvf_grad *grad, struct gvf_Hess *hess)
 {
   gvf_t0 = get_sys_time_msec();
 
@@ -184,8 +184,8 @@ void gvf_control_2D(float ke, float kn, float e,
   nav.setpoint_mode = NAV_SETPOINT_MODE_SPEED;
 
   // md_x and md_y are normalized
-  nav.speed.x = 4 * md_x;
-  nav.speed.y = 4 * md_y;
+  nav.speed.x = gvf_control.speed * md_x;
+  nav.speed.y = gvf_control.speed * md_y;
   // nav.accel.x = pd_dot_dot_x;
   // nav.accel.x = pd_dot_dot_y;y
 
@@ -212,6 +212,16 @@ void gvf_control_2D(float ke, float kn, float e,
 
   #endif
 }
+
+// BEGIN ROTORCRAFT
+
+void gvf_set_speed(float speed)
+{
+  if (speed < 0) speed = 0.01;
+  gvf_control.speed = speed;
+}
+
+// END ROTORCRAFT
 
 void gvf_set_direction(int8_t s)
 {
@@ -426,17 +436,6 @@ bool gvf_ellipse_wp(uint8_t wp, float a, float b, float alpha)
   gvf_ellipse_XY(WaypointX(wp),  WaypointY(wp), a, b, alpha);
   return true;
 }
-
-/* // TODO: New implementation for doing GVF with constant speed on rotorcraft
-bool gvf_ellipse_wp_rotor(uint8_t wp, float a, float b, float alpha, float speed)
-{
-  gvf_trajectory.p[5] = wp;
-  gvf_plen_wps = 1;
-
-  gvf_ellipse_XY(WaypointX(wp),  WaypointY(wp), a, b, alpha);
-  return true;
-}
-*/
 
 // SINUSOIDAL (if w = 0 and off = 0, then we just have the straight line case)
 bool gvf_sin_XY_alpha(float a, float b, float alpha, float w, float off, float A)

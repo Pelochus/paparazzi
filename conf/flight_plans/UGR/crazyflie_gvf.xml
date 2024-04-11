@@ -108,6 +108,10 @@ static inline void obstacle_detection_cb(uint8_t sender_id __attribute__((unused
       <call_once fun="autopilot_static_set_mode(AP_MODE_NAV)"/>
     </block>
 
+    <block name="Set GVF Speed to 2 m/s">
+      <call_once fun="gvf_set_speed(2.0)"/>
+    </block>
+
     <!-- Function found in ./sw/airborne/modules/guidance/gfv/gvf.h -->
     <block name="GVF Ellipse">
       <call fun="gvf_ellipse_wp(WP_TD, gvf_ellipse_par.a, gvf_ellipse_par.b, gvf_ellipse_par.alpha)"/>
