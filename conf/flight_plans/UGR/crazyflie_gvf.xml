@@ -108,8 +108,16 @@ static inline void obstacle_detection_cb(uint8_t sender_id __attribute__((unused
       <call_once fun="autopilot_static_set_mode(AP_MODE_NAV)"/>
     </block>
 
-    <block name="Set GVF Speed to 2 m/s">
-      <call_once fun="gvf_set_speed(2.0)"/>
+    <block name="Set GVF Speed to 3 m/s">
+      <call_once fun="gvf_set_speed(3.0)"/>
+    </block>
+
+    <block name="Set GVF Align with Trajectory TRUE">
+      <call_once fun="gvf_set_align(true)"/>
+    </block>
+
+    <block name="Set GVF Align with Trajectory FALSE">
+      <call_once fun="gvf_set_align(false)"/>
     </block>
 
     <!-- Function found in ./sw/airborne/modules/guidance/gfv/gvf.h -->

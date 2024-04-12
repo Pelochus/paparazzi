@@ -10,7 +10,9 @@
     },
     "files.associations": {
         "Makefile.*": "makefile",
-        "abi.h": "c"
+        "abi.h": "c",
+        "gvf.h": "c",
+        "gvf_low_level_control.h": "c"
     },
     "C_Cpp.dimInactiveRegions": false,
     "esbonio.sphinx.confDir": "",

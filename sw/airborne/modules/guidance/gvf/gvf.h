@@ -52,6 +52,7 @@ typedef struct {
   float omega;
   float speed;
   int8_t s;
+  bool align;
 } gvf_con;
 
 extern gvf_con gvf_control;
@@ -114,7 +115,8 @@ struct gvf_Hess {
 
 extern void gvf_init(void);
 void gvf_control_2D(float ke, float kn, float e, struct gvf_grad *, struct gvf_Hess *);
-extern void gvf_set_speed(float speed); // TODO: New for rotorcraft only (currently) 
+extern void gvf_set_speed(float speed); // TODO: New for rotorcraft only (currently)
+extern void gvf_set_align(bool align); // TODO: Only for rotorcraft (currently)
 extern void gvf_set_direction(int8_t s);
 
 // Straight line

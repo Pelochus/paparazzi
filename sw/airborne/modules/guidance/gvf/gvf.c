@@ -119,6 +119,7 @@ void gvf_init(void)
   gvf_control.kn = 1;
   gvf_control.s = 1;
   gvf_control.speed = 1.0; // TODO: Currently used for rotorcrafts only
+  gvf_control.align = false; // TODO: Currently for rotorcrafts only
   gvf_trajectory.type = NONE;
 
 #if PERIODIC_TELEMETRY
@@ -181,19 +182,23 @@ void gvf_control_2D(float ke, float kn, float e, struct gvf_grad *grad, struct g
   #if defined(ROTORCRAFT_FIRMWARE)
 
   // From sw/airborne/firmware/rotorcraft/navigation.h
+  // TODO: Check if there is a cleaner, "official-er" way of doing this
   nav.setpoint_mode = NAV_SETPOINT_MODE_SPEED;
-
+  
   // md_x and md_y are normalized
   nav.speed.x = gvf_control.speed * md_x;
   nav.speed.y = gvf_control.speed * md_y;
   // nav.accel.x = pd_dot_dot_x;
-  // nav.accel.x = pd_dot_dot_y;y
+  // nav.accel.x = pd_dot_dot_y;
+
+  // Optionally align heading with the trajectory
+  if (gvf_control.align) nav.heading = atan2f(md_x, md_y);
 
   // Doesnt work, left here if needed in the future
   // From sw/airborne/firmware/rotorcraft/guidance/guidance_h.h
   // guidance_h_set_vel(pd_dot_dot_x, pd_dot_dot_y);
 
-  #else
+  #else // FIXEDWING_FIRMWARE and ROVER_FIRMWARE
 
   float omega_d = -(md_dot_x * md_y - md_dot_y * md_x);
 
@@ -219,6 +224,11 @@ void gvf_set_speed(float speed)
 {
   if (speed < 0) speed = 0.01;
   gvf_control.speed = speed;
+}
+
+void gvf_set_align(bool align)
+{
+  gvf_control.align = align;
 }
 
 // END ROTORCRAFT
