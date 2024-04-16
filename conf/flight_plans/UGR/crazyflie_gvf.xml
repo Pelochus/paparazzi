@@ -63,6 +63,10 @@
       <call_once fun="gvf_set_align(false)"/>
     </block>
 
+    <block name="GVF Mini Circle">
+      <call fun="gvf_ellipse_wp(WP_TD, 0.5, 0.5, gvf_ellipse_par.alpha)"/>
+    </block>
+
     <!-- Function found in ./sw/airborne/modules/guidance/gfv/gvf.h -->
     <block name="GVF Ellipse">
       <call fun="gvf_ellipse_wp(WP_TD, gvf_ellipse_par.a, gvf_ellipse_par.b, gvf_ellipse_par.alpha)"/>
