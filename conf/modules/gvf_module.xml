@@ -8,8 +8,8 @@ For more details we refer to https://wiki.paparazziuav.org/wiki/Module/guidance_
     <section name="Ellipse" prefix="GVF_ELLIPSE_">
       <define name="KE" value="1" description="Gain for the aggresivity of the gvf"/>
       <define name="KN" value="1" description="Gain for the alignment of the vehicle with the gvf"/>
-      <define name="A" value="80" description="Horizontal axis length of the ellipse" unit="m"/>
-      <define name="B" value="80" description="Vertical axis length of the ellipse" unit="m"/>
+      <define name="A" value="5" description="Horizontal axis length of the ellipse" unit="m"/>
+      <define name="B" value="5" description="Vertical axis length of the ellipse" unit="m"/>
       <define name="ALPHA" value="0" description="Rotation of the horizontal axis" unit="deg"/>
     </section>
     <section name="Line" prefix="GVF_LINE_">

@@ -1,50 +1,25 @@
 <!DOCTYPE flight_plan SYSTEM "../flight_plan.dtd">
 
-<flight_plan alt="721" ground_alt="720" lat0="37.29745306" lon0="-3.68272961" max_dist_from_home="250" name="Crazyflie GVF (UGR)" security_height="0.3">
-  <!-- TODO: Is this necessary anyway? -->
-  <header>
-#include "autopilot_guided.h"
-
-// Useful Combination of the flags fir the autopilot_guided_update
-#define GUIDED_FLAG_XY_VEL_BODY GUIDED_FLAG_XY_BODY|GUIDED_FLAG_XY_VEL
-#define GUIDED_FLAG_XY_VEL_BODY_YAW_RATE GUIDED_FLAG_XY_BODY|GUIDED_FLAG_XY_VEL|GUIDED_FLAG_YAW_RATE
-#define GUIDED_FLAG_XY_OFFSET_Z_VEL GUIDED_FLAG_XY_OFFSET|GUIDED_FLAG_Z_VEL
-#define GUIDED_FLAG_XY_OFFSET_YAW_OFFSET GUIDED_FLAG_XY_OFFSET|GUIDED_FLAG_YAW_OFFSET
-
-#ifdef NAV_C
-static float obstacle_dist, obstacle_azimuth, obstacle_bearing;
-static inline void obstacle_detection_cb(uint8_t sender_id __attribute__((unused)), float _obstacle_dist, float _obstacle_azimuth, float _obstacle_bearing)
-{
-  if (And(CloseRadAngles(_obstacle_azimuth,0), CloseRadAngles(_obstacle_bearing,0))) {
-    obstacle_dist = _obstacle_dist;
-    obstacle_azimuth = _obstacle_azimuth;
-    obstacle_bearing = _obstacle_bearing;
-  }
-}
-#endif
-  </header>
+<!--flight_plan alt="720.5" ground_alt="720" lat0="37.29745306" lon0="-3.68272961" max_dist_from_home="250" name="Crazyflie GVF (UGR)" security_height="0.25"-->
+<flight_plan alt="667.5" ground_alt="667" lat0="37.19794402772822" lon0="-3.62423088758751" max_dist_from_home="50" name="Crazyflie GVF (CITIC)" security_height="0.25">
 
   <waypoints>
     <waypoint name="HOME" x="0.0" y="0.0"/>
-    <waypoint name="STDBY" x="-0.7" y="-0.8"/>
-    <waypoint name="TD" x="-20" y="30.0"/>
+    <waypoint name="STDBY" x="0.7" y="0.8"/>
+    <waypoint name="TD" x="-2.0" y="2.5"/>
   </waypoints>
 
   <variables>
     <variable init="0.1" var="fp_throttle"/>
     <variable var="desired_heading" init="0.0f" type="float" min="0." max="10." step="0.1"/>
     <variable var="nominal_alt" init="NAV_DEFAULT_ALT" type="float" min="0." max="10." step="0.1"/>
-    <abi_binding name="OBSTACLE_DETECTION" handler="obstacle_detection_cb"/>
-    <abi_binding name="RANGE_FORCEFIELD" vars="vel_body_x_FF, vel_body_y_FF, vel_body_z_FF"/>
+    <variable var="ell_a" init="1.0"/>
+    <variable var="ell_b" init="1.0"/>
   </variables>
 
   <blocks>
     <block name="FPInit">
       <call_once fun="NavKillThrottle()"/>
-      <set var = "obstacle_dist" value="10.0"/> <!--Or else it will turn everytime if the abi message is not received-->
-      <set var = "vel_body_x_FF" value="0."/>
-      <set var = "vel_body_y_FF" value="0."/>
-      <set var = "vel_body_z_FF" value="0."/>
       <!--while cond="!GpsFixValid()"/-->
       <while cond="TRUE"/>
     </block>
@@ -76,8 +51,8 @@ static inline void obstacle_detection_cb(uint8_t sender_id __attribute__((unused
       <call_once fun="autopilot_static_set_mode(AP_MODE_NAV)"/>
     </block>
 
-    <block name="Set GVF Speed to 3 m/s">
-      <call_once fun="gvf_set_speed(3.0)"/>
+    <block name="Set GVF Speed to 2 m/s">
+      <call_once fun="gvf_set_speed(2.0)"/>
     </block>
 
     <block name="Set GVF Align with Trajectory TRUE">
