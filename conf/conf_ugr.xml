@@ -68,7 +68,7 @@
   <aircraft
    name="gvf_crazyflie"
    ac_id="7"
-   airframe="airframes/UGR/crazyflie_2.1.xml"
+   airframe="airframes/UGR/crazyflie_2.1_stock.xml"
    radio="radios/dummy.xml"
    telemetry="telemetry/GVF/gvf_default_rotorcraft.xml"
    flight_plan="flight_plans/UGR/crazyflie_gvf.xml"

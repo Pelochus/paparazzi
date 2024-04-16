@@ -1,5 +1,7 @@
 <!DOCTYPE airframe SYSTEM "../airframe.dtd">
 
+<!-- Intended for simulation since Crazyflie simulation is broken -->
+
 <airframe name="bebop2_indi">
 
   <firmware name="rotorcraft">

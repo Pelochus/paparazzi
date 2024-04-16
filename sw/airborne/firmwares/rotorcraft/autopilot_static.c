@@ -48,16 +48,17 @@
 
 #include "firmwares/rotorcraft/autopilot_guided.h"
 
+#include "generated/airframe.h" // Solves NO_GPS_NEEDED_FOR_NAV problem for Crazyflie
 #include "generated/settings.h"
 
 #if USE_GPS
 #include "modules/gps/gps.h"
-#else
+#endif
+
 #if NO_GPS_NEEDED_FOR_NAV
 #define GpsIsLost() FALSE
 #else
 #define GpsIsLost() TRUE
-#endif
 #endif
 
 /* Geofence exceptions */
@@ -426,4 +427,3 @@ void autopilot_failsafe_checks(void)
 #endif
 
 }
-

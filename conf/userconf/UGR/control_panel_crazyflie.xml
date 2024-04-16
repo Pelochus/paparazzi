@@ -16,10 +16,16 @@
 
   <section name="sessions">
 
-    <session name="Crazyflie Standard Flight">
+    <session name="Crazyflie Flight + Messages">
       <program name="Server"/>
       <program name="PprzGCS"/>
       <program name="Messages"/>
+      <program name="Crazyradio/IVY bridge"/>
+    </session>
+
+    <session name="Crazyflie Flight">
+      <program name="Server"/>
+      <program name="PprzGCS"/>
       <program name="Crazyradio/IVY bridge"/>
     </session>
 

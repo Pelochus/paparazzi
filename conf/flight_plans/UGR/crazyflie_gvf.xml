@@ -1,6 +1,7 @@
 <!DOCTYPE flight_plan SYSTEM "../flight_plan.dtd">
 
-<flight_plan alt="750" ground_alt="720" lat0="37.29745306" lon0="-3.68272961" max_dist_from_home="250" name="Crazyflie GVF (UGR)" security_height="0.3">
+<flight_plan alt="721" ground_alt="720" lat0="37.29745306" lon0="-3.68272961" max_dist_from_home="250" name="Crazyflie GVF (UGR)" security_height="0.3">
+  <!-- TODO: Is this necessary anyway? -->
   <header>
 #include "autopilot_guided.h"
 
@@ -27,30 +28,7 @@ static inline void obstacle_detection_cb(uint8_t sender_id __attribute__((unused
     <waypoint name="HOME" x="0.0" y="0.0"/>
     <waypoint name="STDBY" x="-0.7" y="-0.8"/>
     <waypoint name="TD" x="-20" y="30.0"/>
-    <waypoint name="S1" x="2" y="3.5"/>
-    <waypoint name="S2" x="2" y="-3.5"/>
-    <waypoint name="S3" x="-3" y="-3.5"/>
-    <waypoint name="S4" x="-3" y="3.5"/>
-    <waypoint name="_N1" x="4.5" y="5.2"/>
-    <waypoint name="_N2" x="4.5" y="-5.2"/>
-    <waypoint name="_N3" x="-4.5" y="-5.2"/>
-    <waypoint name="_N4" x="-4.5" y="5.2"/>
   </waypoints>
-
-  <sectors>
-    <sector name="Net" color="red">
-      <corner name="_N1"/>
-      <corner name="_N2"/>
-      <corner name="_N3"/>
-      <corner name="_N4"/>
-    </sector>
-    <sector name="Survey" color="green">
-      <corner name="S1"/>
-      <corner name="S2"/>
-      <corner name="S3"/>
-      <corner name="S4"/>
-    </sector>
-  </sectors>
 
   <variables>
     <variable init="0.1" var="fp_throttle"/>
@@ -89,16 +67,6 @@ static inline void obstacle_detection_cb(uint8_t sender_id __attribute__((unused
 
     <block name="Standby" strip_button="Standby" strip_icon="home.png" group="home">
       <stay wp="STDBY"/>
-    </block>
-
-    <block name="Stay and avoid" strip_button="Avoid">
-      <attitude roll="DegOfRad(vel_body_y_FF)" pitch="-DegOfRad(vel_body_x_FF)" alt="WaypointAlt(WP_STDBY)" vmode="alt" until="FALSE"/>
-    </block>
-    
-    <block name="Guided avoid">
-      <while cond="1">
-        <call_once fun="autopilot_guided_update(GUIDED_FLAG_XY_VEL_BODY,vel_body_x_FF,vel_body_y_FF,-nominal_alt,desired_heading)"/>
-      </while>
     </block>
 
     <!-- These are my additions -->
