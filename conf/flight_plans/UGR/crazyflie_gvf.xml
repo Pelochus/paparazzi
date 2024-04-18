@@ -1,7 +1,7 @@
 <!DOCTYPE flight_plan SYSTEM "../flight_plan.dtd">
 
-<!--flight_plan alt="720.5" ground_alt="720" lat0="37.29745306" lon0="-3.68272961" max_dist_from_home="250" name="Crazyflie GVF (UGR)" security_height="0.25"-->
-<flight_plan alt="667.5" ground_alt="667" lat0="37.19794402772822" lon0="-3.62423088758751" max_dist_from_home="50" name="Crazyflie GVF (CITIC)" security_height="0.25">
+<!--flight_plan alt="720.25" ground_alt="720" lat0="37.29745306" lon0="-3.68272961" max_dist_from_home="250" name="Crazyflie GVF (UGR)" security_height="0.25"-->
+<flight_plan alt="667.25" ground_alt="667" lat0="37.19794402772822" lon0="-3.62423088758751" max_dist_from_home="50" name="Crazyflie GVF (CITIC)" security_height="0.25">
 
   <waypoints>
     <waypoint name="HOME" x="0.0" y="0.0"/>
@@ -46,11 +46,6 @@
 
     <!-- These are my additions -->
 
-    <!-- From ./sw/airborne/firmware/rotorcraft/autopilot_static.h -->
-    <block name="Set Nav Mode">
-      <call_once fun="autopilot_static_set_mode(AP_MODE_NAV)"/>
-    </block>
-
     <block name="Set GVF Speed to 2 m/s">
       <call_once fun="gvf_set_speed(2.0)"/>
     </block>
@@ -78,6 +73,15 @@
         <set var="nav.setpoint_mode" value="NAV_SETPOINT_MODE_SPEED"/>
         <set var="nav.speed.x" value="3.0"/>
         <set var="nav.speed.y" value="0.0"/>
+      </while>
+    </block>
+
+    <block name="Move East">
+      <while cond="1">
+        <set var="nav.setpoint_mode" value="NAV_SETPOINT_MODE_SPEED"/>
+        <set var="nav.speed.x" value="0.0"/>
+        <set var="nav.speed.y" value="0.0"/>
+        <set var="nav.speed.z" value="0.1"/>
       </while>
     </block>
 
