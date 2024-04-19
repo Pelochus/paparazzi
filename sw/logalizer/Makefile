@@ -32,9 +32,9 @@ LABLGTK2GLADE = $(shell ocamlfind query -p-format lablgtk2.glade 2>/dev/null)
 
 # only compile it lablgtk2.glade is installed
 ifeq ($(LABLGTK2GLADE),)
-XPKG = -package pprz.xlib
+XPKG = -package pprz.xlib,libglade2-dev
 XLINKPKG = $(XPKG) -linkpkg -dllpath-pkg pprz.xlib,pprzlink
-all : play plotter sd2log plotprofile openlog2tlm sdlogger_download
+all : play plotter logplotter sd2log plotprofile openlog2tlm sdlogger_download
 else
 XPKG = -package pprz.xlib,lablgtk2.glade
 XLINKPKG = $(XPKG) -linkpkg -dllpath-pkg pprz.xlib,pprzlink
