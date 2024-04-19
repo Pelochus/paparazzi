@@ -2,13 +2,14 @@
 
 <!-- 
   Minor variation by Ángel Hurtado Flores (Pelochus on GitHub)
-  Disables unneeded modules for the stock hardware configuration of the Crazyflie 2.1
+  Based on UGR/crazyflie_2.1_stock.xml
+  Adds support for opticflow from Bitcraze (Flow Deck v2)
 -->
 
 <airframe name="CrazyflieGVF">
 
   <description>
-    Crazyflie 2.1
+    Crazyflie 2.1 with Flow Deck v2
   </description>
 
   <firmware name="rotorcraft">
@@ -260,6 +261,7 @@
   </section>
 
   <section name="AUTOPILOT">
+    <define name="USE_GPS" value="FALSE"/> <!-- Needed to avoid bug with GpsIsLost function in autopilot_static.c -->
     <define name="NO_GPS_NEEDED_FOR_NAV" value="TRUE"/>
     <define name="MODE_STARTUP" value="AP_MODE_NAV"/>
     <define name="MODE_MANUAL" value="AP_MODE_ATTITUDE_DIRECT"/>
