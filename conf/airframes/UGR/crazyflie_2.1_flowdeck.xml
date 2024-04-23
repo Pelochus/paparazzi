@@ -239,12 +239,20 @@
     <define name="ADAPTIVE_MU" value="0.0001"/>
   </section>
 
+  <!-- New addition -->
+  <section name="NAVIGATION" prefix="NAV_">
+    <define name="CLIMB_VSPEED" value="0.25"/>
+    <define name="DESCEND_VSPEED" value="-0.5"/>
+  </section>
+
   <section name="GUIDANCE_V" prefix="GUIDANCE_V_">
-    <define name="HOVER_KP"    value="150"/>
-    <define name="HOVER_KD"    value="80"/>
-    <define name="HOVER_KI"    value="20"/>
-    <!-- NOMINAL_HOVER_THROTTLE sets a fixed value instead of the adaptive estimation -->
-    <define name="NOMINAL_HOVER_THROTTLE" value="0.75"/>
+    <define name="HOVER_KP"    value="100"/> <!-- Interesting value around 150 -->
+    <define name="HOVER_KD"    value="0"/> <!-- Interesting value 100 -->
+    <define name="HOVER_KI"    value="0"/> <!-- Interesting 35 -->
+    <!-- Change between PID (true) and nominal hover (false) -->
+    <define name="ADAPT_THROTTLE_ENABLED" value="TRUE"/>
+    <!-- Sets a fixed value instead of the adaptive estimation -->
+    <define name="NOMINAL_HOVER_THROTTLE" value="0.5"/> <!-- Interesting between 0.5 - 0.7 -->
   </section>
 
   <section name="GUIDANCE_H" prefix="GUIDANCE_H_">

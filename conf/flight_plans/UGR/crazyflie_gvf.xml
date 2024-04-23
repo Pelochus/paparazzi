@@ -1,7 +1,7 @@
 <!DOCTYPE flight_plan SYSTEM "../flight_plan.dtd">
 
-<!--flight_plan alt="720.25" ground_alt="720" lat0="37.29745306" lon0="-3.68272961" max_dist_from_home="250" name="Crazyflie GVF (UGR)" security_height="0.25"-->
-<flight_plan alt="667.25" ground_alt="667" lat0="37.19794402772822" lon0="-3.62423088758751" max_dist_from_home="50" name="Crazyflie GVF (CITIC)" security_height="0.25">
+<!--flight_plan alt="720.2" ground_alt="720" lat0="37.29745306" lon0="-3.68272961" max_dist_from_home="250" name="Crazyflie GVF (UGR)" security_height="0.1"-->
+<flight_plan alt="667.2" ground_alt="667" lat0="37.19794402772822" lon0="-3.62423088758751" max_dist_from_home="50" name="Crazyflie GVF (CITIC)" security_height="0.1">
 
   <waypoints>
     <waypoint name="HOME" x="0.0" y="0.0"/>
