@@ -57,7 +57,7 @@
       <define name="BMP3_SLAVE_ADDR" value="BMP3_I2C_ADDR_ALT"/>
     </module>
 
-    <!-- Opticflow + Sonar -->
+    <!-- Opticflow + Sonar. Comment if not using Flow Deck v2 -->
     <module name="sonar" type="vl53l1x">
       <define name="SENSOR_SYNC_SEND_SONAR"/>
     </module>
@@ -246,21 +246,21 @@
   </section>
 
   <section name="GUIDANCE_V" prefix="GUIDANCE_V_">
-    <define name="HOVER_KP"    value="100"/> <!-- Interesting value around 150 -->
+    <define name="HOVER_KP"    value="95"/> <!-- Interesting value around 90-110 -->
+    <define name="HOVER_KI"    value="5"/> <!-- Interesting 30 -->
     <define name="HOVER_KD"    value="0"/> <!-- Interesting value 100 -->
-    <define name="HOVER_KI"    value="0"/> <!-- Interesting 35 -->
-    <!-- Change between PID (true) and nominal hover (false) -->
+    <!-- Change between PID (true) and nominal hover only (false) -->
     <define name="ADAPT_THROTTLE_ENABLED" value="TRUE"/>
     <!-- Sets a fixed value instead of the adaptive estimation -->
-    <define name="NOMINAL_HOVER_THROTTLE" value="0.5"/> <!-- Interesting between 0.5 - 0.7 -->
+    <define name="NOMINAL_HOVER_THROTTLE" value="0.6"/> <!-- Interesting between 0.575 - 0.675 -->
   </section>
 
   <section name="GUIDANCE_H" prefix="GUIDANCE_H_">
     <define name="MAX_BANK" value="20" unit="deg"/>
-    <define name="PGAIN" value="50"/>
-    <define name="DGAIN" value="100"/>
-    <define name="AGAIN" value="70"/>
-    <define name="IGAIN" value="20"/>
+    <define name="PGAIN" value="50"/> <!-- Default 50 -->
+    <define name="IGAIN" value="0"/> <!-- Default 20 -->
+    <define name="DGAIN" value="0"/> <!-- Default 100 -->
+    <define name="AGAIN" value="0"/> <!-- Default 70 -->
   </section>
 
 <section name="SIMULATOR" prefix="NPS_">
