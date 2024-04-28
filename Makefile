@@ -26,7 +26,6 @@ Q=@
 ifeq ($(Q),@)
 MAKEFLAGS += --no-print-directory
 endif
-
 PAPARAZZI_SRC ?= $(shell pwd)
 empty=
 space=$(empty) $(empty)
