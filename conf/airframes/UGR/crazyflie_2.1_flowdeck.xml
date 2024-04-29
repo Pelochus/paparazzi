@@ -246,21 +246,21 @@
   </section>
 
   <section name="GUIDANCE_V" prefix="GUIDANCE_V_">
-    <define name="HOVER_KP"    value="95"/> <!-- Interesting value around 90-110 -->
-    <define name="HOVER_KI"    value="5"/> <!-- Interesting 30 -->
-    <define name="HOVER_KD"    value="0"/> <!-- Interesting value 100 -->
+    <define name="HOVER_KP"    value="90"/> <!-- Interesting values around 85-105 -->
+    <define name="HOVER_KI"    value="5"/> <!-- Interesting 10-20 or less -->
+    <define name="HOVER_KD"    value="8"/> <!-- Interesting value 100 -->
     <!-- Change between PID (true) and nominal hover only (false) -->
     <define name="ADAPT_THROTTLE_ENABLED" value="TRUE"/>
     <!-- Sets a fixed value instead of the adaptive estimation -->
-    <define name="NOMINAL_HOVER_THROTTLE" value="0.6"/> <!-- Interesting between 0.575 - 0.675 -->
+    <define name="NOMINAL_HOVER_THROTTLE" value="0.6"/> <!-- Interesting between 0.55 - 0.675 -->
   </section>
 
   <section name="GUIDANCE_H" prefix="GUIDANCE_H_">
     <define name="MAX_BANK" value="20" unit="deg"/>
-    <define name="PGAIN" value="50"/> <!-- Default 50 -->
-    <define name="IGAIN" value="0"/> <!-- Default 20 -->
-    <define name="DGAIN" value="0"/> <!-- Default 100 -->
-    <define name="AGAIN" value="0"/> <!-- Default 70 -->
+    <define name="PGAIN" value="30"/> <!-- Default 50 -->
+    <define name="IGAIN" value="1"/> <!-- Default 20 -->
+    <define name="DGAIN" value="5"/> <!-- Default 100 -->
+    <define name="AGAIN" value="10"/> <!-- Default 70 -->
   </section>
 
 <section name="SIMULATOR" prefix="NPS_">
