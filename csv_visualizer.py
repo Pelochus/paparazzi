@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Read the CSV file
-df = pd.read_csv('./var/logs/24_04_29-1.csv', delimiter='\t')
+df = pd.read_csv('./var/logs/VideoUltimo30Abril.csv', delimiter='\t')
 
 pd.set_option("display.max.columns", None)
 
@@ -13,9 +13,7 @@ print(df.head())
 print(df.columns.tolist()) 
 
 # Plot an XY chart
-df.plot(x="Time", y="SONAR:sonar_distance")
-df.plot(x="Time", y="INS:ins_z")
-df.plot(x="Time", y="ENERGY:throttle")
+df.plot(x="Time", y=["SONAR:sonar_distance", "INS:ins_z", "ENERGY:throttle"])
 
-# Show the plot(s)
+# Show the plot
 plt.show()
