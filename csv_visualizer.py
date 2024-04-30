@@ -12,9 +12,10 @@ print(df.head())
 # Check columns names
 print(df.columns.tolist()) 
 
-# Plot an XY chart of the first 3 columns
+# Plot an XY chart
 df.plot(x="Time", y="SONAR:sonar_distance")
+df.plot(x="Time", y="INS:ins_z")
 df.plot(x="Time", y="ENERGY:throttle")
 
-# Show the plot
+# Show the plot(s)
 plt.show()
