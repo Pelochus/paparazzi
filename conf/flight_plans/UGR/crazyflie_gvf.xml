@@ -12,7 +12,7 @@
   <variables>
     <variable init="0.1" var="fp_throttle"/>
     <variable var="desired_heading" init="0.0f" type="float" min="0." max="10." step="0.1"/>
-    <variable var="nominal_alt" init="0.5" type="float" min="0." max="10." step="0.1"/>
+    <variable var="nominal_alt" init="0.9" type="float" min="0." max="10." step="0.1"/>
     <variable var="ell_a" init="1.0"/>
     <variable var="ell_b" init="1.0"/>
   </variables>
@@ -49,6 +49,12 @@
     </block> 
     -->
 
+    <block name="Standby" strip_button="Standby" strip_icon="home.png" group="home">
+      <stay wp="STDBY"/>
+    </block>
+
+    <!-- These are my additions -->
+
     <block name="Stay Still">
       <while cond="1">
         <set var="nav.setpoint_mode" value="NAV_SETPOINT_MODE_SPEED"/>
@@ -57,12 +63,16 @@
       </while>
     </block>
 
-    <block name="Standby" strip_button="Standby" strip_icon="home.png" group="home">
-      <stay wp="STDBY"/>
+    <!-- Vars found in sw/airborne/firmwares/rotorcraft/navigation.h -->
+    <block name="Move East">
+      <while cond="1">
+        <set var="nav.setpoint_mode" value="NAV_SETPOINT_MODE_SPEED"/>
+        <set var="nav.speed.x" value="3.0"/>
+        <set var="nav.speed.y" value="0.0"/>
+      </while>
     </block>
 
-    <!-- These are my additions -->
-
+    <!-- This should be called from the GCS preferably -->
     <!--
     <block name="Set GVF Speed to 1 m/s">
       <call_once fun="gvf_set_speed(1.0)"/>
@@ -88,15 +98,6 @@
     <!-- Function found in ./sw/airborne/modules/guidance/gfv/gvf.h -->
     <block name="GVF Ellipse">
       <call fun="gvf_ellipse_wp(WP_TD, gvf_ellipse_par.a, gvf_ellipse_par.b, gvf_ellipse_par.alpha)"/>
-    </block>
-
-    <!-- Function found in ./sw/airborne/firmwares/rotorcraft/guidance/guidance_h.h -->
-    <block name="Move East">
-      <while cond="1">
-        <set var="nav.setpoint_mode" value="NAV_SETPOINT_MODE_SPEED"/>
-        <set var="nav.speed.x" value="3.0"/>
-        <set var="nav.speed.y" value="0.0"/>
-      </while>
     </block>
 
     <!-- End of my additions -->
