@@ -6,7 +6,7 @@
       IMU with MPU9250 via I2C.
       Also reads the internal AK8963 magnetometer.
     </description>
-    <configure name="IMU_MPU9250_I2C_DEV" value="i2c2" description="I2C device to use for MPU9250"/>
+    <configure name="IMU_MPU9250_I2C_DEV" value="i2c3" description="I2C device to use for MPU9250"/>
     <define name="IMU_MPU9250_GYRO_LOWPASS_FILTER" value="MPU9250_DLPF_GYRO_250HZ" description="gyro DigitalLowPassFilter setting of the MPU"/>
     <define name="IMU_MPU9250_ACCEL_LOWPASS_FILTER" value="MPU9250_DLPF_ACCEL_184HZ" description="accelerometer DigitalLowPassFilter setting of the MPU"/>
     <define name="IMU_MPU9250_SMPLRT_DIV" value="3" description="sample rate divider setting of the MPU"/>
@@ -30,7 +30,7 @@
   <event fun="imu_mpu9250_event()"/>
 
   <makefile target="!sim|nps|fbw">
-    <configure name="IMU_MPU9250_I2C_DEV" default="i2c2" case="lower|upper"/>
+    <configure name="IMU_MPU9250_I2C_DEV" default="i2c3" case="lower|upper"/>
 
     <define name="IMU_MPU9250_I2C_DEV" value="$(IMU_MPU9250_I2C_DEV_LOWER)"/>
     <define name="USE_$(IMU_MPU9250_I2C_DEV_UPPER)"/>
