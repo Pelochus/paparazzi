@@ -19,7 +19,7 @@
    flight_plan="flight_plans/UGR/crazyflie_gvf.xml"
    settings="settings/rotorcraft_basic.xml"
    settings_modules="modules/ahrs_madgwick.xml modules/air_data.xml modules/electrical.xml modules/gps.xml modules/gps_ublox.xml modules/guidance_pid_rotorcraft.xml modules/guidance_rotorcraft.xml modules/gvf_module.xml~GVF~ modules/gvf_parametric.xml~GVF_PARAMETRIC~ modules/imu_common.xml modules/ins_extended.xml modules/nav_rotorcraft.xml modules/opticflow_pmw3901.xml modules/sonar_vl53l1x.xml modules/stabilization_int_quat.xml"
-   gui_color="green"
+   gui_color="white"
   />
   <aircraft
    name="crazyflie-bare"
