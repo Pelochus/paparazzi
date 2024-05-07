@@ -5,7 +5,7 @@
 
   <waypoints>
     <waypoint name="HOME" x="0.0" y="0.0"/>
-    <waypoint name="STDBY" x="-0.2" y="0.2"/> <!-- Slight detour from home -->
+    <waypoint name="STDBY" x="-0.1" y="0.8"/> <!-- Slight detour from home -->
     <waypoint name="TD" x="-1.0" y="1.5"/>
   </waypoints>
 
@@ -89,6 +89,10 @@
       <while cond="1"/>
     </block>
     -->
+
+    <block name="GVF Segment Loop">
+      <call fun="gvf_segment_loop_wp1_wp2(WP_HOME, WP_STDBY, gvf_segment_par.d1, gvf_segment_par.d2)"/>
+    </block>
 
     <!-- Can't go below 1 because int var -->
     <block name="GVF Mini Circle">
