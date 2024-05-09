@@ -55,8 +55,9 @@ class Aircraft:
         self.b_index = 0
 
 class FormationControl:
-    def __init__(self, config, freq=10., verbose=False):
+    def __init__(self, config, type, freq=10., verbose=False):
         self.config = config
+        self.type = type
         self.step = 1. / freq
         self.verbose = verbose
         self.ids = self.config['ids']
@@ -87,14 +88,25 @@ class FormationControl:
         # Start IVY interface
         self._interface = IvyMessagesInterface("Circular Formation")
 
-        # bind to NAVIGATION message
+        # Bind to NAVIGATION or INS message
         def nav_cb(ac_id, msg):
-            if ac_id in self.ids and msg.name == "NAVIGATION":
-                ac = self.aircraft[self.ids.index(ac_id)]
-                ac.XY[0] = float(msg.get_field(2))
-                ac.XY[1] = float(msg.get_field(3))
-                ac.initialized_nav = True
-        self._interface.subscribe(nav_cb, PprzMessage("telemetry", "NAVIGATION"))
+            if ac_id in self.ids:
+                if msg.name == "NAVIGATION":
+                    ac = self.aircraft[self.ids.index(ac_id)]
+                    ac.XY[0] = float(msg.get_field(2))
+                    ac.XY[1] = float(msg.get_field(3))
+                    ac.initialized_nav = True
+                elif msg.name == "INS":
+                    ac = self.aircraft[self.ids.index(ac_id)]
+                    ac.XY[0] = float(msg.get_field(1))
+                    ac.XY[1] = float(msg.get_field(2))
+                    ac.initialized_nav = True
+
+        # New addition: support for rotorcraft
+        if self.type == 'rotorcraft':
+            self._interface.subscribe(nav_cb, PprzMessage("telemetry", "INS"))
+        elif self.type == 'fixedwing':
+            self._interface.subscribe(nav_cb, PprzMessage("telemetry", "NAVIGATION"))
 
         def gvf_cb(ac_id, msg):
             if ac_id in self.ids and msg.name == "GVF":
@@ -107,6 +119,7 @@ class FormationControl:
                     ac.b = float(param[3])
                     ac.s = float(msg.get_field(2))
                     ac.initialized_gvf = True
+
         self._interface.subscribe(gvf_cb, PprzMessage("telemetry", "GVF"))
 
 
@@ -194,6 +207,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description="Circular formation")
     parser.add_argument('config_file', help="JSON configuration file")
+    parser.add_argument('uav_type', help="Choose between rotorcraft or fixedwing formation")
     parser.add_argument('-f', '--freq', dest='freq', default=5, type=int, help="control frequency")
     parser.add_argument('-v', '--verbose', dest='verbose', default=False, action='store_true', help="display debug messages")
     args = parser.parse_args()
@@ -203,5 +217,5 @@ if __name__ == '__main__':
         if args.verbose:
             print(json.dumps(conf))
 
-        fc = FormationControl(conf, freq=args.freq, verbose=args.verbose)
+        fc = FormationControl(conf, type=args.uav_type, freq=args.freq, verbose=args.verbose)
         fc.run()
