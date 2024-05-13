@@ -207,7 +207,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description="Circular formation")
     parser.add_argument('config_file', help="JSON configuration file")
-    parser.add_argument('uav_type', help="Choose between rotorcraft or fixedwing formation")
+    parser.add_argument('uav_type', help="Choose between 'rotorcraft' or 'fixedwing'")
     parser.add_argument('-f', '--freq', dest='freq', default=5, type=int, help="control frequency")
     parser.add_argument('-v', '--verbose', dest='verbose', default=False, action='store_true', help="display debug messages")
     args = parser.parse_args()

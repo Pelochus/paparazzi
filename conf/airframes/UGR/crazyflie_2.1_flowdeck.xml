@@ -87,10 +87,10 @@
   </commands>
 
   <servos driver="Pwm">
-    <servo name="FRONT_LEFT"  no="4" min="0" neutral="20" max="255"/>
-    <servo name="FRONT_RIGHT" no="1" min="0" neutral="20" max="255"/>
-    <servo name="BACK_RIGHT"  no="2" min="0" neutral="20" max="255"/>
-    <servo name="BACK_LEFT"   no="3" min="0" neutral="20" max="255"/>
+    <servo name="FRONT_LEFT"  no="4" min="0" neutral="25" max="255"/>
+    <servo name="FRONT_RIGHT" no="1" min="0" neutral="25" max="255"/>
+    <servo name="BACK_RIGHT"  no="2" min="0" neutral="25" max="255"/>
+    <servo name="BACK_LEFT"   no="3" min="0" neutral="25" max="255"/>
   </servos>
 
   <section name="MIXING" prefix="MOTOR_MIXING_">
@@ -243,19 +243,20 @@
     <define name="ACT_FREQ_R" value="16.4"/>
 
     <!-- Adaptive Learning Rate -->
+    <!-- TODO: Try enabling this? -->
     <define name="USE_ADAPTIVE" value="FALSE"/>
     <define name="ADAPTIVE_MU" value="0.0001"/>
   </section>
 
   <!-- New addition -->
   <section name="NAVIGATION" prefix="NAV_">
-    <define name="CLIMB_VSPEED" value="0.2"/>
+    <define name="CLIMB_VSPEED" value="0.25"/>
     <define name="DESCEND_VSPEED" value="-0.5"/>
   </section>
 
   <section name="GUIDANCE_V" prefix="GUIDANCE_V_">
     <define name="HOVER_KP"    value="175"/> <!-- Interesting values around 80-200 (depending on NOMINAL)-->
-    <define name="HOVER_KI"    value="25"/> <!-- Interesting 5-25 -->
+    <define name="HOVER_KI"    value="30"/> <!-- Interesting 5-25 -->
     <define name="HOVER_KD"    value="70"/> <!-- Interesting values 15-80 -->
     <!-- Change between PID (true) and nominal hover only (false) -->
     <define name="ADAPT_THROTTLE_ENABLED" value="TRUE"/>
@@ -264,7 +265,7 @@
   </section>
 
   <section name="GUIDANCE_H" prefix="GUIDANCE_H_">
-    <define name="MAX_BANK" value="20" unit="deg"/>
+    <define name="MAX_BANK" value="15" unit="deg"/> <!-- Default 20 -->
     <define name="PGAIN" value="50"/> <!-- Default 50 -->
     <define name="IGAIN" value="20"/> <!-- Default 20 -->
     <define name="DGAIN" value="125"/> <!-- Default 100 -->
