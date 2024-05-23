@@ -12,11 +12,11 @@
 #
 # paparazzi is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with paparazzi; see the file COPYING.  If not, see
+# along with paparazzi; see the file COPYING. If not, see
 # <http://www.gnu.org/licenses/>.
 
 '''
@@ -51,7 +51,6 @@ class Aircraft:
         self.s = 1
         self.sigma = 0
         self.a_index = 0
-        self.b_index = 0
 
 class FormationControl:
     def __init__(self, config, freq=10., verbose=False):
@@ -65,18 +64,16 @@ class FormationControl:
 
         for ac in self.aircraft:
             settings = PaparazziACSettings(ac.id)
-            list_of_indexes = ['ell_a', 'ell_b']
+            list_of_indexes = ['speed']
 
-            for setting_ in list_of_indexes:
+            for setting in list_of_indexes:
                 try:
-                    index = settings.name_lookup[setting_].index
-                    if setting_ == 'ell_a':
+                    index = settings.name_lookup[setting].index
+                    if setting == 'speed':
                         ac.a_index = index
-                    if setting_ == 'ell_b':
-                        ac.b_index = index
                 except Exception as e:
                     print(e)
-                    print(setting_ + " setting not found, have you forgotten to check gvf.xml for your settings?")
+                    print(setting + " setting not found, have you forgotten to check gvf.xml for your settings?")
 
 
         # Start IVY interface
@@ -85,20 +82,13 @@ class FormationControl:
         # Bind to INS message
         def nav_cb(ac_id, msg):
             if ac_id in self.ids:
-                if msg.name == "NAVIGATION":
+                if msg.name == "INS":
                     ac = self.aircraft[self.ids.index(ac_id)]
-                    ac.XY[0] = float(msg.get_field(2))
-                    ac.XY[1] = float(msg.get_field(3))
-                    ac.initialized_nav = True
-                elif msg.name == "INS":
-                    ac = self.aircraft[self.ids.index(ac_id)]
-                    ac.XY[0] = float(msg.get_field(1))
-                    ac.XY[1] = float(msg.get_field(2))
+                    ac.XY[0] = float(msg.get_field(0))
+                    ac.XY[1] = float(msg.get_field(1))
                     ac.initialized_nav = True
 
-        # New addition: support for rotorcraft
-        if self.type == 'rotorcraft':
-            self._interface.subscribe(nav_cb, PprzMessage("telemetry", "INS"))
+        self._interface.subscribe(nav_cb, PprzMessage("telemetry", "INS"))
 
         def gvf_cb(ac_id, msg):
             if ac_id in self.ids and msg.name == "GVF":
@@ -123,7 +113,7 @@ class FormationControl:
         if self._interface is not None:
             self._interface.shutdown()
 
-    def circular_formation(self):
+    def segment_formation(self):
         '''
         Segments formation control algorithm
         '''
@@ -189,7 +179,7 @@ class FormationControl:
                 sleep(self.step)
 
                 # Run the formation algorithm
-                self.circular_formation()
+                self.segment_formation()
 
         except KeyboardInterrupt:
             self.stop()
@@ -197,7 +187,7 @@ class FormationControl:
 if __name__ == '__main__':
     import argparse
 
-    parser = argparse.ArgumentParser(description="Circular formation")
+    parser = argparse.ArgumentParser(description="Parallel segments formation")
     parser.add_argument('config_file', help="JSON configuration file")
     parser.add_argument('-f', '--freq', dest='freq', default=5, type=int, help="control frequency")
     parser.add_argument('-v', '--verbose', dest='verbose', default=False, action='store_true', help="display debug messages")

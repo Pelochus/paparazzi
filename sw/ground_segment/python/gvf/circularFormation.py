@@ -12,11 +12,11 @@
 #
 # paparazzi is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with paparazzi; see the file COPYING.  If not, see
+# along with paparazzi; see the file COPYING. If not, see
 # <http://www.gnu.org/licenses/>.
 
 '''
@@ -81,9 +81,7 @@ class FormationControl:
                         ac.b_index = index
                 except Exception as e:
                     print(e)
-                    print(setting_ + " setting not found, \
-                            have you forgotten to check gvf.xml for your settings?")
-
+                    print(setting_ + " setting not found, have you forgotten to check gvf.xml for your settings?")
 
         # Start IVY interface
         self._interface = IvyMessagesInterface("Circular Formation")
@@ -98,8 +96,8 @@ class FormationControl:
                     ac.initialized_nav = True
                 elif msg.name == "INS":
                     ac = self.aircraft[self.ids.index(ac_id)]
-                    ac.XY[0] = float(msg.get_field(1))
-                    ac.XY[1] = float(msg.get_field(2))
+                    ac.XY[0] = float(msg.get_field(0))
+                    ac.XY[1] = float(msg.get_field(1))
                     ac.initialized_nav = True
 
         # New addition: support for rotorcraft
