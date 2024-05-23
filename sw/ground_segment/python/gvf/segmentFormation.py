@@ -75,7 +75,6 @@ class FormationControl:
                     print(e)
                     print(setting + " setting not found, have you forgotten to check gvf.xml for your settings?")
 
-
         # Start IVY interface
         self._interface = IvyMessagesInterface("Segments Formation")
 

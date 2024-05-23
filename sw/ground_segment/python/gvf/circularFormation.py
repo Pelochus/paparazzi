@@ -23,16 +23,18 @@
 Centralized circular formations employing guidance vector fields (gvf)
 '''
 
-
 import sys
 import numpy as np
 import json
 from time import sleep
 from os import path, getenv
+
+# This is needed before importing pprzlink
 PPRZ_HOME = getenv("PAPARAZZI_HOME", path.normpath(path.join(path.dirname(path.abspath(__file__)), '../../../../')))
 PPRZ_SRC = getenv("PAPARAZZI_SRC", path.normpath(path.join(path.dirname(path.abspath(__file__)), '../../../../')))
 sys.path.append(PPRZ_HOME + "/var/lib/python/")
 sys.path.append(PPRZ_SRC + "/sw/lib/python")
+
 from pprzlink.ivy import IvyMessagesInterface
 from pprzlink.message import PprzMessage
 from settings_xml_parse import PaparazziACSettings
@@ -42,15 +44,13 @@ class Aircraft:
         self.initialized_gvf = False
         self.initialized_nav = False
         self.id = ac_id
+
         self.XY = np.zeros(2)
         self.XYc = np.zeros(2)
         self.a = 0
         self.b = 0
-
         self.s = 1
-
         self.sigma = 0
-
         self.a_index = 0
         self.b_index = 0
 
@@ -60,9 +60,10 @@ class FormationControl:
         self.type = type
         self.step = 1. / freq
         self.verbose = verbose
+
         self.ids = self.config['ids']
         self.B = np.array(self.config['topology'])
-        self.Zdesired = np.array(self.config['desired_intervehicle_angles_degrees'])*np.pi/180
+        self.Zdesired = np.array(self.config['desired_intervehicle_angles_degrees']) * np.pi / 180
         self.k = np.array(self.config['gain'])
         self.radius = np.array(self.config['desired_stationary_radius_meters'])
         self.aircraft = [Aircraft(i) for i in self.ids]
@@ -86,7 +87,7 @@ class FormationControl:
         # Start IVY interface
         self._interface = IvyMessagesInterface("Circular Formation")
 
-        # Bind to NAVIGATION or INS message
+        # Get XY positions depending if fixedwing or rotorcraft (NAV/INS messages)
         def nav_cb(ac_id, msg):
             if ac_id in self.ids:
                 if msg.name == "NAVIGATION":
@@ -106,6 +107,7 @@ class FormationControl:
         elif self.type == 'fixedwing':
             self._interface.subscribe(nav_cb, PprzMessage("telemetry", "NAVIGATION"))
 
+        # Get GVF parameters introduced to the gvf_ellipse function
         def gvf_cb(ac_id, msg):
             if ac_id in self.ids and msg.name == "GVF":
                 if int(msg.get_field(1)) == 1:
@@ -120,7 +122,6 @@ class FormationControl:
 
         self._interface.subscribe(gvf_cb, PprzMessage("telemetry", "GVF"))
 
-
     def __del__(self):
         self.stop()
 
@@ -131,9 +132,10 @@ class FormationControl:
 
     def circular_formation(self):
         '''
-        circular formation control algorithm
+        Circular formation control algorithm
         '''
 
+        # Wait for aircrafts on GVF...
         ready = True
         for ac in self.aircraft:
             if (not ac.initialized_nav) or (not ac.initialized_gvf):
@@ -144,39 +146,38 @@ class FormationControl:
         if not ready:
             return
 
+        # Calculate the inter-vehicle angles
         i = 0
         for ac in self.aircraft:
             ac.sigma = np.arctan2(ac.XY[1]-ac.XYc[1], ac.XY[0]-ac.XYc[0])
             self.sigmas[i] = ac.sigma
             i = i + 1
 
+        # Calculate the error between desired and actual inter-vehicle angles
         inter_sigma = self.B.transpose().dot(self.sigmas)
         error_sigma = inter_sigma - self.Zdesired
 
-        if np.size(error_sigma) > 1:
-            for i in range(0, np.size(error_sigma)):
-                if error_sigma[i] > np.pi:
-                    error_sigma[i] = error_sigma[i] - 2*np.pi
-                elif error_sigma[i] <= -np.pi:
-                    error_sigma[i] = error_sigma[i] + 2*np.pi
-        else:
-            if error_sigma > np.pi:
-                error_sigma = error_sigma - 2*np.pi
-            elif error_sigma <= -np.pi:
-                error_sigma = error_sigma + 2*np.pi
+        # Normalize the error between -pi and pi
+        for i in range(0, np.size(error_sigma)):
+            if error_sigma[i] > np.pi:
+                error_sigma[i] = error_sigma[i] - 2*np.pi
+            elif error_sigma[i] <= -np.pi:
+                error_sigma[i] = error_sigma[i] + 2*np.pi
 
-
-        u = -self.aircraft[0].s*self.k*self.B.dot(error_sigma)
+        # Calculate the control action based on errors, gain and topology
+        u = -self.aircraft[0].s * self.k * self.B.dot(error_sigma)
 
         if self.verbose:
-            print("Inter-vehicle errors: ", str(error_sigma*180.0/np.pi).replace('[','').replace(']',''))
+            print("Inter-vehicle errors: ", str(error_sigma * 180.0 / np.pi).replace('[','').replace(']',''))
 
+        # Send the modified radius (radius + control action u) to the aircraft
         i = 0
         for ac in self.aircraft:
             msga = PprzMessage("ground", "DL_SETTING")
             msga['ac_id'] = ac.id
             msga['index'] = ac.a_index
             msga['value'] = self.radius + u[i]
+
             msgb = PprzMessage("ground", "DL_SETTING")
             msgb['ac_id'] = ac.id
             msgb['index'] = ac.b_index
