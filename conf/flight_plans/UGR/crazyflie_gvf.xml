@@ -6,6 +6,8 @@
   <waypoints>
     <waypoint name="HOME" x="0.0" y="0.0"/>
     <waypoint name="STDBY" x="-0.1" y="0.8"/> <!-- Slight detour from home -->
+    <waypoint name="SEG1" x="0.0" y="1.0"/>
+    <waypoint name="SEG2" x="0.0" y="3.0"/>
     <waypoint name="TD" x="-1.0" y="1.5"/>
   </waypoints>
 
@@ -56,14 +58,6 @@
 
     <!-- These are my additions -->
 
-    <block name="Stay Still">
-      <while cond="1">
-        <set var="nav.setpoint_mode" value="NAV_SETPOINT_MODE_SPEED"/>
-        <set var="nav.speed.x" value="0.0"/>
-        <set var="nav.speed.y" value="0.0"/>
-      </while>
-    </block>
-
     <!-- Vars found in sw/airborne/firmwares/rotorcraft/navigation.h -->
     <block name="Move East">
       <while cond="1">
@@ -92,12 +86,16 @@
     -->
 
     <block name="GVF Segment Loop">
-      <call fun="gvf_segment_loop_wp1_wp2(WP_HOME, WP_STDBY, gvf_segment_par.d1, gvf_segment_par.d2)"/>
+      <call fun="gvf_segment_loop_wp1_wp2(WP_SEG1, WP_SEG2, gvf_segment_par.d1, gvf_segment_par.d2)"/>
     </block>
 
     <!-- Can't go below 1 because int var -->
-    <block name="GVF Mini Circle">
+    <block name="GVF 1m Circle">
       <call fun="gvf_ellipse_wp(WP_TD, 1.0, 1.0, gvf_ellipse_par.alpha)"/>
+    </block>
+
+    <block name="GVF 25m Circle">
+      <call fun="gvf_ellipse_wp(WP_TD, 25, 25, gvf_ellipse_par.alpha)"/>
     </block>
 
     <!-- Function found in ./sw/airborne/modules/guidance/gfv/gvf.h -->
