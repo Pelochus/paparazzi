@@ -19,6 +19,12 @@
 # along with paparazzi; see the file COPYING. If not, see
 # <http://www.gnu.org/licenses/>.
 
+
+# Segment formation made by Pelochus
+# TODO: integrate circularFormation and segmentFormation in one script
+# Think carefully, since segmentFormation only works with rotorcrafts, 
+# perhaps is best having fixedwing and rotorcrafts separated
+
 '''
 Centralized parallel segments formations employing guidance vector fields (GVF)
 '''
@@ -29,6 +35,7 @@ import json
 from time import sleep
 from os import path, getenv
 
+# This is needed before importing pprzlink
 PPRZ_HOME = getenv("PAPARAZZI_HOME", path.normpath(path.join(path.dirname(path.abspath(__file__)), '../../../../')))
 PPRZ_SRC = getenv("PAPARAZZI_SRC", path.normpath(path.join(path.dirname(path.abspath(__file__)), '../../../../')))
 sys.path.append(PPRZ_HOME + "/var/lib/python/")
@@ -38,14 +45,25 @@ from pprzlink.ivy import IvyMessagesInterface
 from pprzlink.message import PprzMessage
 from settings_xml_parse import PaparazziACSettings
 
+# Recordatorio de que hacer
+# Formula sera:
+
+# vf1 = vi + k * (p2 - p1 - p*)
+# vf2 = vi + k * (p1 - p2 - p*)
+
+# Con vf es velocidad final, vi velocidad inicial, k ganancia, p1 y p2 posiciones de los drones, p* posicion deseada
+# Puede que haya que hacer ajustes (algun signo cambiado etc, pensar)
+# Importante previamente parametrizar p de -1 a +1
+# Comparar formula con Kuramoto ahora, se puede ver mejor (el sumatorio es si hubiera mas)
+
 class Aircraft:
     def __init__(self, ac_id):
         self.initialized_gvf = False
         self.initialized_nav = False
         self.id = ac_id
+
         self.XY = np.zeros(2)
         self.XYc = np.zeros(2)
-        
         self.a = 0
         self.b = 0
         self.s = 1
@@ -60,6 +78,7 @@ class FormationControl:
         self.ids = self.config['ids']
 
         self.k = np.array(self.config['gain'])
+        self.offset_desired = self.config['desired_normalized_offset'] # Should be between -1 and 1
         self.aircraft = [Aircraft(i) for i in self.ids]
 
         for ac in self.aircraft:
@@ -73,12 +92,12 @@ class FormationControl:
                         ac.a_index = index
                 except Exception as e:
                     print(e)
-                    print(setting + " setting not found, have you forgotten to check gvf.xml for your settings?")
+                    print(setting + " setting not found, are you using a rotorcraft with GVF?")
 
         # Start IVY interface
         self._interface = IvyMessagesInterface("Segments Formation")
 
-        # Bind to INS message
+        # Read X and Y position (relative)
         def nav_cb(ac_id, msg):
             if ac_id in self.ids:
                 if msg.name == "INS":
@@ -89,9 +108,11 @@ class FormationControl:
 
         self._interface.subscribe(nav_cb, PprzMessage("telemetry", "INS"))
 
+        # Read current waypoints
         def gvf_cb(ac_id, msg):
             if ac_id in self.ids and msg.name == "GVF":
-                if int(msg.get_field(1)) == 1:
+                # If trajectory is a segment
+                if int(msg.get_field(1)) == 0:
                     ac = self.aircraft[self.ids.index(ac_id)]
                     param = msg.get_field(4)
                     ac.XYc[0] = float(param[0])
@@ -103,7 +124,6 @@ class FormationControl:
 
         self._interface.subscribe(gvf_cb, PprzMessage("telemetry", "GVF"))
 
-
     def __del__(self):
         self.stop()
 
@@ -114,7 +134,7 @@ class FormationControl:
 
     def segment_formation(self):
         '''
-        Segments formation control algorithm
+        Parallel segments formation control algorithm
         '''
 
         ready = True
@@ -126,6 +146,9 @@ class FormationControl:
 
         if not ready:
             return
+        
+        # Map segment values from -1 to 1
+        
 
         i = 0
         for ac in self.aircraft:
@@ -136,37 +159,26 @@ class FormationControl:
         inter_sigma = self.B.transpose().dot(self.sigmas)
         error_sigma = inter_sigma - self.Zdesired
 
-        if np.size(error_sigma) > 1:
-            for i in range(0, np.size(error_sigma)):
-                if error_sigma[i] > np.pi:
-                    error_sigma[i] = error_sigma[i] - 2*np.pi
-                elif error_sigma[i] <= -np.pi:
-                    error_sigma[i] = error_sigma[i] + 2*np.pi
-        else:
-            if error_sigma > np.pi:
-                error_sigma = error_sigma - 2*np.pi
-            elif error_sigma <= -np.pi:
-                error_sigma = error_sigma + 2*np.pi
+        for i in range(0, np.size(error_sigma)):
+            if error_sigma[i] > np.pi:
+                error_sigma[i] = error_sigma[i] - 2*np.pi
+            elif error_sigma[i] <= -np.pi:
+                error_sigma[i] = error_sigma[i] + 2*np.pi
 
-
-        u = -self.aircraft[0].s*self.k*self.B.dot(error_sigma)
+        u = -self.aircraft[0].s * self.k * self.B.dot(error_sigma)
 
         if self.verbose:
-            print("Inter-vehicle errors: ", str(error_sigma*180.0/np.pi).replace('[','').replace(']',''))
+            print("Inter-vehicle line offset: ", str("TODO").replace('[','').replace(']',''))
 
+        # Send the modified speed (speed + s) to the aircraft
         i = 0
         for ac in self.aircraft:
-            msga = PprzMessage("ground", "DL_SETTING")
-            msga['ac_id'] = ac.id
-            msga['index'] = ac.a_index
-            msga['value'] = self.radius + u[i]
-            msgb = PprzMessage("ground", "DL_SETTING")
-            msgb['ac_id'] = ac.id
-            msgb['index'] = ac.b_index
-            msgb['value'] = self.radius + u[i]
+            msg = PprzMessage("ground", "DL_SETTING")
+            msg['ac_id'] = ac.id
+            msg['index'] = ac.a_index
+            msg['value'] = self.radius + u[i]
 
             self._interface.send(msga)
-            self._interface.send(msgb)
 
             i = i + 1
 
@@ -186,7 +198,7 @@ class FormationControl:
 if __name__ == '__main__':
     import argparse
 
-    parser = argparse.ArgumentParser(description="Parallel segments formation")
+    parser = argparse.ArgumentParser(description="Parallel segments formation for rotorcrafts")
     parser.add_argument('config_file', help="JSON configuration file")
     parser.add_argument('-f', '--freq', dest='freq', default=5, type=int, help="control frequency")
     parser.add_argument('-v', '--verbose', dest='verbose', default=False, action='store_true', help="display debug messages")

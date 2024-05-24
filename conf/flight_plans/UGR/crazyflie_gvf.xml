@@ -5,9 +5,11 @@
 
   <waypoints>
     <waypoint name="HOME" x="0.0" y="0.0"/>
-    <waypoint name="STDBY" x="-0.1" y="0.8"/> <!-- Slight detour from home -->
-    <waypoint name="SEG1" x="0.0" y="1.0"/>
-    <waypoint name="SEG2" x="0.0" y="3.0"/>
+    <waypoint name="STDBY" x="-0.1" y="0.8"/>
+    <waypoint name="S1_START" x="0.0" y="1.0"/>
+    <waypoint name="S1_END" x="0.0" y="3.0"/>
+    <waypoint name="S2_START" x="1.0" y="1.0"/>
+    <waypoint name="S2_END" x="1.0" y="3.0"/>
     <waypoint name="TD" x="-1.0" y="1.5"/>
   </waypoints>
 
@@ -83,13 +85,17 @@
     </block>
     -->
 
-    <block name="GVF Segment Loop">
-      <call fun="gvf_segment_loop_wp1_wp2(WP_SEG1, WP_SEG2, gvf_segment_par.d1, gvf_segment_par.d2)"/>
+    <block name="GVF Segment 1">
+      <call fun="gvf_segment_loop_wp1_wp2(WP_S1_START, WP_S1_END, gvf_segment_par.d1, gvf_segment_par.d2)"/>
+    </block>
+
+    <block name="GVF Segment 2">
+      <call fun="gvf_segment_loop_wp1_wp2(WP_S2_START, WP_S2_END, gvf_segment_par.d1, gvf_segment_par.d2)"/>
     </block>
 
     <!-- Can't go below 1 because int var -->
     <block name="GVF 1m Circle">
-      <call fun="gvf_ellipse_wp(WP_TD, 1.0, 1.0, gvf_ellipse_par.alpha)"/>
+      <call fun="gvf_ellipse_wp(WP_TD, 1, 1, gvf_ellipse_par.alpha)"/>
     </block>
 
     <block name="GVF 25m Circle">
