@@ -21,7 +21,7 @@
 
 
 # Segment formation made by Pelochus
-# TODO: integrate circularFormation and segmentFormation in one script
+# TODO: integrate circularFormation and segmentFormation in one script?
 # Think carefully, since segmentFormation only works with rotorcrafts, 
 # perhaps is best having fixedwing and rotorcrafts separated
 
@@ -44,6 +44,9 @@ sys.path.append(PPRZ_SRC + "/sw/lib/python")
 from pprzlink.ivy import IvyMessagesInterface
 from pprzlink.message import PprzMessage
 from settings_xml_parse import PaparazziACSettings
+
+# Found in conf/messages.xml
+raw_to_meters_factor = 0.003906 # Valid for INS and ROTORCRAFT_FP telemetry
 
 # Recordatorio de que hacer
 # Formula sera:
@@ -97,18 +100,18 @@ class FormationControl:
         # Start IVY interface
         self._interface = IvyMessagesInterface("Segments Formation")
 
-        # Read X and Y position (relative)
+        # Read X and Y position (relative to home)
         def nav_cb(ac_id, msg):
             if ac_id in self.ids:
-                if msg.name == "INS":
+                if msg.name == "ROTORCRAFT_FP": 
                     ac = self.aircraft[self.ids.index(ac_id)]
-                    ac.XY[0] = float(msg.get_field(0))
-                    ac.XY[1] = float(msg.get_field(1))
+                    ac.XY[0] = float(msg.get_field(0)) * raw_to_meters_factor
+                    ac.XY[1] = float(msg.get_field(1)) * raw_to_meters_factor
                     ac.initialized_nav = True
 
-        self._interface.subscribe(nav_cb, PprzMessage("telemetry", "INS"))
+        self._interface.subscribe(nav_cb, PprzMessage("telemetry", "ROTORCRAFT_FP"))
 
-        # Read current waypoints
+        # TODO: Read current waypoints
         def gvf_cb(ac_id, msg):
             if ac_id in self.ids and msg.name == "GVF":
                 # If trajectory is a segment

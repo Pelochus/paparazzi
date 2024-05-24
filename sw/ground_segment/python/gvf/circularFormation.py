@@ -39,6 +39,9 @@ from pprzlink.ivy import IvyMessagesInterface
 from pprzlink.message import PprzMessage
 from settings_xml_parse import PaparazziACSettings
 
+# Found in conf/messages.xml
+raw_to_meters_factor = 0.003906 # Valid for INS and ROTORCRAFT_FP telemetry
+
 class Aircraft:
     def __init__(self, ac_id):
         self.initialized_gvf = False
@@ -87,7 +90,7 @@ class FormationControl:
         # Start IVY interface
         self._interface = IvyMessagesInterface("Circular Formation")
 
-        # Get XY positions depending if fixedwing or rotorcraft (NAV/INS messages)
+        # Get XY positions depending if fixedwing or rotorcraft (NAV/FP messages)
         def nav_cb(ac_id, msg):
             if ac_id in self.ids:
                 if msg.name == "NAVIGATION":
@@ -95,15 +98,15 @@ class FormationControl:
                     ac.XY[0] = float(msg.get_field(2))
                     ac.XY[1] = float(msg.get_field(3))
                     ac.initialized_nav = True
-                elif msg.name == "INS":
+                elif msg.name == "ROTORCRAFT_FP":
                     ac = self.aircraft[self.ids.index(ac_id)]
-                    ac.XY[0] = float(msg.get_field(0))
-                    ac.XY[1] = float(msg.get_field(1))
+                    ac.XY[0] = float(msg.get_field(0)) * raw_to_meters_factor
+                    ac.XY[1] = float(msg.get_field(1)) * raw_to_meters_factor
                     ac.initialized_nav = True
 
         # New addition: support for rotorcraft
         if self.type == 'rotorcraft':
-            self._interface.subscribe(nav_cb, PprzMessage("telemetry", "INS"))
+            self._interface.subscribe(nav_cb, PprzMessage("telemetry", "ROTORCRAFT_FP"))
         elif self.type == 'fixedwing':
             self._interface.subscribe(nav_cb, PprzMessage("telemetry", "NAVIGATION"))
 
@@ -149,7 +152,7 @@ class FormationControl:
         # Calculate the inter-vehicle angles
         i = 0
         for ac in self.aircraft:
-            ac.sigma = np.arctan2(ac.XY[1]-ac.XYc[1], ac.XY[0]-ac.XYc[0])
+            ac.sigma = np.arctan2(ac.XY[1] - ac.XYc[1], ac.XY[0] - ac.XYc[0])
             self.sigmas[i] = ac.sigma
             i = i + 1
 
