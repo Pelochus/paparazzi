@@ -30,6 +30,7 @@ Centralized parallel segments formations employing guidance vector fields (GVF)
 '''
 
 import sys
+import math
 import numpy as np
 import json
 from time import sleep
@@ -54,6 +55,10 @@ raw_to_meters_factor = 0.003906 # Valid for INS and ROTORCRAFT_FP telemetry
 # vf1 = vi + k * (p2 - p1 - p*)
 # vf2 = vi + k * (p1 - p2 - p*)
 
+# Ademas para 3 seria (por ejemplo para vehiculo 1):
+# vf1 = vi + k * ((p2 - p1 - p*21) + (p3 - p1 - p*31))
+# Esto ultimo se puede ver mejor con Kuramoto, pero lo dejo como aclaracion que estaba dudoso que hacer con p*
+
 # Con vf es velocidad final, vi velocidad inicial, k ganancia, p1 y p2 posiciones de los drones, p* posicion deseada
 # Puede que haya que hacer ajustes (algun signo cambiado etc, pensar)
 # Importante previamente parametrizar p de -1 a +1
@@ -65,10 +70,11 @@ class Aircraft:
         self.initialized_nav = False
         self.id = ac_id
 
+        # Position 0 of array will be X, Position 1 will be Y
         self.XY = np.zeros(2)
-        self.XYc = np.zeros(2)
-        self.a = 0
-        self.b = 0
+        self.WP1 = np.zeros(2)
+        self.WP2 = np.zeros(2)
+
         self.s = 1
         self.sigma = 0
         self.a_index = 0
@@ -113,19 +119,17 @@ class FormationControl:
 
         # TODO: Read current waypoints
         def gvf_cb(ac_id, msg):
-            if ac_id in self.ids and msg.name == "GVF":
+            if ac_id in self.ids and msg.name == "SEGMENT":
                 # If trajectory is a segment
                 if int(msg.get_field(1)) == 0:
                     ac = self.aircraft[self.ids.index(ac_id)]
-                    param = msg.get_field(4)
-                    ac.XYc[0] = float(param[0])
-                    ac.XYc[1] = float(param[1])
-                    ac.a = float(param[2])
-                    ac.b = float(param[3])
-                    ac.s = float(msg.get_field(2))
+                    ac.WP1[0] = float(msg.get_field(0))
+                    ac.WP1[1] = float(msg.get_field(1))
+                    ac.WP2[0] = float(msg.get_field(2))
+                    ac.WP2[1] = float(msg.get_field(3))
                     ac.initialized_gvf = True
 
-        self._interface.subscribe(gvf_cb, PprzMessage("telemetry", "GVF"))
+        self._interface.subscribe(gvf_cb, PprzMessage("telemetry", "SEGMENT"))
 
     def __del__(self):
         self.stop()
@@ -150,12 +154,35 @@ class FormationControl:
         if not ready:
             return
         
-        # Map segment values from -1 to 1
-        
+        mapped_pos = [0] * len(self.aircraft)
+        i = 0
+        for ac in self.aircraft:
+            # Calculate x and y distances, from segment and current pos
+            max_dist_x = ac.WP2[0] - ac.WP1[0]
+            max_dist_y = ac.WP2[1] - ac.WP1[1]
+            dist_x = ac.XY[0] - ac.WP1[0]
+            dist_y = ac.XY[1] - ac.WP1[1]
+
+            # Vector modulus (Pythagoras)
+            max_dist = math.sqrt(max_dist_x**2 + max_dist_y**2)
+            dist = math.sqrt(dist_x**2 + dist_y**2)
+
+            # Having this, we can normalize the distance from 0 to 1
+            norm_dist = dist / max_dist
+
+            # Map segment values from range(0, 1) to range(-1, 1)
+            def map_range(d, in_min, in_max, out_min, out_max):
+                if (in_max == in_min):
+                    return 0
+                else:
+                    return (d - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+            
+            mapped_pos[i] = map_range(norm_dist, 0, 1, -1, 1)
+            i += 1
 
         i = 0
         for ac in self.aircraft:
-            ac.sigma = np.arctan2(ac.XY[1]-ac.XYc[1], ac.XY[0]-ac.XYc[0])
+            ac.sigma = 
             self.sigmas[i] = ac.sigma
             i = i + 1
 

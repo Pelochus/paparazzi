@@ -154,7 +154,7 @@ class FormationControl:
         for ac in self.aircraft:
             ac.sigma = np.arctan2(ac.XY[1] - ac.XYc[1], ac.XY[0] - ac.XYc[0])
             self.sigmas[i] = ac.sigma
-            i = i + 1
+            i += 1
 
         # Calculate the error between desired and actual inter-vehicle angles
         inter_sigma = self.B.transpose().dot(self.sigmas)
@@ -189,7 +189,7 @@ class FormationControl:
             self._interface.send(msga)
             self._interface.send(msgb)
 
-            i = i + 1
+            i += 1
 
     def run(self):
         try:

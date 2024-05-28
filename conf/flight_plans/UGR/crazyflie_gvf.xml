@@ -58,7 +58,7 @@
 
     <!-- These are my additions -->
 
-    <!-- Vars found in sw/airborne/firmwares/rotorcraft/navigation.h -->
+    <!-- Vars found in sw/airborne/firmwares/rotorcraft/navigation.h --> 
     <block name="Move East">
       <while cond="1">
         <set var="nav.setpoint_mode" value="NAV_SETPOINT_MODE_SPEED"/>
