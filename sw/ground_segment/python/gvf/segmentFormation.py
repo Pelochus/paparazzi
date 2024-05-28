@@ -86,6 +86,7 @@ class FormationControl:
         self.verbose = verbose
         self.ids = self.config['ids']
 
+        self.mapped_pos = [0] * len(self.aircraft)
         self.k = np.array(self.config['gain'])
         self.offset_desired = self.config['desired_normalized_offset'] # Should be between -1 and 1
         self.aircraft = [Aircraft(i) for i in self.ids]
@@ -117,7 +118,7 @@ class FormationControl:
 
         self._interface.subscribe(nav_cb, PprzMessage("telemetry", "ROTORCRAFT_FP"))
 
-        # TODO: Read current waypoints
+        # TODO: Read current waypoints correctly, this will change periodically
         def gvf_cb(ac_id, msg):
             if ac_id in self.ids and msg.name == "SEGMENT":
                 # If trajectory is a segment
@@ -154,7 +155,6 @@ class FormationControl:
         if not ready:
             return
         
-        mapped_pos = [0] * len(self.aircraft)
         i = 0
         for ac in self.aircraft:
             # Calculate x and y distances, from segment and current pos
@@ -180,11 +180,12 @@ class FormationControl:
             mapped_pos[i] = map_range(norm_dist, 0, 1, -1, 1)
             i += 1
 
+        # Now we calculate the error (using the mapped positions in mapped_pos)
         i = 0
         for ac in self.aircraft:
-            ac.sigma = 
-            self.sigmas[i] = ac.sigma
-            i = i + 1
+            # TODO: Do properly, with nested for loops. Check kuramoto model
+            self.sigmas[i] = self.mapped_pos[i] - self.mapped_pos[0] - self.desired_offset
+            i += 1
 
         inter_sigma = self.B.transpose().dot(self.sigmas)
         error_sigma = inter_sigma - self.Zdesired
@@ -210,7 +211,7 @@ class FormationControl:
 
             self._interface.send(msga)
 
-            i = i + 1
+            i += 1
 
     def run(self):
         try:
