@@ -75,9 +75,8 @@ class Aircraft:
         self.WP1 = np.zeros(2)
         self.WP2 = np.zeros(2)
 
-        self.s = 1
-        self.sigma = 0
-        self.a_index = 0
+        self.speed = 1
+        self.index = 0
 
 class FormationControl:
     def __init__(self, config, freq=10., verbose=False):
@@ -86,10 +85,13 @@ class FormationControl:
         self.verbose = verbose
         self.ids = self.config['ids']
 
-        self.mapped_pos = [0] * len(self.aircraft)
         self.k = np.array(self.config['gain'])
         self.offset_desired = self.config['desired_normalized_offset'] # Should be between -1 and 1
         self.aircraft = [Aircraft(i) for i in self.ids]
+        self.deltas = np.zeros(len(self.aircraft))
+        self.mapped_pos = np.zeros(len(self.aircraft))
+
+        print("Debugging: ", self.ids, self.k, self.offset_desired, self.aircraft) 
 
         for ac in self.aircraft:
             settings = PaparazziACSettings(ac.id)
@@ -99,7 +101,7 @@ class FormationControl:
                 try:
                     index = settings.name_lookup[setting].index
                     if setting == 'speed':
-                        ac.a_index = index
+                        ac.index = index
                 except Exception as e:
                     print(e)
                     print(setting + " setting not found, are you using a rotorcraft with GVF?")
@@ -121,14 +123,12 @@ class FormationControl:
         # TODO: Read current waypoints correctly, this will change periodically
         def gvf_cb(ac_id, msg):
             if ac_id in self.ids and msg.name == "SEGMENT":
-                # If trajectory is a segment
-                if int(msg.get_field(1)) == 0:
-                    ac = self.aircraft[self.ids.index(ac_id)]
-                    ac.WP1[0] = float(msg.get_field(0))
-                    ac.WP1[1] = float(msg.get_field(1))
-                    ac.WP2[0] = float(msg.get_field(2))
-                    ac.WP2[1] = float(msg.get_field(3))
-                    ac.initialized_gvf = True
+                ac = self.aircraft[self.ids.index(ac_id)]
+                ac.WP1[0] = float(msg.get_field(0))
+                ac.WP1[1] = float(msg.get_field(1))
+                ac.WP2[0] = float(msg.get_field(2))
+                ac.WP2[1] = float(msg.get_field(3))
+                ac.initialized_gvf = True
 
         self._interface.subscribe(gvf_cb, PprzMessage("telemetry", "SEGMENT"))
 
@@ -155,6 +155,7 @@ class FormationControl:
         if not ready:
             return
         
+        # Segment normalization
         i = 0
         for ac in self.aircraft:
             # Calculate x and y distances, from segment and current pos
@@ -177,39 +178,27 @@ class FormationControl:
                 else:
                     return (d - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
             
-            mapped_pos[i] = map_range(norm_dist, 0, 1, -1, 1)
+            self.mapped_pos[i] = map_range(norm_dist, 0, 1, -1, 1)
             i += 1
 
+        # TODO: Do properly, with nested for loops. Check Kuramoto model
         # Now we calculate the error (using the mapped positions in mapped_pos)
         i = 0
         for ac in self.aircraft:
-            # TODO: Do properly, with nested for loops. Check kuramoto model
-            self.sigmas[i] = self.mapped_pos[i] - self.mapped_pos[0] - self.desired_offset
-            i += 1
+            self.deltas[i] = self.mapped_pos[i] - self.mapped_pos[0] - self.offset_desired
+            vf = -self.aircraft[i].speed + self.k * self.deltas[i]
 
-        inter_sigma = self.B.transpose().dot(self.sigmas)
-        error_sigma = inter_sigma - self.Zdesired
+            if self.verbose:
+                print("Inter-vehicle line offset: ", str(self.mapped_pos[i] - self.mapped_pos[0]).replace('[','').replace(']',''))
+                print("Calculated speed: ", vf)
 
-        for i in range(0, np.size(error_sigma)):
-            if error_sigma[i] > np.pi:
-                error_sigma[i] = error_sigma[i] - 2*np.pi
-            elif error_sigma[i] <= -np.pi:
-                error_sigma[i] = error_sigma[i] + 2*np.pi
-
-        u = -self.aircraft[0].s * self.k * self.B.dot(error_sigma)
-
-        if self.verbose:
-            print("Inter-vehicle line offset: ", str("TODO").replace('[','').replace(']',''))
-
-        # Send the modified speed (speed + s) to the aircraft
-        i = 0
-        for ac in self.aircraft:
+            # Send the modified speed (speed + s) to the aircraft
             msg = PprzMessage("ground", "DL_SETTING")
             msg['ac_id'] = ac.id
-            msg['index'] = ac.a_index
-            msg['value'] = self.radius + u[i]
+            msg['index'] = ac.index
+            msg['value'] = vf
 
-            self._interface.send(msga)
+            self._interface.send(msg)
 
             i += 1
 

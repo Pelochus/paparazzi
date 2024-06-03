@@ -113,6 +113,7 @@ class FormationControl:
         # Get GVF parameters introduced to the gvf_ellipse function
         def gvf_cb(ac_id, msg):
             if ac_id in self.ids and msg.name == "GVF":
+                # If trajectory is a circle
                 if int(msg.get_field(1)) == 1:
                     ac = self.aircraft[self.ids.index(ac_id)]
                     param = msg.get_field(4)
