@@ -5,11 +5,11 @@
 
   <waypoints>
     <waypoint name="HOME" x="0.0" y="0.0"/>
-    <waypoint name="STDBY" x="-0.1" y="0.8"/>
+    <waypoint name="STDBY" x="0.1" y="0.8"/>
     <waypoint name="S1_START" x="0.0" y="1.0"/>
-    <waypoint name="S1_END" x="0.0" y="2.0"/>
-    <waypoint name="S2_START" x="1.0" y="1.0"/>
-    <waypoint name="S2_END" x="1.0" y="2.0"/>
+    <waypoint name="S1_END" x="0.0" y="5.0"/>
+    <waypoint name="S2_START" x="2.0" y="1.0"/>
+    <waypoint name="S2_END" x="2.0" y="5.0"/>
     <waypoint name="TD" x="-1.0" y="1.5"/>
   </waypoints>
 
@@ -59,24 +59,6 @@
         <set var="nav.speed.y" value="0.0"/>
       </while>
     </block>
-
-    <!-- These functions should be called from the GCS preferably -->
-    <!--
-    <block name="Set GVF Speed to 1 m/s">
-      <call_once fun="gvf_set_speed(1.0)"/>
-      <while cond="1"/>
-    </block>
-
-    <block name="Set GVF Align with Trajectory TRUE">
-      <call_once fun="gvf_set_align(true)"/>
-      <while cond="1"/>
-    </block>
-
-    <block name="Set GVF Align with Trajectory FALSE">
-      <call_once fun="gvf_set_align(false)"/>
-      <while cond="1"/>
-    </block>
-    -->
 
     <block name="GVF Segment 1">
       <call fun="gvf_segment_loop_wp1_wp2(WP_S1_START, WP_S1_END, gvf_segment_par.d1, gvf_segment_par.d2)"/>
