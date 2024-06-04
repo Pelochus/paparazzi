@@ -1,5 +1,6 @@
 {
   "ids": [8,9],
   "desired_normalized_offset": [0],
-  "gain": 1
+  "nominal_speed": 0.25,
+  "gain": 0.15
 }

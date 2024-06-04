@@ -74,8 +74,7 @@ class Aircraft:
         self.XY = np.zeros(2)
         self.WP1 = np.zeros(2)
         self.WP2 = np.zeros(2)
-
-        self.speed = 1
+        self.speed = 0 # Will be overwritten by telemetry
         self.index = 0
 
 class FormationControl:
@@ -84,7 +83,9 @@ class FormationControl:
         self.step = 1. / freq
         self.verbose = verbose
         self.ids = self.config['ids']
+        self.first_iteration = True # Temporary solution for reading nominal speed 
 
+        self.nominal_speed = self.config['nominal_speed'] 
         self.k = np.array(self.config['gain'])
         self.offset_desired = self.config['desired_normalized_offset'] # Should be between -1 and 1
         self.aircraft = [Aircraft(i) for i in self.ids]
@@ -109,25 +110,39 @@ class FormationControl:
         # Start IVY interface
         self._interface = IvyMessagesInterface("Segments Formation")
 
-        # Read X and Y position (relative to home)
+        # Read X and Y position (relative to home) and speeds
         def nav_cb(ac_id, msg):
             if ac_id in self.ids:
                 if msg.name == "ROTORCRAFT_FP": 
                     ac = self.aircraft[self.ids.index(ac_id)]
                     ac.XY[0] = float(msg.get_field(0)) * raw_to_meters_factor
                     ac.XY[1] = float(msg.get_field(1)) * raw_to_meters_factor
+                    vnorth = float(msg.get_field(2)) * raw_to_meters_factor
+                    veast = float(msg.get_field(3)) * raw_to_meters_factor
+                    ac.speed = math.sqrt(vnorth ** 2 + veast ** 2)
                     ac.initialized_nav = True
 
         self._interface.subscribe(nav_cb, PprzMessage("telemetry", "ROTORCRAFT_FP"))
 
-        # TODO: Read current waypoints correctly, this will change periodically
+        # Read waypoints
         def gvf_cb(ac_id, msg):
             if ac_id in self.ids and msg.name == "SEGMENT":
                 ac = self.aircraft[self.ids.index(ac_id)]
-                ac.WP1[0] = float(msg.get_field(0))
-                ac.WP1[1] = float(msg.get_field(1))
-                ac.WP2[0] = float(msg.get_field(2))
-                ac.WP2[1] = float(msg.get_field(3))
+                # TODO: Read current waypoints correctly, this will change periodically
+                # ac.WP1[0] = float(msg.get_field(0))
+                # ac.WP1[1] = float(msg.get_field(1))
+                # ac.WP2[0] = float(msg.get_field(2))
+                # ac.WP2[1] = float(msg.get_field(3))
+
+                # Temporarily hardcoded from bebop2_gvf.xml
+                # Bebop 2_2 (id 9) shall use segment 2 for correct results 
+                ac.WP1[0] = 0
+                ac.WP1[1] = 1
+                ac.WP2[0] = 0
+                ac.WP2[1] = 5
+                if ac_id == 9:
+                    ac.WP1[0] += 2
+                    ac.WP2[0] += 2
                 ac.initialized_gvf = True
 
         self._interface.subscribe(gvf_cb, PprzMessage("telemetry", "SEGMENT"))
@@ -155,6 +170,12 @@ class FormationControl:
         if not ready:
             return
         
+        # If this is the first iteration, read the nominal speed for the drones
+        # This speed shall be equal for each drone  
+        # if self.first_iteration:
+            # self.nominal_speed = 
+            # self.first_iteration = False
+        
         # Segment normalization
         i = 0
         for ac in self.aircraft:
@@ -181,12 +202,20 @@ class FormationControl:
             self.mapped_pos[i] = map_range(norm_dist, 0, 1, -1, 1)
             i += 1
 
+
         # TODO: Do properly, with nested for loops. Check Kuramoto model
         # Now we calculate the error (using the mapped positions in mapped_pos)
         i = 0
         for ac in self.aircraft:
             self.deltas[i] = self.mapped_pos[i] - self.mapped_pos[0] - self.offset_desired
-            vf = -self.aircraft[i].speed + self.k * self.deltas[i]
+            
+            # Change direction of nominal speed when required 
+            if ac.speed < 0:
+                vn = -self.nominal_speed
+            else:
+                vn = self.nominal_speed
+            
+            vf = vn + self.k * self.deltas[i]
 
             if self.verbose:
                 print("Inter-vehicle line offset: ", str(self.mapped_pos[i] - self.mapped_pos[0]).replace('[','').replace(']',''))
