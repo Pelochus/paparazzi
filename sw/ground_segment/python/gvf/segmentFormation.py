@@ -1,29 +1,6 @@
 #!/usr/bin/env python
 #
-# Copyright (C) 2024 Hector Garcia de Marina <hgdemarina@gmail.com>
-#                    Gautier Hattenberger <gautier.hattenberger@enac.fr>
-#
-# This file is part of paparazzi.
-#
-# paparazzi is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2, or (at your option)
-# any later version.
-#
-# paparazzi is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with paparazzi; see the file COPYING. If not, see
-# <http://www.gnu.org/licenses/>.
-
-
 # Segment formation made by Pelochus
-# TODO: integrate circularFormation and segmentFormation in one script?
-# Think carefully, since segmentFormation only works with rotorcrafts, 
-# perhaps is best having fixedwing and rotorcrafts separated
 
 '''
 Centralized parallel segments formations employing guidance vector fields (GVF)
@@ -48,21 +25,6 @@ from settings_xml_parse import PaparazziACSettings
 
 # Found in conf/messages.xml
 raw_to_meters_factor = 0.003906 # Valid for INS and ROTORCRAFT_FP telemetry
-
-# Recordatorio de que hacer
-# Formula sera:
-
-# vf1 = vi + k * (p2 - p1 - p*)
-# vf2 = vi + k * (p1 - p2 - p*)
-
-# Ademas para 3 seria (por ejemplo para vehiculo 1):
-# vf1 = vi + k * ((p2 - p1 - p*21) + (p3 - p1 - p*31))
-# Esto ultimo se puede ver mejor con Kuramoto, pero lo dejo como aclaracion que estaba dudoso que hacer con p*
-
-# Con vf es velocidad final, vi velocidad inicial, k ganancia, p1 y p2 posiciones de los drones, p* posicion deseada
-# Puede que haya que hacer ajustes (algun signo cambiado etc, pensar)
-# Importante previamente parametrizar p de -1 a +1
-# Comparar formula con Kuramoto ahora, se puede ver mejor (el sumatorio es si hubiera mas)
 
 class Aircraft:
     def __init__(self, ac_id):
@@ -92,7 +54,8 @@ class FormationControl:
         self.deltas = np.zeros(len(self.aircraft))
         self.mapped_pos = np.zeros(len(self.aircraft))
 
-        print("Debugging: ", self.ids, self.k, self.offset_desired, self.aircraft) 
+        if self.verbose:
+            print("Debugging: ", self.ids, self.k, self.offset_desired, self.aircraft)
 
         for ac in self.aircraft:
             settings = PaparazziACSettings(ac.id)
@@ -219,7 +182,7 @@ class FormationControl:
 
             if self.verbose:
                 print("Inter-vehicle line offset: ", str(self.mapped_pos[i] - self.mapped_pos[0]).replace('[','').replace(']',''))
-                print("Calculated speed: ", vf)
+                # print("Calculated speed: ", vf)
 
             # Send the modified speed (speed + s) to the aircraft
             msg = PprzMessage("ground", "DL_SETTING")
