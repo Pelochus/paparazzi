@@ -36,16 +36,26 @@ This was used for debugging the ```crazyradio2ivy.py``` file
 ## New modules for Crazyflie 2.1
 ### GVF for rotorcrafts
 
-### Relative positioning with Loco System (Crazyflie)
+Implemented GVF for rotorcrafts. Files changed:
+- `gvf.c`
+- `gvf.h`
+- `gvf_module.xml`
+- GCS related files (for example, allowing to modify speed from the GCS)
+- Telemetry related files (example: default_rotorcraft_telemetry + GVF)
+- TODO: Check the name of onemfile where height limit can be changed to up to 1000 in GCS
+
+### Circular and Segment Formation
+Added `segmentFormation.py` and modified `circularFormation.py` for rotorcraft support
 
 ## Other
 - Added initial bare-metal implementation for Crazyflie 2.1
+- Added initial airframe file for Crazyflie 2.0 (partially broken)
+- Added airframe file for Bebop 2 GVF. Used for simulation and testing GVF purposes.
 - Added firmware configuration for Crazyflie in `conf/airframes/UGR/`
 - Added new flightplan for Crazyflie in `conf/flight_plans/UGR/`
 - Added new telemetry option for Crazyflie GVF in `conf/telemetry/GVF`
 - Added Crazyflie 2.1 GVF in `conf/conf_ugr.xml`
 - Added Control Panel for Crazyflie in `conf/userconf/UGR/`
-- blah blah
 
 ## Useful links, docs and related to this repo
 - https://www.bitcraze.io/documentation/repository/crazyflie-firmware/master/development/openocd_gdb_debugging/
